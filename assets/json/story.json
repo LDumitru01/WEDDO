@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "My Story",
+    "thumb": "/Weddo/assets/images/imagine.jpg",
+    "src": "/Weddo/assets/stories/story1.mp4",
+    "duration": 5000
+  },
+  {
+    "id": 2,
+    "title": "Story",
+    "thumb": "/Weddo/assets/images/imagine.jpg",
+    "src": "/Weddo/assets/stories/story1.mp4",
+    "duration": 5000
+  }
+]

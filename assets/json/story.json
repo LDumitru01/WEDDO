@@ -2,15 +2,85 @@
   {
     "id": 1,
     "title": "My Story",
-    "thumb": "/Weddo/assets/images/imagine.jpg",
-    "src": "/Weddo/assets/stories/story1.mp4",
+    "thumb": "/Weddo/assets/stories_image/story1.jpg",
+    "src": "/Weddo/assets/stories_video/story1.mp4",
     "duration": 5000
   },
   {
     "id": 2,
     "title": "Story",
-    "thumb": "/Weddo/assets/images/imagine.jpg",
-    "src": "/Weddo/assets/stories/story1.mp4",
+    "thumb": "/Weddo/assets/stories_image/story1.jpg",
+    "src": "/Weddo/assets/stories_video/story1.mp4",
+    "duration": 5000
+  },
+  {
+    "id": 3,
+    "title": "Story",
+    "thumb": "/Weddo/assets/stories_image/story1.jpg",
+    "src": "/Weddo/assets/stories_video/story1.mp4",
+    "duration": 5000 
+  },
+  {
+    "id": 4,
+    "title": "Story",
+    "thumb": "/Weddo/assets/stories_image/story2.jpg",
+    "src": "/Weddo/assets/stories_video/story3.mp4",
+    "duration": 5000
+  },
+  {
+    "id": 5,
+    "title": "Story",
+    "thumb": "/Weddo/assets/stories_image/story2.jpg",
+    "src": "/Weddo/assets/stories_video/story3.mp4",
+    "duration": 5000
+  },
+  {
+    "id": 6,
+    "title": "Story",
+    "thumb": "/Weddo/assets/stories_image/story2.jpg",
+    "src": "/Weddo/assets/stories_video/story3.mp4",
+    "duration": 5000
+  },
+  {
+    "id": 7,
+    "title": "Story",
+    "thumb": "/Weddo/assets/stories_image/story2.jpg",
+    "src": "/Weddo/assets/stories_video/story3.mp4",
+    "duration": 5000
+  },
+  {
+    "id": 8,
+    "title": "Story",
+    "thumb": "/Weddo/assets/stories_image/story2.jpg",
+    "src": "/Weddo/assets/stories_video/story3.mp4",
+    "duration": 5000
+  },
+  {
+    "id": 9,
+    "title": "Story",
+    "thumb": "/Weddo/assets/stories_image/story2.jpg",
+    "src": "/Weddo/assets/stories_video/story3.mp4",
+    "duration": 5000
+  },
+  {
+    "id": 10,
+    "title": "Story",
+    "thumb": "/Weddo/assets/stories_image/story2.jpg",
+    "src": "/Weddo/assets/stories_video/story3.mp4",
+    "duration": 5000
+  },
+  {
+    "id": 11,
+    "title": "Story",
+    "thumb": "/Weddo/assets/stories_image/story2.jpg",
+    "src": "/Weddo/assets/stories_video/story3.mp4",
+    "duration": 5000
+  },
+  {
+    "id": 12,
+    "title": "Story",
+    "thumb": "/Weddo/assets/stories_image/story2.jpg",
+    "src": "/Weddo/assets/stories_video/story3.mp4",
     "duration": 5000
   }
 ]

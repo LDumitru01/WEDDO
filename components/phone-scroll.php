@@ -1,5 +1,5 @@
 <!-- PHONE SCROLL SECTION -->
-<section id="phoneScrollSection" class="w-full bg-[#faf4f8] mt-32">
+<section id="phoneScrollSection" class="w-full bg-[#faf4f8] mt-32 reveal">
 
   <div id="phoneSticky">
 
@@ -15,7 +15,7 @@
 
       <!-- PHONE SCREEN -->
       <div class="phone-screen">
-        <img src="/Weddo/assets/images/hero-bg.jpg" alt="Phone content">
+        <img src="/Weddo/assets/images/story1.jpg" alt="Phone content">
       </div>
 
     </div>

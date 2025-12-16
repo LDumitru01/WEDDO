@@ -137,7 +137,7 @@
         }, 150);
     }
 
-    // Initial call
+    // Initial call 
     window.addEventListener('load', () => {
         updateAnimation(getScrollProgress());
     });

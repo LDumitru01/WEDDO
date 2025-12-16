@@ -25,6 +25,51 @@ require_once __DIR__ . "/utils/lang.php";
             }
         }
     </script>
+    <style>
+      
+        .reveal {
+        opacity: 0;
+        transform: translateY(60px) scale(0.96);
+        filter: blur(6px);
+        transition:
+            opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+            filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: opacity, transform, filter;
+        }
+
+        .reveal.show {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+        }
+
+        /* =========================
+        DIRECȚII
+        ========================= */
+
+        .reveal-left {
+        transform: translateX(-60px) scale(0.96);
+        }
+
+        .reveal-right {
+        transform: translateX(60px) scale(0.96);
+        }
+
+        .reveal-left.show,
+        .reveal-right.show {
+        transform: translateX(0) scale(1);
+        }
+
+        /* =========================
+        STAGGER (delay-uri)
+        ========================= */
+
+        .reveal.delay-1 { transition-delay: 0.1s; }
+        .reveal.delay-2 { transition-delay: 0.2s; }
+        .reveal.delay-3 { transition-delay: 0.3s; }
+        .reveal.delay-4 { transition-delay: 0.4s; }
+    </style>
 
     <title>Weddo - Invitatii de nunta online</title>
 
@@ -45,4 +90,23 @@ require_once __DIR__ . "/utils/lang.php";
     <main class="max-w-7xl mx-auto px-6 py-10"> </main>
     <?php if (file_exists(__DIR__ . "/components/footer.php")) { include __DIR__ . "/components/footer.php"; } ?>
 
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    document.querySelectorAll(".reveal").forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
 </body>

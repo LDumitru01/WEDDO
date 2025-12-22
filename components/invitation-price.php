@@ -3,7 +3,7 @@
 
         <!-- TITLU -->
         <h2 class="text-3xl font-extrabold text-weddoPink">
-            PREȚ PENTRU INVITAȚII DE NUNTĂ
+            <?= t('price_title') ?>
         </h2>
 
         <!-- GRID CARDURI -->

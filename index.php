@@ -104,6 +104,7 @@ require_once __DIR__ . "/utils/lang.php";
 
   <script src="assets/js/header.js"></script>
   <script src="assets/js/apple-scroll.js"></script>
+  <script src="assets/js/support.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const observer = new IntersectionObserver(

@@ -11,12 +11,12 @@
   <div class="relative max-w-7xl mx-auto px-6">
 
     <div class="text-center mb-16">
-      <span class="text-pink-600 font-semibold tracking-wider text-sm uppercase mb-2 block">Suport & Ajutor</span>
+      <span class="text-pink-600 font-semibold tracking-wider text-sm uppercase mb-2 block"><?= t('support_badge') ?></span>
       <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 font-serif">
-        Întrebări frecvente
+        <?= t('support_title') ?>
       </h2>
       <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-        Tot ce trebuie să știi despre crearea invitației perfecte. Dacă nu găsești răspunsul, suntem aici pentru tine.
+        <?= t('support_subtitle') ?>
       </p>
     </div>
 
@@ -25,8 +25,7 @@
       <details
         class="group bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/50 overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
         <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-          <span class="text-lg font-medium text-gray-900 group-hover:text-pink-600 transition-colors">Cum funcționează
-            invitațiile online?</span>
+          <span class="text-lg font-medium text-gray-900 group-hover:text-pink-600 transition-colors"><?= t('faq_q1') ?></span>
           <span class="transition-transform duration-300 group-open:rotate-180">
             <svg class="w-5 h-5 text-gray-400 group-hover:text-pink-500" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
@@ -35,16 +34,14 @@
           </span>
         </summary>
         <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100/50 pt-4 animate-fadeIn">
-          Este foarte simplu! Îți alegi un design preferat, introduci detaliile evenimentului în formularul nostru
-          intuitiv, iar platforma generează instant un link unic pe care îl poți trimite oaspeților.
+          <?= t('faq_a1') ?>
         </div>
       </details>
 
       <details
         class="group bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/50 overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
         <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-          <span class="text-lg font-medium text-gray-900 group-hover:text-pink-600 transition-colors">Cât durează să
-            creez o invitație?</span>
+          <span class="text-lg font-medium text-gray-900 group-hover:text-pink-600 transition-colors"><?= t('faq_q2') ?></span>
           <span class="transition-transform duration-300 group-open:rotate-180">
             <svg class="w-5 h-5 text-gray-400 group-hover:text-pink-500" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
@@ -53,16 +50,14 @@
           </span>
         </summary>
         <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100/50 pt-4 animate-fadeIn">
-          Majoritatea utilizatorilor noștri finalizează o invitație în mai puțin de 5 minute. Totul este pre-construit,
-          tu doar personalizezi textul și imaginile.
+          <?= t('faq_a2') ?>
         </div>
       </details>
 
       <details
         class="group bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/50 overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
         <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-          <span class="text-lg font-medium text-gray-900 group-hover:text-pink-600 transition-colors">Pot personaliza
-            culorile?</span>
+          <span class="text-lg font-medium text-gray-900 group-hover:text-pink-600 transition-colors"><?= t('faq_q3') ?></span>
           <span class="transition-transform duration-300 group-open:rotate-180">
             <svg class="w-5 h-5 text-gray-400 group-hover:text-pink-500" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
@@ -71,16 +66,14 @@
           </span>
         </summary>
         <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100/50 pt-4 animate-fadeIn">
-          Da, absolut! Editorul nostru îți permite să schimbi paleta de culori pentru a se potrivi perfect cu tema
-          nunții sau evenimentului tău.
+          <?= t('faq_a3') ?>
         </div>
       </details>
 
       <details
         class="group bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/50 overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
         <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-          <span class="text-lg font-medium text-gray-900 group-hover:text-pink-600 transition-colors">Pot modifica
-            invitația după trimitere?</span>
+          <span class="text-lg font-medium text-gray-900 group-hover:text-pink-600 transition-colors"><?= t('faq_q4') ?></span>
           <span class="transition-transform duration-300 group-open:rotate-180">
             <svg class="w-5 h-5 text-gray-400 group-hover:text-pink-500" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
@@ -89,8 +82,7 @@
           </span>
         </summary>
         <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100/50 pt-4 animate-fadeIn">
-          Sigur că da. Orice modificare făcută în panoul de control se actualizează instant pe link-ul deja trimis
-          invitaților. Nu trebuie să trimiți link-ul din nou.
+          <?= t('faq_a4') ?>
         </div>
       </details>
 
@@ -98,48 +90,42 @@
 
     <div class="mt-20 relative z-10">
 
-      <div
-        class="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden border border-white/60">
+      <div class="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden border border-white/60">
         <div class="grid lg:grid-cols-5">
 
-          <div
-            class="lg:col-span-2 bg-gradient-to-br from-[#cd6b7e] to-[#a64d60] p-10 text-white flex flex-col justify-between relative overflow-hidden">
+          <div class="lg:col-span-2 bg-gradient-to-br from-[#cd6b7e] to-[#a64d60] p-10 text-white flex flex-col justify-between relative overflow-hidden">
 
-            <div
-              class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none">
             </div>
-            <div
-              class="absolute bottom-0 left-0 w-40 h-40 bg-purple-900/10 rounded-full blur-2xl -ml-10 -mb-10 pointer-events-none">
+            <div class="absolute bottom-0 left-0 w-40 h-40 bg-purple-900/10 rounded-full blur-2xl -ml-10 -mb-10 pointer-events-none">
             </div>
 
             <div class="relative z-10">
-              <h3 class="text-3xl font-bold font-serif mb-4">Nu ai găsit răspunsul?</h3>
+              <h3 class="text-3xl font-bold font-serif mb-4"><?= t('contact_card_title') ?></h3>
               <p class="text-white/90 leading-relaxed">
-                Suntem aici să te ajutăm cu orice detaliu legat de invitația ta. Scrie-ne și îți răspundem rapid.
+                <?= t('contact_card_desc') ?>
               </p>
             </div>
 
             <div class="relative z-10 mt-12 space-y-4">
               <div class="flex items-center gap-4 text-sm text-white font-medium">
-                <div
-                  class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/10">
+                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/10">
                   <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <span>suport@weddo.me</span>
+                <span><?= t('contact_email') ?></span>
               </div>
 
               <div class="flex items-center gap-4 text-sm text-white font-medium">
-                <div
-                  class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/10">
+                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/10">
                   <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <span>Răspundem în aprox. 2 ore</span>
+                <span><?= t('contact_time') ?></span>
               </div>
             </div>
 
@@ -150,20 +136,20 @@
 
               <div class="grid md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label for="name" class="text-sm font-semibold text-gray-700 ml-1">Numele tău</label>
-                  <input type="text" id="name" required placeholder="ex: Ana Maria"
+                  <label for="name" class="text-sm font-semibold text-gray-700 ml-1"><?= t('contact_label_name') ?></label>
+                  <input type="text" id="name" required placeholder="<?= t('contact_placeholder_name') ?>"
                     class="w-full px-5 py-3 rounded-xl bg-gray-50 border border-gray-100 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all shadow-sm">
                 </div>
                 <div class="space-y-2">
-                  <label for="contact" class="text-sm font-semibold text-gray-700 ml-1">Email sau Telefon</label>
-                  <input type="text" id="contact" required placeholder="ex: 07xx sau email..."
+                  <label for="contact" class="text-sm font-semibold text-gray-700 ml-1"><?= t('contact_label_contact') ?></label>
+                  <input type="text" id="contact" required placeholder="<?= t('contact_placeholder_contact') ?>"
                     class="w-full px-5 py-3 rounded-xl bg-gray-50 border border-gray-100 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all shadow-sm">
                 </div>
               </div>
 
               <div class="space-y-2">
-                <label for="message" class="text-sm font-semibold text-gray-700 ml-1">Cu ce te putem ajuta?</label>
-                <textarea id="message" required rows="4" placeholder="Detaliază întrebarea ta aici..."
+                <label for="message" class="text-sm font-semibold text-gray-700 ml-1"><?= t('contact_label_message') ?></label>
+                <textarea id="message" required rows="4" placeholder="<?= t('contact_placeholder_message') ?>"
                   class="w-full px-5 py-3 rounded-xl bg-gray-50 border border-gray-100 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all shadow-sm resize-none"></textarea>
               </div>
 
@@ -176,7 +162,7 @@
            hover:-translate-y-0.5 hover:brightness-110
            transition-all duration-300 overflow-hidden">
 
-                  <span id="btnText">Trimite Mesajul</span>
+                  <span id="btnText"><?= t('contact_btn_send') ?></span>
 
                   <svg id="btnIcon" class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
@@ -232,82 +218,3 @@
     animation: fadeIn 0.3s ease-out forwards;
   }
 </style>
-
-<script>
-  document.getElementById('contactForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    // === CONFIGURARE TELEGRAM ===
-    const BOT_TOKEN = '8493299856:AAG2WlAtulaA9TdNT-MpQCT1FJvmZnM_zEM'; // ex: 123456:ABC-DEF...
-    const CHAT_ID = '-5097297216';    // ex: 123456789
-    // ============================
-
-    const name = document.getElementById('name').value;
-    const contact = document.getElementById('contact').value;
-    const message = document.getElementById('message').value;
-
-    const btn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('btnText');
-    const btnIcon = document.getElementById('btnIcon');
-    const btnLoader = document.getElementById('btnLoader');
-    const statusDiv = document.getElementById('formStatus');
-
-    // UI: Loading State
-    btn.disabled = true;
-    btnText.textContent = "Se trimite...";
-    btnIcon.classList.add('hidden');
-    btnLoader.classList.remove('hidden');
-    statusDiv.classList.add('hidden');
-
-    // Construire Mesaj
-    const text = `
-    📩 *Mesaj Nou de pe Site (FAQ)*
-    👤 *Nume:* ${name}
-    📞 *Contact:* ${contact}
-    📝 *Mesaj:*
-    ${message}
-        `;
-
-    try {
-      const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: text,
-          parse_mode: 'Markdown'
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.ok) {
-        // UI: Success State
-        statusDiv.textContent = "Mesajul a fost trimis cu succes! Te contactăm curând.";
-        statusDiv.className = "rounded-xl p-4 text-sm font-medium text-center transition-all bg-green-50 text-green-700 border border-green-200";
-        statusDiv.classList.remove('hidden');
-        document.getElementById('contactForm').reset();
-      } else {
-        throw new Error('Telegram Error');
-      }
-
-    } catch (error) {
-      // UI: Error State
-      statusDiv.textContent = "A apărut o eroare. Te rugăm să încerci din nou.";
-      statusDiv.className = "rounded-xl p-4 text-sm font-medium text-center transition-all bg-red-50 text-red-700 border border-red-200";
-      statusDiv.classList.remove('hidden');
-      console.error(error);
-    } finally {
-      // UI: Reset Button
-      btn.disabled = false;
-      btnText.textContent = "Trimite Mesajul";
-      btnIcon.classList.remove('hidden');
-      btnLoader.classList.add('hidden');
-
-      // Ascunde mesajul de status după 5 secunde
-      setTimeout(() => {
-        statusDiv.classList.add('hidden');
-      }, 5000);
-    }
-  });
-</script>

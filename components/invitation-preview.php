@@ -3,13 +3,12 @@
 
     <!-- TITLU -->
     <h2 class="text-3xl font-extrabold text-weddoPink mb-3">
-      CUM ARATĂ O INVITAȚIE DE NUNTĂ ONLINE ?
+      <?= t('preview_title') ?>
     </h2>
 
     <!-- SUBTITLU -->
     <p class="text-gray-600 max-w-2xl mx-auto mb-14">
-      Invitațiile sunt proiectate să arate perfect pe WhatsApp,
-      iMessage, Messenger, Telegram și Instagram.
+      <?= t('preview_subtitle') ?>
     </p>
 
     <!-- GRID -->

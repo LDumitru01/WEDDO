@@ -1,0 +1,14 @@
+/* CSS pentru umbra la scroll (opțional) */
+header {
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Asigurăm tranziția și aici */
+}
+.menu-item {
+  font-size: 18px;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.25s ease;
+}
+.menu-item:hover {
+  color: #d65d73;
+  transform: translateX(6px);
+}

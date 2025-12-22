@@ -77,8 +77,7 @@ require_once __DIR__ . "/utils/lang.php";
   <title>Weddo - Invitatii de nunta online</title>
   <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="assets/css/apple-scroll.css">
-
-
+  <link rel="stylesheet" href="assets/css/benefits.css">
 
 </head>
 
@@ -92,6 +91,9 @@ require_once __DIR__ . "/utils/lang.php";
   <?php include __DIR__ . "/components/invitation-price.php"; ?>
   <?php include __DIR__ . "/components/phone-scrollPage1.php"; ?>
   <?php include __DIR__ . "/components/phone-scrollPage2.php"; ?>
+  <?php include __DIR__ . "/components/affiliate.php"; ?>
+  <?php include __DIR__ . "/components/reseller.php"; ?>
+  <?php include __DIR__ . "/components/support.php"; ?>
 
 
 

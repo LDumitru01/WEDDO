@@ -1,30 +1,33 @@
 document.addEventListener("scroll", () => {
-  // Căutăm TOATE secțiunile, nu doar una
   const sections = document.querySelectorAll(".phone-scroll-section");
-
   if (!sections.length) return;
 
-  // Trecem prin fiecare secțiune găsită
   sections.forEach(section => {
-    
-    // Căutăm elementele DOAR în interiorul secțiunii curente
     const phoneWrapper = section.querySelector(".phone-frame-wrapper");
-    // Folosim clasa .phone-content-wrapper în loc de ID
     const phoneContent = section.querySelector(".phone-content-wrapper");
     const phoneScreenElement = section.querySelector(".phone-screen");
     const phoneFrameElement = section.querySelector(".phone-frame");
 
     if (!phoneWrapper || !phoneScreenElement || !phoneContent) return;
 
-    // === MĂSURĂTORI DINAMICE (Codul tău original) ===
+    // === MĂSURĂTORI DINAMICE ===
     const currentScreenHeight = phoneScreenElement.offsetHeight;
-    
     const windowHeight = window.innerHeight;
     const availableHeight = windowHeight - 40; 
-
     const frameHeight = phoneFrameElement.offsetHeight || 700; 
+    
+    // Calculăm cât ar trebui să fie ca să intre fix pe ecran
     let idealFitScale = availableHeight / frameHeight;
-    const endScale = Math.min(1.0, idealFitScale); 
+
+    // === MODIFICARE AICI ===
+    // Adăugăm un "shrinkFactor" (factor de micșorare).
+    // 0.85 înseamnă că telefonul va ocupa 85% din spațiul disponibil (va fi mai mic)
+    // Poți pune 0.8 dacă îl vrei și mai mic, sau 0.9 dacă îl vrei puțin mai mare.
+    const shrinkFactor = 0.85; 
+
+    // Aplicăm factorul la scara finală
+    const endScale = Math.min(1.0, idealFitScale * shrinkFactor); 
+    // =======================
 
     const startScale = 1.6; 
     
@@ -32,7 +35,6 @@ document.addEventListener("scroll", () => {
     const sectionRect = section.getBoundingClientRect();
     const sectionHeight = section.offsetHeight;
     
-    // scrollDistance este relativ la fiecare secțiune în parte
     const scrollDistance = -sectionRect.top; 
     const maxScroll = sectionHeight - windowHeight;
     
@@ -40,6 +42,8 @@ document.addEventListener("scroll", () => {
     relativeProgress = Math.max(0, Math.min(relativeProgress, 1));
 
     // === FAZA 1: ZOOM ===
+    // Poți mări puțin acest număr (ex: la 0.40) dacă vrei ca telefonul să stea
+    // micșorat puțin mai mult timp înainte să înceapă scroll-ul interior
     const zoomPhaseEnd = 0.35; 
     
     let zoomProgress = relativeProgress / zoomPhaseEnd;

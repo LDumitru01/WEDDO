@@ -29,7 +29,7 @@
 .phone-frame {
   width: 360px; 
   position: relative;
-  box-shadow: 0 25px 50px -12px hsla(0, 0%, 8%, 0.50);
+  box-shadow: 0 25px 50px -12px hsla(0, 4%, 60%, 0.30);
   border-radius: 55px;
   z-index: 20;
 }

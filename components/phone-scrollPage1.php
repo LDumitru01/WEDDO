@@ -1,4 +1,4 @@
-<section class="phone-scroll-section relative w-full bg-[#faf4f8]">
+<section class="phone-scroll-section relative w-full pb-24 md:pb-40 bg-[#faf4f8]">
   
   <div class="sticky-container">
     

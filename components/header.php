@@ -15,9 +15,9 @@ $nextLang = $currentLang === 'ro' ? 'ru' : 'ro';
       <a href="#" class="hover:text-[#d65d73] transition">Funcționalități</a>
       <a href="#" class="hover:text-[#d65d73] transition">Template-uri</a>
       <a href="#" class="hover:text-[#d65d73] transition">Prețuri</a>
-      <a href="#" class="hover:text-[#d65d73] transition">Afilieri</a>
-      <a href="#" class="hover:text-[#d65d73] transition">Reseller</a>
-      <a href="#" class="hover:text-[#d65d73] transition">Suport</a>
+      <a href="#affiliate" class="hover:text-[#d65d73] transition">Afilieri</a>
+      <a href="#reseller" class="hover:text-[#d65d73] transition">Reseller</a>
+      <a href="#support" class="hover:text-[#d65d73] transition">Suport</a>
     </nav>
 
     <div class="flex items-center gap-4">
@@ -57,7 +57,7 @@ $nextLang = $currentLang === 'ro' ? 'ru' : 'ro';
       <a href="#" class="menu-item">Prețuri</a>
       <a href="#" class="menu-item">Afilieri</a>
       <a href="#" class="menu-item">Reseller</a>
-      <a href="#" class="menu-item">Suport</a>
+      <a href="#support" class="menu-item">Suport</a>
 
       <div class="h-px bg-gray-200 my-2"></div>
 

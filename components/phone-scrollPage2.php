@@ -1,4 +1,4 @@
-<section class="phone-scroll-section relative w-full bg-[#faf4f8] pb-24 md:pb-40">
+<section class="phone-scroll-section relative w-full bg-[#faf4f8]">
 
   <div class="sticky-container">
 
@@ -22,7 +22,7 @@
         <div class="phone-screen">
           <div class="phone-content-wrapper">
 
-            <img src="/WEDDO/assets/images/story1.jpg" alt="Start" class="w-full mb-4">
+            <img src="/WEDDO/assets/images/imagine1.jpg" alt="Start" class="w-full mb-4">
 
             <div class="p-4 bg-white text-black min-h-[500px]">
               <h3 class="text-xl font-bold mb-2">Titlu Vizibil</h3>
@@ -32,7 +32,7 @@
               <p>Text de umplutură...</p>
               <br><br>
               <p>Mai jos...</p>
-              <img src="/WEDDO/assets/images/story1.jpg" class="w-full mt-4">
+              <img src="/WEDDO/assets/images/imagine1.jpg" class="w-full mt-4">
               <br><br>
               <p>Final de conținut.</p>
             </div>

@@ -1,4 +1,4 @@
-<section class="w-full py-20 reveal">
+<section id="templates" class="w-full py-20 reveal">
   <div class="max-w-7xl mx-auto px-6 text-center">
 
     <!-- TITLU -->

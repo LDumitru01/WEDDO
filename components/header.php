@@ -14,7 +14,7 @@ $nextLang = $currentLang === 'ro' ? 'ru' : 'ro';
     <nav class="hidden lg:flex items-center gap-10 text-gray-800 text-[16px]">
       <a href="#" class="hover:text-[#d65d73] transition">Funcționalități</a>
       <a href="#" class="hover:text-[#d65d73] transition">Template-uri</a>
-      <a href="#" class="hover:text-[#d65d73] transition">Prețuri</a>
+      <a href="#price" class="hover:text-[#d65d73] transition">Prețuri</a>
       <a href="#affiliate" class="hover:text-[#d65d73] transition">Afilieri</a>
       <a href="#reseller" class="hover:text-[#d65d73] transition">Reseller</a>
       <a href="#support" class="hover:text-[#d65d73] transition">Suport</a>

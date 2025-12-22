@@ -1,4 +1,4 @@
-<section class="w-full py-20 bg-[#fdf4f8] reveal">
+<section id="price" class="w-full py-20 bg-[#fdf4f8] reveal">
     <div class="max-w-6xl mx-auto px-6 text-center">
 
         <!-- TITLU -->

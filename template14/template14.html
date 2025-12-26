@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eveline & Thomas | The Wedding</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Lato:wght@300;400&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'luxury-black': '#1a1a1a',
+                        'luxury-gold': '#D4AF37',
+                        'luxury-cream': '#F9F8F4',
+                        'luxury-gray': '#8e8e8e',
+                    },
+                    fontFamily: {
+                        'serif': ['Cinzel', 'serif'],
+                        'sans': ['Lato', 'sans-serif'],
+                        'script': ['Pinyon Script', 'cursive'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #F9F8F4; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+        .image-reveal { clip-path: inset(0 100% 0 0); transition: clip-path 1.5s cubic-bezier(0.77, 0, 0.175, 1); }
+        .image-reveal.active { clip-path: inset(0 0 0 0); }
+        .vertical-text { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-luxury-cream text-luxury-black font-sans antialiased overflow-x-hidden selection:bg-luxury-gold selection:text-white">
+
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference text-white">
+        <div class="text-xs tracking-[0.3em] font-serif uppercase">Save The Date</div>
+        <div class="text-xs tracking-[0.3em] font-serif uppercase">24 . 08 . 2025</div>
+    </nav>
+
+    <div class="fixed bottom-8 right-8 z-50">
+        <button id="music-toggle" class="w-12 h-12 rounded-full border border-luxury-black/20 backdrop-blur-md flex items-center justify-center hover:bg-luxury-black hover:text-white transition duration-500 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163z" />
+            </svg>
+        </button>
+        <audio id="bg-audio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    </div>
+
+    <header class="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1519225427186-1db33e051cc4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                 class="w-full h-full object-cover opacity-90 scale-110" id="hero-img" alt="Background">
+            <div class="absolute inset-0 bg-black/30"></div>
+        </div>
+
+        <div class="relative z-10 text-center text-white px-4">
+            <p class="gsap-hero text-sm md:text-base tracking-[0.4em] uppercase mb-4 opacity-0">Vă invităm la nunta</p>
+            <h1 class="gsap-hero text-6xl md:text-9xl font-serif font-bold tracking-tighter mb-2 opacity-0 text-luxury-cream">
+                Eveline<span class="font-script text-luxury-gold text-5xl md:text-8xl mx-4 font-normal">&</span>Thomas
+            </h1>
+            <div class="gsap-hero mt-8 w-[1px] h-16 bg-white/50 mx-auto opacity-0"></div>
+        </div>
+    </header>
+
+    <section class="py-24 px-6 md:px-20 max-w-7xl mx-auto text-center relative">
+        <span class="absolute top-10 left-1/2 -translate-x-1/2 text-9xl text-luxury-black/5 font-serif select-none pointer-events-none">LOVE</span>
+        <div class="gsap-reveal opacity-0 translate-y-10">
+            <p class="font-script text-4xl md:text-5xl text-luxury-gold mb-6">"Dragostea nu cade niciodată."</p>
+        </div>
+    </section>
+
+    <section class="py-20 px-6 max-w-screen-2xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            
+            <div class="relative group">
+                <div class="image-reveal w-full h-[600px] overflow-hidden relative shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 ease-in-out" alt="Mire">
+                </div>
+                <div class="absolute -bottom-10 -right-10 bg-white p-8 shadow-xl max-w-xs z-10 hidden md:block gsap-reveal">
+                    <h3 class="font-serif text-2xl mb-2">Thomas</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Arhitect, vizionar și echilibrul acestei povești.</p>
+                </div>
+            </div>
+
+            <div class="relative group md:mt-32">
+                <div class="absolute -top-10 -left-10 bg-white p-8 shadow-xl max-w-xs z-20 hidden md:block gsap-reveal">
+                    <h3 class="font-serif text-2xl mb-2">Eveline</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Designer, spirit liber și inima petrecerii.</p>
+                </div>
+                <div class="image-reveal w-full h-[600px] overflow-hidden relative z-10 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1549417229-aa67d3263c09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 ease-in-out" alt="Mireasă">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-32 bg-luxury-black text-luxury-cream text-center relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <p class="text-luxury-gold tracking-[0.4em] text-sm mb-4 uppercase">Save The Date</p>
+            <div class="flex justify-center items-center gap-4 md:gap-12 font-serif text-5xl md:text-9xl tracking-tighter">
+                <span class="gsap-date">24</span>
+                <span class="text-luxury-gold font-light italic text-4xl md:text-7xl">Aug</span>
+                <span class="gsap-date">2025</span>
+            </div>
+            
+            <div id="countdown" class="flex justify-center gap-8 mt-16 text-luxury-gray font-sans text-sm tracking-widest uppercase">
+                <div><span id="days" class="block text-2xl text-white font-serif">00</span> Zile</div>
+                <div><span id="hours" class="block text-2xl text-white font-serif">00</span> Ore</div>
+                <div><span id="mins" class="block text-2xl text-white font-serif">00</span> Min</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+            <div class="md:col-span-5 flex flex-col justify-center space-y-10">
+                <div>
+                    <h2 class="text-4xl font-serif mb-4">Ceremonia</h2>
+                    <p class="text-luxury-gold font-serif italic text-xl mb-2">Ora 16:00</p>
+                    <p class="text-gray-600 leading-relaxed">Catedrala Sfântul Ioan<br>Centrul Vechi</p>
+                    <a href="#" class="inline-block mt-4 text-xs font-bold tracking-widest border-b border-black pb-1 hover:text-luxury-gold hover:border-luxury-gold transition">VEZI HARTA</a>
+                </div>
+                <div class="w-12 h-[1px] bg-gray-300"></div>
+                <div>
+                    <h2 class="text-4xl font-serif mb-4">Petrecerea</h2>
+                    <p class="text-luxury-gold font-serif italic text-xl mb-2">Ora 19:00</p>
+                    <p class="text-gray-600 leading-relaxed">Chateau "The View"<br>Șoseaua Viilor nr. 45</p>
+                    <a href="#" class="inline-block mt-4 text-xs font-bold tracking-widest border-b border-black pb-1 hover:text-luxury-gold hover:border-luxury-gold transition">VEZI HARTA</a>
+                </div>
+            </div>
+
+            <div class="md:col-span-7 h-[500px] md:h-auto relative image-reveal shadow-lg">
+                <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                     class="w-full h-full object-cover" alt="Locație">
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-4 bg-white">
+        <div class="text-center mb-16">
+            <span class="text-luxury-gold font-script text-3xl">Amintiri</span>
+            <h2 class="text-4xl font-serif mt-2">Detalii & Momente</h2>
+        </div>
+        
+        <div class="columns-1 md:columns-3 gap-4 max-w-7xl mx-auto space-y-4">
+            <img src="https://images.unsplash.com/photo-1535295972055-1c762f4483e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full shadow-lg hover:opacity-80 transition duration-500" alt="Foto">
+            <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full shadow-lg hover:opacity-80 transition duration-500" alt="Foto">
+            <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full shadow-lg hover:opacity-80 transition duration-500" alt="Foto">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full shadow-lg hover:opacity-80 transition duration-500" alt="Foto">
+        </div>
+    </section>
+
+    <section class="py-32 px-6 relative flex items-center justify-center bg-gray-100">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center opacity-30"></div>
+
+        <div class="relative w-full max-w-lg bg-white/90 backdrop-blur-lg border border-white/50 p-10 md:p-16 shadow-2xl text-center">
+            <h2 class="text-4xl font-serif mb-2">R.S.V.P</h2>
+            <p class="text-sm text-gray-500 mb-8 uppercase tracking-widest">Te rugăm să confirmi până la 1 Iulie</p>
+
+            <form class="space-y-8 text-left">
+                <div class="relative">
+                    <input type="text" id="name" class="peer w-full border-b border-gray-400 bg-transparent py-2 text-luxury-black focus:border-luxury-gold focus:outline-none transition-colors" placeholder=" " />
+                    <label for="name" class="absolute left-0 top-2 text-gray-500 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:-top-5 peer-focus:text-xs peer-focus:text-luxury-gold">Nume Complet</label>
+                </div>
+
+                <div class="relative">
+                    <select class="w-full border-b border-gray-400 bg-transparent py-2 text-luxury-black focus:border-luxury-gold focus:outline-none appearance-none">
+                        <option value="" disabled selected>Număr Persoane</option>
+                        <option value="1">1 Persoană</option>
+                        <option value="2">2 Persoane</option>
+                        <option value="3">3 Persoane</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="w-full bg-luxury-black text-white py-4 text-xs font-bold tracking-[0.2em] hover:bg-luxury-gold transition duration-500 ease-in-out">TRIMITE CONFIRMAREA</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-luxury-black text-white/40 py-12 text-center text-xs tracking-widest uppercase">
+        <p>&copy; 2025 Eveline & Thomas. Love Story.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Intro Hero
+        const tl = gsap.timeline();
+        tl.to(".gsap-hero", { y: 0, opacity: 1, duration: 1.5, stagger: 0.3, ease: "power3.out" });
+
+        // Image Reveal
+        gsap.utils.toArray('.image-reveal').forEach(container => {
+            ScrollTrigger.create({
+                trigger: container,
+                start: "top 80%",
+                onEnter: () => container.classList.add('active')
+            });
+        });
+
+        // Text Reveal
+        gsap.utils.toArray('.gsap-reveal').forEach(element => {
+            gsap.to(element, { opacity: 1, y: 0, duration: 1, scrollTrigger: { trigger: element, start: "top 85%" } });
+        });
+
+        // Parallax Hero
+        gsap.to("#hero-img", {
+            yPercent: 20, ease: "none",
+            scrollTrigger: { trigger: "header", start: "top top", end: "bottom top", scrub: true }
+        });
+
+        // Countdown
+        const weddingDate = new Date('Aug 24, 2025 16:00:00').getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('days').innerText = d;
+            document.getElementById('hours').innerText = h;
+            document.getElementById('mins').innerText = m;
+        }, 1000);
+
+        // Audio
+        const musicBtn = document.getElementById('music-toggle');
+        const audio = document.getElementById('bg-audio');
+        let isPlaying = false;
+        musicBtn.addEventListener('click', () => {
+            if(!isPlaying) { audio.play(); musicBtn.classList.add('bg-luxury-gold', 'text-white', 'border-transparent'); }
+            else { audio.pause(); musicBtn.classList.remove('bg-luxury-gold', 'text-white', 'border-transparent'); }
+            isPlaying = !isPlaying;
+        });
+    </script>
+</body>
+</html>

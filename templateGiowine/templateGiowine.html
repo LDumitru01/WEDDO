@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="ro" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nuntă Stil GioWine — Template Premium</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* PALETA GIOWINE (Extarsă din imagini) */
+      --bg-body: #111111;       /* Negru mat */
+      --bg-card: #1a1a1a;       /* Gri foarte închis pentru secțiuni */
+      
+      --text-main: #FFFFFF;     /* Alb */
+      --text-muted: #A3A3A3;    /* Gri deschis */
+      
+      --accent: #Eebf4d;        /* Auriul/Galbenul specific GioWine */
+      --accent-hover: #d4a73b;
+      
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+    }
+
+    /* Buton Stil GioWine (Galben cu text negru) */
+    .btn-gio {
+      background-color: var(--accent);
+      color: #000000;
+      padding: 12px 30px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 2px; /* Colțuri ușor rotunjite sau drepte */
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      border: 1px solid var(--accent);
+    }
+
+    .btn-gio:hover {
+      background-color: transparent;
+      color: var(--accent);
+    }
+
+    /* Tab-uri stil GioWine (Icon + Text) */
+    .gio-tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding-bottom: 10px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s;
+    }
+    .gio-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .gio-tab:hover {
+      color: var(--accent);
+    }
+
+    /* Animații */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    
+    /* Linie fină aurie sub header */
+    .header-border {
+      border-bottom: 1px solid rgba(238, 191, 77, 0.2);
+    }
+  </style>
+</head>
+
+<body class="antialiased selection:bg-[#Eebf4d] selection:text-black">
+
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-[#111111]/95 backdrop-blur-sm header-border transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 border-2 border-[var(--accent)] rotate-45 flex items-center justify-center group-hover:bg-[var(--accent)] transition duration-500">
+          <span class="text-[var(--accent)] font-bold text-lg -rotate-45 group-hover:text-black">G</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-heading font-bold tracking-wider text-[var(--accent)]">GIOWINE</span>
+          <span class="text-[8px] uppercase tracking-[0.2em] text-white">Style Wedding</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-white/90">
+        <a href="#home" class="hover:text-[var(--accent)] transition">Acasă</a>
+        <a href="#welcome" class="hover:text-[var(--accent)] transition">Poveste</a>
+        <a href="#gallery" class="hover:text-[var(--accent)] transition">Galerie</a>
+        <a href="#details" class="hover:text-[var(--accent)] transition">Detalii</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="#rsvp" class="btn-gio hidden sm:inline-block">
+          RSVP
+        </a>
+        <button id="menu-btn" class="md:hidden text-white text-2xl">☰</button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="absolute top-20 left-0 w-full bg-[#111111] border-b border-[var(--accent)]/20 hidden flex-col items-center py-6 gap-4 shadow-2xl">
+      <a href="#home" class="text-white hover:text-[var(--accent)]">Acasă</a>
+      <a href="#welcome" class="text-white hover:text-[var(--accent)]">Poveste</a>
+      <a href="#gallery" class="text-white hover:text-[var(--accent)]">Galerie</a>
+      <a href="#rsvp" class="text-[var(--accent)] font-bold">RSVP</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop" 
+             class="w-full h-full object-cover opacity-50" alt="Wedding Dark">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-[#111111]/60"></div>
+      </div>
+
+      <div class="relative z-10 text-center px-4 mt-16 reveal">
+        <div class="flex justify-center gap-3 text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#A3A3A3] mb-6">
+          <span>Nuntă</span>
+          <span class="text-[var(--accent)]">|</span>
+          <span>Ceremonie</span>
+          <span class="text-[var(--accent)]">|</span>
+          <span>Petrecere</span>
+        </div>
+
+        <h1 class="font-heading text-5xl md:text-7xl lg:text-8xl text-white mb-8 tracking-wide">
+          ANA & ANDREI
+        </h1>
+        
+        <p class="text-white/80 text-lg font-light mb-10 max-w-xl mx-auto">
+          Vă invităm la cel mai special eveniment din viața noastră, într-o atmosferă de eleganță și rafinament.
+        </p>
+
+        <a href="#rsvp" class="btn-gio px-10 py-4 text-sm tracking-widest">
+          Confirmă Prezența
+        </a>
+      </div>
+    </section>
+
+    <section id="welcome" class="py-24 px-6 bg-[#111111]">
+      <div class="max-w-6xl mx-auto">
+        
+        <div class="flex justify-center gap-8 md:gap-16 mb-16 border-b border-white/10 pb-1 reveal">
+          <div class="gio-tab active" onclick="switchTab('tab-welcome', this)">
+            <span>👋</span>
+            <span class="uppercase tracking-widest text-xs font-bold">Welcome</span>
+          </div>
+          <div class="gio-tab" onclick="switchTab('tab-location', this)">
+            <span>📍</span>
+            <span class="uppercase tracking-widest text-xs font-bold">Locație</span>
+          </div>
+          <div class="gio-tab" onclick="switchTab('tab-menu', this)">
+            <span>🍷</span>
+            <span class="uppercase tracking-widest text-xs font-bold">Meniu</span>
+          </div>
+        </div>
+
+        <div id="tab-welcome" class="tab-content grid md:grid-cols-2 gap-12 items-center reveal">
+          <div class="order-2 md:order-1">
+            <h3 class="text-[var(--accent)] text-lg mb-2 flex items-center gap-2">
+               <span class="w-8 h-[1px] bg-[var(--accent)]"></span> Povestea Noastră
+            </h3>
+            <h2 class="text-4xl font-heading text-white mb-6">Welcome to Our Wedding</h2>
+            <p class="text-[#A3A3A3] leading-relaxed mb-6 text-sm">
+              Fie că este vorba de nunți, botezuri sau cumetrii, tradițiile rămân cele mai deosebite. 
+              Suntem convinși că veți rămâne plăcut surprinși de atmosfera pe care am pregătit-o.
+             
+            </p>
+            <p class="text-[#A3A3A3] leading-relaxed mb-8 text-sm">
+              Vă invităm să ne cunoașteți și să ne descoperiți povestea de dragoste, într-un cadru de vis.
+            </p>
+            <a href="#gallery" class="btn-gio">Mai multe despre noi</a>
+          </div>
+          <div class="order-1 md:order-2 h-[400px] relative">
+            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1000&auto=format&fit=crop" 
+                 class="w-full h-full object-cover rounded-sm shadow-2xl border-b-4 border-[var(--accent)]" alt="Couple">
+          </div>
+        </div>
+
+        <div id="tab-location" class="tab-content grid md:grid-cols-2 gap-12 items-center hidden">
+          <div class="order-2 md:order-1">
+             <h3 class="text-[var(--accent)] text-lg mb-2 flex items-center gap-2">
+               <span class="w-8 h-[1px] bg-[var(--accent)]"></span> Destinația
+            </h3>
+            <h2 class="text-4xl font-heading text-white mb-6">Giowine Hotel & Restaurant</h2>
+            <p class="text-[#A3A3A3] leading-relaxed mb-6 text-sm">
+              Un complex modern situat în inima naturii, oferind o priveliște spectaculoasă și servicii de 4 stele.
+             
+            </p>
+            <ul class="space-y-3 text-sm text-white/80 mb-8">
+              <li>✓ Piscină exterioară</li>
+              <li>✓ Sală de evenimente Premium</li>
+              <li>✓ Hotel pentru oaspeți</li>
+            </ul>
+            <a href="https://goo.gl/maps" target="_blank" class="text-[var(--accent)] border-b border-[var(--accent)] pb-1 hover:text-white transition uppercase text-xs tracking-widest">Vezi Harta</a>
+          </div>
+          <div class="order-1 md:order-2 h-[400px]">
+            <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1000&auto=format&fit=crop" 
+                 class="w-full h-full object-cover rounded-sm border-b-4 border-[var(--accent)]" alt="Hotel">
+          </div>
+        </div>
+
+         <div id="tab-menu" class="tab-content grid md:grid-cols-2 gap-12 items-center hidden">
+          <div class="order-2 md:order-1">
+            <h3 class="text-[var(--accent)] text-lg mb-2 flex items-center gap-2">
+               <span class="w-8 h-[1px] bg-[var(--accent)]"></span> Gastronomie
+            </h3>
+            <h2 class="text-4xl font-heading text-white mb-6">Experiență Culinară</h2>
+            <p class="text-[#A3A3A3] leading-relaxed mb-6 text-sm">
+              Meniul nostru combină tradiția cu inovația. Vă invităm la o degustare de vinuri alese din crama proprie.
+            </p>
+            <div class="grid grid-cols-2 gap-4 mb-8">
+              <div class="bg-[#1a1a1a] p-4 border-l-2 border-[var(--accent)]">
+                <h4 class="text-white font-bold">Aperitive</h4>
+                <p class="text-xs text-[#A3A3A3]">Fine dining selection</p>
+              </div>
+              <div class="bg-[#1a1a1a] p-4 border-l-2 border-[var(--accent)]">
+                <h4 class="text-white font-bold">Main Course</h4>
+                <p class="text-xs text-[#A3A3A3]">Semnătura Chef-ului</p>
+              </div>
+            </div>
+            <a href="#rsvp" class="btn-gio">Vezi Meniul Complet</a>
+          </div>
+          <div class="order-1 md:order-2 h-[400px]">
+            <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=1000&auto=format&fit=crop" 
+                 class="w-full h-full object-cover rounded-sm border-b-4 border-[var(--accent)]" alt="Wine">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="py-12 bg-[var(--accent)] text-black">
+      <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-black/10">
+        <div class="reveal">
+          <h3 class="text-2xl font-heading font-bold mb-2">Cununia</h3>
+          <p class="text-sm font-medium opacity-80">16:00 • Biserica Sf. Maria</p>
+        </div>
+        <div class="reveal transition delay-100">
+          <h3 class="text-2xl font-heading font-bold mb-2">Petrecerea</h3>
+          <p class="text-sm font-medium opacity-80">18:30 • Sala Mare GioWine</p>
+        </div>
+        <div class="reveal transition delay-200">
+          <h3 class="text-2xl font-heading font-bold mb-2">Dress Code</h3>
+          <p class="text-sm font-medium opacity-80">Black Tie / Elegant</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="py-24 bg-[#111111] px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12 reveal">
+          <span class="text-[var(--accent)] text-xs tracking-widest uppercase">Amintiri</span>
+          <h2 class="text-4xl text-white mt-2 font-heading">Galerie Foto</h2>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <div class="h-64 overflow-hidden relative group reveal">
+            <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-[var(--accent)]">GioWine</div>
+          </div>
+          <div class="h-64 overflow-hidden relative group reveal md:col-span-2">
+            <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=1200" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-[var(--accent)]">Love</div>
+          </div>
+          <div class="h-64 overflow-hidden relative group reveal">
+            <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center text-[var(--accent)]">Forever</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rsvp" class="py-24 bg-[#1a1a1a] px-6 border-t border-white/5">
+      <div class="max-w-xl mx-auto text-center reveal">
+        <div class="w-16 h-16 border-2 border-[var(--accent)] rotate-45 flex items-center justify-center mx-auto mb-8">
+           <span class="text-[var(--accent)] -rotate-45 text-xl">✉</span>
+        </div>
+        
+        <h2 class="text-3xl md:text-4xl font-heading text-white mb-4">Confirmă Prezența</h2>
+        <p class="text-[#A3A3A3] mb-10 text-sm">
+          Te rugăm să ne răspunzi până la 1 August 2026.
+        </p>
+
+        <form class="space-y-6 text-left" onsubmit="event.preventDefault(); alert('Mulțumim!')">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-[10px] uppercase tracking-widest text-[#A3A3A3] mb-2">Nume</label>
+              <input type="text" class="w-full bg-[#111111] border border-white/10 p-3 text-white focus:border-[var(--accent)] outline-none transition">
+            </div>
+            <div>
+              <label class="block text-[10px] uppercase tracking-widest text-[#A3A3A3] mb-2">Telefon</label>
+              <input type="tel" class="w-full bg-[#111111] border border-white/10 p-3 text-white focus:border-[var(--accent)] outline-none transition">
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-[10px] uppercase tracking-widest text-[#A3A3A3] mb-2">Număr Persoane</label>
+            <select class="w-full bg-[#111111] border border-white/10 p-3 text-white focus:border-[var(--accent)] outline-none">
+              <option>1 Persoană</option>
+              <option>2 Persoane</option>
+              <option>3 Persoane</option>
+            </select>
+          </div>
+
+          <div class="pt-4">
+             <button type="submit" class="w-full btn-gio text-center">
+               Trimite Confirmarea
+             </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="bg-[#111111] pt-16 pb-8 border-t-4 border-[var(--accent)]">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col items-center">
+        
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-8 h-8 border-2 border-[var(--accent)] rotate-45 flex items-center justify-center">
+             <span class="text-[var(--accent)] font-bold -rotate-45 text-xs">G</span>
+          </div>
+          <span class="text-xl font-heading font-bold tracking-wider text-white">GIOWINE</span>
+        </div>
+
+        <div class="flex gap-8 text-xs uppercase tracking-widest text-[#A3A3A3] mb-8">
+           <a href="#" class="hover:text-[var(--accent)]">Facebook</a>
+           <a href="#" class="hover:text-[var(--accent)]">Instagram</a>
+           <a href="#" class="hover:text-[var(--accent)]">Contact</a>
+        </div>
+
+        <p class="text-[10px] text-white/30 uppercase tracking-widest">
+          © 2026 Template Nuntă. Design inspirat de GioWine.
+        </p>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // 1. Mobile Menu Toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      mobileMenu.classList.toggle('flex');
+    });
+
+    // 2. Tab Switcher Logic
+    function switchTab(tabId, element) {
+      // Hide all contents
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      // Remove active class from tabs
+      document.querySelectorAll('.gio-tab').forEach(el => el.classList.remove('active'));
+      
+      // Show target content
+      document.getElementById(tabId).classList.remove('hidden');
+      // Set active tab
+      element.classList.add('active');
+    }
+
+    // 3. Scroll Reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

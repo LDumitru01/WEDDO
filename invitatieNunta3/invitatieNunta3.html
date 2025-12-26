@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Invitație Nuntă – Weddo Template Complex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Great+Vibes&family=Nunito:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --color-bg: #f7f3ee;
+      --color-bg-alt: #ffffff;
+      --color-primary: #c19a6b;
+      --color-primary-dark: #8f6b3d;
+      --color-accent: #e4cbb0;
+      --color-text-main: #3f322c;
+      --color-text-muted: #7a6b62;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text-main);
+      font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .font-display {
+      font-family: "Playfair Display", serif;
+    }
+
+    .font-script {
+      font-family: "Great Vibes", cursive;
+    }
+
+    .hero-bg {
+      background-image:
+        linear-gradient(to bottom, rgba(26, 17, 12, 0.45), rgba(26, 17, 12, 0.75)),
+        url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .section-card {
+      background-color: var(--color-bg-alt);
+      border-radius: 1.5rem;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.08);
+    }
+
+    /* reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: all 0.7s ease-out;
+    }
+    .reveal.reveal-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-primary);
+      border-radius: 999px;
+    }
+  </style>
+
+  <script>
+    // ========================
+    // CONFIG GLOBAL – TEMA
+    // ========================
+    const WEDDO_THEME = {
+      primary: "#c19a6b",
+      primaryDark: "#8f6b3d",
+      accent: "#e4cbb0",
+      bg: "#f7f3ee",
+      bgAlt: "#ffffff",
+      textMain: "#3f322c",
+      textMuted: "#7a6b62",
+    };
+
+    // ========================
+    // CONFIG GLOBAL – TEXTE
+    // suport RO + EN
+    // ========================
+    const WEDDO_CONTENT = {
+      activeLang: "ro", // "ro" sau "en"
+
+      ro: {
+        navbar: {
+          home: "Acasă",
+          story: "Povestea",
+          schedule: "Program",
+          venue: "Locația",
+          gallery: "Galerie",
+          stay: "Cazare",
+          gifts: "Cadouri",
+          rsvp: "RSVP",
+          faq: "Întrebări",
+        },
+        hero: {
+          couple: "Elena & David",
+          date: "20 Septembrie 2025",
+          place: "Palatul Suter · București",
+          tagline:
+            "Cu bucurie în suflet, te invităm să fii alături de noi în ziua în care devenim familie.",
+          ctaPrimary: "Confirmă prezența",
+          ctaSecondary: "Vezi detalii",
+        },
+        countdown: {
+          title: "Până la marele DA",
+          days: "zile",
+          hours: "ore",
+          minutes: "minute",
+        },
+        quickInfo: {
+          civil: {
+            label: "Cununie civilă",
+            time: "17:00",
+            place: "Grădina Palatului",
+          },
+          church: {
+            label: "Cununie religioasă",
+            time: "18:30",
+            place: "Capela Palatului",
+          },
+          party: {
+            label: "Recepție & petrecere",
+            time: "20:00",
+            place: "Sala de bal",
+          },
+        },
+        story: {
+          title: "Povestea noastră",
+          intro:
+            "Totul a început cu o cafea și o discuție care nu se mai termina. De atunci, fiecare zi a fost un nou capitol.",
+          steps: [
+            {
+              year: "2019",
+              title: "Ne-am întâlnit",
+              text: "Două priviri grăbite într-o zi de luni s-au transformat în prima noastră plimbare împreună.",
+            },
+            {
+              year: "2021",
+              title: "Primele planuri",
+              text: "Am descoperit că avem aceleași visuri: o casă plină de lumină, multe călătorii și o familie unită.",
+            },
+            {
+              year: "2024",
+              title: "Cererea în căsătorie",
+              text: "Un apus, un inel, multe emoții și un singur răspuns: „Da, pentru totdeauna”.",
+            },
+          ],
+        },
+        schedule: {
+          title: "Programul zilei",
+          description:
+            "Ca să-ți fie ușor să te organizezi, am pregătit un program orientativ al momentelor importante.",
+          items: [
+            {
+              time: "16:30",
+              title: "Sosirea invitaților",
+              text: "Te așteptăm cu un pahar de prosecco în grădină.",
+            },
+            {
+              time: "17:00",
+              title: "Cununia civilă",
+              text: "Spunem „DA” în fața familiei și a prietenilor.",
+            },
+            {
+              time: "18:30",
+              title: "Cununia religioasă",
+              text: "Primim binecuvântarea pentru drumul nostru împreună.",
+            },
+            {
+              time: "20:00",
+              title: "Cina & petrecerea",
+              text: "Muzică bună, mâncare delicioasă și multe surprize.",
+            },
+            {
+              time: "00:00",
+              title: "Tortul & focurile de artificii",
+              text: "Un moment dulce și plin de lumină.",
+            },
+          ],
+        },
+        venue: {
+          title: "Locația",
+          subtitle: "Palatul Suter, București",
+          text: "O locație elegantă, cu vedere superbă asupra orașului, perfectă pentru o seară de poveste.",
+          transportTitle: "Cum ajungi",
+          transport: [
+            "Cu mașina – parcare privată (locuri limitate) + locuri pe străzile din zonă.",
+            "Taxi / Bolt / Uber – recomandat pentru confort și siguranță.",
+            "Transport public – stații în apropiere de Parcul Carol.",
+          ],
+        },
+        stay: {
+          title: "Cazare pentru invitați",
+          intro:
+            "Dacă vii din alt oraș sau pur și simplu vrei să rămâi peste noapte în București, îți recomandăm câteva variante de cazare aproape de locație.",
+          hotels: [
+            {
+              name: "Hotel Carol Parc",
+              distance: "3 minute de mers pe jos",
+              note: "Ideal pentru cei care vor să fie foarte aproape de Palatul Suter.",
+            },
+            {
+              name: "Hotel Parliament",
+              distance: "7 minute cu mașina",
+              note: "Confortabil și accesibil, potrivit pentru familii.",
+            },
+            {
+              name: "Airbnb Parcul Carol",
+              distance: "zona adiacentă",
+              note: "Multe apartamente drăguțe, potrivite pentru grupuri sau familii.",
+            },
+          ],
+        },
+        gifts: {
+          title: "Despre cadouri",
+          text1:
+            "Prezența ta este cel mai frumos cadou. Dacă totuși îți dorești să contribui la noul nostru început, ne-ar bucura un dar în plic sau un transfer bancar.",
+          text2:
+            "Ne dorim ca această zi să fie mai mult despre timp petrecut împreună, decât despre formalități.",
+          ibanTitle: "Detalii pentru transfer",
+          ibanName: "Beneficiar: Elena Ionescu",
+          iban: "IBAN: RO49 AAAA 1B31 0075 9384 0000",
+          ibanNote: "Te rugăm să menționezi: „Cadou nuntă Elena & David”.",
+        },
+        gallery: {
+          title: "Galerie foto",
+          subtitle:
+            "Câteva cadre din povestea noastră – pentru a intra în atmosfera zilei.",
+        },
+        rsvp: {
+          title: "Confirmă prezența",
+          intro:
+            "Te rugăm să completezi formularul de mai jos până la 1 august 2025. Dacă apar schimbări, ne poți scrie oricând.",
+          stepsLabels: ["Detalii", "Prezență", "Confirmare"],
+          step1: {
+            title: "Detaliile tale",
+          },
+          step2: {
+            title: "Prezență & persoane",
+          },
+          step3: {
+            title: "Verifică & trimite",
+            info: "Datele sunt doar pentru organizarea nunții, nu le vom folosi în alt scop.",
+          },
+          success: "Îți mulțumim! Confirmarea ta a fost înregistrată.",
+        },
+        faq: {
+          title: "Întrebări frecvente",
+          items: [
+            {
+              q: "Pot veni cu copiii?",
+              a: "Da, ne bucurăm să avem și cei mici alături de noi. Te rugăm doar să menționezi acest lucru în formularul RSVP.",
+            },
+            {
+              q: "Până când pot confirma?",
+              a: "Ideal ar fi să primim confirmarea ta până la 1 august 2025, pentru a putea anunța numărul final de persoane la locație.",
+            },
+            {
+              q: "Ce fac dacă apar schimbări?",
+              a: "Înțelegem că pot apărea situații neprevăzute. Te rugăm să ne anunți cât de repede poți, prin telefon sau mesaj.",
+            },
+          ],
+        },
+        contact: {
+          bride: "Elena: 07xx xxx xxx",
+          groom: "David: 07xx xxx xxx",
+          email: "Email: elena.david.nunta@example.com",
+        },
+        footer: "Elena & David · 20 Septembrie 2025 · Palatul Suter, București",
+      },
+
+      en: {
+        navbar: {
+          home: "Home",
+          story: "Story",
+          schedule: "Schedule",
+          venue: "Venue",
+          gallery: "Gallery",
+          stay: "Stay",
+          gifts: "Gifts",
+          rsvp: "RSVP",
+          faq: "FAQ",
+        },
+        hero: {
+          couple: "Elena & David",
+          date: "20 September 2025",
+          place: "Suter Palace · Bucharest",
+          tagline:
+            "With joy in our hearts, we invite you to join us on the day we become a family.",
+          ctaPrimary: "RSVP",
+          ctaSecondary: "View details",
+        },
+        countdown: {
+          title: "Time until the big YES",
+          days: "days",
+          hours: "hours",
+          minutes: "minutes",
+        },
+        // restul poate fi tradus ulterior, acum păstrăm RO ca fallback
+      },
+    };
+  </script>
+</head>
+
+<body class="bg-[var(--color-bg)] text-[var(--color-text-main)]">
+
+<!-- NAVBAR -->
+<header
+  class="sticky top-0 z-40 bg-[var(--color-bg)]/90 backdrop-blur border-b border-[var(--color-accent)]/30">
+  <div class="max-w-6xl mx-auto px-4 md:px-6 h-14 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div
+        class="w-9 h-9 rounded-full border border-[var(--color-primary)] flex items-center justify-center">
+        <span class="font-script text-lg text-[var(--color-primary)]">E&D</span>
+      </div>
+      <div class="hidden sm:block">
+        <p class="text-[10px] uppercase tracking-[0.25em] text-[var(--color-text-muted)]">
+          Wedding Invitation
+        </p>
+      </div>
+    </div>
+
+    <nav class="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-[0.2em]">
+      <a href="#hero" data-i18n="navbar.home" class="hover:text-[var(--color-primary)]">Acasă</a>
+      <a href="#story" data-i18n="navbar.story" class="hover:text-[var(--color-primary)]">Povestea</a>
+      <a href="#schedule" data-i18n="navbar.schedule" class="hover:text-[var(--color-primary)]">Program</a>
+      <a href="#venue" data-i18n="navbar.venue" class="hover:text-[var(--color-primary)]">Locația</a>
+      <a href="#gallery" data-i18n="navbar.gallery" class="hover:text-[var(--color-primary)]">Galerie</a>
+      <a href="#stay" data-i18n="navbar.stay" class="hover:text-[var(--color-primary)]">Cazare</a>
+      <a href="#gifts" data-i18n="navbar.gifts" class="hover:text-[var(--color-primary)]">Cadouri</a>
+      <a href="#rsvp" data-i18n="navbar.rsvp" class="text-[var(--color-primary)]">RSVP</a>
+      <a href="#faq" data-i18n="navbar.faq" class="hover:text-[var(--color-primary)]">Întrebări</a>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <!-- Language switch -->
+      <button
+        id="langRoBtn"
+        class="text-[10px] uppercase tracking-[0.16em] px-2 py-1 rounded-full border border-[var(--color-primary)] text-[var(--color-primary)]">
+        RO
+      </button>
+      <button
+        id="langEnBtn"
+        class="text-[10px] uppercase tracking-[0.16em] px-2 py-1 rounded-full border border-transparent text-[var(--color-text-muted)]">
+        EN
+      </button>
+
+      <!-- Mobile menu -->
+      <button id="mobileMenuBtn" class="md:hidden w-9 h-9 flex items-center justify-center">
+        <span class="w-5 h-[2px] bg-[var(--color-text-main)] relative">
+          <span class="absolute -top-1.5 inset-x-0 h-[2px] bg-[var(--color-text-main)]"></span>
+          <span class="absolute top-1.5 inset-x-0 h-[2px] bg-[var(--color-text-main)]"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <div id="mobileMenu" class="md:hidden hidden border-t border-[var(--color-accent)]/50">
+    <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-2 text-[11px] uppercase tracking-[0.18em]">
+      <a href="#hero" data-i18n="navbar.home" class="py-1">Acasă</a>
+      <a href="#story" data-i18n="navbar.story" class="py-1">Povestea</a>
+      <a href="#schedule" data-i18n="navbar.schedule" class="py-1">Program</a>
+      <a href="#venue" data-i18n="navbar.venue" class="py-1">Locația</a>
+      <a href="#gallery" data-i18n="navbar.gallery" class="py-1">Galerie</a>
+      <a href="#stay" data-i18n="navbar.stay" class="py-1">Cazare</a>
+      <a href="#gifts" data-i18n="navbar.gifts" class="py-1">Cadouri</a>
+      <a href="#rsvp" data-i18n="navbar.rsvp" class="py-1 text-[var(--color-primary)]">RSVP</a>
+      <a href="#faq" data-i18n="navbar.faq" class="py-1">Întrebări</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="hero-bg text-white min-h-[80vh] flex items-center">
+  <div class="max-w-6xl mx-auto px-4 md:px-6 py-12 grid md:grid-cols-[1.15fr,0.85fr] gap-10 items-center">
+    <!-- text -->
+    <div class="space-y-5 reveal">
+      <p class="text-[11px] uppercase tracking-[0.32em] text-white/80">
+        Save the date
+      </p>
+      <h1 id="heroCouple" class="font-script text-5xl md:text-6xl leading-tight">
+        Elena & David
+      </h1>
+      <p id="heroDatePlace" class="font-display text-lg md:text-2xl tracking-wide">
+        20 Septembrie 2025 · Palatul Suter, București
+      </p>
+      <p id="heroTagline" class="text-[14px] md:text-[15px] text-white/85 max-w-xl">
+        ...
+      </p>
+
+      <div class="flex flex-wrap gap-3 pt-2">
+        <a
+          href="#rsvp"
+          id="heroCtaPrimary"
+          class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white text-[var(--color-primary-dark)] text-[11px] uppercase tracking-[0.25em]">
+          Confirmă prezența
+        </a>
+        <a
+          href="#schedule"
+          id="heroCtaSecondary"
+          class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/70 text-[11px] uppercase tracking-[0.25em]">
+          Vezi detalii
+        </a>
+      </div>
+    </div>
+
+    <!-- card countdown + info -->
+    <div class="section-card p-6 md:p-7 text-[var(--color-text-main)] reveal">
+      <p id="countdownTitle" class="text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)]">
+        Până la marele DA
+      </p>
+      <div class="flex gap-5 mt-3">
+        <div class="text-center">
+          <div id="cdDays" class="text-2xl font-semibold">00</div>
+          <div id="cdDaysLabel" class="text-[11px] uppercase tracking-[0.18em] text-[var(--color-text-muted)]">zile</div>
+        </div>
+        <div class="text-center">
+          <div id="cdHours" class="text-2xl font-semibold">00</div>
+          <div id="cdHoursLabel" class="text-[11px] uppercase tracking-[0.18em] text-[var(--color-text-muted)]">ore</div>
+        </div>
+        <div class="text-center">
+          <div id="cdMinutes" class="text-2xl font-semibold">00</div>
+          <div id="cdMinutesLabel" class="text-[11px] uppercase tracking-[0.18em] text-[var(--color-text-muted)]">minute</div>
+        </div>
+      </div>
+
+      <hr class="my-5 border-[var(--color-accent)]/60" />
+
+      <!-- quick info -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-[12px]" id="quickInfoContainer">
+        <!-- umplem din JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="py-16 md:py-20">
+  <div class="max-w-6xl mx-auto px-4 md:px-6 grid md:grid-cols-[1.05fr,0.95fr] gap-10 md:gap-14 items-start">
+    <div class="reveal">
+      <p class="text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)] mb-2">
+        Povestea noastră
+      </p>
+      <h2 id="storyTitle" class="font-display text-3xl md:text-4xl mb-4">
+        Povestea noastră
+      </h2>
+      <p id="storyIntro" class="text-[14px] md:text-[15px] leading-relaxed">
+        ...
+      </p>
+    </div>
+
+    <!-- timeline -->
+    <div class="space-y-5 reveal" id="storyTimeline">
+      <!-- se umple din JS -->
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule" class="py-16 md:py-20 bg-[var(--color-bg-alt)]/80">
+  <div class="max-w-6xl mx-auto px-4 md:px-6">
+    <div class="text-center mb-10 reveal">
+      <p class="text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)]">
+        Programul zilei
+      </p>
+      <h2 id="scheduleTitle" class="font-display text-3xl md:text-4xl mb-3">
+        Programul zilei
+      </h2>
+      <p id="scheduleDesc" class="max-w-2xl mx-auto text-[14px] text-[var(--color-text-muted)]">
+        ...
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-5 gap-4 md:gap-6 reveal" id="scheduleGrid">
+      <!-- se populează din JS -->
+    </div>
+  </div>
+</section>
+
+<!-- VENUE -->
+<section id="venue" class="py-16 md:py-20">
+  <div class="max-w-6xl mx-auto px-4 md:px-6 grid md:grid-cols-[1.1fr,0.9fr] gap-10 items-start">
+    <div class="section-card p-6 md:p-7 space-y-3 reveal">
+      <p class="text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)] mb-1">
+        Locația nunții
+      </p>
+      <h2 id="venueTitle" class="font-display text-2xl md:text-3xl mb-1">
+        Locația
+      </h2>
+      <h3 id="venueSubtitle" class="font-semibold text-[15px] md:text-[16px]"></h3>
+      <p id="venueText" class="text-[14px] text-[var(--color-text-muted)]"></p>
+
+      <p id="venueTransportTitle" class="mt-4 text-[13px] font-semibold uppercase tracking-[0.16em]">
+        Cum ajungi
+      </p>
+      <ul id="venueTransportList"
+          class="mt-2 text-[13px] text-[var(--color-text-muted)] list-disc pl-5 space-y-1">
+        <!-- JS -->
+      </ul>
+    </div>
+
+    <div class="space-y-4 reveal">
+      <div class="rounded-3xl overflow-hidden shadow-lg h-64 md:h-80 bg-gray-200">
+        <!-- Poți înlocui cu map real -->
+        <iframe
+          src="https://maps.google.com/maps?q=Palatul%20Suter%20Bucuresti&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          class="w-full h-full border-0"></iframe>
+      </div>
+      <p class="text-[12px] text-[var(--color-text-muted)] text-center">
+        Poți deschide locația în Google Maps și seta rapid traseul până la Palatul Suter.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- STAY / CAZARE -->
+<section id="stay" class="py-16 md:py-20 bg-[var(--color-bg-alt)]/90">
+  <div class="max-w-6xl mx-auto px-4 md:px-6">
+    <div class="text-center mb-8 reveal">
+      <p class="text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)] mb-2">
+        Cazare
+      </p>
+      <h2 id="stayTitle" class="font-display text-3xl md:text-4xl mb-3">
+        Cazare pentru invitați
+      </h2>
+      <p id="stayIntro" class="max-w-2xl mx-auto text-[14px] text-[var(--color-text-muted)]">
+        ...
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 reveal" id="stayGrid">
+      <!-- JS -->
+    </div>
+  </div>
+</section>
+
+<!-- GIFTS -->
+<section id="gifts" class="py-16 md:py-20">
+  <div class="max-w-4xl mx-auto px-4 md:px-6 section-card p-6 md:p-7 space-y-4 reveal">
+    <p class="text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)] mb-1">
+      Cadouri
+    </p>
+    <h2 id="giftsTitle" class="font-display text-3xl md:text-4xl mb-3">
+      Despre cadouri
+    </h2>
+    <p id="giftsText1" class="text-[14px] text-[var(--color-text-muted)]"></p>
+    <p id="giftsText2" class="text-[14px] text-[var(--color-text-muted)]"></p>
+
+    <div class="mt-4 bg-[var(--color-bg)] rounded-2xl border border-[var(--color-accent)]/70 p-4 text-[13px]">
+      <p id="giftsIbanTitle" class="text-[11px] uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-1">
+        Detalii pentru transfer
+      </p>
+      <p id="giftsIbanName"></p>
+      <p id="giftsIban"></p>
+      <p id="giftsIbanNote" class="mt-1 text-[var(--color-text-muted)]"></p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="py-16 md:py-20 bg-[var(--color-bg-alt)]/70">
+  <div class="max-w-6xl mx-auto px-4 md:px-6">
+    <div class="text-center mb-8 reveal">
+      <p class="text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)] mb-2">
+        Galerie
+      </p>
+      <h2 id="galleryTitle" class="font-display text-3xl md:text-4xl mb-2">
+        Galerie foto
+      </h2>
+      <p id="gallerySubtitle" class="max-w-2xl mx-auto text-[14px] text-[var(--color-text-muted)]">
+        ...
+      </p>
+    </div>
+
+    <div id="galleryGrid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 reveal">
+      <!-- JS -->
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox"
+       class="fixed inset-0 bg-black/80 flex items-center justify-center opacity-0 pointer-events-none transition">
+    <div class="relative max-w-3xl max-h-[80vh]">
+      <button
+        id="lightboxClose"
+        class="absolute -top-10 right-0 text-white text-sm uppercase tracking-[0.18em]">
+        Închide ✕
+      </button>
+      <img id="lightboxImg" src="" alt="" class="w-full h-full object-contain rounded-2xl">
+    </div>
+  </div>
+</section>
+
+<!-- RSVP -->
+<section id="rsvp" class="py-16 md:py-20">
+  <div class="max-w-6xl mx-auto px-4 md:px-6 grid lg:grid-cols-[1.05fr,0.95fr] gap-10 items-start">
+    <div class="reveal">
+      <p class="text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)] mb-2">
+        Confirmare
+      </p>
+      <h2 id="rsvpTitle" class="font-display text-3xl md:text-4xl mb-3">
+        Confirmă prezența
+      </h2>
+      <p id="rsvpIntro" class="text-[14px] text-[var(--color-text-muted)] mb-4">
+        ...
+      </p>
+
+      <div class="mt-4 text-[13px] space-y-1">
+        <p id="contactBride">Elena: 07xx xxx xxx</p>
+        <p id="contactGroom">David: 07xx xxx xxx</p>
+        <p id="contactEmail">Email: ...</p>
+      </div>
+    </div>
+
+    <!-- Multi-step form -->
+    <div class="section-card p-6 md:p-7 reveal">
+      <!-- Step indicator -->
+      <div class="flex items-center gap-3 mb-6 text-[11px] uppercase tracking-[0.23em]">
+        <div class="flex-1 flex items-center gap-2">
+          <div id="rsvpStep1Dot"
+               class="w-7 h-7 rounded-full flex items-center justify-center text-white bg-[var(--color-primary)] text-[11px]">
+            1
+          </div>
+          <span id="rsvpStep1Label">Detalii</span>
+        </div>
+        <div class="flex-1 flex items-center gap-2">
+          <div id="rsvpStep2Dot"
+               class="w-7 h-7 rounded-full flex items-center justify-center text-[var(--color-text-muted)] border border-[var(--color-accent)]">
+            2
+          </div>
+          <span id="rsvpStep2Label" class="text-[var(--color-text-muted)]">Prezență</span>
+        </div>
+        <div class="flex-1 flex items-center gap-2">
+          <div id="rsvpStep3Dot"
+               class="w-7 h-7 rounded-full flex items-center justify-center text-[var(--color-text-muted)] border border-[var(--color-accent)]">
+            3
+          </div>
+          <span id="rsvpStep3Label" class="text-[var(--color-text-muted)]">Confirmare</span>
+        </div>
+      </div>
+
+      <form id="rsvpForm" class="space-y-4 text-[14px]">
+        <!-- STEP 1 -->
+        <div id="rsvpStep1" class="space-y-3">
+          <h3 id="rsvpStep1Title" class="font-semibold text-[15px] mb-1">Detaliile tale</h3>
+          <div>
+            <label class="block text-[12px] mb-1">Nume complet</label>
+            <input
+              id="rsvpName"
+              type="text"
+              required
+              class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/70">
+          </div>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[12px] mb-1">Email</label>
+              <input
+                id="rsvpEmail"
+                type="email"
+                class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/70">
+            </div>
+            <div>
+              <label class="block text-[12px] mb-1">Telefon</label>
+              <input
+                id="rsvpPhone"
+                type="tel"
+                class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/70">
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div id="rsvpStep2" class="space-y-3 hidden">
+          <h3 id="rsvpStep2Title" class="font-semibold text-[15px] mb-1">Prezență & persoane</h3>
+
+          <div>
+            <p class="block text-[12px] mb-1">Vei participa?</p>
+            <div class="flex gap-2">
+              <label class="flex-1 border rounded-xl px-3 py-2 cursor-pointer text-center">
+                <input type="radio" name="attendance" value="yes" class="hidden" checked />
+                <span>Da, cu drag</span>
+              </label>
+              <label class="flex-1 border rounded-xl px-3 py-2 cursor-pointer text-center">
+                <input type="radio" name="attendance" value="no" class="hidden" />
+                <span>Din păcate nu</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[12px] mb-1">Număr de persoane (inclusiv tu)</label>
+            <select
+              id="rsvpGuests"
+              class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/70">
+              <option value="1">1 persoană</option>
+              <option value="2">2 persoane</option>
+              <option value="3">3 persoane</option>
+              <option value="4">4 persoane</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[12px] mb-1">Restricții alimentare / detalii</label>
+            <textarea
+              id="rsvpMessage"
+              rows="3"
+              class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/70"
+              placeholder="Ex: vegetarian, fără gluten, alergii, vin cu copii etc."></textarea>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div id="rsvpStep3" class="space-y-3 hidden">
+          <h3 id="rsvpStep3Title" class="font-semibold text-[15px] mb-1">Verifică & trimite</h3>
+          <p id="rsvpStep3Info" class="text-[12px] text-[var(--color-text-muted)] mb-2">
+            ...
+          </p>
+
+          <div class="bg-[var(--color-bg)] rounded-xl p-3 text-[13px]" id="rsvpSummary">
+            <!-- completat din JS -->
+          </div>
+        </div>
+
+        <div class="pt-2 flex items-center justify-between">
+          <button
+            type="button"
+            id="rsvpPrevBtn"
+            class="text-[12px] px-3 py-2 rounded-full border border-gray-300 text-gray-600 hidden">
+            Înapoi
+          </button>
+
+          <button
+            type="button"
+            id="rsvpNextBtn"
+            class="ml-auto text-[12px] px-5 py-2 rounded-full bg-[var(--color-primary)] text-white">
+            Continuă
+          </button>
+
+          <button
+            type="submit"
+            id="rsvpSubmitBtn"
+            class="ml-auto text-[12px] px-5 py-2 rounded-full bg-[var(--color-primary)] text-white hidden">
+            Trimite
+          </button>
+        </div>
+
+        <p
+          id="rsvpSuccess"
+          class="hidden text-[13px] text-green-600 text-center pt-2">
+          ...
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-16 md:py-20 bg-[var(--color-bg-alt)]/90">
+  <div class="max-w-4xl mx-auto px-4 md:px-6 reveal">
+    <p class="text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)] mb-2">
+      Întrebări frecvente
+    </p>
+    <h2 id="faqTitle" class="font-display text-3xl md:text-4xl mb-5">
+      Întrebări frecvente
+    </h2>
+
+    <div id="faqList" class="space-y-3 text-[14px]">
+      <!-- JS -->
+    </div>
+  </div>
+</section>
+
+<footer class="py-6 text-center text-[11px] text-[var(--color-text-muted)]">
+  <span id="footerText">...</span>
+</footer>
+
+<!-- JS: Tema, conținut, UI -->
+<script>
+  // =====================
+  // APLICARE TEMA
+  // =====================
+  function applyTheme(theme) {
+    const root = document.documentElement;
+    root.style.setProperty("--color-bg", theme.bg);
+    root.style.setProperty("--color-bg-alt", theme.bgAlt);
+    root.style.setProperty("--color-primary", theme.primary);
+    root.style.setProperty("--color-primary-dark", theme.primaryDark);
+    root.style.setProperty("--color-accent", theme.accent);
+    root.style.setProperty("--color-text-main", theme.textMain);
+    root.style.setProperty("--color-text-muted", theme.textMuted);
+  }
+
+  applyTheme(WEDDO_THEME);
+
+  // =====================
+  // LIMBĂ & TEXT
+  // =====================
+  function getContent() {
+    const lang = WEDDO_CONTENT.activeLang;
+    return WEDDO_CONTENT[lang] || WEDDO_CONTENT.ro;
+  }
+
+  function fillTexts() {
+    const c = getContent();
+
+    // Hero
+    document.getElementById("heroCouple").textContent = c.hero.couple;
+    document.getElementById("heroDatePlace").textContent =
+      c.hero.date + " · " + c.hero.place;
+    document.getElementById("heroTagline").textContent = c.hero.tagline;
+    document.getElementById("heroCtaPrimary").textContent = c.hero.ctaPrimary;
+    document.getElementById("heroCtaSecondary").textContent = c.hero.ctaSecondary;
+
+    // Countdown labels
+    document.getElementById("countdownTitle").textContent = c.countdown.title;
+    document.getElementById("cdDaysLabel").textContent = c.countdown.days;
+    document.getElementById("cdHoursLabel").textContent = c.countdown.hours;
+    document.getElementById("cdMinutesLabel").textContent = c.countdown.minutes;
+
+    // Quick info
+    const qi = c.quickInfo;
+    const qiContainer = document.getElementById("quickInfoContainer");
+    qiContainer.innerHTML = "";
+    const items = [qi.civil, qi.church, qi.party];
+    items.forEach(item => {
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <p class="text-[11px] uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-1">${item.label}</p>
+        <p class="font-semibold">${item.time}</p>
+        <p class="text-[12px] text-[var(--color-text-muted)]">${item.place}</p>
+      `;
+      qiContainer.appendChild(div);
+    });
+
+    // Story
+    document.getElementById("storyTitle").textContent = c.story.title;
+    document.getElementById("storyIntro").textContent = c.story.intro;
+    const storyTimeline = document.getElementById("storyTimeline");
+    storyTimeline.innerHTML = "";
+    c.story.steps.forEach(s => {
+      const card = document.createElement("div");
+      card.className = "section-card p-4 md:p-5";
+      card.innerHTML = `
+        <p class="text-[11px] uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-1">${s.year}</p>
+        <p class="font-semibold mb-1">${s.title}</p>
+        <p class="text-[13px] text-[var(--color-text-muted)]">${s.text}</p>
+      `;
+      storyTimeline.appendChild(card);
+    });
+
+    // Schedule
+    document.getElementById("scheduleTitle").textContent = c.schedule.title;
+    document.getElementById("scheduleDesc").textContent = c.schedule.description;
+    const scheduleGrid = document.getElementById("scheduleGrid");
+    scheduleGrid.innerHTML = "";
+    c.schedule.items.forEach(item => {
+      const div = document.createElement("div");
+      div.className =
+        "section-card p-4 flex flex-col gap-1 text-[13px]";
+      div.innerHTML = `
+        <p class="text-[11px] uppercase tracking-[0.2em] text-[var(--color-text-muted)]">${item.time}</p>
+        <p class="font-semibold">${item.title}</p>
+        <p class="text-[13px] text-[var(--color-text-muted)]">${item.text}</p>
+      `;
+      scheduleGrid.appendChild(div);
+    });
+
+    // Venue
+    document.getElementById("venueTitle").textContent = c.venue.title;
+    document.getElementById("venueSubtitle").textContent = c.venue.subtitle;
+    document.getElementById("venueText").textContent = c.venue.text;
+    document.getElementById("venueTransportTitle").textContent = c.venue.transportTitle;
+    const venueList = document.getElementById("venueTransportList");
+    venueList.innerHTML = "";
+    c.venue.transport.forEach(t => {
+      const li = document.createElement("li");
+      li.textContent = t;
+      venueList.appendChild(li);
+    });
+
+    // Stay
+    document.getElementById("stayTitle").textContent = c.stay.title;
+    document.getElementById("stayIntro").textContent = c.stay.intro;
+    const stayGrid = document.getElementById("stayGrid");
+    stayGrid.innerHTML = "";
+    c.stay.hotels.forEach(h => {
+      const card = document.createElement("div");
+      card.className = "section-card p-4 md:p-5 text-[13px]";
+      card.innerHTML = `
+        <p class="font-semibold text-[14px]">${h.name}</p>
+        <p class="text-[var(--color-text-muted)] text-[12px] mb-1">${h.distance}</p>
+        <p class="text-[var(--color-text-muted)]">${h.note}</p>
+      `;
+      stayGrid.appendChild(card);
+    });
+
+    // Gifts
+    document.getElementById("giftsTitle").textContent = c.gifts.title;
+    document.getElementById("giftsText1").textContent = c.gifts.text1;
+    document.getElementById("giftsText2").textContent = c.gifts.text2;
+    document.getElementById("giftsIbanTitle").textContent = c.gifts.ibanTitle;
+    document.getElementById("giftsIbanName").textContent = c.gifts.ibanName;
+    document.getElementById("giftsIban").textContent = c.gifts.iban;
+    document.getElementById("giftsIbanNote").textContent = c.gifts.ibanNote;
+
+    // Gallery
+    document.getElementById("galleryTitle").textContent = c.gallery.title;
+    document.getElementById("gallerySubtitle").textContent = c.gallery.subtitle;
+    const galleryGrid = document.getElementById("galleryGrid");
+    galleryGrid.innerHTML = "";
+    CONFIG.gallery.forEach((src, idx) => {
+      const div = document.createElement("div");
+      div.className =
+        "overflow-hidden rounded-3xl shadow cursor-pointer aspect-[4/5] bg-gray-200";
+      div.innerHTML = `<img src="${src}" alt="Foto ${idx + 1}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />`;
+      div.addEventListener("click", () => openLightbox(src));
+      galleryGrid.appendChild(div);
+    });
+
+    // RSVP
+    document.getElementById("rsvpTitle").textContent = c.rsvp.title;
+    document.getElementById("rsvpIntro").textContent = c.rsvp.intro;
+    document.getElementById("rsvpStep1Title").textContent = c.rsvp.step1.title;
+    document.getElementById("rsvpStep2Title").textContent = c.rsvp.step2.title;
+    document.getElementById("rsvpStep3Title").textContent = c.rsvp.step3.title;
+    document.getElementById("rsvpStep3Info").textContent = c.rsvp.step3.info;
+    document.getElementById("rsvpStep1Label").textContent =
+      c.rsvp.stepsLabels[0];
+    document.getElementById("rsvpStep2Label").textContent =
+      c.rsvp.stepsLabels[1];
+    document.getElementById("rsvpStep3Label").textContent =
+      c.rsvp.stepsLabels[2];
+    document.getElementById("rsvpSuccess").textContent = c.rsvp.success;
+
+    // FAQ
+    document.getElementById("faqTitle").textContent = c.faq.title;
+    const faqList = document.getElementById("faqList");
+    faqList.innerHTML = "";
+    c.faq.items.forEach(item => {
+      const details = document.createElement("details");
+      details.className = "bg-[var(--color-bg)] rounded-2xl p-3 md:p-4";
+      details.innerHTML = `
+        <summary class="cursor-pointer font-semibold">${item.q}</summary>
+        <p class="mt-2 text-[13px] text-[var(--color-text-muted)]">${item.a}</p>
+      `;
+      faqList.appendChild(details);
+    });
+
+    // Contact
+    document.getElementById("contactBride").textContent = c.contact.bride;
+    document.getElementById("contactGroom").textContent = c.contact.groom;
+    document.getElementById("contactEmail").textContent = c.contact.email;
+
+    // Footer
+    document.getElementById("footerText").textContent = c.footer;
+
+  }
+
+  // =====================
+  // COUNTDOWN
+  // =====================
+  const eventDate = new Date("2025-09-20T17:00:00").getTime();
+  function startCountdown() {
+    setInterval(() => {
+      const now = new Date().getTime();
+      let diff = eventDate - now;
+      if (diff < 0) diff = 0;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      document.getElementById("cdDays").textContent = String(days).padStart(
+        2,
+        "0"
+      );
+      document.getElementById("cdHours").textContent = String(hours).padStart(
+        2,
+        "0"
+      );
+      document.getElementById("cdMinutes").textContent = String(minutes).padStart(
+        2,
+        "0"
+      );
+    }, 1000);
+  }
+
+  // =====================
+  // MOBILE MENU
+  // =====================
+  const mobileBtn = document.getElementById("mobileMenuBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  mobileBtn.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+  });
+  mobileMenu.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", () => {
+      mobileMenu.classList.add("hidden");
+    });
+  });
+
+  // =====================
+  // SMOOTH SCROLL
+  // =====================
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener("click", e => {
+      const id = a.getAttribute("href").slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + window.scrollY - 70;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    });
+  });
+
+  // =====================
+  // REVEAL ON SCROLL
+  // =====================
+  const revealEls = document.querySelectorAll(".reveal");
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("reveal-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.16 }
+  );
+  revealEls.forEach(el => observer.observe(el));
+
+  // =====================
+  // GALLERY LIGHTBOX
+  // =====================
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxClose = document.getElementById("lightboxClose");
+
+  function openLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.classList.remove("pointer-events-none");
+    lightbox.style.opacity = "1";
+  }
+  function closeLightbox() {
+    lightbox.style.opacity = "0";
+    lightbox.classList.add("pointer-events-none");
+  }
+  lightboxClose.addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", e => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  // =====================
+  // RSVP MULTI-STEP
+  // =====================
+  let currentStep = 1;
+  const step1 = document.getElementById("rsvpStep1");
+  const step2 = document.getElementById("rsvpStep2");
+  const step3 = document.getElementById("rsvpStep3");
+  const prevBtn = document.getElementById("rsvpPrevBtn");
+  const nextBtn = document.getElementById("rsvpNextBtn");
+  const submitBtn = document.getElementById("rsvpSubmitBtn");
+  const step1Dot = document.getElementById("rsvpStep1Dot");
+  const step2Dot = document.getElementById("rsvpStep2Dot");
+  const step3Dot = document.getElementById("rsvpStep3Dot");
+  const rsvpForm = document.getElementById("rsvpForm");
+  const rsvpSuccess = document.getElementById("rsvpSuccess");
+  const summaryBox = document.getElementById("rsvpSummary");
+
+  function updateStepUI() {
+    step1.classList.add("hidden");
+    step2.classList.add("hidden");
+    step3.classList.add("hidden");
+    step1Dot.className =
+      "w-7 h-7 rounded-full flex items-center justify-center text-[11px]";
+    step2Dot.className =
+      "w-7 h-7 rounded-full flex items-center justify-center text-[11px]";
+    step3Dot.className =
+      "w-7 h-7 rounded-full flex items-center justify-center text-[11px]";
+
+    if (currentStep === 1) {
+      step1.classList.remove("hidden");
+      prevBtn.classList.add("hidden");
+      nextBtn.classList.remove("hidden");
+      submitBtn.classList.add("hidden");
+      step1Dot.classList.add("bg-[var(--color-primary)]", "text-white");
+      step2Dot.classList.add(
+        "border",
+        "border-[var(--color-accent)]",
+        "text-[var(--color-text-muted)]"
+      );
+      step3Dot.classList.add(
+        "border",
+        "border-[var(--color-accent)]",
+        "text-[var(--color-text-muted)]"
+      );
+    } else if (currentStep === 2) {
+      step2.classList.remove("hidden");
+      prevBtn.classList.remove("hidden");
+      nextBtn.classList.remove("hidden");
+      submitBtn.classList.add("hidden");
+      step1Dot.classList.add(
+        "bg-[var(--color-primary)]",
+        "text-white"
+      );
+      step2Dot.classList.add(
+        "bg-[var(--color-primary)]",
+        "text-white"
+      );
+      step3Dot.classList.add(
+        "border",
+        "border-[var(--color-accent)]",
+        "text-[var(--color-text-muted)]"
+      );
+    } else {
+      step3.classList.remove("hidden");
+      prevBtn.classList.remove("hidden");
+      nextBtn.classList.add("hidden");
+      submitBtn.classList.remove("hidden");
+      step1Dot.classList.add(
+        "bg-[var(--color-primary)]",
+        "text-white"
+      );
+      step2Dot.classList.add(
+        "bg-[var(--color-primary)]",
+        "text-white"
+      );
+      step3Dot.classList.add(
+        "bg-[var(--color-primary)]",
+        "text-white"
+      );
+      // completăm sumarul
+      const name = document.getElementById("rsvpName").value || "-";
+      const email = document.getElementById("rsvpEmail").value || "-";
+      const phone = document.getElementById("rsvpPhone").value || "-";
+      const guests = document.getElementById("rsvpGuests").value;
+      const message = document.getElementById("rsvpMessage").value || "-";
+      const attend = (
+        document.querySelector('input[name="attendance"]:checked') || {}
+      ).value || "yes";
+
+      const attendText =
+        attend === "yes" ? "Voi participa" : "Din păcate nu voi putea fi prezent(ă)";
+
+      summaryBox.innerHTML = `
+        <p><strong>Nume:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Telefon:</strong> ${phone}</p>
+        <p><strong>Prezență:</strong> ${attendText}</p>
+        <p><strong>Nr. persoane:</strong> ${guests}</p>
+        <p><strong>Detalii:</strong> ${message}</p>
+      `;
+    }
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentStep > 1) {
+      currentStep--;
+      updateStepUI();
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentStep < 3) {
+      currentStep++;
+      updateStepUI();
+    }
+  });
+
+  rsvpForm.addEventListener("submit", e => {
+    e.preventDefault();
+    // aici ai integrare cu backend / API
+    rsvpSuccess.classList.remove("hidden");
+    setTimeout(() => {
+      rsvpForm.reset();
+      currentStep = 1;
+      updateStepUI();
+    }, 1500);
+  });
+
+  // INIT
+  fillTexts();
+  startCountdown();
+  updateStepUI();
+</script>
+</body>
+</html>

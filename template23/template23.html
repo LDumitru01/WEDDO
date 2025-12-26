@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinetic Wedding | Editorial Style</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,400,600&f[]=satoshi@300,500,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* === SCHIMBĂ CULORILE AICI === */
+            --bg-color: #F3F0EB;       /* Crem/Almond (Fundal) */
+            --text-color: #242423;     /* Negru Cărbune (Text) */
+            --accent-color: #D25F38;   /* Terracotta / Cărămiziu (Accent) */
+            --line-color: rgba(36, 36, 35, 0.1); /* Linii divizoare subtile */
+        }
+
+        /* Setări de bază */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'General Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Utility Classes pentru Culori */
+        .text-accent { color: var(--accent-color); }
+        .bg-accent { background-color: var(--accent-color); }
+        .border-accent { border-color: var(--accent-color); }
+        .border-line { border-color: var(--line-color); }
+
+        /* Smooth Scroll (Lenis) */
+        html.lenis { height: auto; } 
+        .lenis.lenis-smooth { scroll-behavior: auto; } 
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; } 
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        /* Animații Imagine (Scale Reveal) */
+        .img-reveal { overflow: hidden; }
+        .img-reveal img { transform: scale(1.4); transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+        .in-view .img-reveal img { transform: scale(1); }
+
+        /* Animații Text (Slide Up Line by Line) */
+        .line-wrap { overflow: hidden; }
+        .line-text { transform: translateY(100%); transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1); }
+        .in-view .line-text { transform: translateY(0); }
+
+        /* Cursor */
+        .cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+            background: var(--accent-color); border-radius: 50%;
+            pointer-events: none; z-index: 9999; mix-blend-mode: multiply;
+            transform: translate(-50%, -50%); transition: transform 0.1s, width 0.3s, height 0.3s;
+        }
+        body:hover .cursor { opacity: 1; }
+        .hover-active { transform: translate(-50%, -50%) scale(4) !important; background: transparent; border: 1px solid var(--accent-color); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="cursor hidden md:block"></div>
+
+    <div class="fixed inset-0 bg-[#242423] z-[100] flex items-center justify-center text-[#F3F0EB] transition-transform duration-1000 ease-in-out" id="preloader">
+        <h1 class="font-serif text-4xl italic">Loading Love Story...</h1>
+    </div>
+
+    <nav class="fixed top-0 w-full p-6 md:p-10 flex justify-between items-center z-50 mix-blend-darken">
+        <div class="text-sm font-bold tracking-widest uppercase">M & D</div>
+        <a href="#rsvp" class="hover-trigger text-xs font-bold uppercase tracking-[0.2em] border-b border-black pb-1 hover:text-accent transition">
+            RSVP
+        </a>
+    </nav>
+
+
+    <section class="min-h-screen flex flex-col justify-center px-4 md:px-10 pt-20 border-b border-line">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 h-full items-end pb-10">
+            
+            <div class="md:col-span-3 text-xs uppercase tracking-widest opacity-60 mb-10 md:mb-0">
+                <div class="line-wrap"><div class="line-text delay-500">The Wedding</div></div>
+                <div class="line-wrap"><div class="line-text delay-700">Of The Year</div></div>
+                <div class="line-wrap"><div class="line-text delay-900">2025</div></div>
+            </div>
+
+            <div class="md:col-span-9 relative">
+                <div class="line-wrap">
+                    <h1 class="line-text font-serif text-[15vw] leading-[0.8] text-black">
+                        Matei
+                    </h1>
+                </div>
+                <div class="line-wrap flex items-center gap-4">
+                    <span class="line-text font-serif italic text-[5vw] text-accent">&</span>
+                    <h1 class="line-text font-serif text-[15vw] leading-[0.8] text-black ml-4">
+                        Diana
+                    </h1>
+                </div>
+                
+                <div class="absolute top-0 right-0 w-[30vw] md:w-[20vw] aspect-[3/4] img-reveal hover-trigger z-10 hidden md:block" style="transform: rotate(5deg);">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=600" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-16 border-b border-line overflow-hidden bg-white">
+        <div class="flex whitespace-nowrap overflow-hidden">
+            <div class="animate-marquee flex gap-20 items-center text-8xl md:text-9xl font-serif text-transparent" style="-webkit-text-stroke: 1px var(--text-color);">
+                <span>24 AUGUST</span>
+                <span class="font-sans italic text-accent" style="-webkit-text-stroke: 0;">SAVE THE DATE</span>
+                <span>24 AUGUST</span>
+                <span class="font-sans italic text-accent" style="-webkit-text-stroke: 0;">SAVE THE DATE</span>
+            </div>
+            <div class="animate-marquee flex gap-20 items-center text-8xl md:text-9xl font-serif text-transparent ml-20" style="-webkit-text-stroke: 1px var(--text-color);">
+                <span>24 AUGUST</span>
+                <span class="font-sans italic text-accent" style="-webkit-text-stroke: 0;">SAVE THE DATE</span>
+                <span>24 AUGUST</span>
+                <span class="font-sans italic text-accent" style="-webkit-text-stroke: 0;">SAVE THE DATE</span>
+            </div>
+        </div>
+        
+        <style>
+            .animate-marquee { animation: marquee 20s linear infinite; }
+            @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        </style>
+    </section>
+
+
+    <section class="py-32 px-4 md:px-10 border-b border-line">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+            
+            <div class="relative group">
+                <div class="img-reveal aspect-[4/5]">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                </div>
+                <div class="mt-6 flex justify-between items-end border-t border-line pt-4">
+                    <h2 class="font-serif text-4xl">Matei</h2>
+                    <p class="text-xs uppercase tracking-widest text-accent max-w-[150px] text-right">"Liniștea mea într-o lume zgomotoasă."</p>
+                </div>
+            </div>
+
+            <div class="relative group md:mt-32">
+                <div class="img-reveal aspect-[4/5]">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                </div>
+                <div class="mt-6 flex justify-between items-end border-t border-line pt-4">
+                    <h2 class="font-serif text-4xl">Diana</h2>
+                    <p class="text-xs uppercase tracking-widest text-accent max-w-[150px] text-right">"Sufletul care îmi completează frazele."</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="relative h-screen border-b border-line group overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1600" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-1000 scale-105 group-hover:scale-100">
+            <div class="absolute inset-0 bg-black/30"></div>
+        </div>
+
+        <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-[#F3F0EB] z-10">
+            <p class="text-sm uppercase tracking-[0.5em] mb-6">Locația</p>
+            <h2 class="font-serif text-6xl md:text-8xl mb-8">Palatul Știrbey</h2>
+            
+            <div class="grid grid-cols-2 gap-12 text-sm uppercase tracking-widest border-t border-white/30 pt-8">
+                <div>
+                    <span class="block text-accent">16:00</span>
+                    Ceremonia
+                </div>
+                <div>
+                    <span class="block text-accent">19:00</span>
+                    Petrecerea
+                </div>
+            </div>
+
+            <a href="#" class="hover-trigger mt-12 bg-[#F3F0EB] text-black px-8 py-3 rounded-full text-xs font-bold uppercase hover:bg-accent hover:text-white transition">
+                Vezi Hartă
+            </a>
+        </div>
+    </section>
+
+
+    <section class="py-32 px-4 md:px-10 border-b border-line">
+        <div class="flex justify-between items-end mb-20">
+            <h2 class="font-serif text-6xl text-black">Amintiri</h2>
+            <p class="text-xs uppercase tracking-widest opacity-50">Colecția Noastră</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="col-span-2 row-span-2 img-reveal hover-trigger">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800" class="w-full h-full object-cover aspect-square">
+            </div>
+            <div class="img-reveal hover-trigger pt-10">
+                <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="w-full h-full object-cover aspect-[3/4]">
+            </div>
+            <div class="img-reveal hover-trigger">
+                <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=600" class="w-full h-full object-cover aspect-[3/4]">
+            </div>
+            <div class="col-span-2 img-reveal hover-trigger">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800" class="w-full h-full object-cover aspect-video">
+            </div>
+        </div>
+    </section>
+
+
+    <section id="rsvp" class="py-32 px-4 md:px-10 flex flex-col md:flex-row gap-20">
+        
+        <div class="w-full md:w-1/2">
+            <h2 class="font-serif text-6xl md:text-7xl mb-6">RSVP</h2>
+            <p class="text-lg text-gray-600 max-w-sm">
+                Te rugăm să ne confirmi prezența până la data de 1 Iulie pentru a ne ajuta cu organizarea.
+            </p>
+        </div>
+
+        <div class="w-full md:w-1/2">
+            <form class="space-y-12">
+                <div class="group">
+                    <label class="block text-xs uppercase tracking-widest mb-2 text-gray-400">Nume</label>
+                    <input type="text" class="w-full bg-transparent border-b border-line py-4 text-xl outline-none focus:border-accent transition hover-trigger">
+                </div>
+
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="group">
+                        <label class="block text-xs uppercase tracking-widest mb-2 text-gray-400">Persoane</label>
+                        <select class="w-full bg-transparent border-b border-line py-4 text-xl outline-none focus:border-accent transition hover-trigger">
+                            <option>1 Persoană</option>
+                            <option>2 Persoane</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <label class="block text-xs uppercase tracking-widest mb-2 text-gray-400">Răspuns</label>
+                        <select class="w-full bg-transparent border-b border-line py-4 text-xl outline-none focus:border-accent transition hover-trigger">
+                            <option>Particip</option>
+                            <option>Nu pot veni</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="hover-trigger w-full py-6 bg-[#242423] text-[#F3F0EB] text-sm font-bold uppercase tracking-[0.3em] hover:bg-accent transition duration-300 mt-8">
+                    Trimite Răspunsul
+                </button>
+            </form>
+        </div>
+
+    </section>
+
+
+    <footer class="py-10 text-center border-t border-line">
+        <p class="text-[10px] uppercase tracking-[0.3em] opacity-40">© 2025 M & D. All Rights Reserved.</p>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script>
+        // 1. PRELOADER
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.transform = 'translateY(-100%)';
+            }, 500);
+        });
+
+        // 2. SMOOTH SCROLL (Lenis)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // 3. REVEAL ON SCROLL (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.img-reveal, .line-text').forEach(el => {
+            // Pentru text, observăm părintele .line-wrap ca să declanșăm animația copilului
+            if(el.classList.contains('line-text')) {
+                observer.observe(el.parentElement); 
+                // Hack: adaug clasa in-view pe elementul text, nu pe wrapper
+                el.parentElement.addEventListener('transitionend', () => {}); // dummy
+                // De fapt, mai simplu: observăm direct wrapper-ul și adăugăm clasa la copil
+            } else {
+                observer.observe(el);
+            }
+        });
+        
+        // Fix pentru observerul de text:
+        const textObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.querySelector('.line-text').classList.add('in-view');
+                }
+            });
+        });
+        document.querySelectorAll('.line-wrap').forEach(el => textObserver.observe(el));
+
+
+        // 4. CUSTOM CURSOR
+        const cursor = document.querySelector('.cursor');
+        const triggers = document.querySelectorAll('.hover-trigger');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+        });
+
+        triggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => cursor.classList.add('hover-active'));
+            trigger.addEventListener('mouseleave', () => cursor.classList.remove('hover-active'));
+        });
+
+    </script>
+</body>
+</html>

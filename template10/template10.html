@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nunta Noastră - The Editorial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="template10.css">
+</head>
+<body>
+
+    <header class="relative w-full h-screen">
+        <div class="hero-img-container">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop" 
+                 class="hero-img brightness-75">
+        </div>
+        
+        <div class="absolute inset-0 flex flex-col justify-center items-center text-center text-[rgb(var(--bg-color))] z-10">
+            <p class="text-sm tracking-[0.5em] uppercase mb-6">Save The Date</p>
+            <h1 class="text-6xl md:text-9xl mb-4 leading-none mix-blend-overlay">Elena<br>&<br>Radu</h1>
+            <div class="w-24 h-px bg-[rgb(var(--bg-color))] my-6"></div>
+            <p class="text-xl md:text-2xl font-light font-lux">24 Septembrie 2025</p>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-[rgb(var(--bg-color))] animate-bounce">
+            ↓
+        </div>
+    </header>
+
+    <div class="marquee-wrapper">
+        <div class="marquee-content">
+            FOREVER AND ALWAYS • LOVE STORY • ELENA & RADU • 24.09.2025 • SAVE THE DATE • FOREVER AND ALWAYS • LOVE STORY • ELENA & RADU • 24.09.2025 • SAVE THE DATE •
+        </div>
+    </div>
+
+    <section class="py-32 px-6 text-center max-w-4xl mx-auto">
+        <h2 class="text-4xl md:text-5xl mb-8">Povestea Începe</h2>
+        <p class="text-lg opacity-70 leading-relaxed font-light">
+            Vă invităm să fiți martori la cel mai frumos legământ. Într-o zi de toamnă târzie, sub razele blânde ale soarelui, vom spune "DA" pentru totdeauna.
+        </p>
+    </section>
+
+    <div class="sticky-wrapper" id="storyTrigger">
+        <div class="sticky-content">
+            
+            <div class="story-slide active" id="slide1">
+                <div class="flex flex-col md:flex-row w-full max-w-6xl items-center gap-12 px-6">
+                    <div class="w-full md:w-1/2 h-[60vh] relative">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop" 
+                             class="w-full h-full object-cover art-img">
+                        <span class="absolute -bottom-10 -left-10 text-9xl font-lux opacity-10 pointer-events-none">HE</span>
+                    </div>
+                    <div class="w-full md:w-1/2 text-left">
+                        <h3 class="text-4xl mb-6">Mirele</h3>
+                        <p class="text-lg opacity-70 leading-relaxed">
+                            Radu este echilibrul. Un arhitect pasionat de detalii, care a construit fundația acestei relații cu răbdare și multă cafea. El a știut din prima clipă că Elena este "proiectul" vieții lui.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="story-slide" id="slide2">
+                <div class="flex flex-col md:flex-row-reverse w-full max-w-6xl items-center gap-12 px-6">
+                    <div class="w-full md:w-1/2 h-[60vh] relative">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop" 
+                             class="w-full h-full object-cover art-img">
+                        <span class="absolute -top-10 -right-10 text-9xl font-lux opacity-10 pointer-events-none">SHE</span>
+                    </div>
+                    <div class="w-full md:w-1/2 text-right">
+                        <h3 class="text-4xl mb-6">Mireasa</h3>
+                        <p class="text-lg opacity-70 leading-relaxed">
+                            Elena este energia. Un suflet creativ care aduce culoare în orice cameră intră. Pentru ea, Radu este ancora care o ține în siguranță, indiferent de furtună.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <section class="py-32 bg-[rgb(var(--text-color))] text-[rgb(var(--bg-color))]">
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16">
+            
+            <div>
+                <h2 class="text-4xl mb-12 border-b border-[rgb(var(--accent-color))] pb-4 inline-block">Program</h2>
+                <div class="space-y-12">
+                    <div class="flex gap-6">
+                        <span class="text-2xl font-lux text-[rgb(var(--accent-color))]">16:00</span>
+                        <div>
+                            <h4 class="text-xl font-bold uppercase">Cununia Religioasă</h4>
+                            <p class="opacity-60 text-sm">Biserica Domnița Bălașa</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6">
+                        <span class="text-2xl font-lux text-[rgb(var(--accent-color))]">18:00</span>
+                        <div>
+                            <h4 class="text-xl font-bold uppercase">Welcome Drinks</h4>
+                            <p class="opacity-60 text-sm">Pe terasa palatului</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6">
+                        <span class="text-2xl font-lux text-[rgb(var(--accent-color))]">20:00</span>
+                        <div>
+                            <h4 class="text-xl font-bold uppercase">Petrecerea</h4>
+                            <p class="opacity-60 text-sm">Dansăm până dimineața</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2098&auto=format&fit=crop" 
+                     class="w-full h-[500px] object-cover opacity-60">
+                <div class="absolute bottom-8 left-8 bg-[rgb(var(--bg-color))] text-[rgb(var(--text-color))] p-8 max-w-xs">
+                    <h3 class="text-xl font-bold uppercase mb-2">Palatul Ghica</h3>
+                    <p class="text-sm mb-4">Strada Doamna Ghica 5, București</p>
+                    <a href="#" class="text-[rgb(var(--accent-color))] underline text-xs uppercase tracking-widest">Vezi Harta</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-32 px-6">
+        <h2 class="text-center text-4xl mb-16 font-lux">Momente</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-7xl mx-auto h-[800px]">
+            <div class="col-span-2 row-span-2 relative overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 grayscale hover:grayscale-0">
+            </div>
+            <div class="col-span-1 row-span-1 relative overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 grayscale hover:grayscale-0">
+            </div>
+            <div class="col-span-1 row-span-2 relative overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1520854221256-17451cc330e7?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 grayscale hover:grayscale-0">
+            </div>
+            <div class="col-span-1 row-span-1 relative overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1533261642875-524f2b1d7d0a?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 grayscale hover:grayscale-0">
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 bg-[#f0f0eb]">
+        <div class="max-w-xl mx-auto text-center">
+            <h2 class="text-5xl mb-2 font-lux">RSVP</h2>
+            <p class="mb-12 opacity-60">Te rugăm să confirmi prezența până la 1 August.</p>
+
+            <form class="text-left space-y-8">
+                <div>
+                    <label class="text-xs uppercase tracking-widest opacity-50">Numele Familiei</label>
+                    <input type="text" class="input-line">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <label class="text-xs uppercase tracking-widest opacity-50">Persoane</label>
+                        <select class="input-line bg-transparent">
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs uppercase tracking-widest opacity-50">Meniu</label>
+                        <select class="input-line bg-transparent">
+                            <option>Standard</option>
+                            <option>Vegetarian</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-8 text-center">
+                    <button type="button" class="btn-outline">Trimite Confirmarea</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center border-t border-gray-300">
+        <h1 class="text-3xl font-lux mb-4 opacity-30">E & R</h1>
+        <p class="text-xs uppercase tracking-widest opacity-50">24.09.2025 • București</p>
+    </footer>
+
+    <script src="template10.js"></script>
+</body>
+</html>

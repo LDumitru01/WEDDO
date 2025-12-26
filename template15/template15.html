@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Clara & David | Interactive Invite</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <style>
+        :root {
+            /* O paletă modernă, "Blush & Charcoal" */
+            --bg-color: #f3f1ef;
+            --card-bg: #ffffff;
+            --accent-pink: #eebbba;
+            --accent-dark: #2c2c2c;
+            --text-body: #555555;
+            --font-title: 'Italiana', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            height: 100vh; 
+            background-color: var(--bg-color); 
+            background-image: radial-gradient(var(--accent-pink) 1px, transparent 1px);
+            background-size: 30px 30px; /* Model subtil de puncte */
+            font-family: var(--font-body);
+            overflow: hidden; /* FĂRĂ SCROLL */
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        h1, h2, h3 { font-family: var(--font-title); color: var(--accent-dark); font-weight: 400; }
+        p { color: var(--text-body); line-height: 1.6; }
+
+        /* --- CONTAINERUL PACHETULUI --- */
+        .deck-container {
+            position: relative;
+            width: 90%; max-width: 500px;
+            height: 70vh; max-height: 700px;
+            perspective: 1500px;
+        }
+
+        /* --- CARTEA INDIVIDUALĂ --- */
+        .card {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--card-bg);
+            border-radius: 25px;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.2);
+            padding: 40px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            /* Stilizare pentru a părea stivuite */
+        }
+        
+        /* Efect de "stivă dezordonată" */
+        .card:nth-child(1) { z-index: 6; transform: rotate(0deg) translateY(0); }
+        .card:nth-child(2) { z-index: 5; transform: rotate(-3deg) translateY(5px) scale(0.98); opacity: 0.9; }
+        .card:nth-child(3) { z-index: 4; transform: rotate(2deg) translateY(10px) scale(0.96); opacity: 0.8; }
+        .card:nth-child(4) { z-index: 3; transform: rotate(-1deg) translateY(15px) scale(0.94); opacity: 0.7; }
+        .card:nth-child(5) { z-index: 2; transform: rotate(1deg) translateY(20px) scale(0.92); opacity: 0.6; }
+        .card:nth-child(6) { z-index: 1; transform: rotate(0deg) translateY(25px) scale(0.90); opacity: 0.5; }
+
+        /* CLASA DE ANIMAȚIE CÂND DAI CLICK */
+        .card.swiped-left {
+            transform: translateX(-120%) rotate(-30deg) !important; opacity: 0; pointer-events: none;
+        }
+        .card.swiped-right {
+            transform: translateX(120%) rotate(30deg) !important; opacity: 0; pointer-events: none;
+        }
+
+        /* --- CONȚINUT CARDURI --- */
+        .hero-img-box { width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin-bottom: 20px; border: 3px solid var(--accent-pink); }
+        .hero-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .tap-hint { margin-top: 30px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-pink); animation: pulse 2s infinite; }
+
+        .couple-split { display: flex; gap: 20px; margin-bottom: 20px; width: 100%; }
+        .couple-half { flex: 1; }
+        .couple-half img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
+
+        .big-date { font-size: 3.5rem; color: var(--accent-pink); margin: 20px 0; font-family: var(--font-title); }
+        .countdown-flex { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .time-box span { font-size: 1.5rem; font-weight: bold; display: block; color: var(--accent-dark); }
+
+        .mini-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        .mini-gallery img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; }
+
+        /* Formular Minimal */
+        .rsvp-input { width: 100%; padding: 15px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 10px; font-family: var(--font-body); }
+        .btn-rsvp { width: 100%; padding: 15px; background: var(--accent-dark); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+
+        .progress-bar { position: fixed; bottom: 30px; width: 200px; height: 4px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent-pink); width: 16%; transition: width 0.6s ease; }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    </style>
+</head>
+<body>
+
+    <audio id="swipeSound" src="https://assets.mixkit.co/active_storage/sfx/2570/2570-preview.m4a"></audio>
+    <audio id="bgMusic" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    
+    <button onclick="toggleMusic()" style="position: fixed; top: 20px; right: 20px; z-index: 100; padding: 10px; border-radius: 50%; border: none; background: var(--accent-pink); color: white; cursor: pointer;">🎵</button>
+
+
+    <div class="deck-container" id="deck">
+        <div class="card">
+            <div class="hero-img-box">
+                <img src="https://images.unsplash.com/photo-1529634597503-139d372668c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Couple">
+            </div>
+            <h3>Vă invităm la nunta</h3>
+            <h1 style="font-size: 3rem; margin: 10px 0;">Clara & David</h1>
+            <p>O poveste de dragoste în 6 acte.</p>
+            <div class="tap-hint">Apasă cardul pentru a începe <i class="ri-hand-coin-line"></i></div>
+        </div>
+
+        <div class="card">
+            <h2>Protagoniștii</h2>
+            <div class="couple-split" style="margin-top: 30px;">
+                <div class="couple-half">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="El">
+                    <h3>David</h3>
+                    <p>"Ea este tot ce am visat."</p>
+                </div>
+                <div class="couple-half">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Ea">
+                    <h3>Clara</h3>
+                    <p>"El este acasă."</p>
+                </div>
+            </div>
+            <div class="tap-hint">Mai departe →</div>
+        </div>
+
+        <div class="card" style="background: var(--accent-pink); color: white;">
+            <h3 style="color: white;">Momentul Nostru</h3>
+            <div class="big-date" style="color: white;">24.08.2025</div>
+            <p style="color: rgba(255,255,255,0.9);">Duminică, ora 16:00</p>
+            
+            <div class="countdown-flex" id="countdown" style="color: white;">
+                <div class="time-box"><span style="color: white;" id="days">00</span>Zile</div>
+                <div class="time-box"><span style="color: white;" id="hours">00</span>Ore</div>
+            </div>
+            <div class="tap-hint" style="color: white;">Apasă pentru locație</div>
+        </div>
+
+        <div class="card">
+            <h2>Locația</h2>
+            <img src="https://images.unsplash.com/photo-1519225427186-1db33e051cc4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Locatie" style="width: 100%; height: 150px; object-fit: cover; border-radius: 15px; margin: 20px 0;">
+            <h3>Chateau "The View"</h3>
+            <p>Strada Viilor Nr. 45, Orașul Vechi</p>
+            <br>
+            <p><small>Ceremonia & Petrecerea au loc în aceeași locație de vis.</small></p>
+            <div class="tap-hint">Vezi amintiri</div>
+        </div>
+
+        <div class="card">
+            <h2>Amintiri Împreună</h2>
+            <div class="mini-gallery" style="margin-top: 20px;">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Foto">
+                <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Foto">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Foto">
+                <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Foto">
+            </div>
+            <div class="tap-hint">Ultimul pas: Confirmarea</div>
+        </div>
+
+        <div class="card">
+            <h2>Ești alături de noi?</h2>
+            <p style="margin-bottom: 20px;">Te rugăm să confirmi până la 1 Iulie.</p>
+            <form style="width: 100%;">
+                <input type="text" class="rsvp-input" placeholder="Numele complet">
+                <select class="rsvp-input">
+                    <option>Voi fi prezent</option>
+                    <option>Nu pot ajunge</option>
+                </select>
+                <button type="button" class="btn-rsvp" onclick="alert('Mulțumim! Confirmarea a fost trimisă.')">TRIMITE RĂSPUNSUL</button>
+            </form>
+            <p style="margin-top: 20px; font-size: 0.9rem;"><i class="ri-heart-fill" style="color: var(--accent-pink);"></i> Abia așteptăm!</p>
+        </div>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progFill"></div>
+    </div>
+
+
+    <script>
+        // 1. LOGICA DE SWIPE A CĂRȚILOR
+        const cards = document.querySelectorAll('.card');
+        const progressFill = document.getElementById('progFill');
+        const swipeSound = document.getElementById('swipeSound');
+        let currentCardIndex = 0;
+        const totalCards = cards.length;
+
+        // Funcția care activează următoarea carte
+        function setupTopCard() {
+            cards.forEach((card, index) => {
+                // Resetăm event listeners vechi
+                card.onclick = null;
+                
+                if (index === currentCardIndex) {
+                    // Doar cartea de deasupra e clickabilă
+                    card.style.cursor = 'pointer';
+                    card.onclick = () => swipeCard(card);
+                } else {
+                    card.style.cursor = 'default';
+                }
+            });
+            // Actualizăm bara de progres
+            let progress = ((currentCardIndex + 1) / totalCards) * 100;
+            progressFill.style.width = `${progress}%`;
+        }
+
+        function swipeCard(card) {
+            // Redă sunetul (trebuie resetat ca să se audă rapid la clickuri consecutive)
+            swipeSound.currentTime = 0;
+            swipeSound.play();
+
+            // Adaugă clasa de animație (alternăm stânga/dreapta pentru efect dinamic)
+            if (currentCardIndex % 2 === 0) {
+                card.classList.add('swiped-right');
+            } else {
+                card.classList.add('swiped-left');
+            }
+
+            // Trecem la următorul index
+            currentCardIndex++;
+
+            // Dacă mai avem cărți, pregătim următoarea
+            if (currentCardIndex < totalCards) {
+                setupTopCard();
+                // Mic efect de "ridicare" pentru noua carte de top
+                cards[currentCardIndex].style.transform = 'rotate(0deg) translateY(0) scale(1.02)';
+                setTimeout(() => {
+                     cards[currentCardIndex].style.transform = 'rotate(0deg) translateY(0) scale(1)';
+                }, 300);
+            } else {
+                // Am terminat pachetul
+                progressFill.style.background = '#4CAF50'; // Verde la final
+            }
+        }
+
+        // Inițializare
+        setupTopCard();
+
+
+        // 2. LOGICA DE TIMER (COUNTDOWN)
+        const weddingDate = new Date('Aug 24, 2025 16:00:00').getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('days').innerText = d;
+            document.getElementById('hours').innerText = h;
+        }, 1000);
+
+        // 3. MUZICA
+        const bgMusic = document.getElementById('bgMusic');
+        function toggleMusic() {
+            if(bgMusic.paused) { bgMusic.play(); } else { bgMusic.pause(); }
+        }
+    </script>
+</body>
+</html>

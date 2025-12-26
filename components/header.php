@@ -7,9 +7,11 @@ $nextLang = $currentLang === 'ro' ? 'ru' : 'ro';
   <div id="headerPlaceholder"></div>
   <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
 
-    <div class="text-3xl font-bold text-[#d65d73]">
-      Weddo
-    </div>
+    <img 
+      src="/WEDDO/assets/images/Logo2.png"
+      alt="Weddo Logo" 
+      class="h-[100px] md:h-[100px] object-contain"
+    />
 
     <nav class="hidden lg:flex items-center gap-10 text-gray-800 text-[16px]">
       <a href="#" class="hover:text-[#d65d73] transition"><?= t('nav_features') ?></a>

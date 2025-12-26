@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitație Nuntă - Premium Park Style</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bg: 'var(--color-bg)',
+                        text: 'var(--color-text)',
+                        accent: 'var(--color-accent)',
+                        muted: 'var(--color-muted)',
+                        highlight: 'var(--color-highlight)',
+                    },
+                    fontFamily: {
+                        heading: ['var(--font-heading)', 'serif'],
+                        body: ['var(--font-body)', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: 'var(--radius)',
+                    },
+                    boxShadow: {
+                        soft: 'var(--shadow-soft)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS Variables - Default Light Theme (Premium Park Style) */
+        :root {
+            --color-bg: #ffffff;
+            --color-text: #1f2937; /* Gray-800 */
+            --color-accent: #cca467; /* Gold/Bronze specific Premium Park */
+            --color-muted: #f3f4f6; /* Gray-100 */
+            --color-highlight: #ffffff;
+            
+            --font-heading: 'Playfair Display';
+            --font-body: 'Lato';
+            
+            --radius: 0.5rem;
+            --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark Mode Overrides */
+        .dark-mode {
+            --color-bg: #1a1a1a;
+            --color-text: #e5e7eb;
+            --color-accent: #d4af37;
+            --color-muted: #262626;
+            --color-highlight: #2d2d2d;
+        }
+
+        /* Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+
+        /* Scroll Animations Utility */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--color-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 4px; }
+
+        /* Loader */
+        #loader {
+            position: fixed; inset: 0; background: var(--color-bg); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-bg text-text font-body transition-colors duration-300">
+
+    <div id="loader">
+        <div class="text-accent text-4xl animate-pulse font-heading">Premium Park</div>
+    </div>
+
+    <div id="theme-panel" class="fixed right-0 top-1/4 bg-highlight shadow-soft p-4 rounded-l-xl transform translate-x-full transition-transform duration-300 z-50 w-64 border-l-4 border-accent">
+        <button id="theme-toggle-btn" class="absolute -left-10 top-0 bg-accent text-white p-2 rounded-l-md shadow-lg">
+            <i class="fas fa-cog fa-spin"></i>
+        </button>
+        <h3 class="font-bold mb-3 text-accent border-b pb-2">Theme Control</h3>
+        
+        <div class="mb-4">
+            <label class="block text-xs mb-1">Mod</label>
+            <button onclick="toggleDarkMode()" class="w-full bg-muted py-1 rounded text-sm hover:bg-accent hover:text-white transition">Light / Dark</button>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-xs mb-1">Accent Color</label>
+            <input type="color" id="accent-picker" class="w-full h-8 cursor-pointer" value="#cca467">
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-xs mb-1">Font Heading</label>
+            <select id="font-select" class="w-full bg-muted p-1 text-sm rounded">
+                <option value="'Playfair Display'">Playfair Display</option>
+                <option value="'Montserrat'">Montserrat</option>
+                <option value="'Great Vibes'">Great Vibes</option>
+            </select>
+        </div>
+        
+        <button onclick="resetTheme()" class="text-xs text-red-500 underline">Resetează la Default</button>
+    </div>
+
+    <div id="app"></div>
+
+    <div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-5 right-5 text-white text-3xl hover:text-accent">&times;</button>
+        <img id="lightbox-img" src="" class="max-h-[90vh] max-w-full rounded shadow-2xl border-2 border-accent">
+    </div>
+
+    <script>
+        // ==========================================
+        // DATA OBJECT (Conținutul Site-ului)
+        // ==========================================
+        const invitationData = {
+            meta: {
+                coupleNames: "Maria & Andrei",
+                date: "24 August 2025",
+                location: "Premium Park, Chișinău"
+            },
+            nav: [
+                { label: "Acasă", href: "#hero" },
+                { label: "Săli", href: "#sali" },
+                { label: "Meniu", href: "#meniu" },
+                { label: "Galerie", href: "#galerie" },
+                { label: "RSVP", href: "#rsvp" }
+            ],
+            hero: {
+                title: "Nunta Noastră",
+                subtitle: "O poveste de dragoste celebrată la Premium Park",
+                image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1920&auto=format&fit=crop", // Imagine panoramică
+                cta: "Confirmă Prezența"
+            },
+            about: {
+                title: "Despre Locație & Stil",
+                description: "Descoperă rafinamentul suprem la Premium Park - unde luxul și confortul se îmbină armonios pentru a crea o experiență de neuitat. Situați într-o zonă pitorească, oferim cadrul perfect pentru evenimentul vieții tale.",
+                image: "https://images.unsplash.com/photo-1519225469958-305e68780cf9?q=80&w=1000&auto=format&fit=crop"
+            },
+            halls: [
+                {
+                    id: 1,
+                    name: "Sala Grandis",
+                    capacity: "150 - 500 persoane",
+                    description: "O sală impunătoare cu piscină decorativă interioară și candelabre masive.",
+                    features: ["Piscină Decorativă", "Mobilier Exclusivist", "Ecran LED", "Lumini Artistice", "Sunet Premium"],
+                    image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
+                    category: "nunta-mare"
+                },
+                {
+                    id: 2,
+                    name: "Sala Panoramic",
+                    capacity: "50 - 150 persoane",
+                    description: "Perfectă pentru evenimente intime, cu o priveliște superbă spre parc.",
+                    features: ["Terasă Privată", "Lumină Naturală", "Zonă Lounge", "Bar Dedicat"],
+                    image: "https://images.unsplash.com/photo-1464366400600-7168b8af0bc3?q=80&w=800&auto=format&fit=crop",
+                    category: "nunta-mica"
+                }
+            ],
+            menu: [
+                { title: "Aperitive Reci", items: ["Platou brânzeturi fine", "Tartine cu icre roșii", "Rulouri de somon"], icon: "fa-utensils" },
+                { title: "Fel Principal", items: ["File de somon la cuptor", "Mușchi de vită cu sos brun", "Piept de rață"], icon: "fa-drumstick-bite" },
+                { title: "Desert", items: ["Tortul mirilor", "Candy Bar Premium", "Fructe de sezon"], icon: "fa-birthday-cake" }
+            ],
+            facilities: [
+                { name: "Parcare Privată", icon: "fa-parking" },
+                { name: "Wi-Fi Gratuit", icon: "fa-wifi" },
+                { name: "Cameră Mirilor", icon: "fa-door-closed" },
+                { name: "Terasă", icon: "fa-umbrella-beach" },
+                { name: "Generator", icon: "fa-bolt" },
+                { name: "Securitate", icon: "fa-shield-alt" }
+            ],
+            gallery: [
+                "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=600",
+                "https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=600",
+                "https://images.unsplash.com/photo-1520342868574-5fa3804e551c?q=80&w=600",
+                "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=600",
+                "https://images.unsplash.com/photo-1519225469958-305e68780cf9?q=80&w=600",
+                "https://images.unsplash.com/photo-1507504031981-a2368c6e1904?q=80&w=600"
+            ],
+            faq: [
+                { q: "Există parcare asigurată?", a: "Da, dispunem de o parcare privată păzită cu o capacitate de 100 locuri." },
+                { q: "Putem aduce propriile băuturi?", a: "Oferim pachete flexibile, vă rugăm să discutați cu managerul de eveniment." }
+            ],
+            contacts: {
+                phone: "+373 69 000 000",
+                email: "events@premiumpark.md",
+                address: "Strada Exemplu 12, Chișinău",
+                socials: { fb: "#", ig: "#", wa: "https://wa.me/" }
+            }
+        };
+
+        // ==========================================
+        // RENDER FUNCTIONS (Template Literals)
+        // ==========================================
+
+        function renderHeader() {
+            return `
+                <nav class="sticky top-0 z-40 bg-bg/95 backdrop-blur-md shadow-soft transition-colors duration-300">
+                    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                        <div class="text-2xl font-heading font-bold text-accent uppercase tracking-widest">Premium Park</div>
+                        <div class="hidden md:flex gap-8 text-sm font-semibold uppercase tracking-wide">
+                            ${invitationData.nav.map(item => `<a href="${item.href}" class="hover:text-accent transition-colors relative group">
+                                ${item.label}
+                                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all group-hover:w-full"></span>
+                            </a>`).join('')}
+                        </div>
+                        <a href="#rsvp" class="bg-accent text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-opacity-90 transition transform hover:-translate-y-0.5 text-sm">
+                            RSVP
+                        </a>
+                    </div>
+                </nav>
+            `;
+        }
+
+        function renderHero() {
+            const { hero, meta } = invitationData;
+            return `
+                <header id="hero" class="relative h-screen min-h-[600px] flex items-center justify-center text-center overflow-hidden">
+                    <div class="absolute inset-0 bg-black/40 z-10"></div>
+                    <div class="absolute inset-0 bg-cover bg-center parallax" style="background-image: url('${hero.image}'); transform: scale(1.1);"></div>
+                    
+                    <div class="relative z-20 text-white max-w-4xl px-4 reveal">
+                        <p class="text-accent text-lg md:text-xl font-bold uppercase tracking-[0.2em] mb-4">${meta.date}</p>
+                        <h1 class="text-5xl md:text-8xl font-heading font-bold mb-6 leading-tight">${invitationData.meta.coupleNames}</h1>
+                        <p class="text-lg md:text-2xl font-light mb-10 opacity-90">${hero.subtitle}</p>
+                        <a href="#sali" class="inline-block border-2 border-accent text-accent hover:bg-accent hover:text-white px-8 py-3 rounded text-sm uppercase tracking-widest font-bold transition duration-300">
+                            Vezi Detalii
+                        </a>
+                    </div>
+                </header>
+            `;
+        }
+
+        function renderAbout() {
+            const { about } = invitationData;
+            return `
+                <section class="py-20 bg-bg reveal">
+                    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
+                        <div class="md:w-1/2">
+                            <div class="relative">
+                                <div class="absolute top-4 -left-4 w-full h-full border-2 border-accent rounded-lg z-0"></div>
+                                <img src="${about.image}" alt="Despre" class="relative z-10 rounded-lg shadow-2xl w-full object-cover h-[400px]">
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 text-center md:text-left">
+                            <h2 class="text-accent text-sm font-bold uppercase tracking-widest mb-2">Locația Noastră</h2>
+                            <h3 class="text-4xl font-heading font-bold mb-6 text-text">${about.title}</h3>
+                            <p class="text-text opacity-70 leading-relaxed mb-8">${about.description}</p>
+                            <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                                <div class="bg-muted px-4 py-2 rounded text-xs font-bold uppercase tracking-wide">Elegant</div>
+                                <div class="bg-muted px-4 py-2 rounded text-xs font-bold uppercase tracking-wide">Modern</div>
+                                <div class="bg-muted px-4 py-2 rounded text-xs font-bold uppercase tracking-wide">Exclusivist</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderHalls() {
+            return `
+                <section id="sali" class="py-20 bg-muted">
+                    <div class="container mx-auto px-6">
+                        <div class="text-center mb-16 reveal">
+                            <h2 class="text-4xl font-heading font-bold mb-4 text-text">Sălile Noastre</h2>
+                            <div class="w-24 h-1 bg-accent mx-auto"></div>
+                        </div>
+
+                        <div class="space-y-20">
+                            ${invitationData.halls.map((hall, index) => `
+                                <div class="bg-bg rounded-xl shadow-soft overflow-hidden flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} reveal">
+                                    <div class="md:w-1/2 h-64 md:h-auto relative overflow-hidden group">
+                                        <img src="${hall.image}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="${hall.name}">
+                                    </div>
+                                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                                        <h3 class="text-3xl font-heading font-bold mb-2 text-text">${hall.name}</h3>
+                                        <p class="text-accent font-bold mb-6">Capacitate: ${hall.capacity}</p>
+                                        <p class="text-text opacity-70 mb-6">${hall.description}</p>
+                                        <ul class="space-y-2 mb-8">
+                                            ${hall.features.map(feat => `
+                                                <li class="flex items-center text-sm text-text opacity-80">
+                                                    <i class="fas fa-check text-accent mr-3"></i> ${feat}
+                                                </li>
+                                            `).join('')}
+                                        </ul>
+                                        <button class="self-start bg-accent text-white px-8 py-3 rounded shadow hover:bg-opacity-90 transition">Rezervă Sala</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderFacilitiesAndMenu() {
+            return `
+                <section id="meniu" class="py-20 bg-bg">
+                    <div class="container mx-auto px-6">
+                        <div class="grid grid-cols-2 md:grid-cols-6 gap-6 mb-20 reveal">
+                            ${invitationData.facilities.map(fac => `
+                                <div class="text-center p-6 border border-muted rounded hover:shadow-lg transition group">
+                                    <i class="fas ${fac.icon} text-3xl text-gray-400 group-hover:text-accent mb-3 transition"></i>
+                                    <h4 class="font-bold text-sm text-text">${fac.name}</h4>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="text-center mb-12 reveal">
+                            <h2 class="text-3xl font-heading font-bold text-text">Experiență Culinară</h2>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-8 reveal">
+                            ${invitationData.menu.map(cat => `
+                                <div class="bg-highlight p-8 rounded-lg shadow-soft border-t-4 border-accent text-center">
+                                    <div class="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-6 text-accent text-2xl">
+                                        <i class="fas ${cat.icon}"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-4 font-heading text-text">${cat.title}</h3>
+                                    <ul class="text-text opacity-70 space-y-2">
+                                        ${cat.items.map(item => `<li>${item}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderGallery() {
+            return `
+                <section id="galerie" class="py-20 bg-muted">
+                    <div class="container mx-auto px-6 text-center reveal">
+                        <h2 class="text-4xl font-heading font-bold mb-12 text-text">Galerie Foto</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            ${invitationData.gallery.map((img, i) => `
+                                <div class="overflow-hidden rounded-lg cursor-pointer relative group" onclick="openLightbox('${img}')">
+                                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition z-10"></div>
+                                    <img src="${img}" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-110">
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="mt-16 bg-bg p-8 rounded-xl shadow-soft relative overflow-hidden group cursor-pointer">
+                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center group-hover:bg-black/40 transition">
+                                <i class="fas fa-street-view text-6xl text-white"></i>
+                            </div>
+                            <img src="${invitationData.halls[0].image}" class="w-full h-48 object-cover blur-sm">
+                            <div class="absolute bottom-4 left-0 right-0 text-white font-bold text-xl uppercase tracking-widest">Tur Virtual 360°</div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderRSVP() {
+            return `
+                <section id="rsvp" class="py-20 bg-accent relative text-white">
+                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                    <div class="container mx-auto px-6 relative z-10 max-w-2xl reveal">
+                        <div class="bg-white/10 backdrop-blur-sm p-8 md:p-12 rounded-xl border border-white/20 shadow-2xl">
+                            <div class="text-center mb-10">
+                                <h2 class="text-4xl font-heading font-bold mb-2">RSVP</h2>
+                                <p class="opacity-90">Te așteptăm cu drag să ne fii alături!</p>
+                            </div>
+                            <form class="space-y-6" onsubmit="event.preventDefault(); alert('Mulțumim pentru confirmare!');">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-sm font-bold uppercase tracking-wide">Nume</label>
+                                        <input type="text" class="w-full bg-white/80 text-gray-800 p-3 rounded focus:outline-none focus:ring-2 focus:ring-white transition" placeholder="Numele tău">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-sm font-bold uppercase tracking-wide">Telefon</label>
+                                        <input type="tel" class="w-full bg-white/80 text-gray-800 p-3 rounded focus:outline-none focus:ring-2 focus:ring-white transition" placeholder="07xx xxx xxx">
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-sm font-bold uppercase tracking-wide">Număr Persoane</label>
+                                    <select class="w-full bg-white/80 text-gray-800 p-3 rounded focus:outline-none focus:ring-2 focus:ring-white transition">
+                                        <option>1 Persoană</option>
+                                        <option>2 Persoane</option>
+                                        <option>Cu Familie (3+)</option>
+                                        <option>Nu pot participa</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-sm font-bold uppercase tracking-wide">Mesaj (Opțional)</label>
+                                    <textarea class="w-full bg-white/80 text-gray-800 p-3 rounded h-24 focus:outline-none focus:ring-2 focus:ring-white transition"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-white text-accent font-bold py-4 rounded shadow-lg hover:bg-gray-100 transition transform hover:-translate-y-1">
+                                    Confirm Participarea
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderFooter() {
+            const { contacts } = invitationData;
+            return `
+                <footer class="bg-gray-900 text-white py-16 border-t border-gray-800">
+                    <div class="container mx-auto px-6 grid md:grid-cols-3 gap-12 text-center md:text-left">
+                        <div>
+                            <h3 class="text-2xl font-heading font-bold mb-6 text-accent">Premium Park</h3>
+                            <p class="text-gray-400 mb-6">Locația ideală pentru evenimente de neuitat, unde eleganța întâlnește natura.</p>
+                            <div class="flex gap-4 justify-center md:justify-start">
+                                <a href="${contacts.socials.fb}" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-accent transition"><i class="fab fa-facebook-f"></i></a>
+                                <a href="${contacts.socials.ig}" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-accent transition"><i class="fab fa-instagram"></i></a>
+                                <a href="${contacts.socials.wa}" class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center hover:bg-green-600 transition"><i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold mb-6">Contact</h4>
+                            <ul class="space-y-4 text-gray-400">
+                                <li><i class="fas fa-map-marker-alt text-accent mr-2"></i> ${contacts.address}</li>
+                                <li><i class="fas fa-phone text-accent mr-2"></i> ${contacts.phone}</li>
+                                <li><i class="fas fa-envelope text-accent mr-2"></i> ${contacts.email}</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold mb-6">FAQ</h4>
+                            <div class="space-y-4">
+                                ${invitationData.faq.map(item => `
+                                    <details class="group cursor-pointer">
+                                        <summary class="list-none flex justify-between items-center text-gray-300 hover:text-accent transition">
+                                            <span>${item.q}</span>
+                                            <span class="text-xs transition group-open:rotate-180"><i class="fas fa-chevron-down"></i></span>
+                                        </summary>
+                                        <p class="text-gray-500 text-sm mt-2 pl-2 border-l-2 border-accent">${item.a}</p>
+                                    </details>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-12 pt-8 border-t border-gray-800 text-gray-600 text-sm">
+                        &copy; 2025 Premium Park Template. All rights reserved.
+                    </div>
+                </footer>
+            `;
+        }
+
+        // ==========================================
+        // INIT & INTERACTIONS
+        // ==========================================
+
+        function renderApp() {
+            const app = document.getElementById('app');
+            app.innerHTML = 
+                renderHeader() +
+                renderHero() +
+                renderAbout() +
+                renderHalls() +
+                renderFacilitiesAndMenu() +
+                renderGallery() +
+                renderRSVP() +
+                renderFooter();
+            
+            initObserver();
+        }
+
+        // --- Theme Logic ---
+        function initTheme() {
+            const storedTheme = JSON.parse(localStorage.getItem('premiumParkTheme'));
+            if(storedTheme) {
+                applyTheme(storedTheme);
+            }
+            
+            // Panel Toggle
+            document.getElementById('theme-toggle-btn').addEventListener('click', () => {
+                document.getElementById('theme-panel').classList.toggle('translate-x-full');
+            });
+
+            // Inputs Listeners
+            document.getElementById('accent-picker').addEventListener('input', (e) => updateCSSVar('--color-accent', e.target.value));
+            document.getElementById('font-select').addEventListener('change', (e) => updateCSSVar('--font-heading', e.target.value));
+        }
+
+        function updateCSSVar(variable, value) {
+            document.documentElement.style.setProperty(variable, value);
+            saveThemeState();
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark-mode');
+            saveThemeState();
+        }
+
+        function resetTheme() {
+            localStorage.removeItem('premiumParkTheme');
+            location.reload();
+        }
+
+        function saveThemeState() {
+            const state = {
+                accent: getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim(),
+                fontHeading: getComputedStyle(document.documentElement).getPropertyValue('--font-heading').trim(),
+                darkMode: document.documentElement.classList.contains('dark-mode')
+            };
+            localStorage.setItem('premiumParkTheme', JSON.stringify(state));
+        }
+
+        function applyTheme(theme) {
+            if(theme.accent) document.documentElement.style.setProperty('--color-accent', theme.accent);
+            if(theme.fontHeading) document.documentElement.style.setProperty('--font-heading', theme.fontHeading);
+            if(theme.darkMode) document.documentElement.classList.add('dark-mode');
+            
+            // Update inputs
+            if(theme.accent) document.getElementById('accent-picker').value = theme.accent;
+        }
+
+        // --- Lightbox Logic ---
+        window.openLightbox = function(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.remove('hidden');
+        }
+        window.closeLightbox = function() {
+            document.getElementById('lightbox').classList.add('hidden');
+        }
+
+        // --- Intersection Observer for Animations ---
+        function initObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        // --- Boot ---
+        window.addEventListener('load', () => {
+            renderApp();
+            initTheme();
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = 0;
+                setTimeout(() => document.getElementById('loader').remove(), 500);
+            }, 800);
+        });
+
+    </script>
+</body>
+</html>

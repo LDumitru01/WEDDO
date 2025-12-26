@@ -1,0 +1,135 @@
+/* template6.css */
+@import url('https://fonts.googleapis.com/css2?family=Chomsky&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+/* Fontul "Chomsky" este acel font clasic de ziar (ca New York Times). 
+   Dacă nu se încarcă (uneori Google Fonts nu-l are), va trece pe Playfair Display. */
+
+:root {
+    /* --- ZONA DE SCHIMBARE CULORI (ACUM E SETAT PE "VINTAGE MODERN") --- */
+    
+    /* 1. Culoarea "Cernelii" (Text, Linii, Titluri) */
+    /* Încearcă: 20, 20, 20 (Negru Clasic) sau 30, 58, 138 (Royal Blue) */
+    --ink-color: 43, 30, 30; 
+
+    /* 2. Culoarea "Hârtiei" (Fundalul) */
+    /* Încearcă: 255, 255, 255 (Alb Pur) sau 248, 241, 227 (Hârtie Veche) */
+    --paper-color: 247, 245, 239;
+
+    /* 3. Culoarea de Accent (Butoane, Link-uri, Date importante) */
+    /* Încearcă: 180, 83, 9 (Cărămiziu) sau 22, 163, 74 (Verde) */
+    --accent-color: 153, 27, 27; 
+}
+
+body {
+    background-color: rgb(var(--paper-color));
+    color: rgb(var(--ink-color));
+    font-family: 'Lora', serif; /* Font pentru textul lung (articole) */
+    line-height: 1.6;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Stiluri pentru Titluri de Ziar */
+h1, h2, h3, .font-headline {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.newspaper-title {
+    /* Dacă ai fontul Chomsky local, pune-l aici. Altfel folosim un serif heavy */
+    font-family: 'Playfair Display', serif; 
+    font-weight: 900;
+    text-transform: uppercase;
+    border-bottom: 3px double rgb(var(--ink-color));
+    border-top: 4px solid rgb(var(--ink-color));
+    padding: 20px 0;
+    line-height: 0.9;
+}
+
+/* Linii separatoare specifice ziarelor */
+.separator-double {
+    border-top: 3px double rgb(var(--ink-color));
+    margin: 1.5rem 0;
+}
+.separator-single {
+    border-top: 1px solid rgb(var(--ink-color));
+    margin: 1rem 0;
+}
+
+/* Dropcap (Prima literă mare din articol) */
+.dropcap::first-letter {
+    float: left;
+    font-size: 4.5rem;
+    line-height: 0.8;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-top: 5px;
+    font-family: 'Playfair Display', serif;
+    color: rgb(var(--accent-color));
+}
+
+/* Imagine cu efect de "Print" (ușor zgomot/contrast) */
+.newspaper-img {
+    filter: grayscale(100%) contrast(110%);
+    transition: filter 0.5s ease;
+    mix-blend-mode: multiply; /* Se "imprimă" în hârtie */
+}
+.newspaper-img:hover {
+    filter: grayscale(0%) contrast(100%);
+    mix-blend-mode: normal;
+}
+
+/* Formularul RSVP stilizat ca un "Cupon" de ziar */
+.rsvp-coupon {
+    border: 2px dashed rgb(var(--ink-color));
+    background-color: rgba(var(--paper-color), 0.5);
+    position: relative;
+}
+
+.input-news {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgb(var(--ink-color));
+    width: 100%;
+    padding: 8px 0;
+    font-family: 'Courier Prime', 'Courier New', monospace; /* Font de mașină de scris */
+    color: rgb(var(--ink-color));
+    outline: none;
+}
+
+.btn-news {
+    background-color: rgb(var(--ink-color));
+    color: rgb(var(--paper-color));
+    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.btn-news:hover {
+    background-color: rgb(var(--accent-color));
+}
+
+/* Sticker "Exclusive" */
+.sticker {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background-color: rgb(var(--accent-color));
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    transform: rotate(15deg);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    z-index: 10;
+}

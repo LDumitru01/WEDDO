@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ro" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emerald Cinema | The Wedding</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <link href="https://api.fontshare.com/v2/css?f[]=manrope@200,400,600&f[]=chillax@200,400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Alex+Brush&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* === PALETA EMERALD === */
+            --c-bg: #032219;        /* Deep Emerald / Dark Forest */
+            --c-card: #063d2d;      /* Lighter Emerald */
+            --c-text: #E8E3D9;      /* Off-White / Pearl */
+            --c-gold: #D6BC85;      /* Muted Gold */
+            --c-dim: rgba(232, 227, 217, 0.4);
+            
+            --font-head: 'Cinzel', serif;
+            --font-body: 'Manrope', sans-serif;
+            --font-art: 'Alex Brush', cursive;
+        }
+
+        /* BASE */
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor */
+        }
+
+        /* === 1. PRELOADER (SHUTTER EFFECT) === */
+        .loader-shutter {
+            position: fixed; top: 0; width: 100%; height: 50vh;
+            background: var(--c-gold); z-index: 10000;
+            transition: transform 1.2s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+        .shutter-top { top: 0; transform-origin: top; }
+        .shutter-bottom { bottom: 0; height: 50vh; background: var(--c-gold); position: fixed; width: 100%; z-index: 10000; transform-origin: bottom; transition: transform 1.2s cubic-bezier(0.87, 0, 0.13, 1); }
+        
+        .loader-content {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 10001; color: var(--c-bg); font-family: var(--font-head);
+            font-size: 4rem; overflow: hidden;
+        }
+        
+        body.loaded .shutter-top { transform: scaleY(0); }
+        body.loaded .shutter-bottom { transform: scaleY(0); }
+        body.loaded .loader-content { opacity: 0; pointer-events: none; transition: opacity 0.5s; }
+
+        /* === 2. CANVAS TRAIL EFFECT === */
+        #trailCanvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9000; opacity: 0.6; mix-blend-mode: screen;
+        }
+
+        /* === 3. CUSTOM CURSOR === */
+        .cursor-main {
+            position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+            background: var(--c-gold); border-radius: 50%;
+            pointer-events: none; z-index: 11000; mix-blend-mode: difference;
+        }
+        .cursor-outline {
+            position: fixed; top: 0; left: 0; width: 50px; height: 50px;
+            border: 1px solid var(--c-gold); border-radius: 50%;
+            pointer-events: none; z-index: 11000; transition: all 0.2s ease-out;
+        }
+        body.hover-active .cursor-outline { transform: scale(1.5); background: rgba(214, 188, 133, 0.1); }
+
+        /* === 4. ANIMATION UTILS === */
+        .img-reveal-wrap { overflow: hidden; position: relative; }
+        .img-reveal { width: 100%; height: 100%; object-fit: cover; transform: scale(1.4); transition: transform 1.5s ease; }
+        .is-visible .img-reveal { transform: scale(1); }
+
+        .text-split-wrap { overflow: hidden; display: block; }
+        .text-split { transform: translateY(120%); display: block; transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1); }
+        .is-visible .text-split { transform: translateY(0); }
+
+        /* === 5. UNIQUE CLIP PATHS === */
+        /* Face pozele să arate ca niște arcade sau ferestre */
+        .clip-arch { clip-path: inset(0 0 0 0 round 150px 150px 0 0); }
+        .clip-diamond { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+        
+        /* === 6. UI COMPONENTS === */
+        .btn-gold {
+            display: inline-block; padding: 1rem 3rem; border: 1px solid var(--c-gold);
+            color: var(--c-gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.2em;
+            position: relative; overflow: hidden; transition: all 0.4s;
+        }
+        .btn-gold::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--c-gold); transform: translateX(-101%); transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: -1;
+        }
+        .btn-gold:hover { color: var(--c-bg); }
+        .btn-gold:hover::before { transform: translateX(0); }
+
+        /* Text Stroke Effect */
+        .text-stroke { -webkit-text-stroke: 1px var(--c-gold); color: transparent; }
+
+        /* Form Inputs */
+        .input-emerald {
+            width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--c-dim);
+            padding: 20px 0; color: var(--c-gold); font-family: var(--font-head); font-size: 1.5rem;
+            outline: none; transition: border-color 0.3s;
+        }
+        .input-emerald:focus { border-bottom-color: var(--c-gold); }
+        .input-emerald::placeholder { color: rgba(232, 227, 217, 0.2); font-family: var(--font-body); font-size: 1rem; }
+
+    </style>
+</head>
+<body class="loading">
+
+    <canvas id="trailCanvas"></canvas>
+
+    <div class="cursor-main"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="loader-shutter shutter-top"></div>
+    <div class="loader-content">
+        <div class="text-center">
+            <span class="block text-sm uppercase tracking-[0.5em] mb-4">The Wedding</span>
+            <span class="block text-6xl md:text-8xl italic font-serif">M & D</span>
+        </div>
+    </div>
+    <div class="loader-shutter shutter-bottom"></div>
+
+    <nav class="fixed left-0 top-0 h-full w-20 hidden md:flex flex-col justify-between items-center py-10 z-50 border-r border-[rgba(255,255,255,0.05)] bg-[#032219]/80 backdrop-blur-md">
+        <div class="text-xl font-bold text-[var(--c-gold)]">M</div>
+        
+        <div class="flex flex-col gap-12 writing-vertical-rl text-xs uppercase tracking-[0.3em] text-[var(--c-dim)]">
+            <a href="#intro" class="hover:text-[var(--c-gold)] transition hover-trigger -rotate-180" style="writing-mode: vertical-rl;">Intro</a>
+            <a href="#couple" class="hover:text-[var(--c-gold)] transition hover-trigger -rotate-180" style="writing-mode: vertical-rl;">Couple</a>
+            <a href="#events" class="hover:text-[var(--c-gold)] transition hover-trigger -rotate-180" style="writing-mode: vertical-rl;">Events</a>
+        </div>
+
+        <div class="text-xl font-bold text-[var(--c-gold)]">D</div>
+    </nav>
+
+    <nav class="fixed top-0 w-full p-6 flex justify-between md:hidden z-50 mix-blend-difference">
+        <span class="font-serif text-xl text-[var(--c-gold)]">M & D</span>
+        <span class="text-xs uppercase tracking-widest text-[var(--c-gold)]">Menu</span>
+    </nav>
+
+
+    <main class="md:pl-20">
+
+        <section class="h-screen relative flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <div class="img-reveal-wrap w-full h-full">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1600" class="w-full h-full object-cover opacity-30 scale-110" id="hero-bg">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-b from-[#032219] via-transparent to-[#032219]"></div>
+            </div>
+
+            <div class="relative z-10 text-center px-4">
+                <div class="text-split-wrap mb-4">
+                    <span class="text-split text-[var(--c-gold)] text-xs uppercase tracking-[0.6em]">Save The Date</span>
+                </div>
+                
+                <h1 class="text-[12vw] leading-[0.85] font-serif text-[var(--c-text)] mix-blend-overlay">
+                    <div class="text-split-wrap"><span class="text-split">MATEI</span></div>
+                    <div class="text-split-wrap py-2"><span class="text-split font-art text-[8vw] text-[var(--c-gold)] opacity-80">& Diana</span></div>
+                    <div class="text-split-wrap"><span class="text-split">IONESCU</span></div>
+                </h1>
+
+                <div class="mt-12">
+                    <div class="text-split-wrap">
+                        <span class="text-split text-sm uppercase tracking-widest text-[var(--c-dim)] border border-[var(--c-gold)] px-6 py-3 rounded-full">
+                            24 . 08 . 2025 • Palatul Snagov
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="intro" class="py-32 px-6 md:px-24 relative">
+            <div class="absolute left-6 md:left-24 top-0 w-[1px] h-32 bg-[var(--c-gold)] opacity-30"></div>
+
+            <div class="max-w-4xl mx-auto text-center md:text-left">
+                <p class="text-2xl md:text-4xl leading-[1.6] font-serif text-[var(--c-text)] opacity-80 reveal-text-scroll">
+                    "Iubirea este singurul aur care nu își pierde strălucirea. După 7 ani de călătorii, vise și cafele împărtășite, suntem gata să scriem cel mai frumos capitol: <span class="text-[var(--c-gold)] italic font-art text-5xl">Eternitatea</span>."
+                </p>
+            </div>
+        </section>
+
+
+        <section id="couple" class="py-20 relative">
+            <div class="container mx-auto px-6">
+                
+                <div class="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20">
+                    
+                    <div class="relative w-full md:w-[400px] group hover-trigger">
+                        <div class="img-reveal-wrap aspect-[3/4] clip-arch border border-[var(--c-gold)] p-2">
+                            <div class="w-full h-full overflow-hidden rounded-[140px_140px_0_0] relative">
+                                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="img-reveal grayscale group-hover:grayscale-0 transition duration-1000">
+                                <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#032219] to-transparent opacity-80"></div>
+                                <h3 class="absolute bottom-6 left-0 w-full text-center font-serif text-4xl text-[var(--c-gold)]">Matei</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-[var(--c-gold)] text-6xl font-serif opacity-50">
+                        ✦
+                    </div>
+
+                    <div class="relative w-full md:w-[400px] group hover-trigger">
+                        <div class="img-reveal-wrap aspect-[3/4] clip-arch border border-[var(--c-gold)] p-2">
+                            <div class="w-full h-full overflow-hidden rounded-[140px_140px_0_0] relative">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800" class="img-reveal grayscale group-hover:grayscale-0 transition duration-1000">
+                                <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#032219] to-transparent opacity-80"></div>
+                                <h3 class="absolute bottom-6 left-0 w-full text-center font-serif text-4xl text-[var(--c-gold)]">Diana</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <section id="events" class="py-32 px-6 md:px-24 bg-[#063d2d] relative">
+            <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#D6BC85 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                
+                <div class="group border border-[var(--c-gold)]/20 p-10 hover:bg-[#032219] transition duration-500 hover-trigger">
+                    <span class="text-[var(--c-gold)] font-serif text-5xl block mb-6">01</span>
+                    <h3 class="text-2xl font-serif mb-4 text-white">Cununia</h3>
+                    <p class="text-[var(--c-dim)] text-sm leading-relaxed mb-8">
+                        Un moment intim și sacru, desfășurat în capela istorică a palatului.
+                    </p>
+                    <div class="flex justify-between items-center text-xs uppercase tracking-widest text-[var(--c-gold)] border-t border-white/10 pt-4">
+                        <span>16:00</span>
+                        <span>Capela</span>
+                    </div>
+                </div>
+
+                <div class="group border border-[var(--c-gold)]/20 p-10 hover:bg-[#032219] transition duration-500 hover-trigger scale-105 bg-[#032219] shadow-2xl border-[var(--c-gold)]/50">
+                    <span class="text-[var(--c-gold)] font-serif text-5xl block mb-6">02</span>
+                    <h3 class="text-2xl font-serif mb-4 text-white">Dineul</h3>
+                    <p class="text-[var(--c-dim)] text-sm leading-relaxed mb-8">
+                        O experiență culinară rafinată sub candelabrele de cristal.
+                    </p>
+                    <div class="flex justify-between items-center text-xs uppercase tracking-widest text-[var(--c-gold)] border-t border-white/10 pt-4">
+                        <span>19:00</span>
+                        <span>Sala Mare</span>
+                    </div>
+                </div>
+
+                <div class="group border border-[var(--c-gold)]/20 p-10 hover:bg-[#032219] transition duration-500 hover-trigger">
+                    <span class="text-[var(--c-gold)] font-serif text-5xl block mb-6">03</span>
+                    <h3 class="text-2xl font-serif mb-4 text-white">Party</h3>
+                    <p class="text-[var(--c-dim)] text-sm leading-relaxed mb-8">
+                        Muzică live, dans și cocktailuri semnătură până în zori.
+                    </p>
+                    <div class="flex justify-between items-center text-xs uppercase tracking-widest text-[var(--c-gold)] border-t border-white/10 pt-4">
+                        <span>22:00</span>
+                        <span>Terasă</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section class="py-32 overflow-hidden">
+            <div class="mb-16 px-6 md:px-24">
+                <span class="text-xs uppercase tracking-[0.4em] text-[var(--c-gold)]">Momente</span>
+                <h2 class="text-5xl font-serif mt-2">Galeria Foto</h2>
+            </div>
+
+            <div class="flex gap-10 px-6 md:px-24 w-max" id="galleryTrack">
+                <div class="w-[300px] md:w-[450px] aspect-[4/5] img-reveal-wrap hover-trigger">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800" class="img-reveal grayscale hover:grayscale-0">
+                </div>
+                <div class="w-[300px] md:w-[450px] aspect-[4/5] img-reveal-wrap hover-trigger mt-20">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=800" class="img-reveal grayscale hover:grayscale-0">
+                </div>
+                <div class="w-[300px] md:w-[450px] aspect-[4/5] img-reveal-wrap hover-trigger">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800" class="img-reveal grayscale hover:grayscale-0">
+                </div>
+                <div class="w-[300px] md:w-[450px] aspect-[4/5] img-reveal-wrap hover-trigger mt-20">
+                    <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=800" class="img-reveal grayscale hover:grayscale-0">
+                </div>
+            </div>
+        </section>
+
+
+        <section class="py-32 flex justify-center px-6 border-t border-white/5">
+            <div class="w-full max-w-2xl text-center">
+                <span class="text-[var(--c-gold)] text-6xl mb-6 block">❦</span>
+                <h2 class="text-6xl font-serif mb-16">Confirmare</h2>
+
+                <form class="text-left space-y-12">
+                    <div class="group">
+                        <label class="text-[var(--c-gold)] text-xs uppercase tracking-widest mb-2 block">Nume Complet</label>
+                        <input type="text" class="input-emerald hover-trigger" placeholder="Introduceți numele..." required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <div class="group">
+                            <label class="text-[var(--c-gold)] text-xs uppercase tracking-widest mb-2 block">Oaspeți</label>
+                            <select class="input-emerald hover-trigger cursor-pointer">
+                                <option class="bg-[#032219]">1 Persoană</option>
+                                <option class="bg-[#032219]">2 Persoane</option>
+                            </select>
+                        </div>
+                        <div class="group">
+                            <label class="text-[var(--c-gold)] text-xs uppercase tracking-widest mb-2 block">Răspuns</label>
+                            <select class="input-emerald hover-trigger cursor-pointer">
+                                <option class="bg-[#032219]">Voi fi prezent</option>
+                                <option class="bg-[#032219]">Nu pot ajunge</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-10">
+                        <button class="btn-gold hover-trigger">Trimite Răspunsul</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <footer class="py-10 text-center text-[var(--c-dim)] text-xs uppercase tracking-[0.3em] border-t border-white/5">
+            © 2025 Emerald Cinema.
+        </footer>
+
+    </main>
+
+
+    <script>
+        // A. LOAD ANIMATION
+        window.addEventListener('load', () => {
+            const shutterTop = document.querySelector('.shutter-top');
+            const shutterBottom = document.querySelector('.shutter-bottom');
+            const content = document.querySelector('.loader-content');
+
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+                initAnimations();
+            }, 1000);
+        });
+
+        // B. SMOOTH SCROLL
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true
+        });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+
+        // C. CANVAS GOLD DUST (TRAIL)
+        const canvas = document.getElementById('trailCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x; this.y = y;
+                this.size = Math.random() * 2;
+                this.life = 1; this.decay = 0.02;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                this.life -= this.decay;
+                this.size -= 0.05;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(214, 188, 133, ${this.life})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            for(let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if(particles[i].life <= 0 || particles[i].size <= 0) {
+                    particles.splice(i, 1); i--;
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        window.addEventListener('mousemove', (e) => {
+            // Add particles on move
+            for(let i=0; i<3; i++) particles.push(new Particle(e.clientX, e.clientY));
+        });
+
+
+        // D. GSAP ANIMATIONS
+        gsap.registerPlugin(ScrollTrigger);
+
+        function initAnimations() {
+            
+            // 1. Hero Text Split Reveal
+            const splits = document.querySelectorAll('.text-split');
+            gsap.to(splits, {
+                y: 0,
+                duration: 1.5,
+                stagger: 0.1,
+                ease: 'power4.out',
+                delay: 0.5
+            });
+
+            // 2. Parallax Hero Bg
+            gsap.to('#hero-bg', {
+                yPercent: 20,
+                scale: 1,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: 'body',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            // 3. Image Reveal on Scroll
+            const imgReveals = document.querySelectorAll('.img-reveal');
+            imgReveals.forEach(img => {
+                ScrollTrigger.create({
+                    trigger: img,
+                    start: 'top 80%',
+                    onEnter: () => img.parentElement.classList.add('is-visible')
+                });
+            });
+
+            // 4. Horizontal Scroll Gallery
+            const gallery = document.getElementById('galleryTrack');
+            gsap.to(gallery, {
+                x: () => -(gallery.scrollWidth - window.innerWidth + 100),
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: gallery.parentElement,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        }
+
+        // E. CUSTOM CURSOR
+        const cursor = document.querySelector('.cursor-outline');
+        const dot = document.querySelector('.cursor-main');
+        
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            gsap.to(cursor, { x: e.clientX - 25, y: e.clientY - 25, duration: 0.2 });
+        });
+
+        document.querySelectorAll('.hover-trigger').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hover-active'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hover-active'));
+        });
+
+    </script>
+</body>
+</html>

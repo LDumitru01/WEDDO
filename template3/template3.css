@@ -1,0 +1,118 @@
+/* template2.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap');
+
+:root {
+    /* --- PALETA DE CULORI EDITORIALĂ --- */
+    /* Primary: Verde Măslină Închis (Text, Accente) */
+    --color-primary: 47, 62, 70; 
+    
+    /* Accent: Auriu/Cupru șters (Elemente fine) */
+    --color-accent: 202, 164, 114;
+    
+    /* Background: Alb Crem (Nu alb pur, e prea dur) */
+    --color-bg: 253, 252, 246;
+    
+    /* Secondary Background: Un gri foarte fin pentru secțiuni */
+    --color-bg-alt: 245, 243, 237;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: rgb(var(--color-bg));
+    color: rgb(var(--color-primary));
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, .font-serif {
+    font-family: 'Playfair Display', serif;
+}
+
+/* --- ANIMAȚII SENIOR LEVEL --- */
+
+/* 1. Imagine care se dezvăluie (Curtain Effect) */
+.reveal-img-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.reveal-img-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgb(var(--color-bg));
+    transform: translateY(0);
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+    z-index: 2;
+}
+
+.reveal-img-wrapper.active::after {
+    transform: translateY(-100%);
+}
+
+.reveal-img-wrapper img {
+    transform: scale(1.15);
+    transition: transform 1.5s ease-out;
+}
+
+.reveal-img-wrapper.active img {
+    transform: scale(1);
+}
+
+/* 2. Text care urcă (Staggered) */
+.fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-up.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 3. Linie decorativă care se desenează */
+.draw-line {
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+.draw-line.active {
+    width: 100px; /* Sau valoarea dorită */
+}
+
+/* Stiluri specifice Formularului */
+.input-underlined {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(var(--color-primary), 0.3);
+    padding: 1rem 0;
+    width: 100%;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: rgb(var(--color-primary));
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-underlined:focus {
+    border-color: rgb(var(--color-accent));
+}
+
+.btn-editorial {
+    background: rgb(var(--color-primary));
+    color: rgb(var(--color-bg));
+    padding: 1rem 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    transition: all 0.4s ease;
+    border: 1px solid rgb(var(--color-primary));
+}
+
+.btn-editorial:hover {
+    background: transparent;
+    color: rgb(var(--color-primary));
+}

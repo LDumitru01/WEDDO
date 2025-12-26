@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ana & Mihai | Nunta Noastră</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --c-cream: #F9F7F2;        
+            --c-sage: #8A9A85;         
+            --c-sage-dark: #5F6F5B;    
+            --c-gold: #D4AF37;         
+            --c-blush: #E8D0D0;        
+            --c-text: #2C2C2C;         
+            
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--c-cream);
+            color: var(--c-text);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: var(--font-serif); }
+        .italic-accent { font-style: italic; font-weight: 300; }
+
+        /* === HERO SECTION === */
+        .hero-bg {
+            position: absolute; inset: 0; z-index: -1;
+            background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+            filter: brightness(0.6) sepia(0.2); 
+        }
+        
+        /* === PORTRAIT FRAME (NOU) === */
+        .portrait-frame {
+            position: relative;
+            z-index: 1;
+        }
+        .portrait-frame::after {
+            content: ''; position: absolute; 
+            top: 20px; left: 20px; right: -20px; bottom: -20px;
+            border: 1px solid var(--c-gold);
+            z-index: -1; transition: transform 0.5s ease;
+        }
+        .portrait-container:hover .portrait-frame::after {
+            transform: translate(-10px, -10px);
+        }
+
+        /* === TIMELINE === */
+        .timeline-line {
+            position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--c-gold), transparent);
+            transform: translateX(-50%);
+        }
+        
+        /* === UI ELEMENTS === */
+        .color-swatch {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 2px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: inline-block; margin: 0 5px;
+        }
+
+        .input-elegant {
+            width: 100%; background: transparent; border: none;
+            border-bottom: 1px solid #ccc; padding: 15px 0;
+            font-family: var(--font-serif); font-size: 1.2rem;
+            outline: none; transition: border-color 0.3s;
+        }
+        .input-elegant:focus { border-bottom-color: var(--c-gold); }
+
+        .btn-gold {
+            display: inline-block; padding: 15px 40px;
+            border: 1px solid var(--c-gold); color: var(--c-text);
+            text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;
+            transition: all 0.4s ease; position: relative; overflow: hidden;
+            background: transparent; cursor: pointer;
+        }
+        .btn-gold::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%;
+            background: var(--c-gold); transition: width 0.4s ease; z-index: -1;
+        }
+        .btn-gold:hover { color: white; border-color: var(--c-gold); }
+        .btn-gold:hover::before { width: 100%; }
+
+        .reveal-up { opacity: 0; transform: translateY(30px); }
+        
+        @media (max-width: 768px) {
+            .timeline-line { left: 20px; }
+            .portrait-frame::after { top: 10px; left: 10px; right: -10px; bottom: -10px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="relative h-screen w-full flex flex-col justify-center items-center text-center text-white overflow-hidden">
+        <div class="hero-bg parallax-bg"></div>
+        
+        <div class="relative z-10 p-6">
+            <p class="text-sm md:text-base uppercase tracking-[0.4em] mb-6 reveal-hero">Ne Căsătorim</p>
+            
+            <h1 class="text-6xl md:text-9xl mb-4 leading-none reveal-hero">
+                Ana <span class="italic-text text-[var(--c-gold)] font-light">&</span> Mihai
+            </h1>
+            
+            <p class="text-xl md:text-2xl font-light italic-accent mb-12 reveal-hero">
+                20 Iulie 2026
+            </p>
+            
+            <button onclick="scrollToSection('#couple')" class="btn-gold text-white border-white hover:border-white reveal-hero">
+                Deschide Invitația
+            </button>
+        </div>
+
+        <div class="absolute bottom-10 animate-bounce opacity-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+        </div>
+    </header>
+
+
+    <section id="couple" class="py-32 px-6 bg-white relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-24 reveal-scroll">
+                <span class="text-[var(--c-gold)] text-xs uppercase tracking-[0.3em]">Protagoniștii</span>
+                <h2 class="text-4xl md:text-5xl mt-4 text-[var(--c-sage-dark)]">Mirele & Mireasa</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-32">
+                
+                <div class="portrait-container flex flex-col items-center text-center reveal-scroll">
+                    <div class="w-full max-w-sm aspect-[3/4] mb-10 portrait-frame">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700 ease-in-out">
+                    </div>
+                    <span class="text-[var(--c-gold)] uppercase tracking-widest text-xs mb-2">Mireasa</span>
+                    <h3 class="text-4xl mb-4">Ana Maria</h3>
+                    <p class="text-gray-600 leading-relaxed max-w-xs mx-auto">
+                        "O fire artistică, îndrăgostită de frumos și de lumina dimineții. Ea aduce culoarea în viața noastră de zi cu zi."
+                    </p>
+                </div>
+
+                <div class="portrait-container flex flex-col items-center text-center reveal-scroll md:mt-20">
+                    <div class="w-full max-w-sm aspect-[3/4] mb-10 portrait-frame">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700 ease-in-out">
+                    </div>
+                    <span class="text-[var(--c-gold)] uppercase tracking-widest text-xs mb-2">Mirele</span>
+                    <h3 class="text-4xl mb-4">Mihai Alexandru</h3>
+                    <p class="text-gray-600 leading-relaxed max-w-xs mx-auto">
+                        "Pragmatic, dar cu un suflet mare. El este ancora, liniștea și cel care transformă orice vis în plan realizabil."
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section id="story" class="py-32 px-6 relative overflow-hidden bg-[var(--c-cream)]">
+        <div class="max-w-4xl mx-auto relative">
+            <h2 class="text-4xl md:text-5xl text-center text-[var(--c-sage-dark)] mb-20 reveal-scroll">Povestea Noastră</h2>
+            
+            <div class="timeline-line"></div>
+
+            <div class="flex flex-col md:flex-row items-center mb-24 relative reveal-scroll">
+                <div class="md:w-1/2 md:pr-12 text-center md:text-right mb-6 md:mb-0 order-2 md:order-1">
+                    <span class="text-[var(--c-gold)] text-sm tracking-widest uppercase">2019 • Vama Veche</span>
+                    <h3 class="text-3xl mt-2 mb-2">Ne-am cunoscut</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">O seară de vară, o chitară și un răsărit care a schimbat totul.</p>
+                </div>
+                <div class="relative z-10 order-1 md:order-2 mb-6 md:mb-0">
+                    <div class="w-4 h-4 bg-[var(--c-gold)] rounded-full border-4 border-[var(--c-cream)]"></div>
+                </div>
+                <div class="md:w-1/2 md:pl-12 order-3">
+                    <img src="https://images.unsplash.com/photo-1516575150278-77136aed6920?w=600" class="w-full md:w-64 h-40 object-cover rounded-lg shadow-lg sepia-[.3]">
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center mb-24 relative reveal-scroll">
+                <div class="md:w-1/2 md:pr-12 order-3 md:order-1">
+                    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600" class="w-full md:w-64 h-40 object-cover rounded-lg shadow-lg ml-auto sepia-[.3]">
+                </div>
+                <div class="relative z-10 order-1 md:order-2 mb-6 md:mb-0">
+                    <div class="w-4 h-4 bg-[var(--c-gold)] rounded-full border-4 border-[var(--c-cream)]"></div>
+                </div>
+                <div class="md:w-1/2 md:pl-12 text-center md:text-left mb-6 md:mb-0 order-2 md:order-3">
+                    <span class="text-[var(--c-gold)] text-sm tracking-widest uppercase">2021 • Toscana</span>
+                    <h3 class="text-3xl mt-2 mb-2">Primul drum</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Am descoperit că iubim aceleași drumuri și aceleași destinații.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center relative reveal-scroll">
+                <div class="md:w-1/2 md:pr-12 text-center md:text-right mb-6 md:mb-0 order-2 md:order-1">
+                    <span class="text-[var(--c-gold)] text-sm tracking-widest uppercase">2024 • Brașov</span>
+                    <h3 class="text-3xl mt-2 mb-2">Marea Întrebare</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Un "DA" spus din toată inima, în vârful muntelui, printre nori.</p>
+                </div>
+                <div class="relative z-10 order-1 md:order-2 mb-6 md:mb-0">
+                    <div class="w-4 h-4 bg-[var(--c-gold)] rounded-full border-4 border-[var(--c-cream)]"></div>
+                </div>
+                <div class="md:w-1/2 md:pl-12 order-3">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600" class="w-full md:w-64 h-40 object-cover rounded-lg shadow-lg sepia-[.3]">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="py-32 px-6 bg-[#F4F1EA]">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-5xl mb-16 text-[var(--c-sage-dark)] reveal-scroll">Detalii Ziua Nunții</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+                <div class="p-10 border border-[#e0dad0] bg-white shadow-sm hover:shadow-md transition duration-500 reveal-scroll">
+                    <div class="text-4xl text-[var(--c-sage)] mb-4">⛪</div>
+                    <h3 class="text-3xl mb-4">Cununia Religioasă</h3>
+                    <p class="text-xl font-bold mb-2">Ora 16:00</p>
+                    <p class="text-gray-600 mb-6">Biserica "Sfântul Nicolae"</p>
+                    <a href="#" class="text-[var(--c-gold)] text-xs uppercase tracking-widest border-b border-[var(--c-gold)] pb-1">Vezi Hartă</a>
+                </div>
+
+                <div class="p-10 border border-[#e0dad0] bg-white shadow-sm hover:shadow-md transition duration-500 reveal-scroll">
+                    <div class="text-4xl text-[var(--c-sage)] mb-4">🥂</div>
+                    <h3 class="text-3xl mb-4">Petrecerea</h3>
+                    <p class="text-xl font-bold mb-2">Ora 19:00</p>
+                    <p class="text-gray-600 mb-6">Domeniul Manasia</p>
+                    <a href="#" class="text-[var(--c-gold)] text-xs uppercase tracking-widest border-b border-[var(--c-gold)] pb-1">Vezi Hartă</a>
+                </div>
+            </div>
+
+            <div class="reveal-scroll">
+                <h4 class="text-sm uppercase tracking-[0.2em] text-gray-500 mb-6">Dress Code: Black Tie Optional</h4>
+                <div class="flex justify-center items-center gap-4 mb-12">
+                    <span class="color-swatch" style="background: #E8D0D0;"></span> <span class="color-swatch" style="background: #8A9A85;"></span> <span class="color-swatch" style="background: #D4AF37;"></span> <span class="color-swatch" style="background: #F9F7F2;"></span> </div>
+                
+                <button class="btn-gold">Adaugă în Calendar</button>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="rsvp" class="py-32 px-6 relative bg-white">
+        <div class="max-w-xl mx-auto text-center relative z-10">
+            <span class="text-6xl text-[var(--c-sage)] block mb-4">❦</span>
+            <h2 class="text-5xl mb-6 text-[var(--c-sage-dark)]">R.S.V.P</h2>
+            <p class="text-gray-500 mb-12">Vă rugăm să confirmați prezența până la 1 Iunie 2026</p>
+
+            <form class="space-y-10 text-left bg-[var(--c-cream)] p-8 md:p-12 shadow-xl border border-gray-100 rounded-lg reveal-scroll">
+                <div>
+                    <label class="text-xs uppercase tracking-widest text-gray-400">Nume Complet</label>
+                    <input type="text" class="input-elegant" placeholder="Ex: Familia Popescu" required>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <label class="text-xs uppercase tracking-widest text-gray-400">Persoane</label>
+                        <select class="input-elegant">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs uppercase tracking-widest text-gray-400">Decizie</label>
+                        <select class="input-elegant">
+                            <option>Confirm</option>
+                            <option>Nu pot participa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs uppercase tracking-widest text-gray-400">Preferințe Meniu / Diete</label>
+                    <input type="text" class="input-elegant" placeholder="Ex: Vegetarian, Fără gluten...">
+                </div>
+
+                <div class="text-center pt-6">
+                    <button class="btn-gold w-full">Trimite cu Drag</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <footer class="py-24 px-6 bg-[var(--c-sage-dark)] text-[#F9F7F2] text-center relative overflow-hidden">
+        <canvas id="petalsCanvas" class="absolute inset-0 pointer-events-none opacity-20"></canvas>
+
+        <div class="relative z-10 max-w-2xl mx-auto reveal-scroll">
+            <p class="text-2xl md:text-3xl font-serif italic-accent leading-relaxed mb-12">
+                "Vă așteptăm cu inima deschisă să fiți parte din cea mai importantă zi a noastră. Fără voi, povestea nu ar fi completă."
+            </p>
+            
+            <div class="text-6xl font-serif mb-4">Ana & Mihai</div>
+            <div class="w-20 h-[1px] bg-[var(--c-gold)] mx-auto mb-4"></div>
+            <p class="text-sm uppercase tracking-widest opacity-70">20 Iulie 2026</p>
+        </div>
+    </footer>
+
+
+    <script>
+        // A. SMOOTH SCROLL
+        const lenis = new Lenis({ duration: 1.2, smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // B. ANIMATIONS
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Reveal
+        gsap.from(".reveal-hero", {
+            y: 50, opacity: 0, duration: 1.5, stagger: 0.2, ease: "power3.out", delay: 0.5
+        });
+
+        // Scroll Reveals
+        const revealElements = document.querySelectorAll(".reveal-scroll");
+        revealElements.forEach(el => {
+            gsap.from(el, {
+                y: 50, opacity: 0, duration: 1, ease: "power3.out",
+                scrollTrigger: { trigger: el, start: "top 85%" }
+            });
+        });
+
+        // Parallax Background Hero
+        gsap.to(".parallax-bg", {
+            yPercent: 30, ease: "none",
+            scrollTrigger: { trigger: "header", start: "top top", end: "bottom top", scrub: true }
+        });
+
+        function scrollToSection(id) {
+            lenis.scrollTo(id);
+        }
+
+        // C. PETALS ANIMATION (CANVAS)
+        const canvas = document.getElementById('petalsCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, petals = [];
+
+        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Petal {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 3 + 1;
+                this.speedY = Math.random() * 0.5 + 0.2;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.y -= this.speedY; 
+                this.x += Math.sin(this.y * 0.01) * 0.2; 
+                if (this.y < 0) { this.y = height; this.x = Math.random() * width; }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for(let i=0; i<60; i++) petals.push(new Petal());
+
+        function animatePetals() {
+            ctx.clearRect(0, 0, width, height);
+            petals.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animatePetals);
+        }
+        animatePetals();
+
+    </script>
+</body>
+</html>

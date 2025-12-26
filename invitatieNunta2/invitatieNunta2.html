@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Invitație Nuntă | Lukas & Ira</title>
+    <meta name="theme-color" content="#F9F5F0">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Great+Vibes&family=Pinyon+Script&family=Montserrat:wght@200;300;400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'wedding-bg': '#F9F5F0', // Crem-ul din poza ta
+                        'wedding-text': '#4A4A4A', // Gri închis elegant
+                        'wedding-gold': '#C5A059', // Auriu stins
+                        'wedding-line': '#D8D0C5', // Culoarea liniei separatoare
+                    },
+                    fontFamily: {
+                        'script': ['"Pinyon Script"', 'cursive'], // Pentru titluri mari ("Invitation")
+                        'serif': ['"Cormorant Garamond"', 'serif'], // Pentru text elegant
+                        'sans': ['"Montserrat"', 'sans-serif'], // Pentru butoane/detalii mici
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Ascundem scrollbar-ul standard dar păstrăm funcționalitatea */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #F9F5F0;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D8D0C5;
+            border-radius: 3px;
+        }
+
+        /* Preloader Styles */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #F9F5F0;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-out;
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal-element.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Linie verticală animată */
+        .draw-line {
+            height: 0;
+            transition: height 1.5s ease-out;
+        }
+
+        .draw-line.active {
+            height: 100%;
+        }
+
+        /* Efect pentru imagini */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+
+        .img-zoom {
+            transition: transform 1.5s ease;
+        }
+
+        .img-zoom:hover {
+            transform: scale(1.05);
+        }
+
+        /* Buton Muzică animat */
+        .music-playing .music-icon {
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .gallery-3d-section {
+            height: 400px;
+            perspective: 1000px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 50px 0;
+        }
+
+        .spinner {
+            width: 300px;
+            height: 200px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: spin 20s infinite linear;
+        }
+
+        .spinner:hover {
+            animation-play-state: paused;
+        }
+
+        .slide-3d {
+            position: absolute;
+            width: 300px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glow-color);
+        }
+
+        .slide-3d img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .s1 {
+            transform: rotateY(0deg) translateZ(350px);
+        }
+
+        .s2 {
+            transform: rotateY(60deg) translateZ(350px);
+        }
+
+        .s3 {
+            transform: rotateY(120deg) translateZ(350px);
+        }
+
+        .s4 {
+            transform: rotateY(180deg) translateZ(350px);
+        }
+
+        .s5 {
+            transform: rotateY(240deg) translateZ(350px);
+        }
+
+        .s6 {
+            transform: rotateY(300deg) translateZ(350px);
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotateY(0deg);
+            }
+
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#EFEBE6] text-wedding-text antialiased">
+
+    <div id="preloader">
+        <div class="text-center">
+            <h1 class="font-script text-6xl text-wedding-gold mb-2 animate-pulse-slow">L & I</h1>
+            <p class="font-sans text-xs uppercase tracking-[0.3em] text-gray-400">Loading...</p>
+        </div>
+    </div>
+
+    <audio id="wedding-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <main class="max-w-[480px] mx-auto bg-wedding-bg min-h-screen shadow-2xl relative overflow-hidden">
+
+        <header class="relative h-[65vh] w-full overflow-hidden rounded-b-[40px] shadow-sm">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1000&auto=format&fit=crop"
+                    alt="Miri"
+                    class="w-full h-full object-cover object-top opacity-90 animate-[pulse_10s_ease-in-out_infinite]">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-wedding-bg/90"></div>
+
+            <div class="absolute bottom-10 w-full text-center z-10">
+                <p class="font-serif italic text-white/90 text-xl tracking-wide mb-2 drop-shadow-md">Save the Date</p>
+                <h1 class="font-serif text-5xl text-white drop-shadow-md">24.08.2025</h1>
+            </div>
+        </header>
+
+        <section class="pt-12 pb-8 text-center px-6 relative z-20 -mt-6">
+            <div class="flex items-center justify-center gap-4 cursor-pointer group" id="music-toggle">
+                <span
+                    class="font-serif text-sm tracking-[0.15em] text-gray-500 uppercase group-hover:text-wedding-gold transition-colors">Pornește</span>
+
+                <div
+                    class="w-12 h-12 border border-wedding-text rounded-full flex items-center justify-center transition-all duration-500 hover:border-wedding-gold hover:scale-110 relative music-icon-container">
+                    <svg id="icon-play" class="w-4 h-4 text-wedding-text ml-1" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3l14 9-14 9V3z">
+                        </path>
+                    </svg>
+                    <svg id="icon-pause" class="w-4 h-4 text-wedding-gold hidden" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 9v6m4-6v6">
+                        </path>
+                    </svg>
+                </div>
+
+                <span
+                    class="font-serif text-sm tracking-[0.15em] text-gray-500 uppercase group-hover:text-wedding-gold transition-colors">Muzica</span>
+            </div>
+        </section>
+
+        <section class="px-8 text-center pb-16 reveal-element">
+            <h2 class="font-script text-[4.5rem] leading-none text-wedding-text mb-8 transform -rotate-2">Invitation
+            </h2>
+
+            <p class="font-sans text-xs uppercase tracking-[0.2em] text-gray-400 mb-4">Dragi rude și prieteni!</p>
+
+            <div class="w-px h-12 bg-wedding-gold/50 mx-auto mb-6"></div>
+
+            <p class="font-serif text-xl leading-relaxed text-gray-600 font-light">
+                Vă invităm să împărtășiți bucuria unui eveniment special pentru noi
+                și să deveniți parte din începutul istoriei noastre de familie!
+            </p>
+        </section>
+
+        <section class="py-16 px-6 bg-white/50 rounded-[3rem] mx-2 mb-4 reveal-element">
+            <h2 class="font-script text-[4rem] text-center text-wedding-text mb-12 leading-none">Timing</h2>
+
+            <div class="relative space-y-12">
+
+                <div class="flex items-stretch group">
+                    <div
+                        class="w-[25%] flex flex-col justify-center items-end pr-4 border-r border-wedding-line relative">
+                        <span
+                            class="font-script text-4xl text-wedding-text transform -rotate-12 origin-right block mt-2">15:30</span>
+                        <div
+                            class="absolute right-[-5px] top-1/2 w-2.5 h-2.5 bg-wedding-bg border border-wedding-gold rounded-full transform -translate-y-1/2">
+                        </div>
+                    </div>
+                    <div class="w-[75%] pl-6 flex flex-col justify-center text-left">
+                        <h3 class="font-serif text-lg uppercase tracking-widest text-wedding-text mb-1">Cununia
+                            Religioasă</h3>
+                        <p class="font-serif text-gray-500 italic font-light leading-snug">
+                            Rugăciune și binecuvântare<br>
+                            <span class="text-xs not-italic text-wedding-gold mt-1 block">Biserica Sf. Ioan</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-stretch group">
+                    <div
+                        class="w-[25%] flex flex-col justify-center items-end pr-4 border-r border-wedding-line relative">
+                        <span
+                            class="font-script text-4xl text-wedding-text transform -rotate-12 origin-right block mt-2">17:00</span>
+                        <div
+                            class="absolute right-[-5px] top-1/2 w-2.5 h-2.5 bg-wedding-bg border border-wedding-gold rounded-full transform -translate-y-1/2">
+                        </div>
+                    </div>
+                    <div class="w-[75%] pl-6 flex flex-col justify-center text-left">
+                        <h3 class="font-serif text-lg uppercase tracking-widest text-wedding-text mb-1">Ședința Foto
+                        </h3>
+                        <p class="font-serif text-gray-500 italic font-light leading-snug">
+                            Fotografii cu invitații în grădină
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-stretch group">
+                    <div
+                        class="w-[25%] flex flex-col justify-center items-end pr-4 border-r border-wedding-line relative">
+                        <span
+                            class="font-script text-4xl text-wedding-text transform -rotate-12 origin-right block mt-2">18:30</span>
+                        <div
+                            class="absolute right-[-5px] top-1/2 w-2.5 h-2.5 bg-wedding-bg border border-wedding-gold rounded-full transform -translate-y-1/2">
+                        </div>
+                    </div>
+                    <div class="w-[75%] pl-6 flex flex-col justify-center text-left">
+                        <h3 class="font-serif text-lg uppercase tracking-widest text-wedding-text mb-1">Partea Festivă
+                        </h3>
+                        <p class="font-serif text-gray-500 italic font-light leading-snug">
+                            Vom împărți prima noastră cină de familie împreună
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-stretch group">
+                    <div
+                        class="w-[25%] flex flex-col justify-center items-end pr-4 border-r border-wedding-line relative">
+                        <span
+                            class="font-script text-4xl text-wedding-text transform -rotate-12 origin-right block mt-2">22:00</span>
+                        <div
+                            class="absolute right-[-5px] top-1/2 w-2.5 h-2.5 bg-wedding-bg border border-wedding-gold rounded-full transform -translate-y-1/2">
+                        </div>
+                    </div>
+                    <div class="w-[75%] pl-6 flex flex-col justify-center text-left">
+                        <h3 class="font-serif text-lg uppercase tracking-widest text-wedding-text mb-1">Tortul</h3>
+                        <p class="font-serif text-gray-500 italic font-light leading-snug">
+                            Momentul dulce al serii
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="font-script text-4xl text-center mb-6">Momente Eterne</h2>
+            <div class="gallery-3d-section">
+                <div class="spinner">
+                    <div class="slide-3d s1"><img
+                            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600"></div>
+                    <div class="slide-3d s2"><img
+                            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600"></div>
+                    <div class="slide-3d s3"><img
+                            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600"></div>
+                    <div class="slide-3d s4"><img
+                            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600"></div>
+                    <div class="slide-3d s5"><img
+                            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600"></div>
+                    <div class="slide-3d s6"><img
+                            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 px-6 text-center">
+            <p class="font-sans text-xs uppercase tracking-widest text-gray-500 mb-8">Până la eveniment au mai rămas:
+            </p>
+
+            <div class="flex justify-center gap-4 text-wedding-text reveal-element">
+                <div class="flex flex-col items-center">
+                    <div
+                        class="w-16 h-16 border border-gray-300 rounded-full flex items-center justify-center bg-white shadow-sm mb-2">
+                        <span id="days" class="font-serif text-2xl font-bold">00</span>
+                    </div>
+                    <span class="text-[10px] uppercase tracking-wider text-gray-400">Zile</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div
+                        class="w-16 h-16 border border-gray-300 rounded-full flex items-center justify-center bg-white shadow-sm mb-2">
+                        <span id="hours" class="font-serif text-2xl font-bold">00</span>
+                    </div>
+                    <span class="text-[10px] uppercase tracking-wider text-gray-400">Ore</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div
+                        class="w-16 h-16 border border-gray-300 rounded-full flex items-center justify-center bg-white shadow-sm mb-2">
+                        <span id="minutes" class="font-serif text-2xl font-bold">00</span>
+                    </div>
+                    <span class="text-[10px] uppercase tracking-wider text-gray-400">Min</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 px-8 bg-white mx-4 rounded-2xl shadow-soft reveal-element">
+            <h3 class="font-script text-4xl text-center mb-6">Dress Code</h3>
+            <p class="text-center font-serif text-gray-600 mb-6 italic">Black Tie & Pastel Colors</p>
+
+            <div class="flex justify-center gap-4 mb-2">
+                <div
+                    class="w-10 h-16 bg-[#2C2C2C] rounded-full shadow-md transform hover:-translate-y-2 transition-transform duration-300">
+                </div>
+                <div
+                    class="w-10 h-16 bg-[#E5D3B3] rounded-full shadow-md transform hover:-translate-y-2 transition-transform duration-300 delay-75">
+                </div>
+                <div
+                    class="w-10 h-16 bg-[#D4AF37] rounded-full shadow-md transform hover:-translate-y-2 transition-transform duration-300 delay-100">
+                </div>
+                <div
+                    class="w-10 h-16 bg-[#A8B5A5] rounded-full shadow-md transform hover:-translate-y-2 transition-transform duration-300 delay-150">
+                </div>
+            </div>
+            <p class="text-center text-[10px] text-gray-400 uppercase tracking-widest mt-4">Vă rugăm să evitați albul
+            </p>
+        </section>
+
+        <section class="py-16 px-6 text-center reveal-element">
+            <h3 class="font-script text-4xl mb-6">Locația</h3>
+            <div class="bg-white p-2 rounded-2xl shadow-lg inline-block w-full">
+                <div class="relative w-full h-64 rounded-xl overflow-hidden group cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&q=80&w=800"
+                        class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                        alt="Map">
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <div
+                            class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                            <i class="fas fa-map-marker-alt text-wedding-gold text-xl"></i>
+                        </div>
+                        <span
+                            class="mt-2 bg-white/90 px-3 py-1 rounded text-xs uppercase tracking-widest shadow-sm">Navighează</span>
+                    </div>
+                </div>
+            </div>
+            <p class="font-serif text-xl mt-6">Chateau Vartely</p>
+            <p class="font-sans text-sm text-gray-500 font-light">Strada Eliberării 170, Orhei</p>
+        </section>
+
+        <section class="py-20 px-6 bg-wedding-text text-wedding-bg rounded-t-[3rem] relative mt-10 reveal-element">
+            <div
+                class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-wedding-gold w-16 h-16 rounded-full flex items-center justify-center border-4 border-wedding-bg">
+                <i class="fas fa-envelope text-white text-2xl"></i>
+            </div>
+
+            <h2 class="font-script text-[4rem] text-center mb-2 mt-4 text-wedding-gold">R.S.V.P</h2>
+            <p class="text-center text-gray-400 text-xs uppercase tracking-widest mb-10">Confirmă prezența până la 1
+                Iulie</p>
+
+            <form id="rsvp-form" class="space-y-6">
+                <div class="group">
+                    <label
+                        class="block text-xs uppercase tracking-widest text-wedding-gold mb-2 group-focus-within:text-white transition-colors">Nume
+                        și Prenume</label>
+                    <input type="text"
+                        class="w-full bg-transparent border-b border-gray-600 py-2 text-white focus:outline-none focus:border-wedding-gold transition-colors text-lg font-serif"
+                        placeholder="Ex: Popescu Ion" required>
+                </div>
+
+                <div class="flex gap-4 pt-4">
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="attend" value="yes" class="peer hidden" checked>
+                        <div
+                            class="border border-gray-600 rounded-lg p-4 text-center peer-checked:border-wedding-gold peer-checked:bg-wedding-gold/10 transition-all">
+                            <i class="fas fa-check mb-2 text-xl block"></i>
+                            <span class="text-xs uppercase tracking-widest">Particip</span>
+                        </div>
+                    </label>
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="attend" value="no" class="peer hidden">
+                        <div
+                            class="border border-gray-600 rounded-lg p-4 text-center peer-checked:border-red-400 peer-checked:text-red-400 transition-all">
+                            <i class="fas fa-times mb-2 text-xl block"></i>
+                            <span class="text-xs uppercase tracking-widest">Nu Pot</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="pt-4">
+                    <label class="block text-xs uppercase tracking-widest text-wedding-gold mb-2">Preferințe
+                        Meniu</label>
+                    <select
+                        class="w-full bg-[#3D3D3D] border-none rounded-lg py-3 px-4 text-white focus:ring-1 focus:ring-wedding-gold">
+                        <option>Meniu Standard</option>
+                        <option>Vegetarian</option>
+                        <option>Meniu Copii</option>
+                    </select>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-wedding-gold text-white py-4 rounded-full font-sans uppercase tracking-[0.2em] text-xs font-bold mt-8 hover:bg-[#b08d48] transition-colors shadow-lg active:scale-95 transform duration-150">
+                    Trimite Răspunsul
+                </button>
+            </form>
+        </section>
+
+        <footer class="bg-[#1a1a1a] text-center py-12 pb-20">
+            <h2 class="font-script text-4xl text-gray-500 mb-4">Lukas & Ira</h2>
+            <p class="text-[10px] text-gray-600 uppercase tracking-widest">Așteptăm cu nerăbdare!</p>
+            <div class="mt-8">
+                <a href="#" class="text-gray-600 hover:text-wedding-gold mx-2 transition-colors"><i
+                        class="fab fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-600 hover:text-wedding-gold mx-2 transition-colors"><i
+                        class="fab fa-whatsapp text-xl"></i></a>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // 1. PRELOADER
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 800);
+            }, 1500);
+        });
+
+        // 2. SCROLL REVEAL ANIMATION
+        const observerOptions = {
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-element').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 3. MUSIC PLAYER LOGIC
+        const musicBtn = document.getElementById('music-toggle');
+        const audio = document.getElementById('wedding-music');
+        const iconPlay = document.getElementById('icon-play');
+        const iconPause = document.getElementById('icon-pause');
+        const iconContainer = document.querySelector('.music-icon-container');
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                audio.play();
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                iconContainer.classList.add('animate-[spin_4s_linear_infinite]');
+                isPlaying = true;
+            } else {
+                audio.pause();
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                iconContainer.classList.remove('animate-[spin_4s_linear_infinite]');
+                isPlaying = false;
+            }
+        });
+
+        // 4. COUNTDOWN TIMER
+        const weddingDate = new Date("Aug 24, 2025 15:30:00").getTime();
+
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+        }, 1000);
+
+        // 5. FORM HANDLER
+        document.getElementById('rsvp-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const originalText = btn.innerText;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Se trimite...';
+
+            setTimeout(() => {
+                btn.classList.remove('bg-wedding-gold');
+                btn.classList.add('bg-green-600');
+                btn.innerHTML = '<i class="fas fa-check"></i> Confirmat!';
+
+                // Reset after 3 seconds
+                setTimeout(() => {
+                    btn.classList.add('bg-wedding-gold');
+                    btn.classList.remove('bg-green-600');
+                    btn.innerText = originalText;
+                    this.reset();
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>

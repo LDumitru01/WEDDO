@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rose Gold | The Grand Wedding</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Monsieur+La+Doulaise&family=Tenor+Sans&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Palette: Burgundy & Rose Gold */
+            --bg-deep: #2A0A18;       /* Deep Burgundy */
+            --bg-light: #4A192C;      /* Lighter Mauve */
+            --rose-gold: #F0C4AA;     /* Rose Gold Text */
+            --gold-shine: #FFF0E0;    /* Bright Glow */
+            --card-bg: rgba(40, 10, 20, 0.75); /* Sticlă închisă */
+            --border: rgba(240, 196, 170, 0.3);
+        }
+
+        body {
+            background: radial-gradient(circle at center, var(--bg-light) 0%, var(--bg-deep) 100%);
+            color: #FFF5EA;
+            font-family: 'Tenor Sans', sans-serif;
+            overflow: hidden; /* Fără scrollbar */
+            height: 100vh; width: 100vw; margin: 0;
+        }
+
+        /* Font Classes */
+        .font-title { font-family: 'Italiana', serif; }
+        .font-script { font-family: 'Monsieur La Doulaise', cursive; }
+
+        /* SCENA 3D */
+        #viewport { position: fixed; inset: 0; perspective: 1200px; overflow: hidden; }
+        #world { position: absolute; width: 100%; height: 100%; transform-style: preserve-3d; }
+
+        /* PARTICULE */
+        #magicDust { position: fixed; inset: 0; z-index: -1; mix-blend-mode: screen; pointer-events: none; }
+
+        /* === DESIGN CARDURI GENERALE === */
+        .dream-card {
+            position: absolute;
+            left: 50%; top: 50%;
+            width: 700px; height: 550px;
+            margin-left: -350px; margin-top: -275px;
+            
+            transform-style: preserve-3d;
+            will-change: transform, opacity;
+            
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+            
+            /* Sticlă */
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 200px 200px 20px 20px; /* Formă de Vitraliu */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            padding: 40px;
+            
+            transition: border-color 0.5s, box-shadow 0.5s;
+        }
+
+        /* Card Galeria (Mai lat) */
+        .dream-card.wide {
+            width: 900px; margin-left: -450px;
+            border-radius: 40px;
+        }
+
+        /* CARD ACTIV (FOCUS & GLOW) */
+        .dream-card.in-focus {
+            border-color: var(--rose-gold);
+            box-shadow: 
+                0 0 60px rgba(240, 196, 170, 0.3), 
+                inset 0 0 40px rgba(240, 196, 170, 0.1);
+            z-index: 50;
+        }
+
+        /* === HERO SECTION SPECIFIC (Design-ul "Wow") === */
+        .hero-layout {
+            position: relative; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border: 1px solid rgba(240, 196, 170, 0.1); /* Ramă interioară */
+            border-radius: 180px 180px 0 0;
+        }
+        
+        .hero-names {
+            font-family: 'Italiana', serif;
+            font-size: 5rem; color: var(--rose-gold); line-height: 0.9;
+            text-shadow: 0 0 30px rgba(240, 196, 170, 0.4); z-index: 2;
+        }
+        
+        .hero-ampersand {
+            font-family: 'Monsieur La Doulaise', cursive;
+            font-size: 8rem; color: var(--gold-shine); opacity: 0.8;
+            margin: -30px 0; z-index: 1; text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+
+        .hero-date {
+            margin-top: 40px; font-size: 1.2rem; letter-spacing: 0.5em;
+            border-top: 1px solid var(--rose-gold); border-bottom: 1px solid var(--rose-gold);
+            padding: 10px 40px; background: rgba(0,0,0,0.2);
+        }
+
+        .glow-spot {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 400px; height: 400px; pointer-events: none; z-index: 0;
+            background: radial-gradient(circle, rgba(240, 196, 170, 0.15) 0%, transparent 70%);
+        }
+
+        /* === ALTE ELEMENTE UI === */
+        .romance-img {
+            width: 180px; height: 240px; object-fit: cover;
+            border-radius: 90px 90px 0 0; border: 2px solid var(--rose-gold); margin: 0 15px;
+        }
+
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+            width: 100%; height: 100%; padding-top: 20px;
+        }
+        .gallery-item {
+            width: 100%; height: 200px; object-fit: cover;
+            border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s;
+        }
+        .gallery-item:hover { transform: scale(1.05); border-color: var(--rose-gold); }
+
+        .btn-rose {
+            margin-top: 20px; padding: 12px 40px;
+            background: rgba(240, 196, 170, 0.1); border: 1px solid var(--rose-gold);
+            color: var(--rose-gold); font-family: 'Italiana', serif; letter-spacing: 2px;
+            text-transform: uppercase; border-radius: 30px; transition: 0.3s; cursor: pointer;
+        }
+        .btn-rose:hover { background: var(--rose-gold); color: #2A0A18; box-shadow: 0 0 20px var(--rose-gold); }
+
+        input, select {
+            width: 100%; background: rgba(0,0,0,0.3); border: none; border-bottom: 1px solid var(--border);
+            color: white; padding: 12px; margin-bottom: 15px; text-align: center; outline: none;
+        }
+        input:focus { border-bottom-color: var(--rose-gold); }
+
+        /* === MOBILE === */
+        @media (max-width: 768px) {
+            .dream-card, .dream-card.wide { 
+                width: 90vw; height: auto; min-height: 60vh;
+                margin-left: -45vw; margin-top: -30vh;
+                padding: 30px 15px; border-radius: 100px 100px 20px 20px;
+            }
+            .hero-names { font-size: 3.5rem; }
+            .hero-ampersand { font-size: 5rem; margin: -15px 0; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item { height: 120px; }
+            .romance-img { width: 130px; height: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="magicDust"></canvas>
+    
+    <div style="position:fixed; bottom:30px; width:100%; text-align:center; color:var(--rose-gold); font-size:10px; letter-spacing:3px; animation:pulse 2s infinite; z-index: 100;">
+        SCROLL PENTRU A ÎNCEPE
+    </div>
+
+    <div id="viewport">
+        <div id="world">
+
+            <div class="dream-card" data-z="0">
+                <div class="hero-layout">
+                    <p style="font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 20px;">Invitație de Nuntă</p>
+                    
+                    <div class="glow-spot"></div>
+
+                    <h1 class="hero-names">MATEI</h1>
+                    <div class="hero-ampersand">&</div>
+                    <h1 class="hero-names">ELENA</h1>
+
+                    <div class="hero-date">
+                        24 . 08 . 2025
+                    </div>
+                </div>
+            </div>
+
+            <div class="dream-card" data-z="-1200">
+                <h2 class="font-script" style="font-size: 4rem; color: var(--rose-gold); margin-bottom: 20px;">Povestea Noastră</h2>
+                <p class="text-lg leading-relaxed text-white/90 font-light px-4">
+                    "Ne-am întâlnit sub lumina stelelor și am decis să nu ne mai despărțim niciodată. Fiecare zi împreună este o promisiune respectată, un dans continuu al sufletelor noastre."
+                </p>
+                <div class="mt-8 text-3xl text-[var(--rose-gold)]">❦</div>
+            </div>
+
+            <div class="dream-card" data-z="-2400">
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400" class="romance-img">
+                        <h3 class="font-title text-xl mt-4 text-[var(--rose-gold)]">MATEI</h3>
+                    </div>
+                    <div class="font-script text-5xl text-white/30">&</div>
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" class="romance-img">
+                        <h3 class="font-title text-xl mt-4 text-[var(--rose-gold)]">ELENA</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dream-card" data-z="-3600">
+                <h2 class="font-title text-4xl mb-2 text-[var(--gold-shine)]">PALATUL SNAGOV</h2>
+                <p class="text-xs uppercase tracking-widest text-white/60 mb-8">Un loc de poveste</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left px-8 w-full">
+                    <div class="border-l-2 border-[var(--rose-gold)] pl-4">
+                        <h4 class="font-title text-xl text-[var(--rose-gold)]">Ceremonia</h4>
+                        <p class="text-sm mt-1 text-gray-300">Ora 16:00 • În Grădină</p>
+                    </div>
+                    <div class="border-l-2 border-[var(--rose-gold)] pl-4">
+                        <h4 class="font-title text-xl text-[var(--rose-gold)]">Petrecerea</h4>
+                        <p class="text-sm mt-1 text-gray-300">Ora 19:00 • Sala Regală</p>
+                    </div>
+                </div>
+                <button class="btn-rose">Vezi Harta</button>
+            </div>
+
+            <div class="dream-card wide" data-z="-4800">
+                <h2 class="font-title text-3xl text-[var(--gold-shine)] mb-2">Amintiri</h2>
+                <div class="gallery-grid">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=400" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=400" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=400" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400" class="gallery-item">
+                </div>
+            </div>
+
+            <div class="dream-card" data-z="-6000">
+                <h2 class="font-title text-3xl mb-4 text-[var(--rose-gold)]">Confirmare</h2>
+                <form class="w-full max-w-sm">
+                    <input type="text" placeholder="Numele Familiei" required>
+                    <div class="flex gap-4">
+                        <select><option>1 Persoană</option><option>2 Persoane</option></select>
+                        <select><option>Da, Vin</option><option>Nu pot</option></select>
+                    </div>
+                    <button type="button" class="btn-rose w-full mt-4">TRIMITE</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // === 1. PARTICULE MAGICE ===
+        const canvas = document.getElementById('magicDust');
+        const ctx = canvas.getContext('2d');
+        let w, h, particles = [];
+
+        function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Dust {
+            constructor() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.size = Math.random() * 2.5; 
+                const colors = ["#E6B89C", "#FFF0E0", "#FFD1DC"];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.vx = (Math.random() - 0.5) * 0.2; 
+                this.vy = (Math.random() - 0.5) * 0.2;
+                this.alpha = Math.random() * 0.8;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                this.alpha += (Math.random() - 0.5) * 0.01;
+                if(this.alpha < 0.2) this.alpha = 0.2; if(this.alpha > 0.8) this.alpha = 0.8;
+                
+                if(this.x < 0) this.x = w; if(this.x > w) this.x = 0;
+                if(this.y < 0) this.y = h; if(this.y > h) this.y = 0;
+            }
+            draw() {
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for(let i=0; i<100; i++) particles.push(new Dust());
+
+        function animateDust() {
+            ctx.clearRect(0, 0, w, h);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateDust);
+        }
+        animateDust();
+
+
+        // === 2. 3D SCROLL LOGIC ===
+        const world = document.getElementById('world');
+        const cards = document.querySelectorAll('.dream-card');
+        
+        let currentZ = 0;
+        let targetZ = 0;
+        const maxZ = 6500; 
+
+        // Scroll
+        window.addEventListener('wheel', (e) => {
+            targetZ += e.deltaY * 3;
+            targetZ = Math.max(0, Math.min(targetZ, maxZ));
+        });
+
+        // Touch
+        let touchY = 0;
+        window.addEventListener('touchstart', e => touchY = e.touches[0].clientY);
+        window.addEventListener('touchmove', e => {
+            let delta = touchY - e.touches[0].clientY;
+            targetZ += delta * 4;
+            targetZ = Math.max(0, Math.min(targetZ, maxZ));
+            touchY = e.touches[0].clientY;
+        });
+
+        function render() {
+            currentZ += (targetZ - currentZ) * 0.06; 
+
+            world.style.transform = `translateZ(${currentZ}px)`;
+
+            cards.forEach((card) => {
+                const z = parseInt(card.dataset.z);
+                const dist = z + currentZ;
+
+                let opacity = 0;
+                let pointerEvents = 'none';
+
+                // Logica de Vizibilitate (FĂRĂ BLUR)
+                if (dist > 700) { 
+                    opacity = 0; 
+                }
+                else if (dist > -700) { 
+                    // ACTIVE ZONE
+                    opacity = 1 - (Math.abs(dist) / 800); 
+                    
+                    if (opacity > 0.8) { 
+                        card.classList.add('in-focus');
+                        pointerEvents = 'auto';
+                        opacity = 1; 
+                    } else {
+                        card.classList.remove('in-focus');
+                    }
+                } 
+                else if (dist > -2500) { 
+                    opacity = 1 - (Math.abs(dist + 700) / 1800); 
+                    card.classList.remove('in-focus');
+                }
+
+                card.style.transform = `translateZ(${z}px)`;
+                card.style.opacity = opacity;
+                card.style.pointerEvents = pointerEvents;
+                card.style.display = opacity < 0.01 ? 'none' : 'flex';
+            });
+
+            requestAnimationFrame(render);
+        }
+        render();
+
+        // Pulse Animation
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; text-shadow: 0 0 10px #E6B89C; } }`;
+        document.head.appendChild(style);
+
+    </script>
+</body>
+</html>

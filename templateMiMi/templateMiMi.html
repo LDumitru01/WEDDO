@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wedding</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Optional: Google Fonts (can be removed; template still works) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f6f2ec;
+      --surface:#ffffff;
+      --text:#1f1a17;
+      --muted:#6f675f;
+      --accent:#571822; /* wine burgundy */
+      --gold:#645221;
+      --border:rgba(31,26,23,.12);
+      --overlay:rgba(31,26,23,.48);
+
+      --font-heading:"Playfair Display", serif;
+      --font-body:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      --container:1180px;
+      --radius:12px;
+      --shadow-soft:0 16px 40px rgba(0,0,0,.10);
+      --shadow-tight:0 10px 24px rgba(0,0,0,.12);
+
+      --section-y: 84px;
+    }
+
+    /* Theme presets (demo) */
+    .theme-dark{
+      --bg:#0f0d0c;
+      --surface:#141110;
+      --text:#f3ede6;
+      --muted:#b9ada2;
+      --accent:#7a2031;
+      --gold:#cdb57a;
+      --border:rgba(243,237,230,.12);
+      --overlay:rgba(0,0,0,.55);
+      --shadow-soft:0 18px 46px rgba(0,0,0,.35);
+      --shadow-tight:0 12px 30px rgba(0,0,0,.45);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Subtle grain (optional) */
+    .grain:before{
+      content:"";
+      position:absolute; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.13'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+      opacity:.22;
+      pointer-events:none;
+    }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.is-in { opacity: 1; transform: translateY(0); }
+
+    /* Lightbox */
+    .lb-backdrop{ background: rgba(0,0,0,.72); }
+    .no-scroll{ overflow: hidden; }
+
+    /* Focus ring */
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 8px; }
+
+    /* Card subtle border */
+    .soft-border{ border: 1px solid var(--border); }
+
+    /* Mobile RSVP bar safe spacing */
+    .safe-bottom { padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
+  </style>
+</head>
+
+<body class="antialiased">
+  <!-- ===== Theme / Demo Controls (can be hidden in production) ===== -->
+  <!-- <aside id="themePanel"
+         class="fixed z-[60] right-4 top-4 w-[320px] max-w-[calc(100%-2rem)]
+                bg-[var(--surface)] soft-border rounded-[var(--radius)] shadow-[var(--shadow-tight)]
+                p-4 hidden md:block">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <p class="text-sm font-semibold">Theme Settings (Demo)</p>
+        <p class="text-xs text-[var(--muted)] mt-0.5">Schimbă culorile; se salvează în browser.</p>
+      </div>
+      <button id="themePanelClose"
+              class="text-[var(--muted)] hover:text-[var(--text)] text-sm"
+              aria-label="Închide panelul">✕</button>
+    </div>
+
+    <div class="mt-4 grid grid-cols-2 gap-3">
+      <label class="text-xs">
+        <span class="block text-[var(--muted)] mb-1">Accent</span>
+        <input id="pickAccent" type="color" class="w-full h-9 rounded" />
+      </label>
+      <label class="text-xs">
+        <span class="block text-[var(--muted)] mb-1">Background</span>
+        <input id="pickBg" type="color" class="w-full h-9 rounded" />
+      </label>
+      <label class="text-xs col-span-2">
+        <span class="block text-[var(--muted)] mb-1">Overlay strength</span>
+        <input id="overlayRange" type="range" min="0.25" max="0.7" step="0.01" class="w-full" />
+      </label>
+    </div>
+
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <button id="toggleMode"
+              class="px-3 py-2 rounded-lg soft-border hover:shadow-[var(--shadow-soft)] transition text-sm">
+        Toggle Light/Dark
+      </button>
+      <button id="resetTheme"
+              class="px-3 py-2 rounded-lg bg-[var(--accent)] text-white text-sm hover:opacity-95 transition">
+        Reset
+      </button>
+    </div>
+
+    <div class="mt-4">
+      <p class="text-xs text-[var(--muted)] mb-2">Sections (Demo toggle)</p>
+      <div id="sectionToggles" class="grid grid-cols-2 gap-2"></div>
+    </div>
+  </aside> -->
+
+  <!-- Small handle to re-open panel -->
+  <button id="themePanelOpen"
+          class="fixed z-[60] right-4 top-4 md:hidden px-3 py-2 rounded-lg bg-[var(--surface)] soft-border shadow-[var(--shadow-tight)] text-sm">
+    Theme
+  </button>
+  <!-- ===== Header ===== -->
+  <header id="header"
+          class="sticky top-0 z-50 bg-[var(--bg)]/80 backdrop-blur supports-[backdrop-filter]:bg-[var(--bg)]/70">
+    <div class="max-w-[var(--container)] mx-auto px-6 py-4 flex items-center justify-between gap-4">
+      <a href="#top" class="flex items-baseline gap-2">
+        <span class="font-[var(--font-heading)] text-xl tracking-wide">Wedding</span>
+
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a class="hover:text-[var(--accent)] transition" href="#story">Poveste</a>
+        <a class="hover:text-[var(--accent)] transition" href="#experience">Experiență</a>
+        <a class="hover:text-[var(--accent)] transition" href="#program">Program</a>
+        <a class="hover:text-[var(--accent)] transition" href="#venue">Locație</a>
+        <a class="hover:text-[var(--accent)] transition" href="#gallery">Galerie</a>
+        <a class="hover:text-[var(--accent)] transition" href="#rsvp">RSVP</a>
+        <a class="hover:text-[var(--accent)] transition" href="#faq">Întrebări</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="#rsvp"
+           class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-lg
+                  bg-[var(--accent)] text-white text-sm hover:opacity-95 transition">
+          Confirmă prezența
+        </a>
+
+        <button id="mobileMenuBtn"
+                class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg soft-border bg-[var(--surface)]"
+                aria-label="Deschide meniul">
+          ☰
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="md:hidden hidden bg-[var(--surface)] soft-border">
+      <div class="max-w-[var(--container)] mx-auto px-6 py-4 flex flex-col gap-3 text-sm">
+        <a class="hover:text-[var(--accent)]" href="#story">Poveste</a>
+        <a class="hover:text-[var(--accent)]" href="#experience">Experiență</a>
+        <a class="hover:text-[var(--accent)]" href="#program">Program</a>
+        <a class="hover:text-[var(--accent)]" href="#venue">Locație</a>
+        <a class="hover:text-[var(--accent)]" href="#gallery">Galerie</a>
+        <a class="hover:text-[var(--accent)]" href="#rsvp">RSVP</a>
+        <a class="hover:text-[var(--accent)]" href="#faq">Întrebări</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ===== HERO ===== -->
+    <section data-section="hero" class="relative h-[92vh] min-h-[620px] overflow-hidden grain">
+      <!-- Replace with your real hero image -->
+      <img
+        class="absolute inset-0 w-full h-full object-cover"
+        src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=2400&q=80"
+        alt="Château hero" loading="lazy" />
+
+      <div class="absolute inset-0 bg-[var(--overlay)]"></div>
+
+      <div class="relative z-10 max-w-[var(--container)] mx-auto px-6 h-full flex items-center">
+        <div class="reveal">
+          <p class="text-[var(--gold)] uppercase tracking-[0.22em] text-xs sm:text-sm">
+            <span id="heroDate">19 Septembrie 2026</span> · <span id="heroPlace">Castel Mimi</span>
+          </p>
+
+          <h1 class="mt-4 font-[var(--font-heading)] text-white
+                     text-5xl sm:text-6xl md:text-7xl leading-[1.05] tracking-wide">
+            <span id="heroNames">Ana & Mihai</span>
+          </h1>
+
+          <p class="mt-5 text-white/90 max-w-[640px] text-base sm:text-lg">
+            O invitație gândită ca o experiență: calmă, elegantă, cu ritm editorial și detalii discrete.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a href="#rsvp"
+               class="inline-flex items-center justify-center px-7 py-3 rounded-[var(--radius)]
+                      bg-[var(--accent)] text-white text-sm sm:text-base hover:opacity-95 transition">
+              Confirmă prezența
+            </a>
+            <a href="#story"
+               class="inline-flex items-center justify-center px-7 py-3 rounded-[var(--radius)]
+                      bg-white/10 text-white soft-border border-white/20
+                      hover:bg-white/15 transition text-sm sm:text-base">
+              Vezi povestea
+            </a>
+          </div>
+
+          <div class="mt-10 flex items-center gap-3 text-white/80 text-sm">
+            <span class="w-10 h-[1px] bg-white/40"></span>
+            <span>Derulează pentru a descoperi detaliile</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Story ===== -->
+    <section data-section="story" id="story" class="py-[var(--section-y)]">
+      <div class="max-w-[var(--container)] mx-auto px-6 grid lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-6 reveal">
+          <p class="text-xs uppercase tracking-[0.22em] text-[var(--gold)]">Poveste</p>
+          <h2 class="mt-3 font-[var(--font-heading)] text-3xl sm:text-4xl leading-tight">
+            <span id="storyTitle">O promisiune scrisă în timp</span>
+          </h2>
+          <p class="mt-5 text-[var(--muted)] leading-relaxed" id="storyText">
+            Ne-am întâlnit într-o zi obișnuită, dar am recunoscut imediat ceva rar: liniște, încredere,
+            și sentimentul că acasă poate fi un om. Vă invităm să ne fiți martori.
+          </p>
+
+          <div class="mt-8 flex gap-3">
+            <div class="bg-[var(--surface)] soft-border rounded-[var(--radius)] p-4 shadow-[var(--shadow-soft)]">
+              <p class="text-xs text-[var(--muted)]">Ceremonie</p>
+              <p class="mt-1 font-semibold" id="ceremonyTime">15:30</p>
+            </div>
+            <div class="bg-[var(--surface)] soft-border rounded-[var(--radius)] p-4 shadow-[var(--shadow-soft)]">
+              <p class="text-xs text-[var(--muted)]">Recepție</p>
+              <p class="mt-1 font-semibold" id="receptionTime">18:00</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 reveal">
+          <div class="bg-[var(--surface)] soft-border rounded-[var(--radius)] overflow-hidden shadow-[var(--shadow-soft)]">
+            <img
+              class="w-full h-[360px] sm:h-[440px] object-cover"
+              src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=2400&q=60"
+              alt="Editorial image" loading="lazy" />
+          </div>
+          <p class="mt-3 text-xs text-[var(--muted)]">
+            Sugestie: înlocuiește imaginile cu arhitectură, vie, piatră, lumină caldă.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Experience / Feature Panels ===== -->
+    <section data-section="experience" id="experience" class="py-[var(--section-y)] bg-[var(--surface)] soft-border border-x-0">
+      <div class="max-w-[var(--container)] mx-auto px-6">
+        <div class="reveal">
+          <p class="text-xs uppercase tracking-[0.22em] text-[var(--gold)]">Experiență</p>
+          <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <h2 class="mt-3 font-[var(--font-heading)] text-3xl sm:text-4xl">
+              O zi cu ritm de castel
+            </h2>
+            <p class="text-[var(--muted)] max-w-[560px]">
+              Panouri curatoriate în stil editorial: discrete, aerisite, premium.
+            </p>
+          </div>
+        </div>
+
+        <div id="experienceCards" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+      </div>
+    </section>
+
+    <!-- ===== Program (timeline) ===== -->
+    <section data-section="program" id="program" class="py-[var(--section-y)]">
+      <div class="max-w-[var(--container)] mx-auto px-6">
+        <div class="reveal">
+          <p class="text-xs uppercase tracking-[0.22em] text-[var(--gold)]">Program</p>
+          <h2 class="mt-3 font-[var(--font-heading)] text-3xl sm:text-4xl">Programul zilei</h2>
+          <p class="mt-4 text-[var(--muted)] max-w-[720px]">
+            Pe mobil: timeline vertical. Pe desktop: grid aerisit. Ușor de editat din date.
+          </p>
+        </div>
+
+        <div id="programWrap" class="mt-10 grid lg:grid-cols-12 gap-10 items-start">
+          <!-- Timeline -->
+          <div class="lg:col-span-6 reveal">
+            <div class="relative pl-6">
+              <div class="absolute left-2 top-0 bottom-0 w-px bg-[var(--gold)]/50"></div>
+              <div id="timeline" class="space-y-7"></div>
+            </div>
+          </div>
+
+          <!-- Visual block -->
+          <div class="lg:col-span-6 reveal">
+            <div class="rounded-[var(--radius)] overflow-hidden shadow-[var(--shadow-soft)] soft-border bg-[var(--surface)]">
+              <img
+                class="w-full h-[360px] object-cover"
+                src="https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?auto=format&fit=crop&w=2400&q=60"
+                alt="Program visual" loading="lazy" />
+              <div class="p-5">
+                <p class="text-sm text-[var(--muted)]">
+                  Stil recomandat: imagini cu piatră, lumină caldă, detalii arhitecturale și natură.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop grid -->
+        <div class="mt-10 grid md:grid-cols-2 lg:grid-cols-4 gap-4" id="programGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===== Venue / Tabs (Day/Night + Zones) ===== -->
+    <section data-section="venue" id="venue" class="py-[var(--section-y)] bg-[var(--surface)] soft-border border-x-0">
+      <div class="max-w-[var(--container)] mx-auto px-6">
+        <div class="reveal">
+          <p class="text-xs uppercase tracking-[0.22em] text-[var(--gold)]">Locație</p>
+          <h2 class="mt-3 font-[var(--font-heading)] text-3xl sm:text-4xl">Spații și atmosferă</h2>
+          <p class="mt-4 text-[var(--muted)] max-w-[760px]">
+            Modul „Zi / Noapte” + zone. Același set de date, UI diferit. Perfect pentru un builder.
+          </p>
+        </div>
+
+        <div class="mt-10 grid lg:grid-cols-12 gap-8 items-start">
+          <div class="lg:col-span-5 reveal">
+            <!-- Day/Night tabs -->
+            <div class="inline-flex rounded-lg soft-border overflow-hidden bg-[var(--bg)]">
+              <button class="px-4 py-2 text-sm hover:bg-[var(--surface)] transition"
+                      data-mode="day" aria-label="Zi">Zi</button>
+              <button class="px-4 py-2 text-sm hover:bg-[var(--surface)] transition"
+                      data-mode="night" aria-label="Noapte">Noapte</button>
+            </div>
+
+            <!-- Zone tabs -->
+            <div id="zoneTabs" class="mt-4 flex flex-wrap gap-2"></div>
+
+            <div class="mt-5">
+              <h3 class="font-[var(--font-heading)] text-2xl" id="zoneTitle">Recepție</h3>
+              <p class="mt-3 text-[var(--muted)] leading-relaxed" id="zoneDesc">
+                Un spațiu cu lumină caldă, detalii rafinate și ritm calm – exact cât trebuie pentru o seară memorabilă.
+              </p>
+
+              <div class="mt-5 grid sm:grid-cols-2 gap-3">
+                <div class="p-4 rounded-[var(--radius)] bg-[var(--bg)] soft-border">
+                  <p class="text-xs text-[var(--muted)]">Adresă</p>
+                  <p class="mt-1 text-sm font-medium" id="venueAddress">Bulboaca, Moldova</p>
+                </div>
+                <div class="p-4 rounded-[var(--radius)] bg-[var(--bg)] soft-border">
+                  <p class="text-xs text-[var(--muted)]">Maps</p>
+                  <a class="mt-1 inline-block text-sm font-medium text-[var(--accent)] hover:underline"
+                     id="mapsLink" href="#" target="_blank" rel="noreferrer">
+                    Deschide locația
+                  </a>
+                </div>
+              </div>
+
+              <div class="mt-6">
+                <button id="copyLocation"
+                        class="px-4 py-2 rounded-lg bg-[var(--accent)] text-white text-sm hover:opacity-95 transition">
+                  Copiază locația
+                </button>
+                <span id="copyToast" class="ml-3 text-sm text-[var(--muted)] hidden">Copiat.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 reveal">
+            <div class="rounded-[var(--radius)] overflow-hidden shadow-[var(--shadow-soft)] soft-border bg-[var(--bg)]">
+              <img id="zoneImage"
+                   class="w-full h-[420px] object-cover"
+                   src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=2400&q=60"
+                   alt="Venue zone image" loading="lazy" />
+              <div class="p-5 flex items-center justify-between gap-4">
+                <p class="text-sm text-[var(--muted)]">
+                  Modul curent: <span class="font-semibold" id="modeLabel">Zi</span>
+                </p>
+                <span class="text-xs text-[var(--gold)] uppercase tracking-[0.22em]">Château mood</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== Gallery ===== -->
+    <section data-section="gallery" id="gallery" class="py-[var(--section-y)]">
+      <div class="max-w-[var(--container)] mx-auto px-6">
+        <div class="reveal">
+          <p class="text-xs uppercase tracking-[0.22em] text-[var(--gold)]">Galerie</p>
+          <h2 class="mt-3 font-[var(--font-heading)] text-3xl sm:text-4xl">Amintiri, lumină, detalii</h2>
+          <p class="mt-4 text-[var(--muted)] max-w-[740px]">
+            Grid performant + lightbox minimalist (fără librării).
+          </p>
+        </div>
+
+        <div id="galleryGrid" class="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+      </div>
+    </section>
+
+    <!-- ===== Testimonials ===== -->
+    <section data-section="testimonials" class="py-[var(--section-y)] bg-[var(--surface)] soft-border border-x-0">
+      <div class="max-w-[var(--container)] mx-auto px-6">
+        <div class="reveal">
+          <p class="text-xs uppercase tracking-[0.22em] text-[var(--gold)]">Mesaje</p>
+          <div class="flex items-end justify-between gap-4">
+            <h2 class="mt-3 font-[var(--font-heading)] text-3xl sm:text-4xl">Câteva cuvinte</h2>
+            <div class="hidden sm:flex gap-2">
+              <button id="tPrev" class="w-10 h-10 rounded-lg soft-border bg-[var(--bg)] hover:bg-[var(--surface)]">‹</button>
+              <button id="tNext" class="w-10 h-10 rounded-lg soft-border bg-[var(--bg)] hover:bg-[var(--surface)]">›</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10 reveal">
+          <div id="testimonialTrack"
+               class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2"
+               aria-label="Testimoniale">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== News / Updates ===== -->
+    <section data-section="news" class="py-[var(--section-y)]">
+      <div class="max-w-[var(--container)] mx-auto px-6">
+        <div class="reveal">
+          <p class="text-xs uppercase tracking-[0.22em] text-[var(--gold)]">Update</p>
+          <h2 class="mt-3 font-[var(--font-heading)] text-3xl sm:text-4xl">Detalii și anunțuri</h2>
+        </div>
+
+        <div id="newsGrid" class="mt-10 grid md:grid-cols-3 gap-4"></div>
+      </div>
+    </section>
+
+    <!-- ===== RSVP ===== -->
+    <section data-section="rsvp" id="rsvp" class="py-[var(--section-y)] bg-[var(--surface)] soft-border border-x-0">
+      <div class="max-w-[var(--container)] mx-auto px-6">
+        <div class="reveal">
+          <p class="text-xs uppercase tracking-[0.22em] text-[var(--gold)]">RSVP</p>
+          <h2 class="mt-3 font-[var(--font-heading)] text-3xl sm:text-4xl">Răspuns oficial</h2>
+          <p class="mt-4 text-[var(--muted)] max-w-[760px]">
+            Formular gândit ca moment, nu ca UI generic. Validare simplă inclusă (demo).
+          </p>
+        </div>
+
+        <div class="mt-10 grid lg:grid-cols-12 gap-8 items-start">
+          <div class="lg:col-span-5 reveal">
+            <div class="p-5 rounded-[var(--radius)] bg-[var(--bg)] soft-border">
+              <p class="text-sm text-[var(--muted)]">Notă:</p>
+              <p class="mt-2 text-sm leading-relaxed">
+                Acesta este un template. În producție, conectezi submit-ul la backend (email/DB) sau la un webhook.
+              </p>
+              <div class="mt-4 p-4 rounded-[var(--radius)] bg-[var(--surface)] soft-border">
+                <p class="text-xs text-[var(--muted)]">Dress code</p>
+                <p class="mt-1 font-medium" id="dressCode">Elegant · Wine tones</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 reveal">
+            <form id="rsvpForm" class="p-6 rounded-[var(--radius)] bg-[var(--bg)] soft-border">
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="text-sm font-medium" for="name">Nume complet</label>
+                  <input id="name" name="name" type="text" required
+                         class="mt-2 w-full px-4 py-3 rounded-lg bg-[var(--surface)] soft-border"
+                         placeholder="Ex: Maria Popescu" />
+                  <p class="mt-1 text-xs text-[var(--muted)]">Obligatoriu</p>
+                </div>
+
+                <div>
+                  <label class="text-sm font-medium" for="phone">Telefon</label>
+                  <input id="phone" name="phone" type="tel" required
+                         class="mt-2 w-full px-4 py-3 rounded-lg bg-[var(--surface)] soft-border"
+                         placeholder="+373..." />
+                  <p class="mt-1 text-xs text-[var(--muted)]">Obligatoriu</p>
+                </div>
+
+                <div>
+                  <label class="text-sm font-medium" for="guests">Număr persoane</label>
+                  <select id="guests" name="guests" class="mt-2 w-full px-4 py-3 rounded-lg bg-[var(--surface)] soft-border">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="text-sm font-medium" for="attend">Confirmare</label>
+                  <select id="attend" name="attend" class="mt-2 w-full px-4 py-3 rounded-lg bg-[var(--surface)] soft-border">
+                    <option value="yes">Da, cu drag</option>
+                    <option value="no">Nu pot participa</option>
+                  </select>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <label class="text-sm font-medium" for="menu">Preferințe meniu</label>
+                  <select id="menu" name="menu" class="mt-2 w-full px-4 py-3 rounded-lg bg-[var(--surface)] soft-border">
+                    <option value="standard">Standard</option>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="kids">Kids</option>
+                    <option value="other">Altceva (în mesaj)</option>
+                  </select>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <label class="text-sm font-medium" for="message">Mesaj (opțional)</label>
+                  <textarea id="message" name="message" rows="4"
+                            class="mt-2 w-full px-4 py-3 rounded-lg bg-[var(--surface)] soft-border"
+                            placeholder="Un gând pentru miri..."></textarea>
+                </div>
+              </div>
+
+              <div class="mt-5 flex flex-col sm:flex-row sm:items-center gap-3">
+                <button type="submit"
+                        class="px-6 py-3 rounded-lg bg-[var(--accent)] text-white hover:opacity-95 transition">
+                  Trimite RSVP
+                </button>
+                <p id="rsvpStatus" class="text-sm text-[var(--muted)]"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section data-section="faq" id="faq" class="py-[var(--section-y)]">
+      <div class="max-w-[var(--container)] mx-auto px-6">
+        <div class="reveal">
+          <p class="text-xs uppercase tracking-[0.22em] text-[var(--gold)]">Întrebări</p>
+          <h2 class="mt-3 font-[var(--font-heading)] text-3xl sm:text-4xl">FAQ</h2>
+        </div>
+
+        <div id="faqList" class="mt-10 space-y-3"></div>
+      </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer class="bg-[var(--surface)] soft-border">
+      <div class="max-w-[var(--container)] mx-auto px-6 py-12 grid md:grid-cols-12 gap-8">
+        <div class="md:col-span-5">
+          <p class="font-[var(--font-heading)] text-2xl">Ana & Mihai</p>
+          <p class="mt-3 text-[var(--muted)] max-w-[520px]">
+            Cu onoare și bucurie, vă așteptăm să ne fiți martori.
+          </p>
+        </div>
+
+        <div class="md:col-span-4">
+          <p class="text-sm font-semibold">Contact</p>
+          <ul class="mt-3 space-y-2 text-sm text-[var(--muted)]">
+            <li>☎ +373 00 000 000</li>
+            <li>✉ invite@wedding.md</li>
+            <li>📍 Bulboaca, Moldova</li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3">
+          <p class="text-sm font-semibold">Social</p>
+          <div class="mt-3 flex gap-2">
+            <a href="#" class="px-3 py-2 rounded-lg soft-border hover:bg-[var(--bg)] text-sm">Instagram</a>
+            <a href="#" class="px-3 py-2 rounded-lg soft-border hover:bg-[var(--bg)] text-sm">Facebook</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-[var(--border)]">
+        <div class="max-w-[var(--container)] mx-auto px-6 py-4 text-xs text-[var(--muted)] flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
+          <span>© <span id="year"></span> Château Wedding Template</span>
+          <span>Built for a wedding invitation builder.</span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ===== Mobile persistent RSVP bar ===== -->
+  <div class="md:hidden fixed left-0 right-0 bottom-0 z-50 safe-bottom">
+    <div class="mx-4 mb-4 rounded-[var(--radius)] bg-[var(--surface)] soft-border shadow-[var(--shadow-tight)] px-4 py-3 flex items-center justify-between gap-3">
+      <div class="min-w-0">
+        <p class="text-xs text-[var(--muted)]">RSVP</p>
+        <p class="text-sm font-semibold truncate">Confirmă prezența</p>
+      </div>
+      <a href="#rsvp" class="px-4 py-2 rounded-lg bg-[var(--accent)] text-white text-sm">Deschide</a>
+    </div>
+  </div>
+
+  <!-- ===== Lightbox Modal ===== -->
+  <div id="lightbox" class="fixed inset-0 z-[70] hidden items-center justify-center p-6">
+    <div class="absolute inset-0 lb-backdrop" aria-hidden="true"></div>
+    <div class="relative z-10 max-w-[1000px] w-full">
+      <button id="lbClose"
+              class="absolute -top-12 right-0 px-4 py-2 rounded-lg bg-white/10 text-white soft-border border-white/20 hover:bg-white/15"
+              aria-label="Închide lightbox">
+        Închide
+      </button>
+      <img id="lbImg" class="w-full max-h-[78vh] object-contain rounded-[var(--radius)] shadow-[var(--shadow-tight)]" alt="Imagine" />
+      <p id="lbCaption" class="mt-3 text-center text-sm text-white/80"></p>
+    </div>
+  </div>
+
+  <script src="templateMiMi.js"></script>
+</body>
+</html>

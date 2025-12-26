@@ -1,0 +1,198 @@
+/* template13.css */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Quicksand:wght@300;400;500&display=swap');
+
+:root {
+    /* --- CULORI CELESTIALE --- */
+    
+    /* 1. Fundalul (Cerul Nopții) */
+    --space-bg: 10, 15, 30; /* Dark Blue/Black */
+    
+    /* 2. Textul și Stelele (Auriu Pal) */
+    --star-gold: 245, 224, 170;
+    
+    /* 3. Accent Puternic (Auriu Metalic pentru Titluri) */
+    --gold-foil: 212, 175, 55;
+    
+    /* 4. Carduri (Semitransparent) */
+    --card-bg: 20, 25, 45;
+}
+
+body {
+    background-color: rgb(var(--space-bg));
+    color: rgb(var(--star-gold));
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    cursor: none; /* Ascundem cursorul default pentru cel custom */
+}
+
+h1, h2, h3, .font-magic {
+    font-family: 'Cinzel Decorative', cursive;
+    text-transform: uppercase;
+}
+
+/* --- CURSOR MAGIC (STARDUST) --- */
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0; left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 9999;
+    pointer-events: none;
+}
+.cursor-dot {
+    width: 8px; height: 8px;
+    background-color: rgb(var(--gold-foil));
+    box-shadow: 0 0 10px rgb(var(--gold-foil));
+}
+.cursor-outline {
+    width: 40px; height: 40px;
+    border: 1px solid rgba(var(--gold-foil), 0.5);
+    transition: all 0.1s ease-out;
+}
+
+/* Particule lăsate în urmă */
+.particle {
+    position: fixed;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fadeParticle 1s forwards;
+}
+@keyframes fadeParticle {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0); }
+}
+
+/* --- FUNDAL STELAR --- */
+.stars-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle var(--duration) infinite ease-in-out;
+}
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 5px white; }
+}
+
+/* --- SECȚIUNI GENERALE --- */
+section {
+    padding: 100px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+/* Text Auriu Metalic */
+.text-gold {
+    background: linear-gradient(to bottom, #cfc09f 22%, #634f2c 24%, #cfc09f 26%, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    color: #fff; 
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+/* --- TAROT CARDS (EL & EA) --- */
+.tarot-grid {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    perspective: 1000px;
+}
+
+.tarot-card {
+    width: 300px;
+    height: 500px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.tarot-card:hover {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%; height: 100%;
+    backface-visibility: hidden;
+    border: 2px solid rgb(var(--gold-foil));
+    border-radius: 15px;
+    background: rgb(var(--card-bg));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(var(--gold-foil), 0.1);
+}
+
+.card-front h3 { font-size: 2rem; margin-top: 20px; }
+.card-front p { font-size: 0.8rem; letter-spacing: 3px; margin-top: 10px; }
+.card-back { transform: rotateY(180deg); padding: 40px; }
+.tarot-img { width: 100%; height: 60%; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); }
+
+/* --- CONSTELLATION GALLERY --- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1000px;
+}
+.star-frame {
+    position: relative;
+    border: 1px solid rgba(var(--gold-foil), 0.3);
+    padding: 10px;
+    transition: transform 0.3s;
+}
+.star-frame:hover { transform: scale(1.05); border-color: rgb(var(--gold-foil)); box-shadow: 0 0 20px rgba(var(--gold-foil), 0.2); }
+.star-frame::after {
+    content: '✦';
+    position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+    color: rgb(var(--gold-foil)); background: rgb(var(--space-bg)); padding: 0 5px;
+}
+
+/* --- FORMULAR COSMIC --- */
+.input-cosmic {
+    background: transparent;
+    border: 1px solid rgba(var(--gold-foil), 0.3);
+    padding: 15px;
+    width: 100%;
+    color: rgb(var(--star-gold));
+    font-family: 'Quicksand';
+    margin-bottom: 20px;
+    text-align: center;
+}
+.input-cosmic:focus { outline: none; border-color: rgb(var(--gold-foil)); box-shadow: 0 0 15px rgba(var(--gold-foil), 0.2); }
+
+.btn-cosmic {
+    background: rgb(var(--gold-foil));
+    color: rgb(var(--space-bg));
+    padding: 15px 50px;
+    border: none;
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 2px;
+}
+.btn-cosmic:hover {
+    background: white;
+    box-shadow: 0 0 30px white;
+}

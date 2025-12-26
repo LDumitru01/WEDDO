@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ro" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White Marble | The Ultimate Wedding Experience</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=clash-display@200,400,500,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        /* === VARIABILE DE SISTEM === */
+        :root {
+            /* Paleta White Marble */
+            --c-bg: #FAFAFA;          /* Alb absolut */
+            --c-surface: #F4F4F5;     /* Gri foarte deschis */
+            --c-contrast: #18181B;    /* Negru cărbune (pentru text) */
+            --c-accent: #D4AF37;      /* Auriu metalic */
+            --c-line: rgba(0, 0, 0, 0.08); /* Linii subtile */
+            
+            /* Dimensiuni */
+            --gutter: 2rem;
+            --radius-lg: 2rem;
+            --radius-sm: 0.5rem;
+        }
+
+        /* === GLOBAL RESET & BASE === */
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-contrast);
+            font-family: 'Satoshi', sans-serif;
+            overflow-x: hidden;
+            cursor: none; /* Cursorul nativ e plictisitor */
+            opacity: 0; /* Ascuns până se încarcă loader-ul */
+            transition: opacity 0.5s ease;
+        }
+        
+        body.loaded { opacity: 1; }
+
+        /* Typography Classes */
+        .font-display { font-family: 'Clash Display', sans-serif; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-script { font-family: 'Great Vibes', cursive; }
+
+        /* === CUSTOM CURSOR SYSTEM === */
+        .cursor-main {
+            position: fixed; top: 0; left: 0; width: 10px; height: 10px;
+            background-color: var(--c-contrast); border-radius: 50%;
+            pointer-events: none; z-index: 9999; mix-blend-mode: exclusion;
+            transform: translate(-50%, -50%); transition: transform 0.1s linear;
+        }
+        .cursor-follower {
+            position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+            border: 1px solid rgba(0,0,0,0.2); border-radius: 50%;
+            pointer-events: none; z-index: 9998; transform: translate(-50%, -50%);
+            transition: transform 0.15s ease-out, width 0.3s ease, height 0.3s ease, background-color 0.3s;
+        }
+        /* States cursor */
+        body.hover-link .cursor-follower {
+            width: 80px; height: 80px; background-color: rgba(212, 175, 55, 0.1); border-color: transparent;
+        }
+        body.hover-img .cursor-follower {
+            width: 0px; height: 0px; opacity: 0;
+        }
+        body.hover-img .cursor-main {
+            transform: translate(-50%, -50%) scale(4); background-color: white; mix-blend-mode: difference;
+        }
+
+        /* === LOADER COMPLEX === */
+        .loader-overlay {
+            position: fixed; inset: 0; background-color: var(--c-bg); z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
+            transform-origin: top;
+        }
+        .loader-text-wrap { overflow: hidden; height: 60px; }
+        .loader-word { 
+            font-family: 'Clash Display', sans-serif; font-size: 3rem; 
+            transform: translateY(100%); 
+        }
+
+        /* === UTILS & ANIMATIONS === */
+        .char { display: inline-block; } /* Pentru SplitText logic */
+        
+        .line-wrapper { overflow: hidden; }
+        .line-reveal { transform: translateY(100%); transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .is-visible .line-reveal { transform: translateY(0); }
+
+        .image-parallax-wrap { overflow: hidden; position: relative; }
+        .image-parallax { width: 100%; height: 120%; object-fit: cover; transform-origin: center; will-change: transform; }
+
+        /* Noise Texture pentru aspect "Paper" */
+        .paper-texture {
+            position: fixed; inset: 0; pointer-events: none; z-index: 9000; opacity: 0.4;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+            mix-blend-mode: multiply;
+        }
+
+        /* === COMPONENTE === */
+        .btn-magnetic { display: inline-block; border: 1px solid var(--c-line); padding: 15px 40px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem; font-weight: 600; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .btn-magnetic::after { content: ''; position: absolute; width: 100%; height: 100%; background: var(--c-contrast); top: 0; left: 0; transform: scaleX(0); transform-origin: right; transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); z-index: -1; }
+        .btn-magnetic:hover { color: white; border-color: transparent; }
+        .btn-magnetic:hover::after { transform: scaleX(1); transform-origin: left; }
+
+        /* === FORM WIZARD STYLES === */
+        .form-step { display: none; opacity: 0; transform: translateY(20px); transition: all 0.5s ease; }
+        .form-step.active { display: block; opacity: 1; transform: translateY(0); }
+        
+        .input-group input, .input-group select {
+            width: 100%; border: none; border-bottom: 1px solid var(--c-line); background: transparent;
+            padding: 20px 0; font-family: 'Clash Display'; font-size: 1.5rem; outline: none;
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus { border-bottom-color: var(--c-accent); }
+    </style>
+</head>
+<body class="loading">
+
+    <div class="paper-texture"></div>
+
+    <div class="cursor-main"></div>
+    <div class="cursor-follower"></div>
+
+    <div class="loader-overlay" id="loader">
+        <div class="text-center">
+            <div class="loader-text-wrap"><div class="loader-word">CELEBRATING</div></div>
+            <div class="loader-text-wrap"><div class="loader-word text-[#D4AF37] italic font-serif">LOVE</div></div>
+            <div class="loader-text-wrap"><div class="loader-word">TOGETHER</div></div>
+        </div>
+    </div>
+
+    <nav class="fixed top-0 w-full p-8 md:p-12 flex justify-between items-center z-50 mix-blend-darken">
+        <div class="text-2xl font-display font-bold tracking-tighter hover-area" data-cursor="link">E & A</div>
+        <div class="hidden md:flex gap-12 text-xs font-bold tracking-[0.2em] uppercase">
+            <a href="#story" class="hover-area" data-cursor="link">Povestea</a>
+            <a href="#details" class="hover-area" data-cursor="link">Detalii</a>
+            <a href="#rsvp" class="hover-area" data-cursor="link">RSVP</a>
+        </div>
+        <button class="md:hidden uppercase text-xs font-bold tracking-widest hover-area" data-cursor="link">Meniu</button>
+    </nav>
+
+
+    <main id="smooth-wrapper">
+        
+        <section class="min-h-screen relative flex flex-col justify-center items-center pt-20 overflow-hidden">
+            <div class="absolute w-[300px] md:w-[400px] aspect-[3/4] z-0 overflow-hidden rounded-full opacity-0 scale-50" id="heroImage">
+                <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800" class="w-full h-full object-cover">
+            </div>
+
+            <div class="relative z-10 text-center mix-blend-hard-light">
+                <div class="overflow-hidden">
+                    <h1 class="hero-title text-[12vw] leading-[0.8] font-display font-medium tracking-tighter text-stone-900 translate-y-full">
+                        ELENA
+                    </h1>
+                </div>
+                <div class="overflow-hidden py-4">
+                    <h1 class="hero-title text-[8vw] leading-[0.8] font-serif italic text-[#D4AF37] translate-y-full">
+                        & Andrei
+                    </h1>
+                </div>
+                <div class="overflow-hidden">
+                    <h1 class="hero-title text-[12vw] leading-[0.8] font-display font-medium tracking-tighter text-stone-900 translate-y-full">
+                        POPESCU
+                    </h1>
+                </div>
+            </div>
+
+            <div class="absolute bottom-12 flex flex-col items-center gap-4 opacity-0" id="heroScroll">
+                <div class="text-xs uppercase tracking-[0.3em]">24 August 2025</div>
+                <div class="w-[1px] h-16 bg-black/20"></div>
+            </div>
+        </section>
+
+
+        <section id="story" class="py-32 px-6 md:px-24 bg-white relative">
+            <div class="max-w-4xl mx-auto">
+                <p class="text-3xl md:text-5xl leading-tight font-display text-gray-300 split-reveal">
+                    Totul a început cu o cafea într-o dimineață ploioasă de toamnă. <span class="text-black transition-colors duration-500 highlight">Cinci ani mai târziu</span>, acea cafea s-a transformat în promisiunea unei vieți împreună. Vă invităm să fiți martori la următorul nostru capitol.
+                </p>
+                <div class="mt-20 flex justify-end">
+                    <div class="w-32 h-32 rounded-full border border-black/10 flex items-center justify-center animate-[spin_10s_linear_infinite]">
+                        <span class="text-[10px] uppercase tracking-widest">Love Story • Love Story •</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="py-20 px-4 md:px-10 bg-[#F4F4F5]">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                
+                <div class="md:col-span-5 relative group">
+                    <div class="image-parallax-wrap aspect-[3/4] overflow-hidden hover-area" data-cursor="img">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="image-parallax grayscale group-hover:grayscale-0 transition duration-700">
+                    </div>
+                    <div class="absolute bottom-4 left-4 mix-blend-difference text-white">
+                        <h3 class="text-4xl font-serif italic">El</h3>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 text-center py-10 md:py-0">
+                    <span class="block w-[1px] h-20 bg-black/20 mx-auto mb-4"></span>
+                    <span class="font-serif text-3xl italic">&</span>
+                    <span class="block w-[1px] h-20 bg-black/20 mx-auto mt-4"></span>
+                </div>
+
+                <div class="md:col-span-5 relative group mt-10 md:mt-32">
+                    <div class="image-parallax-wrap aspect-[3/4] overflow-hidden hover-area" data-cursor="img">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="image-parallax grayscale group-hover:grayscale-0 transition duration-700">
+                    </div>
+                    <div class="absolute top-4 right-4 mix-blend-difference text-white text-right">
+                        <h3 class="text-4xl font-serif italic">Ea</h3>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="details" class="py-32 px-6 md:px-24 bg-white">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
+                
+                <div class="h-full">
+                    <div class="sticky top-20">
+                        <p class="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-[#D4AF37]">Agenda</p>
+                        <h2 class="text-6xl md:text-8xl font-display mb-10">24.08</h2>
+                        <p class="text-lg text-gray-500 max-w-sm">
+                            Evenimentul va avea loc la <strong>Domeniul Manasia</strong>, o bijuterie arhitecturală în inima naturii.
+                        </p>
+                        <a href="#" class="btn-magnetic mt-10 hover-area" data-cursor="link">Vezi Harta</a>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-16 pt-10">
+                    <article class="line-wrapper hover-area" data-cursor="link">
+                        <div class="line-reveal flex gap-8 items-start border-b border-gray-200 pb-8">
+                            <span class="text-xl font-bold font-mono">16:00</span>
+                            <div>
+                                <h3 class="text-3xl font-serif italic mb-2">Cununia Civilă</h3>
+                                <p class="text-sm text-gray-500 uppercase tracking-wider">În grădina conacului</p>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="line-wrapper hover-area" data-cursor="link">
+                        <div class="line-reveal flex gap-8 items-start border-b border-gray-200 pb-8">
+                            <span class="text-xl font-bold font-mono">17:30</span>
+                            <div>
+                                <h3 class="text-3xl font-serif italic mb-2">Ceremonia Religioasă</h3>
+                                <p class="text-sm text-gray-500 uppercase tracking-wider">Capela Domeniului</p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="line-wrapper hover-area" data-cursor="link">
+                        <div class="line-reveal flex gap-8 items-start border-b border-gray-200 pb-8">
+                            <span class="text-xl font-bold font-mono">19:00</span>
+                            <div>
+                                <h3 class="text-3xl font-serif italic mb-2">Cina & Petrecerea</h3>
+                                <p class="text-sm text-gray-500 uppercase tracking-wider">Sala de Bal</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section class="py-20 overflow-hidden bg-[#F4F4F5]">
+            <div class="px-10 mb-10">
+                <h2 class="text-4xl font-display">MEMORIES</h2>
+            </div>
+            
+            <div class="gallery-wrapper flex gap-10 px-10 w-max" id="galleryTrack">
+                <div class="w-[300px] md:w-[450px] aspect-[4/5] bg-gray-300 image-parallax-wrap hover-area" data-cursor="img">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800" class="image-parallax grayscale">
+                </div>
+                <div class="w-[300px] md:w-[450px] aspect-[4/5] bg-gray-300 image-parallax-wrap hover-area" data-cursor="img">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=800" class="image-parallax grayscale">
+                </div>
+                <div class="w-[300px] md:w-[450px] aspect-[4/5] bg-gray-300 image-parallax-wrap hover-area" data-cursor="img">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800" class="image-parallax grayscale">
+                </div>
+                <div class="w-[300px] md:w-[450px] aspect-[4/5] bg-gray-300 image-parallax-wrap hover-area" data-cursor="img">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800" class="image-parallax grayscale">
+                </div>
+            </div>
+        </section>
+
+
+        <section id="rsvp" class="min-h-screen flex items-center justify-center py-20 px-4 bg-white relative">
+            <div class="w-full max-w-2xl bg-[#FAFAFA] p-8 md:p-16 border border-gray-100 shadow-2xl relative z-10">
+                <div class="flex justify-between items-end mb-10 border-b border-gray-200 pb-4">
+                    <h2 class="text-4xl font-display">RSVP</h2>
+                    <span class="text-xs font-bold uppercase tracking-widest text-[#D4AF37]">Step <span id="stepCount">1</span>/3</span>
+                </div>
+
+                <form id="wizardForm" onsubmit="event.preventDefault()">
+                    
+                    <div class="form-step active" id="step1">
+                        <h3 class="text-xl font-serif italic mb-6">Să facem cunoștință...</h3>
+                        <div class="input-group mb-8">
+                            <input type="text" placeholder="Numele tău complet" id="inputName" class="hover-area" data-cursor="link">
+                        </div>
+                        <div class="input-group mb-8">
+                            <input type="email" placeholder="Adresa de email" class="hover-area" data-cursor="link">
+                        </div>
+                        <div class="flex justify-end">
+                            <button class="btn-magnetic hover-area" data-cursor="link" onclick="nextStep(2)">Următorul →</button>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step2">
+                        <h3 class="text-xl font-serif italic mb-6">Vei fi alături de noi?</h3>
+                        <div class="grid grid-cols-2 gap-4 mb-10">
+                            <label class="p-6 border border-gray-200 hover:border-[#D4AF37] transition cursor-pointer text-center hover-area" data-cursor="link">
+                                <input type="radio" name="att" class="hidden" value="yes">
+                                <span class="block text-2xl font-display mb-2">DA</span>
+                                <span class="text-xs uppercase text-gray-400">Confirm</span>
+                            </label>
+                            <label class="p-6 border border-gray-200 hover:border-gray-400 transition cursor-pointer text-center hover-area" data-cursor="link">
+                                <input type="radio" name="att" class="hidden" value="no">
+                                <span class="block text-2xl font-display mb-2">NU</span>
+                                <span class="text-xs uppercase text-gray-400">Declin</span>
+                            </label>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="text-xs uppercase font-bold text-gray-400 hover:text-black" onclick="nextStep(1)">← Înapoi</button>
+                            <button class="btn-magnetic hover-area" data-cursor="link" onclick="nextStep(3)">Următorul →</button>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step3">
+                        <h3 class="text-xl font-serif italic mb-6">Ultimile detalii</h3>
+                        <div class="input-group mb-8">
+                            <select class="hover-area" data-cursor="link">
+                                <option>1 Persoană</option>
+                                <option>2 Persoane</option>
+                                <option>3 Persoane</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-8">
+                            <input type="text" placeholder="Restricții alimentare?" class="hover-area" data-cursor="link">
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <button class="text-xs uppercase font-bold text-gray-400 hover:text-black" onclick="nextStep(2)">← Înapoi</button>
+                            <button class="btn-magnetic bg-black text-white hover-area" data-cursor="link" onclick="finishForm()">TRIMITE RSVP</button>
+                        </div>
+                    </div>
+
+                    <div class="form-step text-center py-10" id="stepSuccess">
+                        <div class="text-6xl mb-4">🥂</div>
+                        <h3 class="text-3xl font-display mb-2">Mulțumim!</h3>
+                        <p class="text-gray-500">Răspunsul tău a fost înregistrat.</p>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+
+        <footer class="py-20 bg-[#111] text-white text-center">
+            <h2 class="font-display text-4xl mb-6">E & A</h2>
+            <div class="flex justify-center gap-8 text-xs uppercase tracking-widest text-gray-500 mb-8">
+                <a href="#" class="hover:text-white transition">Instagram</a>
+                <a href="#" class="hover:text-white transition">Contact</a>
+            </div>
+            <p class="text-[10px] text-gray-600 uppercase tracking-[0.3em]">Concept & Design: Architectural White</p>
+        </footer>
+
+    </main>
+
+
+    <script>
+        // === A. LOADER SEQUENCE ===
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+
+            // 1. Animate words up
+            tl.to('.loader-word', {
+                y: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: 'power4.out'
+            })
+            // 2. Wait
+            .to('.loader-word', {
+                y: -100,
+                duration: 1,
+                stagger: 0.1,
+                delay: 0.5,
+                ease: 'power4.in'
+            })
+            // 3. Remove Overlay
+            .to('.loader-overlay', {
+                height: 0,
+                duration: 1,
+                ease: 'expo.inOut'
+            })
+            // 4. Reveal Hero Elements
+            .to('#heroImage', {
+                opacity: 1,
+                scale: 1,
+                duration: 1.5,
+                ease: 'power4.out'
+            }, "-=0.5")
+            .to('.hero-title', {
+                y: 0,
+                duration: 1.5,
+                stagger: 0.1,
+                ease: 'power4.out'
+            }, "-=1")
+            .to('#heroScroll', {
+                opacity: 1,
+                duration: 1
+            }, "-=0.5");
+
+            document.body.classList.add('loaded');
+        });
+
+
+        // === B. SMOOTH SCROLL (LENIS) ===
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+
+        // === C. CUSTOM CURSOR LOGIC ===
+        const cursorMain = document.querySelector('.cursor-main');
+        const cursorF = document.querySelector('.cursor-follower');
+        
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Main dot moves instantly
+            cursorMain.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+        });
+
+        // Smooth follower loop
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursorF.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover States
+        const hoverAreas = document.querySelectorAll('.hover-area');
+        hoverAreas.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                const type = el.getAttribute('data-cursor');
+                if(type === 'link') document.body.classList.add('hover-link');
+                if(type === 'img') document.body.classList.add('hover-img');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hover-link', 'hover-img');
+            });
+        });
+
+
+        // === D. GSAP ANIMATIONS ===
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Parallax Images
+        gsap.utils.toArray('.image-parallax').forEach(img => {
+            gsap.to(img, {
+                yPercent: 20,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: img.parentElement,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+        });
+
+        // 2. Text Scrub (Highlighter Effect in Intro)
+        // Split text logic simulated via Color Change
+        gsap.to('.highlight', {
+            color: '#D4AF37', // Gold
+            scrollTrigger: {
+                trigger: '.split-reveal',
+                start: 'top center',
+                end: 'bottom center',
+                scrub: true
+            }
+        });
+
+        // 3. Line Reveal (For Lists)
+        gsap.utils.toArray('.line-wrapper').forEach(wrap => {
+            ScrollTrigger.create({
+                trigger: wrap,
+                start: 'top 85%',
+                onEnter: () => wrap.classList.add('is-visible')
+            });
+        });
+
+        // 4. Horizontal Scroll Gallery
+        const gallery = document.getElementById('galleryTrack');
+        gsap.to(gallery, {
+            x: () => -(gallery.scrollWidth - window.innerWidth),
+            ease: 'none',
+            scrollTrigger: {
+                trigger: gallery.parentElement,
+                pin: true,
+                scrub: 1,
+                end: () => "+=" + gallery.scrollWidth
+            }
+        });
+
+
+        // === E. FORM WIZARD LOGIC ===
+        function nextStep(stepNumber) {
+            // Hide all steps
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            // Show target step
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            // Update counter
+            if(stepNumber <= 3) document.getElementById('stepCount').innerText = stepNumber;
+        }
+
+        function finishForm() {
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('stepSuccess').classList.add('active');
+            // Hide counter
+            document.querySelector('.text-xs.font-bold').style.display = 'none';
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrei & Maria | The Élite Wedding</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. CONFIGURARE GLOBALA --- */
+        :root {
+            --bronze: #A88F70;      /* Accent de lux mat */
+            --charcoal: #2C2C2C;    /* Text principal */
+            --petrol: #1F3B4D;      /* Fundaluri închise elegante */
+            --cream: #F9F8F4;       /* Fundal principal */
+            --white: #FFFFFF;
+            
+            --font-title: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --sidebar-width: 300px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--cream);
+            color: var(--charcoal);
+            font-family: var(--font-body);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 400; color: var(--petrol); }
+        strong { font-weight: 600; }
+        .accent { color: var(--bronze); }
+        .overline { text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem; font-weight: 600; color: var(--bronze); display: block; margin-bottom: 15px; }
+
+        /* Buton Premium */
+        .btn-elite {
+            display: inline-block; padding: 18px 40px; background: var(--petrol); color: var(--white);
+            text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; font-weight: 600;
+            border: 1px solid var(--petrol); transition: all 0.3s ease;
+        }
+        .btn-elite:hover { background: transparent; color: var(--petrol); }
+        .btn-elite.alt { background: transparent; border-color: var(--bronze); color: var(--bronze); }
+        .btn-elite.alt:hover { background: var(--bronze); color: var(--white); }
+
+        /* --- 2. LAYOUT PRINCIPAL (SIDEBAR + CONTENT) --- */
+        .main-layout {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR FIX (Sticky Navigation) */
+        .sidebar-nav {
+            background: var(--petrol); color: var(--white);
+            height: 100vh; position: sticky; top: 0;
+            padding: 60px 40px;
+            display: flex; flex-direction: column; justify-content: space-between;
+            z-index: 100; /* Asigură că meniul e deasupra */
+        }
+        .nav-logo { font-family: var(--font-title); font-size: 2rem; font-style: italic; margin-bottom: 60px; }
+        .nav-menu { list-style: none; padding: 0; margin: 0; }
+        .nav-menu li { margin-bottom: 20px; }
+        .nav-menu a {
+            text-decoration: none; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; transition: 0.3s; display: flex; align-items: center;
+        }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--bronze); padding-left: 10px; }
+        .nav-menu a::before { content: '—'; margin-right: 10px; opacity: 0; transition: 0.3s; color: var(--bronze); }
+        .nav-menu a:hover::before, .nav-menu a.active::before { opacity: 1; }
+
+        .sidebar-footer { font-size: 0.75rem; opacity: 0.4; }
+
+        /* ZONA DE CONȚINUT */
+        .content-area {
+            border-left: 1px solid rgba(0,0,0,0.05);
+        }
+        section { padding: 120px 80px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .section-title { font-size: 3.5rem; margin-bottom: 40px; }
+
+        /* --- 3. HERO SECTION (În interiorul content-area) --- */
+        .hero-section {
+            padding: 0; height: 90vh; position: relative; display: flex; align-items: center;
+            background: url('https://images.unsplash.com/photo-1520854221256-17451cc330e7?auto=format&fit=crop&w=1920&q=80') center/cover;
+        }
+        .hero-overlay {
+            position: absolute; inset: 0; background: linear-gradient(to right, rgba(31, 59, 77, 0.8), rgba(31, 59, 77, 0.3));
+        }
+        .hero-content { position: relative; z-index: 2; padding: 80px; color: var(--white); max-width: 800px; }
+        .hero-date-box { display: inline-block; border: 1px solid var(--bronze); padding: 15px 30px; margin-bottom: 30px; font-family: var(--font-title); font-size: 1.5rem; color: var(--bronze); }
+        .hero h1 { font-size: 5rem; color: var(--white); line-height: 1; margin-bottom: 30px; }
+        .hero-lead { font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin-bottom: 50px; }
+
+        /* --- 4. DETALII POVESTE (Structură 2 coloane) --- */
+        .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .story-img { width: 100%; height: 600px; object-fit: cover; border-radius: 4px; box-shadow: 20px 20px 0 var(--bronze); }
+        .detail-text-block p { margin-bottom: 25px; text-align: justify; }
+
+        /* --- 5. PROGRAM DETALIAT (Timeline Structurat) --- */
+        .schedule-list { margin-top: 60px; max-width: 800px; }
+        .schedule-item {
+            display: grid; grid-template-columns: 150px 1fr; gap: 40px;
+            padding: 40px 0; border-bottom: 1px solid #e0e0e0;
+        }
+        .time-slot { text-align: right; }
+        .time-main { font-family: var(--font-title); font-size: 2rem; color: var(--petrol); display: block; }
+        .time-sub { font-size: 0.85rem; color: var(--bronze); text-transform: uppercase; font-weight: 600; }
+        .event-details h3 { font-size: 1.8rem; margin-bottom: 15px; }
+        .event-location { margin-bottom: 15px; font-weight: 500; display: flex; align-items: center; color: var(--petrol); }
+        .event-location i { color: var(--bronze); margin-right: 10px; font-style: normal; } /* Corectat i tag */
+        .event-note { font-size: 0.9rem; background: #eee; padding: 15px; border-left: 3px solid var(--bronze); }
+
+        /* --- 6. LOGISTICĂ & TRAVEL (Griduri de carduri detaliate) --- */
+        .travel-section { background: var(--white); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 60px; }
+        .info-card {
+            background: var(--cream); padding: 40px; border: 1px solid #eee; transition: 0.3s;
+        }
+        .info-card:hover { border-color: var(--bronze); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .card-icon { font-size: 2.5rem; color: var(--bronze); margin-bottom: 25px; display: block; }
+        .card-title { font-size: 1.4rem; margin-bottom: 20px; }
+        .card-details-list { list-style: none; margin: 20px 0; padding: 0; }
+        .card-details-list li { margin-bottom: 15px; padding-left: 20px; position: relative; font-size: 0.95rem; }
+        .card-details-list li::before { content: '•'; color: var(--bronze); position: absolute; left: 0; }
+        .promo-code { background: var(--petrol); color: var(--white); padding: 5px 10px; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; }
+
+        /* --- 7. Q&A (Acordeon pentru detalii extra) --- */
+        .qa-container { max-width: 800px; margin-top: 60px; }
+        .qa-item { border-bottom: 1px solid #e0e0e0; }
+        .qa-question {
+            padding: 25px 0; cursor: pointer; font-size: 1.2rem; font-weight: 500; color: var(--petrol);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .qa-question::after { content: '+'; font-size: 1.5rem; color: var(--bronze); transition: 0.3s; }
+        .qa-item.active .qa-question::after { content: '−'; transform: rotate(180deg); }
+        .qa-answer {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out;
+            padding-right: 40px; color: #555;
+        }
+        .qa-item.active .qa-answer { padding-bottom: 25px; max-height: 500px; transition: max-height 0.5s ease-in; }
+
+        /* --- 8. DRESS CODE --- */
+        .dresscode-section {
+            background-color: var(--petrol); color: var(--white);
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
+        .palette { display: flex; gap: 20px; margin-top: 30px; flex-wrap: wrap; justify-content: center; }
+        .color-swatch {
+            width: 60px; height: 60px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2);
+        }
+        .dress-note {
+            margin-top: 30px; max-width: 600px; font-size: 0.9rem; opacity: 0.9; line-height: 1.8;
+            border: 1px dashed var(--bronze); padding: 20px;
+        }
+
+        /* --- 9. GIFT REGISTRY --- */
+        .gift-section {
+            background-color: var(--cream); text-align: center; border-top: 1px solid #ddd;
+        }
+        .gift-box { max-width: 700px; margin: 0 auto; }
+
+        /* --- 10. RSVP (Formular Structurat) --- */
+        .rsvp-section { background: var(--white); color: var(--charcoal); } /* Schimbat pentru contrast */
+        .rsvp-form-container {
+            background: var(--cream); color: var(--charcoal); padding: 80px;
+            max-width: 800px; margin: 60px auto 0; box-shadow: 0 10px 40px rgba(0,0,0,0.05); border: 1px solid #eee;
+        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .form-group { margin-bottom: 25px; }
+        .form-label { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 10px; color: var(--petrol); }
+        .form-input, .form-select, .form-textarea {
+            width: 100%; padding: 15px; border: 1px solid #ccc; background: var(--white);
+            font-family: var(--font-body); font-size: 1rem; transition: 0.3s; color: var(--charcoal);
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--bronze); }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .sidebar-nav { height: auto; position: relative; padding: 20px; flex-direction: row; align-items: center; justify-content: space-between; }
+            .nav-logo { margin-bottom: 0; font-size: 1.5rem; }
+            .nav-menu { display: none; } /* Meniu simplificat pe mobil */
+            .sidebar-footer { display: none; }
+            section { padding: 60px 20px; }
+            .hero h1 { font-size: 3rem; }
+            .story-grid { grid-template-columns: 1fr; gap: 40px; }
+            .story-img { height: 400px; margin-bottom: 30px; box-shadow: 10px 10px 0 var(--bronze); }
+            .schedule-item { grid-template-columns: 1fr; gap: 10px; padding: 20px 0; }
+            .time-slot { text-align: left; display: flex; align-items: baseline; gap: 15px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .rsvp-form-container { padding: 30px 15px; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-layout">
+        
+        <nav class="sidebar-nav">
+            <div class="nav-logo">A & M</div>
+            <ul class="nav-menu">
+                <li><a href="#hero" class="active">Acasa</a></li>
+                <li><a href="#povestea">Povestea & Detalii</a></li>
+                <li><a href="#program">Programul Zilei</a></li>
+                <li><a href="#travel">Logistică & Cazare</a></li>
+                <li><a href="#qa">Întrebări Frecvente</a></li>
+                <li><a href="#dresscode">Dress Code</a></li>
+                <li><a href="#rsvp">RSVP</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                © 2025 THE ÉLITE WEDDING<br>București, România
+            </div>
+        </nav>
+
+        <main class="content-area">
+
+            <section id="hero" class="hero-section">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <div class="hero-date-box">24 AUGUST 2025</div>
+                    <h1>Andrei & Maria</h1>
+                    <p class="hero-lead">Vă invităm să celebrați alături de noi începutul celui mai frumos capitol, într-o atmosferă de eleganță și bucurie.</p>
+                    <a href="#rsvp" class="btn-elite">Confirmă Prezența</a>
+                </div>
+            </section>
+
+            <section id="povestea">
+                <span class="overline">Despre Noi & Eveniment</span>
+                <h2 class="section-title">Povestea în Detaliu</h2>
+                
+                <div class="story-grid">
+                    <div class="detail-text-block">
+                        <h3>Capitolul Nostru</h3>
+                        <p>După cinci ani de călătorii, proiecte comune și nenumărate cafele de duminică dimineața, am decis să transformăm "eu și tu" în "noi pentru totdeauna". Cererea a avut loc în Florența, pe Ponte Vecchio, un loc care simbolizează pentru noi legătura dintre trecut și viitor.</p>
+                        
+                        <h3 style="margin-top: 40px;">Viziunea Evenimentului</h3>
+                        <p>Ne dorim o nuntă care să reflecte stilul nostru: clasic, dar relaxat. Am ales Palatul Știrbey pentru istoria sa, dar vom aduce un suflu modern prin decor și atmosferă. Nu ne dorim o nuntă rigidă, ci o petrecere memorabilă alături de cei mai dragi oameni.</p>
+                        
+                        <div style="margin-top: 30px; padding: 20px; background: var(--cream); border-left: 4px solid var(--petrol);">
+                            <strong>Părinții Spirituali (Nașii):</strong><br>
+                            Radu & Elena Ionescu. Mentori și prieteni de nădejde, aleși cu inima pentru a ne ghida pașii.
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?w=800" class="story-img" alt="Cuplu">
+                </div>
+            </section>
+
+            <section id="program">
+                <span class="overline">Agenda Evenimentului</span>
+                <h2 class="section-title">Programul Detaliat</h2>
+                <p style="max-width: 700px;">Am structurat ziua pentru a fi cât mai fluidă și plăcută pentru toți invitații. Vă rugăm să respectați orele de începere.</p>
+                
+                <div class="schedule-list">
+                    <div class="schedule-item">
+                        <div class="time-slot">
+                            <span class="time-main">16:00</span>
+                            <span class="time-sub">Ceremonia</span>
+                        </div>
+                        <div class="event-details">
+                            <h3>Cununia Religioasă</h3>
+                            <div class="event-location">
+                                <i>📍</i> Capela Domeniului Știrbey
+                            </div>
+                            <p>Momentul solemn al uniunii noastre.</p>
+                            <div class="event-note">
+                                <strong>Notă:</strong> Vă rugăm să ajungeți cu 15 minute înainte.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="time-slot">
+                            <span class="time-main">18:30</span>
+                            <span class="time-sub">Socializare</span>
+                        </div>
+                        <div class="event-details">
+                            <h3>Cocktail & Fotografii</h3>
+                            <div class="event-location">
+                                <i>📍</i> Terasa Palatului
+                            </div>
+                            <p>Timp pentru felicitări, șampanie și muzică ambientală.</p>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="time-slot">
+                            <span class="time-main">20:00</span>
+                            <span class="time-sub">Petrecerea</span>
+                        </div>
+                        <div class="event-details">
+                            <h3>Recepția & Cina Festivă</h3>
+                            <div class="event-location">
+                                <i>📍</i> Sala Regina Maria
+                            </div>
+                            <p>Începe petrecerea! Cina festivă urmată de dans.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="travel" class="travel-section">
+                <span class="overline">Informații Utile</span>
+                <h2 class="section-title">Logistică & Cazare</h2>
+                <p>Pentru confortul vostru, am pregătit următoarele opțiuni.</p>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <span class="card-icon">🏨</span>
+                        <h3 class="card-title">Cazare</h3>
+                        <p>Tarife preferențiale la Hotel Domeniul Știrbey.</p>
+                        <ul class="card-details-list">
+                            <li>Cod Reducere: <span class="promo-code">NUNTAAM25</span></li>
+                            <li>4 stele, mic dejun inclus.</li>
+                        </ul>
+                        <a href="#" class="btn-elite alt">Rezervă</a>
+                    </div>
+
+                    <div class="info-card">
+                        <span class="card-icon">🚌</span>
+                        <h3 class="card-title">Transport</h3>
+                        <p>Transport asigurat tur-retur.</p>
+                        <ul class="card-details-list">
+                            <li>Plecare: Piața Victoriei, ora 14:45.</li>
+                            <li>Retur: Orele 01:00 și 04:00.</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <span class="card-icon">🗺️</span>
+                        <h3 class="card-title">Parcare</h3>
+                        <p>Parcare gratuită și păzită la locație.</p>
+                        <ul class="card-details-list">
+                            <li>200 locuri disponibile.</li>
+                            <li>Acces facil cu mașina personală sau Uber.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="qa">
+                <span class="overline">FAQ</span>
+                <h2 class="section-title">Întrebări Frecvente</h2>
+                <div class="qa-container">
+                    <div class="qa-item">
+                        <div class="qa-question">Care este dress code-ul?</div>
+                        <div class="qa-answer">
+                            Black Tie Optional. Încurajăm ținutele elegante de seară.
+                        </div>
+                    </div>
+                    <div class="qa-item">
+                        <div class="qa-question">Sunt copiii invitați?</div>
+                        <div class="qa-answer">
+                            Evenimentul este "Adults Only" pentru a ne putea relaxa cu toții.
+                        </div>
+                    </div>
+                    <div class="qa-item">
+                        <div class="qa-question">Meniu special?</div>
+                        <div class="qa-answer">
+                            Vă rugăm să specificați nevoile alimentare în formularul RSVP.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dresscode" class="dresscode-section">
+                <span class="overline" style="color: var(--white);">Stil Vestimentar</span>
+                <h2 class="section-title" style="color: var(--white);">Dress Code</h2>
+                <p style="font-size: 1.2rem; letter-spacing: 2px; color: var(--bronze);">BLACK TIE OPTIONAL</p>
+                
+                <div class="palette">
+                    <div class="color-swatch" style="background: #1B4D3E;" title="Verde Smarald"></div>
+                    <div class="color-swatch" style="background: #D4AF37;" title="Auriu"></div>
+                    <div class="color-swatch" style="background: #000000;" title="Negru"></div>
+                    <div class="color-swatch" style="background: #8e8e8e;" title="Argintiu"></div>
+                    <div class="color-swatch" style="background: #F4F1EA;" title="Crem"></div>
+                </div>
+
+                <div class="dress-note">
+                    <strong style="color:var(--bronze)">Notă:</strong> Rugăm doamnele să evite culoarea albă. Domnii sunt încurajați să poarte costum închis sau smoking.
+                </div>
+            </section>
+
+            <section class="gift-section">
+                <div class="gift-box">
+                    <h2 style="font-size: 2.5rem; color: var(--petrol); margin-bottom: 20px;">Cadoul Nostru</h2>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
+                        Cel mai frumos cadou este prezența voastră. Dacă doriți să ne oferiți o atenție, contribuțiile pentru casa visurilor noastre sunt apreciate.
+                    </p>
+                    <div style="font-size: 2rem; margin-top: 20px;">🏠 ✈️ 🌍</div>
+                </div>
+            </section>
+
+            <section id="rsvp" class="rsvp-section">
+                <div style="text-align: center;">
+                    <span class="overline" style="color: var(--charcoal);">Confirmare</span>
+                    <h2 class="section-title" style="color: var(--charcoal);">R.S.V.P.</h2>
+                    <p style="max-width: 600px; margin: 0 auto; color: #555;">Vă rugăm să ne confirmați prezența până la data de <strong>1 Iulie 2025</strong>.</p>
+                </div>
+
+                <div class="rsvp-form-container">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Numele Complet (Familia)</label>
+                            <input type="text" class="form-input" placeholder="Ex: Familia Popescu Andrei" required>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Status Confirmare</label>
+                                <select class="form-select">
+                                    <option>Confirmăm cu bucurie participarea</option>
+                                    <option>Din păcate, nu putem ajunge</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Număr Persoane (Adulți)</label>
+                                <input type="number" class="form-input" placeholder="Ex: 2" min="1" max="10">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Preferințe Alimentare / Alergii</label>
+                            <textarea class="form-textarea" rows="3" placeholder="Ex: 1 meniu vegetarian..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Transport</label>
+                             <select class="form-select">
+                                    <option>Nu, venim cu mașina personală</option>
+                                    <option>Da, folosim autocarul</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-elite" style="width: 100%; margin-top: 20px;">Trimite Confirmarea</button>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // 1. ACCORDEON (Q&A) - Corectat și Simplificat
+        const qaItems = document.querySelectorAll('.qa-item');
+        qaItems.forEach(item => {
+            const questionDiv = item.querySelector('.qa-question');
+            if (questionDiv) {
+                questionDiv.addEventListener('click', () => {
+                    // Închide celelalte (opțional, pentru stil acordeon strict)
+                    qaItems.forEach(otherItem => {
+                        if (otherItem !== item) otherItem.classList.remove('active');
+                    });
+                    // Deschide/Închide curentul
+                    item.classList.toggle('active');
+                });
+            }
+        });
+
+        // 2. SCROLL SPY (Meniul Activ) - Corectat
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".sidebar-nav .nav-menu li a");
+
+        window.addEventListener('scroll', () => {
+            let current = "";
+            
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                // Dacă am scrollat până la 1/3 din secțiune
+                if (window.scrollY >= (sectionTop - sectionHeight / 3)) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach((link) => {
+                link.classList.remove("active");
+                // Verificăm dacă href-ul link-ului corespunde cu ID-ul secțiunii curente
+                if (link.getAttribute("href") === "#" + current) {
+                    link.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

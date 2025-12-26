@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrei & Maria | Bohemian Wedding</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Pinyon+Script&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. CONFIGURARE --- */
+        :root {
+            /* Paleta Boho / Terracotta */
+            --terra: #CD856F;      /* Teracotă (Accent Principal) */
+            --sand: #FDFCF8;       /* Nisip (Fundal) */
+            --sage: #9CAF98;       /* Verde Salvie (Accent Secundar) */
+            --text: #4A4A4A;       /* Gri Cald */
+            --paper: #F3EFE6;      /* Hârtie Veche */
+            
+            --font-head: 'DM Serif Display', serif;
+            --font-script: 'Pinyon Script', cursive;
+            --font-body: 'Jost', sans-serif;
+            
+            --arch: 200px 200px 0 0; /* Formă de Arcadă */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--sand);
+            color: var(--text);
+            font-family: var(--font-body);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Textură de hârtie peste tot site-ul */
+        .texture-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+            opacity: 0.5; pointer-events: none; z-index: 9999;
+        }
+
+        h1, h2, h3 { font-family: var(--font-head); font-weight: 400; line-height: 1.2; }
+        .script-font { font-family: var(--font-script); color: var(--terra); font-size: 2.5rem; }
+
+        /* Buton Boho */
+        .btn-boho {
+            padding: 15px 45px;
+            background-color: var(--terra); color: #fff;
+            border-radius: 50px; border: none;
+            font-family: var(--font-body); text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block;
+            box-shadow: 0 10px 20px rgba(205, 133, 111, 0.3);
+        }
+        .btn-boho:hover { background-color: var(--sage); transform: translateY(-3px); }
+
+        .btn-outline {
+            padding: 10px 30px; border: 1px solid var(--terra); color: var(--terra);
+            border-radius: 50px; text-decoration: none; font-size: 0.9rem; transition: 0.3s; display: inline-block; margin-top: 10px;
+        }
+        .btn-outline:hover { background: var(--terra); color: #fff; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- 2. HERO (ARCH IMAGE) --- */
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 50px 0;
+            background: linear-gradient(to bottom, #fff, var(--sand));
+        }
+        
+        .hero-arch-img {
+            width: 350px; height: 500px;
+            object-fit: cover;
+            border-radius: var(--arch);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: -50px; z-index: 1; /* Suprapunere */
+            border: 10px solid #fff;
+        }
+
+        .hero-title {
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            color: var(--text); z-index: 2; position: relative;
+            background: rgba(255,255,255,0.8);
+            padding: 20px 40px; border-radius: 100px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* --- 3. DATA & COUNTDOWN --- */
+        .date-section { padding: 80px 0; text-align: center; }
+        .date-display {
+            font-size: 1.5rem; letter-spacing: 5px; text-transform: uppercase;
+            border-top: 1px solid var(--terra); border-bottom: 1px solid var(--terra);
+            display: inline-block; padding: 10px 0; margin-bottom: 30px;
+        }
+        
+        .countdown { display: flex; justify-content: center; gap: 40px; }
+        .cd-item { text-align: center; }
+        .cd-num { font-size: 3rem; font-family: var(--font-head); color: var(--terra); line-height: 1; }
+        .cd-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* --- 4. DESPRE MIRI (Sticky Curve) --- */
+        .split-wrapper { position: relative; }
+        
+        .split-row {
+            display: flex; min-height: 90vh; align-items: center;
+        }
+        
+        .col-img {
+            width: 50%; height: 90vh; position: sticky; top: 5vh;
+            padding: 20px;
+        }
+        .img-frame {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: var(--arch); /* Forma arcada */
+        }
+        
+        .col-txt {
+            width: 50%; padding: 80px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        
+        .reverse { flex-direction: row-reverse; }
+        
+        /* --- 5. NAȘII (Circle Layout) --- */
+        .nasi-section {
+            padding: 100px 0; background-color: var(--paper); text-align: center;
+        }
+        .nasi-circle {
+            width: 300px; height: 300px; border-radius: 50%;
+            background: #fff; border: 1px dashed var(--terra);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            margin: 0 auto; padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        /* --- 6. LOGISTICĂ (Carduri Rotunjite) --- */
+        .logistics { padding: 100px 0; background: var(--sand); }
+        .logistics h2 { text-align: center; font-size: 3rem; color: var(--terra); margin-bottom: 60px; }
+        
+        .cards-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
+        }
+        .info-card {
+            background: #fff; padding: 40px; border-radius: 20px;
+            text-align: center; transition: transform 0.3s;
+            border: 1px solid #eee;
+        }
+        .info-card:hover { transform: translateY(-10px); border-color: var(--sage); }
+        .icon { font-size: 2.5rem; color: var(--sage); margin-bottom: 20px; display: block; }
+
+        /* --- 7. TIMELINE (Vertical Boho) --- */
+        .timeline-section { padding: 100px 0; background: #fff; }
+        .timeline-box { max-width: 600px; margin: 0 auto; padding-left: 20px; border-left: 1px solid var(--terra); }
+        
+        .time-event { margin-bottom: 40px; position: relative; padding-left: 30px; }
+        .time-event::before {
+            content:''; position: absolute; left: -26px; top: 5px;
+            width: 12px; height: 12px; background: var(--terra); border-radius: 50%;
+            border: 3px solid #fff; box-shadow: 0 0 0 1px var(--terra);
+        }
+        .time-hour { font-family: var(--font-head); font-size: 1.5rem; color: var(--terra); }
+
+        /* --- 8. DRESS CODE (Palette) --- */
+        .dresscode {
+            padding: 100px 20px; background-color: var(--terra); color: #fff; text-align: center;
+        }
+        .swatches { display: flex; justify-content: center; gap: 15px; margin: 30px 0; }
+        .swatch {
+            width: 50px; height: 50px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        /* --- 9. GALERIE (Rounded Masonry) --- */
+        .gallery-section { padding: 100px 20px; }
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+        }
+        .g-img {
+            width: 100%; height: 300px; object-fit: cover;
+            border-radius: 20px; transition: 0.3s;
+        }
+        .g-img:hover { border-radius: 0; transform: scale(0.98); }
+
+        /* --- 10. CADOU & RSVP --- */
+        .gift-section { padding: 80px 20px; text-align: center; background: var(--paper); }
+        
+        .rsvp-section { padding: 100px 20px; background: var(--sand); }
+        .rsvp-paper {
+            max-width: 700px; margin: 0 auto; background: #fff; padding: 60px;
+            border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .input-boho {
+            width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 10px;
+            margin-bottom: 20px; font-family: var(--font-body); background: var(--sand);
+        }
+        .input-boho:focus { outline: none; border-color: var(--terra); background: #fff; }
+
+        footer { text-align: center; padding: 50px; font-size: 0.8rem; color: #888; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-title { font-size: 3rem; }
+            .split-row, .reverse { flex-direction: column; display: block; }
+            .col-img { width: 100%; height: 400px; position: relative; top: 0; }
+            .col-txt { width: 100%; padding: 40px 20px; }
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="texture-overlay"></div>
+
+    <header class="hero">
+        <div style="margin-bottom: -30px; z-index: 2; font-weight: bold; letter-spacing: 2px;">SAVE THE DATE</div>
+        
+        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=800" class="hero-arch-img" alt="Cuplu">
+        
+        <h1 class="hero-title">Andrei <span class="script-font">&</span> Maria</h1>
+        
+        <div style="margin-top: 30px;">
+            <a href="#rsvp" class="btn-boho">Confirmă Prezența</a>
+        </div>
+    </header>
+
+    <section class="date-section">
+        <div class="container">
+            <span class="script-font">Ziua cea mare</span>
+            <br>
+            <span class="date-display">24 August 2025</span>
+            
+            <div class="countdown" id="countdown">
+                <div class="cd-item"><div class="cd-num" id="d">00</div><span class="cd-label">Zile</span></div>
+                <div class="cd-item"><div class="cd-num" id="h">00</div><span class="cd-label">Ore</span></div>
+                <div class="cd-item"><div class="cd-num" id="m">00</div><span class="cd-label">Min</span></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="split-wrapper">
+        <div class="split-row">
+            <div class="col-img">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="img-frame" alt="El">
+            </div>
+            <div class="col-txt">
+                <span class="script-font">Despre El</span>
+                <h2>Andrei Popescu</h2>
+                <p>
+                    Un suflet calm într-o lume agitată. Iubește cafeaua de specialitate, arhitectura veche și serile liniștite. A știut că Maria este aleasa încă de la prima plimbare prin parc.
+                </p>
+                <div style="margin-top:20px; color: var(--terra);">
+                    <strong>Zodie:</strong> Leu &bull; <strong>Pasiune:</strong> Fotografia
+                </div>
+            </div>
+        </div>
+
+        <div class="split-row reverse">
+            <div class="col-img">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="img-frame" alt="Ea">
+            </div>
+            <div class="col-txt">
+                <span class="script-font">Despre Ea</span>
+                <h2>Maria Ionescu</h2>
+                <p>
+                    Energie, culoare și zâmbet. Maria vede frumusețea în detalii. Este cea care transformă o casă în "acasă" și aduce soarele în viața lui Andrei în fiecare zi.
+                </p>
+                <div style="margin-top:20px; color: var(--terra);">
+                    <strong>Zodie:</strong> Balanță &bull; <strong>Pasiune:</strong> Design
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="nasi-section">
+        <div class="nasi-circle">
+            <span style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">Părinții Spirituali</span>
+            <h2 style="font-size: 2.5rem; margin: 10px 0; color: var(--terra);">Radu & Elena</h2>
+            <p style="font-family: var(--font-head); font-style: italic;">Familia Ionescu</p>
+        </div>
+    </section>
+
+    <section class="timeline-section">
+        <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
+            <div>
+                <h2 style="font-size: 2.5rem; color: var(--terra);">Locația</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 20px;">Palatul Știrbey, Buftea</p>
+                <p style="margin-bottom: 30px; color: #666;">Un cadru de poveste, înconjurat de natură seculară și istorie.</p>
+                
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8444388087937!2d26.10253831552336!3d44.43614137910199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff4770adb5b7%3A0x58147f39579fe6fa!2sBucharest!5e0!3m2!1sen!2sro!4v1620000000000!5m2!1sen!2sro" width="100%" height="300" style="border:0; border-radius: 20px;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+
+            <div>
+                <h2 style="font-size: 2.5rem; color: var(--terra); margin-bottom: 30px;">Programul Zilei</h2>
+                <div class="timeline-box">
+                    <div class="time-event">
+                        <div class="time-hour">16:00</div>
+                        <strong>Cununia Religioasă</strong><br>
+                        <span style="color:#888;">Capela Domeniului</span>
+                    </div>
+                    <div class="time-event">
+                        <div class="time-hour">19:00</div>
+                        <strong>Primirea Invitaților</strong><br>
+                        <span style="color:#888;">Cocktail pe terasă</span>
+                    </div>
+                    <div class="time-event">
+                        <div class="time-hour">23:00</div>
+                        <strong>Dansul Mirilor & Party</strong><br>
+                        <span style="color:#888;">Sala Regina Maria</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="logistics">
+        <div class="container">
+            <h2>Ghidul Invitatului</h2>
+            <div class="cards-grid">
+                <div class="info-card">
+                    <span class="icon">🏨</span>
+                    <h3>Cazare</h3>
+                    <p>Am rezervat camere la Hotelul Domeniului la preț preferențial.</p>
+                    <a href="#" class="btn-outline">Rezervă Camera</a>
+                </div>
+                <div class="info-card">
+                    <span class="icon">🚌</span>
+                    <h3>Transport</h3>
+                    <p>Autocare disponibile din Piața Victoriei. Plecare la 15:00.</p>
+                    <a href="#" class="btn-outline">Vezi Detalii</a>
+                </div>
+                <div class="info-card">
+                    <span class="icon">🎁</span>
+                    <h3>Cadoul</h3>
+                    <p>Prezența voastră e cel mai important dar. Dacă doriți, contribuțiile pentru luna de miere sunt apreciate.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dresscode">
+        <h2 style="font-size: 3rem;">Dress Code</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 20px;">Bohemian Elegant / Black Tie Optional</p>
+        
+        <div class="swatches">
+            <div class="swatch" style="background: #CD856F;" title="Teracota"></div>
+            <div class="swatch" style="background: #9CAF98;" title="Salvie"></div>
+            <div class="swatch" style="background: #F4F1DE;" title="Crem"></div>
+            <div class="swatch" style="background: #D4AF37;" title="Auriu"></div>
+        </div>
+        <p style="font-size: 0.9rem; opacity: 0.9;">*Rugăm doamnele să evite albul.</p>
+    </section>
+
+    <section class="gallery-section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 40px; color: var(--terra);">Amintiri</h2>
+            <div class="gallery-grid">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="g-img">
+                <img src="https://images.unsplash.com/photo-1511285560982-1356c11d4606?w=600" class="g-img">
+                <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?w=600" class="g-img">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600" class="g-img">
+                <img src="https://images.unsplash.com/photo-1623192023537-83c7482811a2?w=600" class="g-img">
+                <img src="https://images.unsplash.com/photo-1520854221256-17451cc330e7?w=600" class="g-img">
+            </div>
+        </div>
+    </section>
+
+    <section class="rsvp-section" id="rsvp">
+        <div class="rsvp-paper">
+            <span class="script-font">Vă așteptăm!</span>
+            <h2 style="font-size: 2.5rem; margin-bottom: 10px;">RSVP</h2>
+            <p style="margin-bottom: 40px; color: #888;">Rugăm confirmarea până la 1 August.</p>
+            
+            <form>
+                <input type="text" class="input-boho" placeholder="Numele Familiei" required>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <select class="input-boho">
+                        <option>Participăm cu drag</option>
+                        <option>Nu putem ajunge</option>
+                    </select>
+                    <input type="number" class="input-boho" placeholder="Nr. Persoane">
+                </div>
+                
+                <input type="text" class="input-boho" placeholder="Mesaj pentru miri (Opțional)">
+                
+                <button type="submit" class="btn-boho" style="width: 100%;">Trimite Răspunsul</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Andrei & Maria | Bohemian Wedding Concept</p>
+    </footer>
+
+    <script>
+        // Countdown
+        const target = new Date("Aug 24, 2025 16:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = target - now;
+            document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('h').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('m').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        }, 1000);
+    </script>
+</body>
+</html>

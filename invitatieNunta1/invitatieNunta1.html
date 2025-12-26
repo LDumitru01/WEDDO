@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nunta Noastră | Maria & Andrei</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: {
+                            900: '#0f291e', /* Verde Foarte Închis (Background-uri adânci) */
+                            800: '#1a4731', /* VERDELE PREMIUM (Butoane, Accente, Timeline) */
+                            700: '#2d5e45',
+                            100: '#e8f5e9',
+                        },
+                        gold: {
+                            DEFAULT: '#d4af37',
+                            light: '#f3e5ab',
+                            dark: '#aa8c2c',
+                        },
+                        paper: '#fdfbf7', /* Crem pal fundal */
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- GLOBAL & ENVELOPE STYLES --- */
+        body {
+            background-color: #0f291e; /* Verdele închis pentru margini desktop */
+            margin: 0;
+            overflow: hidden; /* Blocat initial pentru animatia plicului */
+        }
+
+        /* 1. THE ENVELOPE STAGE */
+        #envelope-stage {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            background-color: #0f291e; /* Match body */
+            transition: opacity 1s ease 0.8s, visibility 1s ease 0.8s;
+        }
+
+        .envelope-wrapper {
+            position: relative; width: 320px; height: 220px;
+            cursor: pointer; transition: transform 1s ease;
+        }
+        
+        .envelope-body {
+            position: absolute; bottom: 0; width: 100%; height: 100%;
+            background-color: #c5a028; /* Plic Auriu */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            z-index: 10;
+        }
+        /* Pliuri Plic */
+        .envelope-body::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 0;
+            border-style: solid; border-width: 0 160px 110px 160px;
+            border-color: transparent transparent #d4af37 transparent;
+        }
+        .envelope-body::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-style: solid; border-width: 110px 160px 110px 160px;
+            border-color: #b8921b transparent #b8921b transparent;
+        }
+        
+        /* Clapeta (Flap) */
+        .envelope-flap {
+            position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-style: solid; border-width: 110px 160px 0 160px;
+            border-color: #d4af37 transparent transparent transparent;
+            z-index: 12; transform-origin: top;
+            transition: transform 0.6s ease-in-out, z-index 0.6s ease-in-out;
+        }
+
+        /* Scrisoarea din interior */
+        .letter-preview {
+            position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
+            background: #fdfbf7; z-index: 5;
+            transition: transform 0.8s ease 0.5s;
+            display: flex; justify-content: center; align-items: flex-start; padding-top: 30px;
+        }
+
+        /* Sigiliul (Wax Seal) */
+        .wax-seal {
+            position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
+            width: 55px; height: 55px; background: #8a1c1c; border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4); z-index: 15;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.8); font-family: serif; font-size: 26px;
+            border: 2px solid rgba(0,0,0,0.1); animation: pulse-gold 2s infinite;
+            transition: opacity 0.4s;
+        }
+
+        /* Animation Classes */
+        .envelope-wrapper.open .envelope-flap { transform: rotateX(180deg); z-index: 1; }
+        .envelope-wrapper.open .wax-seal { opacity: 0; pointer-events: none; }
+        .envelope-wrapper.open .letter-preview { transform: translateY(-120px); z-index: 20; }
+        .envelope-wrapper.full-expand { transform: scale(3); opacity: 0; pointer-events: none; }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        /* 2. MAIN APP CONTAINER */
+        #app-container {
+            display: none; /* Ascuns initial */
+            max-width: 480px; margin: 0 auto; background-color: #fdfbf7;
+            min-height: 100vh; position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            opacity: 0; transition: opacity 1s ease;
+        }
+
+        /* Navigation Overlay (Verde Premium) */
+        .nav-overlay {
+            position: fixed; inset: 0; background: rgba(26, 71, 49, 0.98); /* #1a4731 cu opacitate */
+            z-index: 900; transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(5px); display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .nav-overlay.open { transform: translateX(0); }
+        .nav-link {
+            font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: #d4af37;
+            margin: 10px 0; opacity: 0; transform: translateY(20px); transition: all 0.4s ease;
+        }
+        .nav-overlay.open .nav-link { opacity: 1; transform: translateY(0); }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000;
+            display: none; align-items: center; justify-content: center;
+        }
+        .lightbox.active { display: flex; animation: fadeIn 0.3s; }
+        .lightbox img { max-width: 95%; max-height: 90vh; border: 2px solid #d4af37; }
+
+        /* Accordion */
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
+        .accordion-btn.active .icon-rotate { transform: rotate(180deg); }
+
+        /* Music Button */
+        .music-fab {
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            background: #d4af37; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; color: #fff; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            z-index: 800; cursor: pointer; transition: transform 0.3s;
+        }
+        .music-fab.playing i { animation: spin 4s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Utils */
+        .reveal-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+        .texture-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+            opacity: 0.5; pointer-events: none; z-index: 40;
+        }
+
+        @media (min-width: 481px) { .music-fab { right: calc(50% - 220px); } }
+    </style>
+</head>
+<body>
+
+    <audio id="wedding-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+    </audio>
+
+    <div id="envelope-stage">
+        <div class="absolute top-20 text-center text-white/70 animate-pulse">
+            <p class="uppercase tracking-widest text-xs">Ai primit o invitație</p>
+            <p class="font-serif italic text-gold mt-1">Deschide plicul</p>
+        </div>
+        <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body"></div>
+            <div class="letter-preview shadow-sm">
+                <div class="text-center mt-4">
+                    <p class="text-forest-800 text-[10px] uppercase tracking-widest">Nunta</p>
+                    <h2 class="text-4xl font-serif text-forest-800">M & A</h2>
+                </div>
+            </div>
+            <div class="wax-seal">M</div>
+        </div>
+    </div>
+
+    <div id="app-container">
+        <div class="texture-overlay"></div>
+
+        <div class="music-fab" id="music-btn" onclick="toggleMusic()">
+            <i class="fas fa-music"></i>
+        </div>
+
+        <div class="fixed top-6 right-6 z-[950] cursor-pointer group" onclick="toggleNav()">
+            <div class="w-8 h-0.5 bg-forest-800 mb-1.5 transition-all group-hover:bg-gold" id="bar1"></div>
+            <div class="w-6 h-0.5 bg-forest-800 mb-1.5 ml-auto transition-all group-hover:bg-gold" id="bar2"></div>
+            <div class="w-8 h-0.5 bg-forest-800 transition-all group-hover:bg-gold" id="bar3"></div>
+        </div>
+
+        <div class="nav-overlay" id="navOverlay">
+            <a href="#home" class="nav-link" onclick="toggleNav()" style="transition-delay: 0.1s">Acasă</a>
+            <a href="#about" class="nav-link" onclick="toggleNav()" style="transition-delay: 0.2s">Povestea</a>
+            <a href="#timeline" class="nav-link" onclick="toggleNav()" style="transition-delay: 0.3s">Program</a>
+            <a href="#location" class="nav-link" onclick="toggleNav()" style="transition-delay: 0.4s">Locație</a>
+            <a href="#menu" class="nav-link" onclick="toggleNav()" style="transition-delay: 0.5s">Meniu</a>
+            <a href="#rsvp" class="nav-link text-gold" onclick="toggleNav()" style="transition-delay: 0.6s">RSVP</a>
+        </div>
+
+        <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img" src="" alt="Zoom">
+        </div>
+
+        <header id="home" class="relative h-screen overflow-hidden flex flex-col justify-end pb-20 text-center">
+            <div class="absolute inset-0">
+                <img src="ImaginiNunta.jpg" class="w-full h-full object-cover opacity-80">
+                <div class="absolute inset-0 bg-gradient-to-t from-paper via-transparent to-transparent"></div>
+            </div>
+            
+            <div class="relative z-10 px-6 animate__animated animate__fadeInUp animate__delay-1s">
+                <p class="text-forest-800 text-xs tracking-[0.4em] uppercase mb-4">Save the Date</p>
+                <h1 class="text-6xl text-forest-800 font-serif leading-none mb-4">
+                    Maria <span class="text-gold text-4xl italic">&</span> Andrei
+                </h1>
+                <div class="w-16 h-px bg-forest-800 mx-auto my-6 opacity-50"></div>
+                <p class="text-xl font-serif text-forest-800">24 August 2025</p>
+                <p class="text-xs uppercase tracking-widest text-gray-500 mt-2">Complex Turistic Costești</p>
+            </div>
+        </header>
+
+        <section id="about" class="py-20 px-8 text-center bg-paper relative z-10">
+            <div class="reveal-on-scroll">
+                <i class="fas fa-quote-left text-gold text-2xl mb-6"></i>
+                <h2 class="font-serif text-3xl text-forest-800 italic leading-relaxed mb-8">
+                    "Te iubesc nu doar pentru ceea ce ești, ci pentru ceea ce sunt eu când sunt cu tine."
+                </h2>
+                <div class="grid grid-cols-2 gap-4 mt-8">
+                    <img src="https://images.unsplash.com/photo-1583939003579-73013917c9dd?q=80&w=400" class="rounded-t-full h-48 w-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=400" class="rounded-b-full h-48 w-full object-cover mt-8">
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline" class="py-20 bg-forest-800 text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 opacity-10">
+                <img src="https://www.transparenttextures.com/patterns/leaf.png" width="200">
+            </div>
+            <div class="px-6 relative z-10 reveal-on-scroll">
+                <h2 class="text-center font-serif text-4xl text-gold mb-16">Programul Zilei</h2>
+                <div class="space-y-12 border-l border-gold/30 ml-4 pl-8">
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-5 h-5 bg-forest-800 border-2 border-gold rounded-full"></div>
+                        <span class="text-gold font-serif text-2xl">16:00</span>
+                        <h3 class="text-lg font-bold uppercase mt-1">Cununia Religioasă</h3>
+                        <p class="text-white/60 text-xs">Mănăstirea Curchi</p>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-5 h-5 bg-forest-800 border-2 border-gold rounded-full"></div>
+                        <span class="text-gold font-serif text-2xl">18:00</span>
+                        <h3 class="text-lg font-bold uppercase mt-1">Welcome Drink</h3>
+                        <p class="text-white/60 text-xs">Zona Lacului, Costești</p>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-5 h-5 bg-forest-800 border-2 border-gold rounded-full"></div>
+                        <span class="text-gold font-serif text-2xl">19:00</span>
+                        <h3 class="text-lg font-bold uppercase mt-1">Petrecerea</h3>
+                        <p class="text-white/60 text-xs">Sala Grandis</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="location" class="py-20 px-6 bg-paper">
+            <h2 class="text-center font-serif text-4xl text-forest-800 mb-12 reveal-on-scroll">Locație & Cazare</h2>
+            
+            <div class="bg-white shadow-md mb-12 reveal-on-scroll border border-gray-100">
+                <div class="h-56 relative">
+                    <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=600" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 bg-gold text-forest-900 text-[10px] px-3 py-1 font-bold uppercase">Sala Grandis</div>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="font-serif text-2xl text-forest-800 mb-2">Petrecerea</h3>
+                    <p class="text-xs text-gray-500 mb-6">Complex Turistic Costești, Ialoveni</p>
+                    <a href="https://goo.gl/maps/example" target="_blank" class="border border-forest-800 text-forest-800 px-6 py-2 text-[10px] uppercase tracking-widest hover:bg-forest-800 hover:text-white transition">Vezi Harta</a>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-md reveal-on-scroll border border-gray-100">
+                <div class="h-56 relative">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 bg-forest-800 text-white text-[10px] px-3 py-1 font-bold uppercase">Hotel</div>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="font-serif text-2xl text-forest-800 mb-2">Cazare</h3>
+                    <p class="text-xs text-gray-500 mb-6">Disponibil la locație pentru invitați</p>
+                    <button onclick="document.getElementById('rsvp').scrollIntoView()" class="border border-forest-800 text-forest-800 px-6 py-2 text-[10px] uppercase tracking-widest hover:bg-forest-800 hover:text-white transition">Rezervă</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu" class="py-20 px-6 bg-forest-100/50">
+            <h2 class="text-center font-serif text-3xl text-forest-800 mb-10 reveal-on-scroll">Meniul Ales</h2>
+            <div class="max-w-md mx-auto space-y-4 reveal-on-scroll">
+                <div class="bg-white border border-gold/30 rounded shadow-sm">
+                    <button class="accordion-btn w-full px-5 py-4 flex justify-between items-center text-forest-800 font-serif text-lg" onclick="toggleAccordion(this)">
+                        Gustări Rece <i class="fas fa-chevron-down text-gold text-sm icon-rotate transition"></i>
+                    </button>
+                    <div class="accordion-content bg-paper">
+                        <p class="px-5 py-3 text-sm text-gray-600">Selecție de brânzeturi, tartine cu icre, rulouri de somon, bruschete.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-gold/30 rounded shadow-sm">
+                    <button class="accordion-btn w-full px-5 py-4 flex justify-between items-center text-forest-800 font-serif text-lg" onclick="toggleAccordion(this)">
+                        Fel Principal <i class="fas fa-chevron-down text-gold text-sm icon-rotate transition"></i>
+                    </button>
+                    <div class="accordion-content bg-paper">
+                        <p class="px-5 py-3 text-sm text-gray-600">File de șalău, mușchi de vită la grătar, legume sote.</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-gold/30 rounded shadow-sm">
+                    <button class="accordion-btn w-full px-5 py-4 flex justify-between items-center text-forest-800 font-serif text-lg" onclick="toggleAccordion(this)">
+                        Desert <i class="fas fa-chevron-down text-gold text-sm icon-rotate transition"></i>
+                    </button>
+                    <div class="accordion-content bg-paper">
+                        <p class="px-5 py-3 text-sm text-gray-600">Tortul Mirilor, Candy Bar, Fructe.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 bg-forest-900">
+            <h2 class="text-center font-serif text-3xl text-gold mb-10 reveal-on-scroll">Galerie Foto</h2>
+            <div class="grid grid-cols-2 gap-2 reveal-on-scroll">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=400" class="rounded opacity-90 hover:opacity-100 transition cursor-pointer" onclick="openLightbox(this.src)">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=400" class="rounded opacity-90 hover:opacity-100 transition cursor-pointer row-span-2 h-full object-cover" onclick="openLightbox(this.src)">
+                <img src="https://images.unsplash.com/photo-1520342868574-5fa3804e551c?q=80&w=400" class="rounded opacity-90 hover:opacity-100 transition cursor-pointer" onclick="openLightbox(this.src)">
+                <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=400" class="rounded opacity-90 hover:opacity-100 transition cursor-pointer col-span-2 h-40 object-cover" onclick="openLightbox(this.src)">
+            </div>
+        </section>
+
+        <section class="py-16 bg-white text-center">
+            <p class="text-[10px] uppercase tracking-widest text-gray-400 mb-6">Până la eveniment</p>
+            <div class="flex justify-center gap-4 font-serif text-forest-800 mb-8" id="countdown">
+                <div><span id="d" class="text-3xl font-bold">00</span><br><span class="text-[9px] uppercase font-sans text-gray-400">Zile</span></div>
+                <div><span id="h" class="text-3xl font-bold">00</span><br><span class="text-[9px] uppercase font-sans text-gray-400">Ore</span></div>
+                <div><span id="m" class="text-3xl font-bold">00</span><br><span class="text-[9px] uppercase font-sans text-gray-400">Min</span></div>
+                <div><span id="s" class="text-3xl font-bold">00</span><br><span class="text-[9px] uppercase font-sans text-gray-400">Sec</span></div>
+            </div>
+            <button onclick="addToCalendar()" class="bg-gold text-white px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-forest-800 transition shadow-lg">
+                Salvează Data
+            </button>
+        </section>
+
+        <section id="rsvp" class="py-24 px-6 bg-paper border-t border-gray-200">
+            <div class="max-w-md mx-auto text-center reveal-on-scroll">
+                <div class="border-2 border-forest-800 p-1">
+                    <div class="border border-gold p-8 bg-white">
+                        <h2 class="text-4xl font-serif text-forest-800 mb-2">RSVP</h2>
+                        <p class="text-[10px] uppercase tracking-widest text-gray-400 mb-8">Vă rugăm să confirmați prezența</p>
+
+                        <form onsubmit="handleRSVP(event)" class="space-y-6 text-left">
+                            <input type="text" placeholder="Nume Prenume" required class="w-full border-b border-gray-300 py-2 outline-none font-serif text-lg bg-transparent focus:border-gold transition">
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <select class="w-full border-b border-gray-300 py-2 bg-transparent text-sm outline-none text-gray-600">
+                                    <option>2 Persoane</option>
+                                    <option>1 Persoană</option>
+                                    <option>3 Persoane</option>
+                                </select>
+                                <select class="w-full border-b border-gray-300 py-2 bg-transparent text-sm outline-none text-gray-600">
+                                    <option>Particip</option>
+                                    <option>Nu particip</option>
+                                </select>
+                            </div>
+
+                            <label class="flex items-center gap-2 mt-4 cursor-pointer">
+                                <input type="checkbox" class="accent-gold w-4 h-4">
+                                <span class="text-xs text-gray-500 uppercase tracking-wide">Doresc cazare</span>
+                            </label>
+
+                            <button id="submitBtn" class="bg-forest-800 text-gold px-10 py-3 font-serif uppercase tracking-widest text-sm hover:bg-gold hover:text-forest-800 transition duration-300 w-full mt-6 shadow-lg">
+                                Trimite Răspuns
+                            </button>
+                            <div id="successMsg" class="hidden text-gold font-serif text-lg text-center mt-4">Confirmare trimisă!</div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="mt-12 space-y-1">
+                    <p class="text-gold font-serif text-lg">Contacte</p>
+                    <a href="tel:069000000" class="block text-gray-500 text-sm hover:text-forest-800 transition">069 000 000 (Andrei)</a>
+                    <a href="tel:069000000" class="block text-gray-500 text-sm hover:text-forest-800 transition">069 000 000 (Maria)</a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-forest-900 text-white/30 text-[9px] uppercase tracking-widest text-center py-6">
+            © 2025 Maria & Andrei
+        </footer>
+    </div>
+
+    <script>
+        // 1. UNBOXING LOGIC
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            const stage = document.getElementById('envelope-stage');
+            const app = document.getElementById('app-container');
+            const music = document.getElementById('wedding-music');
+            const musicBtn = document.getElementById('music-btn');
+
+            // Open Animation
+            envelope.classList.add('open');
+            
+            // Try Autoplay Music
+            music.play().then(() => {
+                musicBtn.classList.add('playing');
+                musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }).catch(e => console.log('Autoplay prevented'));
+
+            setTimeout(() => {
+                envelope.classList.add('full-expand');
+                
+                setTimeout(() => {
+                    stage.style.opacity = '0';
+                    stage.style.visibility = 'hidden';
+                    app.style.display = 'block';
+                    
+                    // Allow render then fade in
+                    requestAnimationFrame(() => {
+                        app.style.opacity = '1';
+                        document.body.style.backgroundColor = '#fdfbf7';
+                        document.body.style.overflow = 'auto'; // Enable scroll
+                    });
+                }, 800);
+            }, 1000);
+        }
+
+        // 2. GENERAL UI LOGIC
+        function toggleNav() {
+            const nav = document.getElementById('navOverlay');
+            nav.classList.toggle('open');
+            // Toggle hamburger icon logic here if needed
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('wedding-music');
+            const btn = document.getElementById('music-btn');
+            if (music.paused) {
+                music.play();
+                btn.classList.add('playing');
+                btn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                music.pause();
+                btn.classList.remove('playing');
+                btn.innerHTML = '<i class="fas fa-music"></i>';
+            }
+        }
+
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            btn.classList.toggle('active');
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        function handleRSVP(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = 'Se trimite...';
+            setTimeout(() => {
+                btn.style.display = 'none';
+                document.getElementById('successMsg').classList.remove('hidden');
+            }, 1500);
+        }
+
+        function addToCalendar() {
+             const icsMsg = "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:Nunta Maria & Andrei\nDTSTART:20250824T130000Z\nDTEND:20250825T020000Z\nLOCATION:Complex Costesti\nEND:VEVENT\nEND:VCALENDAR";
+             const blob = new Blob([icsMsg], { type: 'text/calendar' });
+             const url = window.URL.createObjectURL(blob);
+             const a = document.createElement('a'); a.href = url; a.download = "nunta.ics"; a.click();
+        }
+
+        // 3. COUNTDOWN & SCROLL
+        const eventDate = new Date("Aug 24, 2025 16:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = eventDate - now;
+            if(diff > 0) {
+                document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('h').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('m').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('s').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            }
+        }, 1000);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

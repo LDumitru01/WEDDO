@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ro" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CELESTIAL | The 100k Experience</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/CustomEase.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
+
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@100,400,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* === PALETA "DIGITAL LUXURY" === */
+            --c-void: #030303;         /* Negru absolut */
+            --c-midnight: #0a0a0f;     /* Albastru miez de noapte */
+            --c-pearl: #E6E6E6;        /* Alb perlat */
+            --c-lavender: #a6adce;     /* Digital Lavender (Accentul Anului) */
+            --c-chrome: #888888;       /* Metalic */
+            
+            /* Grids & Spacing */
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --ease-in-out: cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        /* BASE RESET */
+        *, *::after, *::before { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body {
+            background-color: var(--c-void);
+            color: var(--c-pearl);
+            font-family: 'Satoshi', sans-serif;
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor system */
+        }
+
+        .font-display { font-family: 'Cabinet Grotesk', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-royal { font-family: 'Cinzel', serif; }
+
+        /* === 1. CINEMATIC LOADER === */
+        .loader-wrap {
+            position: fixed; inset: 0; z-index: 9999;
+            background-color: var(--c-void);
+            display: flex; justify-content: center; align-items: center;
+        }
+        .loader-bar-wrap {
+            width: 300px; height: 2px; background: rgba(255,255,255,0.1);
+            overflow: hidden; position: relative; margin-top: 20px;
+        }
+        .loader-bar {
+            width: 100%; height: 100%; background: var(--c-lavender);
+            transform: scaleX(0); transform-origin: left;
+        }
+        .loader-counter {
+            font-family: 'Cabinet Grotesk'; font-weight: 800; font-size: 10rem;
+            line-height: 0.8; color: transparent; -webkit-text-stroke: 1px var(--c-pearl);
+            position: relative;
+        }
+        .loader-counter::after {
+            content: attr(data-count); position: absolute; top: 0; left: 0;
+            color: var(--c-pearl); height: 0%; overflow: hidden; transition: height 0.1s;
+        }
+
+        /* === 2. NOISE & TEXTURE === */
+        .noise-layer {
+            position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: 0.07;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+        }
+        
+        /* === 3. ADVANCED CURSOR (PHYSICS) === */
+        .cursor-dot {
+            position: fixed; width: 8px; height: 8px; background: var(--c-lavender);
+            border-radius: 50%; pointer-events: none; z-index: 10000;
+            left: 0; top: 0; transform: translate(-50%, -50%);
+        }
+        .cursor-ring {
+            position: fixed; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%; pointer-events: none; z-index: 10000;
+            left: 0; top: 0; transform: translate(-50%, -50%);
+            transition: width 0.3s var(--ease-out-expo), height 0.3s var(--ease-out-expo), border-color 0.3s;
+        }
+        
+        /* Cursor States */
+        body.is-hovering .cursor-ring { width: 80px; height: 80px; border-color: var(--c-lavender); background: rgba(166, 173, 206, 0.05); }
+        body.is-hovering .cursor-dot { transform: translate(-50%, -50%) scale(0.5); }
+
+        /* === 4. ANIMATION UTILITIES === */
+        .reveal-hidden { overflow: hidden; display: block; }
+        .reveal-text { transform: translateY(120%) skewY(5deg); display: block; transition: transform 1.2s var(--ease-out-expo); opacity: 0; }
+        .is-visible .reveal-text { transform: translateY(0) skewY(0); opacity: 1; }
+
+        .parallax-wrap { position: relative; overflow: hidden; }
+        .parallax-img { width: 100%; height: 130%; object-fit: cover; will-change: transform; filter: grayscale(100%); transition: filter 0.5s; }
+        .parallax-wrap:hover .parallax-img { filter: grayscale(0%); }
+
+        /* === 5. UI COMPONENTS === */
+        /* Magnetic Button */
+        .btn-mag {
+            display: inline-block; padding: 1.5rem 3rem; border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 100px; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.2em;
+            position: relative; overflow: hidden; transition: border-color 0.3s;
+        }
+        .btn-mag .btn-fill {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--c-pearl); transform: scaleY(0); transform-origin: bottom;
+            transition: transform 0.5s var(--ease-out-expo); z-index: -1;
+        }
+        .btn-mag:hover { color: var(--c-void); border-color: transparent; }
+        .btn-mag:hover .btn-fill { transform: scaleY(1); transform-origin: top; }
+
+        /* Menu Overlay */
+        .menu-overlay {
+            position: fixed; inset: 0; background: var(--c-midnight); z-index: 100;
+            transform: translateY(-100%); transition: transform 1s var(--ease-out-expo);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .menu-overlay.active { transform: translateY(0); }
+
+        /* === 6. FORM STYLES === */
+        .input-line {
+            width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding: 20px 0; font-family: 'Cabinet Grotesk'; font-size: 2rem; color: white;
+            transition: all 0.3s; outline: none;
+        }
+        .input-line:focus { border-bottom-color: var(--c-lavender); padding-left: 20px; }
+        .input-line::placeholder { color: rgba(255,255,255,0.2); }
+
+    </style>
+</head>
+<body class="is-loading">
+
+    <div class="noise-layer"></div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <div class="loader-wrap" id="loader">
+        <div class="flex flex-col items-center">
+            <div class="loader-counter" id="loaderCount" data-count="0">0</div>
+            <div class="loader-bar-wrap">
+                <div class="loader-bar" id="loaderBar"></div>
+            </div>
+            <div class="mt-4 text-xs uppercase tracking-widest text-[var(--c-lavender)]">Initializing Experience</div>
+        </div>
+    </div>
+
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="flex flex-col gap-6 text-center">
+            <a href="#hero" class="text-6xl font-display hover:text-[var(--c-lavender)] transition menu-link" onclick="toggleMenu()">Start</a>
+            <a href="#intro" class="text-6xl font-display hover:text-[var(--c-lavender)] transition menu-link" onclick="toggleMenu()">Vision</a>
+            <a href="#couple" class="text-6xl font-display hover:text-[var(--c-lavender)] transition menu-link" onclick="toggleMenu()">Protagonists</a>
+            <a href="#rsvp" class="text-6xl font-display hover:text-[var(--c-lavender)] transition menu-link" onclick="toggleMenu()">Confirm</a>
+        </div>
+    </div>
+
+    <nav class="fixed top-0 w-full p-8 md:p-12 flex justify-between items-center z-90 mix-blend-difference text-white pointer-events-none">
+        <div class="pointer-events-auto hover-trigger" data-cursor="link">
+            <span class="font-display font-bold text-xl tracking-tighter">M & A</span>
+        </div>
+        <button class="pointer-events-auto hover-trigger flex flex-col gap-2 group" onclick="toggleMenu()" data-cursor="link">
+            <span class="w-8 h-[1px] bg-white group-hover:w-10 transition-all"></span>
+            <span class="w-8 h-[1px] bg-white group-hover:w-6 transition-all"></span>
+        </button>
+    </nav>
+
+
+    <main>
+
+        <section id="hero" class="h-screen relative flex items-center justify-center overflow-hidden">
+            <div class="absolute w-[60vw] h-[60vw] rounded-full bg-[var(--c-lavender)] blur-[150px] opacity-10 animate-pulse top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+
+            <div class="relative z-10 text-center w-full px-4">
+                <div class="reveal-hidden mb-6">
+                    <p class="reveal-text text-xs font-bold uppercase tracking-[0.8em] text-[var(--c-lavender)]">The Union</p>
+                </div>
+                
+                <h1 class="text-[14vw] leading-[0.8] font-display font-bold tracking-tighter mix-blend-screen text-transparent" style="-webkit-text-stroke: 1px rgba(255,255,255,0.8);">
+                    <div class="reveal-hidden"><span class="reveal-text">MATEI</span></div>
+                    <div class="reveal-hidden"><span class="reveal-text text-white opacity-90">& ALINA</span></div>
+                </h1>
+
+                <div class="mt-16 flex justify-center">
+                    <a href="#intro" class="btn-mag hover-trigger" data-cursor="link">
+                        <span class="relative z-10">Discover The Story</span>
+                        <div class="btn-fill"></div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="absolute bottom-10 left-10 text-xs uppercase tracking-widest text-[var(--c-chrome)] flex gap-4 items-center">
+                <span>Scrolldown</span>
+                <div class="w-12 h-[1px] bg-[var(--c-chrome)]"></div>
+            </div>
+        </section>
+
+
+        <section id="intro" class="py-32 px-6 md:px-20 relative">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-20">
+                <div class="md:col-span-4 pt-10">
+                    <span class="block w-full h-[1px] bg-white/20 mb-4"></span>
+                    <span class="text-[var(--c-lavender)] text-xs uppercase tracking-widest">Manifesto</span>
+                    <h3 class="text-3xl font-serif mt-4 italic text-white/80">"Iubirea nu este o destinație, ci o frecvență."</h3>
+                </div>
+                
+                <div class="md:col-span-8">
+                    <p class="text-4xl md:text-6xl font-display leading-tight text-gray-500 reveal-paragraph">
+                        Am construit o lume doar a noastră, un univers paralel unde timpul stă în loc. <span class="text-white">Pe 24 August 2025</span>, deschidem porțile acestui univers pentru cei care ne sunt aproape.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="couple" class="py-32">
+            <div class="flex flex-col md:flex-row w-full h-[120vh] md:h-[80vh]">
+                
+                <div class="w-full md:w-1/2 h-full relative group border-r border-white/5 overflow-hidden hover-trigger" data-cursor="link">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-between p-12 pointer-events-none">
+                        <span class="text-xs uppercase tracking-widest">01 / Groom</span>
+                        <h2 class="text-8xl font-display text-transparent" style="-webkit-text-stroke: 1px white;">HE</h2>
+                    </div>
+                    <div class="absolute inset-0 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=1200" class="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-[1.5s] ease-out">
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 h-full relative group overflow-hidden hover-trigger" data-cursor="link">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-between p-12 pointer-events-none text-right">
+                        <span class="text-xs uppercase tracking-widest">02 / Bride</span>
+                        <h2 class="text-8xl font-display text-transparent" style="-webkit-text-stroke: 1px white;">SHE</h2>
+                    </div>
+                    <div class="absolute inset-0 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200" class="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-[1.5s] ease-out">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section class="py-40 px-6 md:px-20 bg-[var(--c-midnight)] relative">
+            <div class="absolute top-20 right-20 text-[20vw] font-display text-white opacity-[0.02] select-none pointer-events-none">
+                SPACE
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center relative z-10">
+                
+                <div class="perspective-wrap h-[600px] w-full hover-trigger" data-cursor="link">
+                    <div class="w-full h-full bg-[#111] relative overflow-hidden border border-white/10 tilt-card">
+                        <img src="https://images.unsplash.com/photo-1519225427186-1db33e051cc4?w=1200" class="w-full h-full object-cover opacity-60">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        
+                        <div class="absolute bottom-10 left-10">
+                            <h3 class="text-4xl font-serif italic mb-2 text-[var(--c-lavender)]">Halo Events Hall</h3>
+                            <p class="text-sm uppercase tracking-widest text-gray-400">București, Sector 1</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pl-0 md:pl-20">
+                    <h2 class="text-6xl font-display mb-10">Coordonate<br>Spatio-Temporale</h2>
+                    
+                    <div class="space-y-12">
+                        <div class="flex gap-6 items-start group">
+                            <span class="text-[var(--c-lavender)] font-mono text-xl pt-1">01</span>
+                            <div>
+                                <h4 class="text-2xl font-bold mb-2 group-hover:text-[var(--c-lavender)] transition">Ceremonia</h4>
+                                <p class="text-gray-500 text-sm uppercase tracking-wider">16:00 • Grădina Suspendată</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-start group">
+                            <span class="text-[var(--c-lavender)] font-mono text-xl pt-1">02</span>
+                            <div>
+                                <h4 class="text-2xl font-bold mb-2 group-hover:text-[var(--c-lavender)] transition">Gala Dinner</h4>
+                                <p class="text-gray-500 text-sm uppercase tracking-wider">19:00 • The Grand Hall</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-start group">
+                            <span class="text-[var(--c-lavender)] font-mono text-xl pt-1">03</span>
+                            <div>
+                                <h4 class="text-2xl font-bold mb-2 group-hover:text-[var(--c-lavender)] transition">Afterparty</h4>
+                                <p class="text-gray-500 text-sm uppercase tracking-wider">23:00 • Rooftop Lounge</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="btn-mag mt-16 hover-trigger" data-cursor="link">
+                        <span class="relative z-10">Google Maps</span>
+                        <div class="btn-fill"></div>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section class="py-40 overflow-hidden">
+            <div class="px-6 md:px-20 mb-10 flex items-end justify-between">
+                <h2 class="text-8xl font-display text-[var(--c-pearl)]">Evidence</h2>
+                <span class="text-xs uppercase tracking-widest text-[var(--c-lavender)]">Drag to explore</span>
+            </div>
+
+            <div class="gallery-wrapper flex gap-4 px-6 md:px-20 w-max cursor-grab active:cursor-grabbing">
+                <div class="w-[300px] md:w-[500px] aspect-video bg-[#111] overflow-hidden hover-trigger" data-cursor="link">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800" class="w-full h-full object-cover opacity-70 hover:opacity-100 transition duration-500">
+                </div>
+                <div class="w-[300px] md:w-[500px] aspect-video bg-[#111] overflow-hidden hover-trigger" data-cursor="link">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=800" class="w-full h-full object-cover opacity-70 hover:opacity-100 transition duration-500">
+                </div>
+                <div class="w-[300px] md:w-[500px] aspect-video bg-[#111] overflow-hidden hover-trigger" data-cursor="link">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800" class="w-full h-full object-cover opacity-70 hover:opacity-100 transition duration-500">
+                </div>
+                <div class="w-[300px] md:w-[500px] aspect-video bg-[#111] overflow-hidden hover-trigger" data-cursor="link">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800" class="w-full h-full object-cover opacity-70 hover:opacity-100 transition duration-500">
+                </div>
+            </div>
+        </section>
+
+
+        <section id="rsvp" class="min-h-screen flex flex-col justify-center py-20 px-6 md:px-20 border-t border-white/10 bg-[#050505]">
+            <div class="max-w-4xl mx-auto w-full">
+                <h2 class="text-[5vw] font-display leading-none mb-20 text-center">CONFIRMATION<br><span class="text-[var(--c-lavender)] italic font-serif">Required</span></h2>
+
+                <form class="space-y-16">
+                    <div class="group">
+                        <label class="block text-xs uppercase tracking-widest text-gray-500 mb-4">Identification</label>
+                        <input type="text" class="input-line hover-trigger" placeholder="Numele Complet" data-cursor="link">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                        <div class="group">
+                            <label class="block text-xs uppercase tracking-widest text-gray-500 mb-4">Attendance</label>
+                            <div class="flex gap-4">
+                                <button type="button" class="flex-1 py-6 border border-white/20 hover:bg-white hover:text-black transition uppercase font-bold text-xs tracking-widest hover-trigger" data-cursor="link">Confirm</button>
+                                <button type="button" class="flex-1 py-6 border border-white/20 hover:bg-white hover:text-black transition uppercase font-bold text-xs tracking-widest hover-trigger" data-cursor="link">Declin</button>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label class="block text-xs uppercase tracking-widest text-gray-500 mb-4">Guest Count</label>
+                            <div class="flex gap-4">
+                                <button type="button" class="w-16 py-6 border border-white/20 hover:bg-[var(--c-lavender)] transition font-mono hover-trigger" data-cursor="link">1</button>
+                                <button type="button" class="w-16 py-6 border border-white/20 hover:bg-[var(--c-lavender)] transition font-mono hover-trigger" data-cursor="link">2</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-10">
+                        <button class="btn-mag w-full md:w-auto hover-trigger" data-cursor="link">
+                            <span class="relative z-10 text-xl">Send Transmission</span>
+                            <div class="btn-fill"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <footer class="py-10 flex justify-between px-6 md:px-20 text-[10px] uppercase tracking-widest text-gray-600">
+            <span>© 2025 Celestial</span>
+            <span>Made with precision</span>
+        </footer>
+
+    </main>
+
+
+    <script>
+        /**
+         * CLASS BASED ARCHITECTURE
+         * This ensures code organization and scalability.
+         */
+
+        class Loader {
+            constructor() {
+                this.counter = document.getElementById('loaderCount');
+                this.bar = document.getElementById('loaderBar');
+                this.wrap = document.getElementById('loader');
+                this.progress = 0;
+                this.init();
+            }
+
+            init() {
+                const interval = setInterval(() => {
+                    this.progress += Math.floor(Math.random() * 5) + 2;
+                    if(this.progress > 100) this.progress = 100;
+                    
+                    this.counter.setAttribute('data-count', this.progress);
+                    this.counter.innerText = this.progress;
+                    this.bar.style.transform = `scaleX(${this.progress / 100})`;
+
+                    if(this.progress === 100) {
+                        clearInterval(interval);
+                        this.hide();
+                    }
+                }, 30);
+            }
+
+            hide() {
+                const tl = gsap.timeline();
+                tl.to(this.wrap, {
+                    yPercent: -100,
+                    duration: 1.2,
+                    ease: "expo.inOut",
+                    delay: 0.5,
+                    onComplete: () => app.start() // Start main app
+                });
+            }
+        }
+
+        class Cursor {
+            constructor() {
+                this.dot = document.querySelector('.cursor-dot');
+                this.ring = document.querySelector('.cursor-ring');
+                this.pos = { x: 0, y: 0 };
+                this.mouse = { x: 0, y: 0 };
+                this.speed = 0.15;
+                this.init();
+            }
+
+            init() {
+                window.addEventListener('mousemove', (e) => {
+                    this.mouse.x = e.clientX;
+                    this.mouse.y = e.clientY;
+                    // Dot moves instantly
+                    gsap.set(this.dot, { x: this.mouse.x, y: this.mouse.y });
+                });
+
+                this.animate();
+                this.initHover();
+            }
+
+            animate() {
+                // Lerp logic for smooth follower
+                this.pos.x += (this.mouse.x - this.pos.x) * this.speed;
+                this.pos.y += (this.mouse.y - this.pos.y) * this.speed;
+                gsap.set(this.ring, { x: this.pos.x, y: this.pos.y });
+                requestAnimationFrame(() => this.animate());
+            }
+
+            initHover() {
+                const triggers = document.querySelectorAll('.hover-trigger');
+                triggers.forEach(el => {
+                    el.addEventListener('mouseenter', () => document.body.classList.add('hover-active'));
+                    el.addEventListener('mouseleave', () => document.body.classList.remove('hover-active'));
+                });
+            }
+        }
+
+        class App {
+            constructor() {
+                this.cursor = new Cursor();
+                this.loader = new Loader();
+                this.lenis = null;
+            }
+
+            start() {
+                this.initSmoothScroll();
+                this.initAnimations();
+            }
+
+            initSmoothScroll() {
+                this.lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    smooth: true
+                });
+                const raf = (time) => {
+                    this.lenis.raf(time);
+                    requestAnimationFrame(raf);
+                };
+                requestAnimationFrame(raf);
+            }
+
+            initAnimations() {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // 1. Hero Text Reveal
+                const reveals = document.querySelectorAll('.reveal-text');
+                gsap.to(reveals, {
+                    y: 0,
+                    skewY: 0,
+                    opacity: 1,
+                    duration: 1.5,
+                    stagger: 0.1,
+                    ease: "expo.out",
+                    delay: 0.2
+                });
+
+                // 2. Text Paragraph Highlight (Scroll Scrub)
+                gsap.to('.reveal-paragraph', {
+                    color: '#ffffff',
+                    scrollTrigger: {
+                        trigger: '#intro',
+                        start: 'top 60%',
+                        end: 'bottom 60%',
+                        scrub: true
+                    }
+                });
+
+                // 3. 3D Tilt Card Logic
+                const card = document.querySelector('.tilt-card');
+                const wrap = document.querySelector('.perspective-wrap');
+                
+                if(wrap) {
+                    wrap.addEventListener('mousemove', (e) => {
+                        const rect = wrap.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const xPct = (x / rect.width - 0.5) * 20; // -10 to 10 deg
+                        const yPct = (y / rect.height - 0.5) * 20;
+
+                        gsap.to(card, {
+                            rotationY: xPct,
+                            rotationX: -yPct,
+                            duration: 0.5,
+                            ease: 'power2.out'
+                        });
+                    });
+                    wrap.addEventListener('mouseleave', () => {
+                        gsap.to(card, { rotationY: 0, rotationX: 0, duration: 0.5 });
+                    });
+                }
+
+                // 4. Horizontal Gallery Drag
+                const slider = document.querySelector('.gallery-wrapper');
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+
+                slider.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    slider.classList.add('active');
+                    startX = e.pageX - slider.offsetLeft;
+                    scrollLeft = slider.scrollLeft;
+                });
+                slider.addEventListener('mouseleave', () => { isDown = false; });
+                slider.addEventListener('mouseup', () => { isDown = false; });
+                slider.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - slider.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    slider.scrollLeft = scrollLeft - walk;
+                });
+            }
+        }
+
+        // === Menu Logic ===
+        function toggleMenu() {
+            document.getElementById('menuOverlay').classList.toggle('active');
+        }
+
+        // Initialize App
+        const app = new App();
+
+    </script>
+</body>
+</html>

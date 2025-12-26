@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nunta OS v1.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="template11.css">
+</head>
+<body>
+
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-md pointer-events-none">
+        <h1 class="text-6xl md:text-8xl mb-2">MARIA & ION</h1>
+        <p class="retro-font text-2xl bg-blue-800 px-4 py-1 inline-block">SYSTEM READY: 24.08.2025</p>
+        <p class="mt-4 text-sm blink">Double click icons to open...</p>
+    </div>
+
+    <div class="desktop-icons">
+        
+        <div class="icon" onclick="openWindow('win-story')">
+            <img src="https://cdn-icons-png.flaticon.com/512/330/330430.png" alt="Folder">
+            <span>Povestea.txt</span>
+        </div>
+
+        <div class="icon" onclick="openWindow('win-location')">
+            <img src="https://cdn-icons-png.flaticon.com/512/1865/1865269.png" alt="Map">
+            <span>Harta.exe</span>
+        </div>
+
+        <div class="icon" onclick="openWindow('win-gallery')">
+            <img src="https://cdn-icons-png.flaticon.com/512/1040/1040241.png" alt="Gallery">
+            <span>Poze.jpg</span>
+        </div>
+
+        <div class="icon" onclick="openWindow('win-rsvp')">
+            <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Mail">
+            <span>RSVP.mail</span>
+        </div>
+
+    </div>
+
+    <div id="win-story" class="window">
+        <div class="title-bar" onmousedown="startDrag(event, 'win-story')">
+            <span>C:\Users\Love\Story.txt</span>
+            <div class="close-btn" onclick="closeWindow('win-story')">X</div>
+        </div>
+        <div class="window-content">
+            <h2 class="text-2xl mb-4 border-b-2 border-gray-400 pb-2">Profile Utilizatori</h2>
+            
+            <div class="profile-split">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop" class="profile-img">
+                <div>
+                    <h3 class="font-bold text-lg">Ion (Mire)</h3>
+                    <p class="text-sm">Status: Îndrăgostit<br>Role: Administrator<br>Descriere: "Am știut că ea e aleasa de la primul Hello World."</p>
+                </div>
+            </div>
+
+            <div class="profile-split">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop" class="profile-img">
+                <div>
+                    <h3 class="font-bold text-lg">Maria (Mireasa)</h3>
+                    <p class="text-sm">Status: Fericită<br>Role: Administrator<br>Descriere: "El este singurul bug pe care nu vreau să-l repar."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="win-location" class="window" style="top: 40%; left: 60%;">
+        <div class="title-bar" onmousedown="startDrag(event, 'win-location')">
+            <span>Harta Evenimentului</span>
+            <div class="close-btn" onclick="closeWindow('win-location')">X</div>
+        </div>
+        <div class="window-content text-center">
+            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800&auto=format&fit=crop" class="w-full h-40 object-cover border-2 border-gray-500 mb-4">
+            <h2 class="text-xl font-bold">Palatul Snagov</h2>
+            <div class="bg-yellow-100 border border-black p-2 my-2 font-mono text-sm">
+                <p>Data: 24.08.2025</p>
+                <p>Ora: 16:00 (Check-in)</p>
+            </div>
+            <p class="text-sm mb-4">Vă rugăm să urmați coordonatele GPS.</p>
+            <button class="retro-btn">Deschide Google Maps</button>
+        </div>
+    </div>
+
+    <div id="win-gallery" class="window" style="top: 55%; left: 45%;">
+        <div class="title-bar" onmousedown="startDrag(event, 'win-gallery')">
+            <span>Imagini (4 items)</span>
+            <div class="close-btn" onclick="closeWindow('win-gallery')">X</div>
+        </div>
+        <div class="window-content">
+            <div class="grid grid-cols-2 gap-2">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=400" class="w-full h-32 object-cover border border-gray-400">
+                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=400" class="w-full h-32 object-cover border border-gray-400">
+                <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=400" class="w-full h-32 object-cover border border-gray-400">
+                <img src="https://images.unsplash.com/photo-1533261642875-524f2b1d7d0a?q=80&w=400" class="w-full h-32 object-cover border border-gray-400">
+            </div>
+            <p class="text-xs mt-2 text-gray-500">4 objects selected.</p>
+        </div>
+    </div>
+
+    <div id="win-rsvp" class="window" style="top: 50%; left: 50%;">
+        <div class="title-bar" onmousedown="startDrag(event, 'win-rsvp')">
+            <span>Trimite Confirmare</span>
+            <div class="close-btn" onclick="closeWindow('win-rsvp')">X</div>
+        </div>
+        <div class="window-content">
+            <p class="mb-4">Completează formularul pentru a te conecta la serverul nunții.</p>
+            <form>
+                <label class="text-xs font-bold">Nume Guest:</label>
+                <input type="text" class="retro-input" placeholder="ex: Popescu">
+                
+                <label class="text-xs font-bold">Nr. Persoane:</label>
+                <select class="retro-input">
+                    <option>1 User</option>
+                    <option>2 Users</option>
+                </select>
+
+                <div class="flex gap-4 my-2">
+                    <label class="flex items-center text-xs"><input type="checkbox" class="mr-1"> Transport</label>
+                    <label class="flex items-center text-xs"><input type="checkbox" class="mr-1"> Cazare</label>
+                </div>
+
+                <button type="button" class="retro-btn" onclick="alert('Date trimise la server!')">UPLOAD CONFIRMARE</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="taskbar">
+        <div class="start-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Windows_95_logo_minimal.svg/1200px-Windows_95_logo_minimal.svg.png" class="w-4 h-4">
+            START
+        </div>
+        <div class="flex gap-2 text-sm hidden md:flex">
+            <span>M&I_Wedding.os</span>
+        </div>
+        <div class="clock">
+            24 AUG 2025
+        </div>
+    </div>
+
+    <script src="template11.js"></script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Series - Premiere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="template8.css">
+</head>
+<body>
+
+    <nav class="fixed top-0 left-0 w-full p-4 z-50 flex gap-6 items-center bg-gradient-to-b from-black/80 to-transparent">
+        <div class="text-[rgb(var(--color-brand))] font-display text-3xl">N & A</div>
+        <div class="hidden md:flex gap-4 text-sm font-light opacity-80">
+            <span class="font-bold text-white cursor-pointer">Home</span>
+            <span class="cursor-pointer hover:opacity-100 transition">Series</span>
+            <span class="cursor-pointer hover:opacity-100 transition">My List</span>
+        </div>
+    </nav>
+
+    <div class="hero-wrapper">
+        <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=2074&auto=format&fit=crop" 
+             class="hero-bg" alt="Hero">
+        
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="flex items-center gap-2 mb-2 text-xs uppercase tracking-[0.2em] font-bold opacity-80">
+                <span class="text-[rgb(var(--color-brand))] text-xl">N</span>
+                <span>Original Series</span>
+            </div>
+
+            <h1 class="movie-logo">Love Story:<br>The Wedding</h1>
+            
+            <div class="meta-tags">
+                <span class="text-[#46d369]">99% Match</span>
+                <span>2025</span>
+                <span class="tag-box">18+</span>
+                <span>1 Sezon</span>
+            </div>
+
+            <p class="text-sm md:text-lg mb-6 max-w-lg drop-shadow-md">
+                Doi oameni, o singură poveste. După 5 ani de așteptare, sezonul final este aici. Urmărește cel mai important eveniment al anului, live din București.
+            </p>
+
+            <div class="flex flex-wrap gap-4">
+                <button onclick="openModal('rsvp')" class="btn-play">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    Confirmă Prezența
+                </button>
+                <button onclick="openModal('info')" class="btn-info">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Detalii & Info
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="row-title">Episoade (Program)</h3>
+    <div class="row-container">
+        <div class="thumbnail-card" onclick="openModal('biserica')">
+            <img src="https://images.unsplash.com/photo-1548625361-bd87691ee91d?q=80&w=800&auto=format&fit=crop" class="thumbnail-img">
+            <div class="card-info">
+                <p class="font-bold text-sm">1. Ceremonia</p>
+                <p class="text-xs opacity-70">Ora 16:00 • 45 min</p>
+            </div>
+        </div>
+
+        <div class="thumbnail-card" onclick="openModal('party')">
+            <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop" class="thumbnail-img">
+            <div class="card-info">
+                <p class="font-bold text-sm">2. Marea Petrecere</p>
+                <p class="text-xs opacity-70">Ora 19:00 • All Night</p>
+            </div>
+        </div>
+
+        <div class="thumbnail-card">
+            <img src="https://images.unsplash.com/photo-1535295972055-1c762f4483e5?q=80&w=800&auto=format&fit=crop" class="thumbnail-img">
+            <div class="card-info">
+                <p class="font-bold text-sm">3. Momentul Dulce</p>
+                <p class="text-xs opacity-70">Ora 00:00 • Finalul</p>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="row-title">Distribuție (Cast)</h3>
+    <div class="row-container">
+        <div class="thumbnail-card">
+            <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=800&auto=format&fit=crop" class="thumbnail-img">
+            <div class="card-info">
+                <p class="font-bold text-sm">Nașii</p>
+                <p class="text-xs opacity-70">Fam. Munteanu</p>
+            </div>
+        </div>
+        <div class="thumbnail-card">
+            <img src="https://images.unsplash.com/photo-1520854221256-17451cc330e7?q=80&w=800&auto=format&fit=crop" class="thumbnail-img">
+            <div class="card-info">
+                <p class="font-bold text-sm">Părinții Lui</p>
+                <p class="text-xs opacity-70">Ion & Maria</p>
+            </div>
+        </div>
+        <div class="thumbnail-card">
+            <img src="https://images.unsplash.com/photo-1475721027767-4d536da8cab5?q=80&w=800&auto=format&fit=crop" class="thumbnail-img">
+            <div class="card-info">
+                <p class="font-bold text-sm">Părinții Ei</p>
+                <p class="text-xs opacity-70">Gheorghe & Elena</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="mainModal" class="modal-backdrop">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            
+            <div class="modal-header" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#181818] to-transparent"></div>
+            </div>
+
+            <div class="modal-body">
+                <div id="modalContentRSVP" class="hidden">
+                    <h2 class="text-2xl font-bold mb-4">Confirmare Prezență</h2>
+                    <p class="opacity-70 mb-6 text-sm">Rezervă-ți locul pentru premiera sezonului. Locurile sunt limitate.</p>
+                    <form>
+                        <input type="text" placeholder="Nume Guest" class="input-stream">
+                        <select class="input-stream bg-[#333]">
+                            <option>1 Viewer (Singur)</option>
+                            <option>2 Viewers (Cuplu)</option>
+                        </select>
+                        <div class="flex gap-4 mb-4">
+                            <label class="flex items-center gap-2 text-sm"><input type="checkbox"> Transport</label>
+                            <label class="flex items-center gap-2 text-sm"><input type="checkbox"> Cazare</label>
+                        </div>
+                        <button type="button" class="btn-red">TRIMITE RĂSPUNS</button>
+                    </form>
+                </div>
+
+                <div id="modalContentInfo" class="hidden">
+                    <h2 class="text-2xl font-bold mb-4">Detalii Producție</h2>
+                    <p class="mb-2"><span class="text-gray-400">Gen:</span> Romance, Comedie</p>
+                    <p class="mb-2"><span class="text-gray-400">Locație:</span> Palatul Ghica, București</p>
+                    <p class="mb-4"><span class="text-gray-400">Dress Code:</span> Red Carpet (Black Tie)</p>
+                    <p class="opacity-70 text-sm leading-relaxed">
+                        Evenimentul va începe fix la ora stabilită. Vă rugăm să nu folosiți telefoanele mobile în timpul ceremoniei pentru a nu strica cadrele fotografilor oficiali.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="template8.js"></script>
+</body>
+</html>

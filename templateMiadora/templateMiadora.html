@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEDDO Premium Template - Invitație Nuntă</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    colors: {
+                        // Mapăm culorile Tailwind direct la variabile CSS
+                        primary: 'var(--color-primary)',
+                        secondary: 'var(--color-secondary)',
+                        accent: 'var(--color-accent)',
+                        surface: 'var(--color-surface)',
+                        text: 'var(--color-text)',
+                        muted: 'var(--color-muted)',
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "url('https://images.unsplash.com/photo-1519225421980-715cb0202128?q=80&w=2000&auto=format&fit=crop')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* DEFINIRE VARIABILE CSS - UȘOR DE EDITAT */
+        :root {
+            /* Light Theme Default */
+            --color-primary: #ffffff;
+            --color-secondary: #1a1a1a;
+            --color-accent: #d4af37; /* Gold standard */
+            --color-surface: #f9f9f7; /* Creamy white */
+            --color-text: #2d2d2d;
+            --color-muted: #888888;
+            
+            --overlay-opacity: 0.4;
+        }
+
+        /* Dark Theme Override */
+        html.dark {
+            --color-primary: #121212;
+            --color-secondary: #ffffff;
+            --color-accent: #e5c568;
+            --color-surface: #1e1e1e;
+            --color-text: #e0e0e0;
+            --color-muted: #a0a0a0;
+            
+            --overlay-opacity: 0.7;
+        }
+
+        /* Utility animations */
+        .fade-up-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-up-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--color-surface); }
+        ::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-primary text-text transition-colors duration-500 font-sans antialiased overflow-x-hidden">
+
+    <div id="theme-panel" class="fixed top-1/2 right-0 transform -translate-y-1/2 z-50 flex translate-x-full transition-transform duration-300">
+        <button id="theme-toggle-btn" class="bg-accent text-primary w-12 h-12 flex items-center justify-center shadow-lg rounded-l-md" onclick="toggleThemePanel()">
+            <i class="fa-solid fa-gear fa-spin-pulse"></i>
+        </button>
+        <div class="bg-surface border-l border-accent p-6 shadow-2xl w-64 flex flex-col gap-4">
+            <h3 class="font-serif text-xl text-secondary border-b border-muted pb-2">Theme Settings</h3>
+            
+            <div class="flex justify-between items-center">
+                <span class="text-sm uppercase tracking-wider">Dark Mode</span>
+                <button id="dark-mode-toggle" class="w-12 h-6 rounded-full bg-muted relative transition-colors duration-300">
+                    <div class="w-4 h-4 bg-white rounded-full absolute top-1 left-1 transition-transform duration-300 shadow-sm"></div>
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <span class="text-sm uppercase tracking-wider">Accent Color</span>
+                <input type="color" id="accent-picker" class="w-full h-10 cursor-pointer border-0" value="#d4af37">
+            </div>
+
+            <button onclick="resetTheme()" class="text-xs text-muted underline hover:text-accent mt-2 text-left">Reset to Default</button>
+        </div>
+    </div>
+
+    <div class="bg-secondary text-primary py-2 text-xs md:text-sm tracking-widest uppercase border-b border-accent/20">
+        <div class="container mx-auto px-6 flex justify-between items-center max-w-6xl">
+            <div id="topbar-contact">
+                </div>
+            <div class="flex gap-3 opacity-70">
+                <span class="cursor-pointer hover:text-accent font-bold">RO</span>
+                <span class="cursor-pointer hover:text-accent">EN</span>
+                <span class="cursor-pointer hover:text-accent">RU</span>
+            </div>
+        </div>
+    </div>
+
+    <nav id="navbar" class="sticky top-0 z-40 bg-primary/95 backdrop-blur-md border-b border-accent/10 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center max-w-6xl">
+            <div id="logo-container" class="font-serif text-2xl md:text-3xl font-bold tracking-tighter text-secondary">
+                </div>
+            <ul id="desktop-menu" class="hidden md:flex gap-8 text-xs font-medium uppercase tracking-widest text-text">
+                </ul>
+            <button class="md:hidden text-secondary text-2xl" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-surface border-b border-accent shadow-lg flex-col p-6 gap-4 text-center">
+            </div>
+    </nav>
+
+    <main id="app">
+        </main>
+
+    <footer class="bg-secondary text-white pt-20 pb-10">
+        <div class="container mx-auto px-6 max-w-6xl text-center">
+            <h2 id="footer-names" class="font-serif text-4xl mb-6 text-accent"></h2>
+            <p id="footer-msg" class="text-muted max-w-lg mx-auto mb-10 font-light italic"></p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-12 text-sm tracking-widest">
+                <div id="footer-contact"></div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 text-xs text-muted flex justify-between flex-col md:flex-row gap-4">
+                <p>&copy; 2025 WEDDO Templates. All rights reserved.</p>
+                <p>Designed for premium events.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * ------------------------------------------------------------------
+         * 1. DATA OBJECT - CLIENT EDITABLE AREA
+         * ------------------------------------------------------------------
+         * Aici clientul își modifică toate textele și link-urile.
+         */
+        const invitationData = {
+            meta: {
+                title: "Alexandru & Maria",
+                date: "24 August 2025",
+                location: "Miadora Estate, Chișinău"
+            },
+            contact: {
+                phone: "+373 69 000 000",
+                email: "rsvp@nuntanoastra.md"
+            },
+            menu: [
+                { label: "Povestea", link: "#story" },
+                { label: "Program", link: "#schedule" },
+                { label: "Locație", link: "#zones" },
+                { label: "Galerie", link: "#gallery" },
+                { label: "RSVP", link: "#rsvp" }
+            ],
+            hero: {
+                title: "Alexandru & Maria",
+                subtitle: "VĂ INVITĂM SĂ SĂRBĂTORIȚI ALĂTURI DE NOI",
+                date: "24.08.2025",
+                cta: "Confirmă Prezența"
+            },
+            features: [
+                { icon: "fa-gem", title: "Eleganță", desc: "Un eveniment black-tie definit prin rafinament." },
+                { icon: "fa-champagne-glasses", title: "Atmosferă", desc: "Muzică live, cocktail bar și momente unice." },
+                { icon: "fa-location-dot", title: "Locație", desc: "Grădinile Miadora, un colț de rai urban." },
+                { icon: "fa-heart", title: "Iubire", desc: "Sărbătorim începutul călătoriei noastre împreună." }
+            ],
+            story: {
+                title: "Povestea Noastră",
+                text: "Totul a început într-o zi de toamnă târzie. Ceea ce părea a fi o simplă cafea s-a transformat în ore întregi de conversații despre vise, călătorii și viitor. Cinci ani mai târziu, suntem gata să scriem cel mai important capitol. Ne dorim ca în această zi specială să fim înconjurați de oamenii care au dat sens poveștii noastre.",
+                image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1000&auto=format&fit=crop"
+            },
+            schedule: [
+                { time: "15:00", title: "Cununia Religioasă", desc: "Catedrala Mitropolitană" },
+                { time: "17:00", title: "Welcome Cocktail", desc: "Grădina de vară, Miadora" },
+                { time: "18:30", title: "Marea Recepție", desc: "Sala de Bal" },
+                { time: "23:00", title: "Tortul Miresei", desc: "Moment dulce și focuri de artificii" }
+            ],
+            zones: {
+                title: "Experiența Evenimentului",
+                tabs: ["Ceremonie", "Recepție", "Party", "Lounge"],
+                content: {
+                    "Ceremonie": {
+                        text: "Un cadru solemn și emoționant, decorat cu flori albe naturale și acompaniament de cvartet.",
+                        img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1000&auto=format&fit=crop"
+                    },
+                    "Recepție": {
+                        text: "Cină festivă servită à la carte, într-o sală grandioasă cu candelabre de cristal.",
+                        img: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1000&auto=format&fit=crop"
+                    },
+                    "Party": {
+                        text: "Ringul de dans va fi animat de o trupă live și DJ până în zori.",
+                        img: "https://images.unsplash.com/photo-1545893835-aba221758663?q=80&w=1000&auto=format&fit=crop"
+                    },
+                    "Lounge": {
+                        text: "O zonă de relaxare pe terasă, cu trabucuri fine și coniac vechi.",
+                        img: "https://images.unsplash.com/photo-1561587597-a7259c991f89?q=80&w=1000&auto=format&fit=crop"
+                    }
+                }
+            },
+            gallery: [
+                "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1511285560982-1356c11d4606?q=80&w=600&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1520854221256-17451cc330e7?q=80&w=600&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=600&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=600&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=600&auto=format&fit=crop"
+            ],
+            testimonials: [
+                { text: "Nu putem aștepta să fim alături de voi!", author: "Fam. Ionescu" },
+                { text: "Cea mai frumoasă pereche. Vă iubim!", author: "Nașii" }
+            ],
+            faq: [
+                { q: "Care este codul vestimentar?", a: "Black Tie Optional. Domnii în costum închis la culoare, doamnele în rochii lungi sau de cocktail elegante." },
+                { q: "Pot veni cu copiii?", a: "Deși iubim copiii, acest eveniment este dedicat exclusiv adulților pentru a asigura o atmosferă relaxată." },
+                { q: "Există parcare asigurată?", a: "Da, locația dispune de parcare privată păzită pentru toți invitații." }
+            ]
+        };
+
+        /**
+         * ------------------------------------------------------------------
+         * 2. RENDER FUNCTIONS (THE BUILDER)
+         * ------------------------------------------------------------------
+         */
+        
+        // Helper: Inject HTML
+        const render = (id, html) => {
+            const el = document.getElementById(id);
+            if(el) el.innerHTML = html;
+        };
+
+        // A. Header & Nav
+        const renderHeader = () => {
+            render('topbar-contact', `
+                <span class="mr-4"><i class="fa-solid fa-phone text-accent mr-2"></i>${invitationData.contact.phone}</span>
+                <span class="hidden sm:inline"><i class="fa-solid fa-envelope text-accent mr-2"></i>${invitationData.contact.email}</span>
+            `);
+            render('logo-container', `<a href="#">${invitationData.meta.title}</a>`);
+            
+            const menuItems = invitationData.menu.map(item => 
+                `<li><a href="${item.link}" class="hover:text-accent transition-colors relative group">
+                    ${item.label}
+                    <span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a></li>`
+            ).join('');
+            
+            render('desktop-menu', menuItems);
+            render('mobile-menu', menuItems);
+        };
+
+        // B. Hero Section
+        const sectionHero = () => `
+            <section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center bg-fixed transform scale-105"></div>
+                <div class="absolute inset-0 bg-black" style="opacity: var(--overlay-opacity);"></div>
+                
+                <div class="relative z-10 text-center text-white px-4 fade-up-element">
+                    <p class="text-sm md:text-base tracking-[0.3em] uppercase mb-6 text-accent">${invitationData.hero.subtitle}</p>
+                    <h1 class="font-serif text-5xl md:text-7xl lg:text-9xl mb-6 leading-tight">${invitationData.hero.title}</h1>
+                    <div class="w-24 h-1 bg-accent mx-auto mb-8"></div>
+                    <p class="font-sans text-xl md:text-2xl font-light mb-12 tracking-wide">${invitationData.hero.date}</p>
+                    <a href="#rsvp" class="inline-block px-10 py-4 border border-white text-white uppercase tracking-widest text-sm hover:bg-accent hover:border-accent hover:text-primary transition-all duration-300">
+                        ${invitationData.hero.cta}
+                    </a>
+                </div>
+                
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/50">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </section>
+        `;
+
+        // C. Feature Blocks
+        const sectionFeatures = () => `
+            <section class="py-24 bg-surface">
+                <div class="container mx-auto px-6 max-w-6xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+                        ${invitationData.features.map((item, index) => `
+                            <div class="fade-up-element p-6 hover:-translate-y-2 transition-transform duration-300" style="transition-delay: ${index * 100}ms">
+                                <div class="text-4xl text-accent mb-6"><i class="fa-solid ${item.icon}"></i></div>
+                                <h3 class="font-serif text-xl mb-3 text-secondary font-bold">${item.title}</h3>
+                                <p class="text-muted text-sm leading-relaxed">${item.desc}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>
+        `;
+
+        // D. Story Section
+        const sectionStory = () => `
+            <section id="story" class="py-24 md:py-32 bg-primary">
+                <div class="container mx-auto px-6 max-w-6xl">
+                    <div class="flex flex-col lg:flex-row items-center gap-16">
+                        <div class="lg:w-1/2 fade-up-element">
+                            <div class="relative pl-8 pt-8 border-l border-t border-accent">
+                                <img src="${invitationData.story.image}" alt="Couple" class="w-full h-[500px] object-cover shadow-2xl grayscale hover:grayscale-0 transition-all duration-700">
+                            </div>
+                        </div>
+                        <div class="lg:w-1/2 text-center lg:text-left fade-up-element">
+                            <h2 class="font-serif text-4xl md:text-5xl text-secondary mb-8">${invitationData.story.title}</h2>
+                            <p class="text-text leading-loose text-lg font-light mb-8">${invitationData.story.text}</p>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Signature_sample.svg/1200px-Signature_sample.svg.png" class="h-16 opacity-50 mx-auto lg:mx-0 invert dark:invert-0" alt="signature">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        // E. Schedule
+        const sectionSchedule = () => `
+            <section id="schedule" class="py-24 bg-surface border-y border-accent/10">
+                <div class="container mx-auto px-6 max-w-4xl text-center">
+                    <h2 class="font-serif text-4xl md:text-5xl text-secondary mb-16 fade-up-element">Programul Zilei</h2>
+                    <div class="space-y-0">
+                        ${invitationData.schedule.map((item, index) => `
+                            <div class="flex flex-col md:flex-row items-center group fade-up-element border-b border-muted/20 py-8 last:border-0 hover:bg-white/50 dark:hover:bg-black/20 transition-colors">
+                                <div class="md:w-1/3 text-right pr-0 md:pr-10 mb-2 md:mb-0">
+                                    <span class="text-3xl font-serif text-accent font-italic">${item.time}</span>
+                                </div>
+                                <div class="md:w-2/3 text-center md:text-left pl-0 md:pl-10 border-l-0 md:border-l border-accent/30 relative">
+                                    <div class="hidden md:block absolute -left-[5px] top-1/2 transform -translate-y-1/2 w-2.5 h-2.5 bg-accent rounded-full"></div>
+                                    <h3 class="text-xl font-bold uppercase tracking-widest text-secondary mb-1">${item.title}</h3>
+                                    <p class="text-muted font-light italic">${item.desc}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>
+        `;
+
+        // F. Zones (Tabs)
+        const sectionZones = () => `
+            <section id="zones" class="py-24 bg-primary">
+                <div class="container mx-auto px-6 max-w-6xl">
+                    <div class="text-center mb-12 fade-up-element">
+                        <span class="text-accent tracking-widest uppercase text-sm">Locația & Atmosfera</span>
+                        <h2 class="font-serif text-4xl mt-3 text-secondary">${invitationData.zones.title}</h2>
+                    </div>
+
+                    <div class="flex justify-center flex-wrap gap-4 mb-12 fade-up-element">
+                        ${invitationData.zones.tabs.map((tab, idx) => `
+                            <button onclick="switchZone('${tab}')" 
+                                class="zone-tab-btn px-6 py-2 border-b-2 ${idx === 0 ? 'border-accent text-secondary' : 'border-transparent text-muted hover:text-secondary'} 
+                                uppercase tracking-widest text-sm transition-all duration-300"
+                                data-tab="${tab}">
+                                ${tab}
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div id="zone-content-wrapper" class="relative min-h-[400px] fade-up-element bg-surface p-8 md:p-12 shadow-sm border border-accent/10">
+                        <div class="flex flex-col md:flex-row items-center gap-10">
+                            <div class="md:w-1/2">
+                                <h3 id="zone-title" class="font-serif text-3xl mb-4 text-secondary italic"></h3>
+                                <div class="w-12 h-0.5 bg-accent mb-6"></div>
+                                <p id="zone-text" class="text-text leading-relaxed text-lg font-light"></p>
+                            </div>
+                            <div class="md:w-1/2 w-full">
+                                <img id="zone-img" src="" class="w-full h-64 md:h-80 object-cover shadow-lg" alt="Zone">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        // G. Gallery
+        const sectionGallery = () => `
+            <section id="gallery" class="py-24 bg-secondary text-primary relative">
+                 <div class="container mx-auto px-6 max-w-6xl">
+                    <h2 class="font-serif text-4xl text-center mb-16 text-accent fade-up-element">Momente De Neuitat</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        ${invitationData.gallery.map((img, idx) => `
+                            <div class="fade-up-element overflow-hidden cursor-pointer group relative" onclick="openLightbox('${img}')">
+                                <img src="${img}" class="w-full h-64 object-cover transform transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" alt="Gallery ${idx}">
+                                <div class="absolute inset-0 bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <i class="fa-solid fa-plus text-white text-2xl drop-shadow-md"></i>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                 </div>
+            </section>
+        `;
+
+        // H. RSVP Section
+        const sectionRSVP = () => `
+            <section id="rsvp" class="py-24 bg-surface">
+                <div class="container mx-auto px-6 max-w-3xl">
+                    <div class="bg-primary p-8 md:p-16 shadow-2xl border-t-4 border-accent relative fade-up-element">
+                        <div class="text-center mb-10">
+                            <h2 class="font-serif text-4xl text-secondary mb-2">RSVP</h2>
+                            <p class="text-muted">Vă rugăm să confirmați până la 1 August.</p>
+                        </div>
+                        
+                        <form onsubmit="handleRSVP(event)" class="space-y-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="relative">
+                                    <input type="text" id="name" required class="w-full border-b border-muted bg-transparent py-2 focus:outline-none focus:border-accent transition-colors peer placeholder-transparent" placeholder="Nume">
+                                    <label for="name" class="absolute left-0 -top-3.5 text-xs text-muted transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-accent">Nume Prenume</label>
+                                </div>
+                                <div class="relative">
+                                    <input type="tel" id="phone" required class="w-full border-b border-muted bg-transparent py-2 focus:outline-none focus:border-accent transition-colors peer placeholder-transparent" placeholder="Telefon">
+                                    <label for="phone" class="absolute left-0 -top-3.5 text-xs text-muted transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-accent">Telefon</label>
+                                </div>
+                            </div>
+                            
+                            <div class="relative">
+                                <select class="w-full border-b border-muted bg-transparent py-2 focus:outline-none focus:border-accent text-text">
+                                    <option value="confirm">Confirm cu plăcere</option>
+                                    <option value="decline">Din păcate, nu pot ajunge</option>
+                                </select>
+                            </div>
+
+                            <div class="relative">
+                                <input type="number" min="1" max="5" class="w-full border-b border-muted bg-transparent py-2 focus:outline-none focus:border-accent text-text" placeholder="Număr persoane">
+                            </div>
+
+                            <div class="text-center mt-10">
+                                <button type="submit" class="bg-accent text-primary px-12 py-4 uppercase tracking-widest font-bold hover:bg-secondary hover:text-white transition-all duration-300 shadow-lg">
+                                    Trimite Răspunsul
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        // I. FAQ Section
+        const sectionFAQ = () => `
+            <section class="py-24 bg-primary">
+                <div class="container mx-auto px-6 max-w-4xl">
+                    <h2 class="font-serif text-3xl text-center mb-12 text-secondary fade-up-element">Informații Utile</h2>
+                    <div class="space-y-4">
+                        ${invitationData.faq.map((item, idx) => `
+                            <div class="border border-muted/20 fade-up-element">
+                                <button onclick="toggleAccordion(${idx})" class="w-full text-left px-6 py-4 flex justify-between items-center bg-surface hover:bg-accent/5 transition-colors">
+                                    <span class="font-serif text-lg text-secondary">${item.q}</span>
+                                    <i id="icon-${idx}" class="fa-solid fa-chevron-down text-accent text-sm transition-transform duration-300"></i>
+                                </button>
+                                <div id="content-${idx}" class="hidden px-6 py-6 text-muted font-light leading-relaxed border-t border-muted/10">
+                                    ${item.a}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>
+        `;
+
+        // 3. BUILD THE PAGE
+        const buildPage = () => {
+            renderHeader();
+            
+            const mainHtml = 
+                sectionHero() +
+                sectionFeatures() +
+                sectionStory() +
+                sectionSchedule() +
+                sectionZones() +
+                sectionGallery() +
+                sectionRSVP() +
+                sectionFAQ();
+
+            render('app', mainHtml);
+            render('footer-names', invitationData.meta.title);
+            render('footer-msg', "„Dragostea este compusă dintr-un singur suflet care locuiește în două corpuri.”");
+            render('footer-contact', `<p>${invitationData.contact.phone}</p><span class="hidden md:inline text-accent">•</span><p>${invitationData.contact.email}</p>`);
+
+            // Init dynamic components
+            switchZone(invitationData.zones.tabs[0]);
+            setupObserver();
+        };
+
+        /**
+         * ------------------------------------------------------------------
+         * 4. INTERACTIVITY & LOGIC
+         * ------------------------------------------------------------------
+         */
+
+        // Tab Switcher
+        window.switchZone = (tabName) => {
+            const data = invitationData.zones.content[tabName];
+            
+            // UI Updates
+            document.querySelectorAll('.zone-tab-btn').forEach(btn => {
+                if(btn.dataset.tab === tabName) {
+                    btn.classList.add('border-accent', 'text-secondary');
+                    btn.classList.remove('border-transparent', 'text-muted');
+                } else {
+                    btn.classList.remove('border-accent', 'text-secondary');
+                    btn.classList.add('border-transparent', 'text-muted');
+                }
+            });
+
+            // Content Injection with Fade
+            const wrapper = document.getElementById('zone-content-wrapper');
+            wrapper.style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('zone-title').innerText = tabName;
+                document.getElementById('zone-text').innerText = data.text;
+                document.getElementById('zone-img').src = data.img;
+                wrapper.style.opacity = '1';
+            }, 200);
+        };
+
+        // FAQ Accordion
+        window.toggleAccordion = (idx) => {
+            const content = document.getElementById(`content-${idx}`);
+            const icon = document.getElementById(`icon-${idx}`);
+            if(content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        };
+
+        // Lightbox
+        window.openLightbox = (src) => {
+            const lb = document.createElement('div');
+            lb.className = 'fixed inset-0 z-[60] bg-black/95 flex items-center justify-center cursor-pointer opacity-0 transition-opacity duration-300';
+            lb.innerHTML = `<img src="${src}" class="max-h-[90vh] max-w-[90vw] shadow-2xl border-4 border-white/10 rounded-sm">`;
+            document.body.appendChild(lb);
+            
+            // Trigger reflow for fade-in
+            setTimeout(() => lb.classList.remove('opacity-0'), 10);
+
+            lb.onclick = () => {
+                lb.classList.add('opacity-0');
+                setTimeout(() => lb.remove(), 300);
+            };
+        };
+
+        // RSVP Handler
+        window.handleRSVP = (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "Se trimite...";
+            btn.classList.add('opacity-75');
+            
+            // Simulate API call
+            setTimeout(() => {
+                btn.innerText = "Mesaj Trimis!";
+                btn.classList.remove('bg-accent');
+                btn.classList.add('bg-green-600', 'text-white');
+                e.target.reset();
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.add('bg-accent');
+                    btn.classList.remove('bg-green-600');
+                }, 3000);
+            }, 1500);
+        };
+
+        // Intersection Observer for Scroll Animations
+        const setupObserver = () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-up-element').forEach(el => observer.observe(el));
+        };
+
+        // Mobile Menu
+        window.toggleMobileMenu = () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        }
+
+        /**
+         * ------------------------------------------------------------------
+         * 5. THEME SETTINGS LOGIC
+         * ------------------------------------------------------------------
+         */
+        
+        // Toggle Panel
+        window.toggleThemePanel = () => {
+            const panel = document.getElementById('theme-panel');
+            panel.classList.toggle('translate-x-full');
+        };
+
+        // Update CSS Variables Helper
+        const updateVar = (name, value) => {
+            document.documentElement.style.setProperty(name, value);
+        };
+
+        // Color Picker Logic
+        const picker = document.getElementById('accent-picker');
+        picker.addEventListener('input', (e) => {
+            const color = e.target.value;
+            updateVar('--color-accent', color);
+            localStorage.setItem('theme_accent', color);
+        });
+
+        // Dark Mode Logic
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const handleDarkMode = (isDark) => {
+            const dot = darkModeToggle.firstElementChild;
+            if(isDark) {
+                document.documentElement.classList.add('dark');
+                dot.style.transform = 'translateX(24px)';
+                darkModeToggle.classList.replace('bg-muted', 'bg-accent');
+            } else {
+                document.documentElement.classList.remove('dark');
+                dot.style.transform = 'translateX(0)';
+                darkModeToggle.classList.replace('bg-accent', 'bg-muted');
+            }
+            localStorage.setItem('theme_mode', isDark ? 'dark' : 'light');
+        };
+
+        darkModeToggle.onclick = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            handleDarkMode(!isDark);
+        };
+
+        // Load Settings
+        window.resetTheme = () => {
+            updateVar('--color-accent', '#d4af37');
+            picker.value = '#d4af37';
+            handleDarkMode(false);
+            localStorage.clear();
+        }
+
+        const loadSettings = () => {
+            const savedAccent = localStorage.getItem('theme_accent');
+            if(savedAccent) {
+                updateVar('--color-accent', savedAccent);
+                picker.value = savedAccent;
+            }
+            
+            const savedMode = localStorage.getItem('theme_mode');
+            if(savedMode === 'dark') handleDarkMode(true);
+        };
+
+        // --- INIT ---
+        window.addEventListener('DOMContentLoaded', () => {
+            buildPage();
+            loadSettings();
+        });
+
+    </script>
+</body>
+</html>

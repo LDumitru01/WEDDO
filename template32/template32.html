@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ro" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nostalgia Ultra | Responsive Experience</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <link href="https://api.fontshare.com/v2/css?f[]=alpina@300,400,500,700&f[]=sentient@200,400,500,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --c-paper: #E8E4D9;
+            --c-ink: #2C2420;
+            --c-sienna: #A6523F;
+            --c-olive: #5F634F;
+            
+            --font-serif: 'Alpina', serif;
+            --font-display: 'Sentient', serif;
+            --font-mono: 'Courier Prime', monospace;
+            --font-hand: 'Nothing You Could Do', cursive;
+        }
+
+        body {
+            background-color: var(--c-paper);
+            color: var(--c-ink);
+            font-family: var(--font-serif);
+            overflow-x: hidden;
+        }
+
+        /* TEXTURE */
+        .film-grain {
+            position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: 0.08;
+            background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+            mix-blend-mode: overlay;
+        }
+
+        /* LOADER */
+        .loader-screen {
+            position: fixed; inset: 0; background: var(--c-ink); z-index: 10000;
+            display: flex; justify-content: center; align-items: center; color: var(--c-paper);
+        }
+        .loader-text {
+            font-family: var(--font-mono); font-size: 1.5rem; border-right: 2px solid var(--c-sienna);
+            padding-right: 5px; animation: blink 0.7s infinite;
+        }
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        /* UI ELEMENTS */
+        .torn-paper-top {
+            clip-path: polygon(0% 10px, 5% 0px, 10% 12px, 15% 2px, 20% 10px, 25% 0px, 30% 12px, 35% 2px, 40% 10px, 45% 0px, 50% 12px, 55% 2px, 60% 10px, 65% 0px, 70% 12px, 75% 2px, 80% 10px, 85% 0px, 90% 12px, 95% 2px, 100% 10px, 100% 100%, 0% 100%);
+        }
+        
+        .polaroid {
+            background: #fff; padding: 10px 10px 40px 10px;
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        /* LOGICA PENTRU GALERIE (Mobile vs Desktop) */
+        .playground-container {
+            position: relative; width: 100%; 
+        }
+        
+        /* Pe Desktop: Zona mare, liberă */
+        @media (min-width: 768px) {
+            .playground-container { height: 120vh; overflow: hidden; cursor: grab; }
+            .drag-item { position: absolute; width: 250px; }
+            .polaroid { transform: rotate(var(--rot)); }
+            .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 50; }
+        }
+
+        /* Pe Mobile: Scroll Orizontal, Elemente Statice */
+        @media (max-width: 767px) {
+            .playground-container { 
+                display: flex; gap: 20px; overflow-x: auto; padding: 40px 20px; 
+                scroll-snap-type: x mandatory; height: auto;
+            }
+            .drag-item { 
+                position: relative !important; flex-shrink: 0; width: 80vw !important; 
+                top: auto !important; left: auto !important; 
+                scroll-snap-align: center;
+                transform: rotate(var(--rot-mob, 0deg));
+            }
+        }
+
+        .big-title { font-family: var(--font-display); font-weight: 700; line-height: 0.9; }
+        .handwritten { font-family: var(--font-hand); color: var(--c-sienna); transform: rotate(-5deg); display: inline-block; }
+
+        .stamp-btn {
+            width: 120px; height: 120px; border-radius: 50%; border: 2px dashed var(--c-sienna);
+            display: flex; justify-content: center; align-items: center; color: var(--c-sienna);
+            font-family: var(--font-mono); font-weight: bold; text-transform: uppercase;
+            animation: rotateStamp 20s linear infinite; transition: all 0.3s;
+        }
+        .stamp-btn:hover { background: var(--c-sienna); color: var(--c-paper); border-style: solid; }
+        @keyframes rotateStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Hide Scrollbar for mobile gallery */
+        .playground-container::-webkit-scrollbar { display: none; }
+        .playground-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+    </style>
+</head>
+<body class="loading">
+
+    <div class="film-grain"></div>
+
+    <div class="loader-screen" id="loader">
+        <div class="loader-text" id="typewriter"></div>
+    </div>
+
+    <nav class="fixed top-0 w-full p-6 md:p-8 flex justify-between items-center z-40 mix-blend-multiply bg-white/50 backdrop-blur-sm md:bg-transparent">
+        <div class="font-mono text-xs uppercase tracking-widest border border-black px-4 py-1 rounded-full">Est. 2025</div>
+        <a href="#rsvp" class="font-mono text-xs uppercase tracking-widest border-b border-black hover:text-[var(--c-sienna)] transition">R.S.V.P.</a>
+    </nav>
+
+
+    <main>
+
+        <section class="min-h-screen relative flex flex-col justify-center items-center pt-20 px-4 overflow-hidden">
+            
+            <div class="absolute top-24 left-4 md:left-10 w-24 md:w-32 h-8 md:h-10 bg-[#e0dcd0] opacity-80 rotate-[-15deg] shadow-sm z-20"></div>
+            <div class="absolute bottom-24 right-4 md:right-10 w-24 md:w-32 h-8 md:h-10 bg-[#e0dcd0] opacity-80 rotate-[10deg] shadow-sm z-20"></div>
+
+            <div class="relative z-10 text-center w-full">
+                <span class="font-mono text-[10px] md:text-xs uppercase tracking-[0.4em] mb-4 block">The Union Of</span>
+                
+                <h1 class="big-title text-[18vw] md:text-[15vw] text-[var(--c-ink)] mix-blend-darken relative leading-none">
+                    <span class="block" id="heroName1">MIHAI</span>
+                    <span class="block relative z-20" id="heroName2">ELENA</span>
+                    
+                    <span class="handwritten text-[6vw] md:text-[4vw] absolute top-[45%] right-[5%] md:right-[-10%] z-30">forever</span>
+                </h1>
+
+            </div>
+
+            <div class="absolute bottom-8 w-full text-center">
+                <p class="font-mono text-[10px] md:text-xs uppercase tracking-widest opacity-60">↓ Scroll to unfold memories</p>
+            </div>
+        </section>
+
+
+        <section class="py-20 md:py-32 px-6 md:px-24 bg-[var(--c-paper)] relative">
+            <div class="absolute left-6 md:left-1/2 top-0 h-full w-[1px] bg-[var(--c-ink)] opacity-20"></div>
+
+            <div class="max-w-6xl mx-auto space-y-24 md:space-y-32">
+                
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-10 relative pl-8 md:pl-0">
+                    <div class="w-full md:w-1/2 text-left md:text-right order-2 md:order-1 md:pr-10">
+                        <span class="handwritten text-2xl md:text-3xl mb-2 block">Cap. 01</span>
+                        <h2 class="text-4xl md:text-5xl font-display mb-4">Începutul</h2>
+                        <p class="font-serif text-base md:text-lg leading-relaxed opacity-80">
+                            O cafenea mică și o conversație de 5 ore. Așa a început totul.
+                        </p>
+                    </div>
+                    <div class="w-full md:w-1/2 order-1 md:order-2 md:pl-10">
+                        <div class="w-full aspect-[4/3] overflow-hidden rounded-lg shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="absolute left-[-5px] md:left-1/2 top-0 md:top-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 w-4 h-4 md:w-16 md:h-16 bg-[var(--c-sienna)] rounded-full flex items-center justify-center text-[var(--c-paper)] font-mono text-xs font-bold z-10 border-2 md:border-4 border-[var(--c-paper)]">
+                        <span class="hidden md:block">2018</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-10 relative pl-8 md:pl-0">
+                    <div class="w-full md:w-1/2 text-left md:text-right order-2 md:order-2 pl-0 md:pl-10">
+                        <span class="handwritten text-2xl md:text-3xl mb-2 block">Cap. 02</span>
+                        <h2 class="text-4xl md:text-5xl font-display mb-4">Călătoria</h2>
+                        <p class="font-serif text-base md:text-lg leading-relaxed opacity-80">
+                            Lumea e mare, dar acasă e acolo unde suntem noi.
+                        </p>
+                    </div>
+                    <div class="w-full md:w-1/2 order-1 md:order-1 pr-0 md:pr-10">
+                        <div class="w-full aspect-[4/3] overflow-hidden rounded-lg shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=800" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="absolute left-[-5px] md:left-1/2 top-0 md:top-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 w-4 h-4 md:w-16 md:h-16 bg-[var(--c-olive)] rounded-full flex items-center justify-center text-[var(--c-paper)] font-mono text-xs font-bold z-10 border-2 md:border-4 border-[var(--c-paper)]">
+                        <span class="hidden md:block">2024</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section class="py-20 bg-[#E0DCD0] torn-paper-top relative">
+            <div class="text-center mb-6 pt-10 px-4">
+                <h2 class="text-4xl md:text-6xl font-display text-[var(--c-sienna)]">Aruncă o privire</h2>
+                <p class="font-mono text-[10px] md:text-xs mt-4 opacity-60 hidden md:block">( Drag photos with mouse )</p>
+                <p class="font-mono text-[10px] md:text-xs mt-4 opacity-60 md:hidden">( Swipe left to view )</p>
+            </div>
+
+            <div class="playground-container" id="playground">
+                
+                <div class="drag-item polaroid" style="top: 10%; left: 20%; --rot: -5deg; --rot-mob: -2deg;">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="w-full aspect-square object-cover grayscale">
+                    <div class="text-center font-hand mt-2">Zâmbete</div>
+                </div>
+
+                <div class="drag-item polaroid" style="top: 30%; left: 50%; --rot: 8deg; --rot-mob: 2deg;">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="w-full aspect-[3/4] object-cover grayscale">
+                    <div class="text-center font-hand mt-2">Noi</div>
+                </div>
+
+                <div class="drag-item polaroid" style="top: 15%; left: 60%; --rot: -10deg; --rot-mob: -1deg;">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600" class="w-full aspect-[4/5] object-cover grayscale">
+                    <div class="text-center font-hand mt-2">Vara</div>
+                </div>
+
+                <div class="drag-item polaroid" style="top: 50%; left: 10%; --rot: 12deg; --rot-mob: 3deg;">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600" class="w-full aspect-square object-cover grayscale">
+                    <div class="text-center font-hand mt-2">El</div>
+                </div>
+
+                <div class="drag-item polaroid" style="top: 45%; left: 70%; --rot: -3deg; --rot-mob: -2deg;">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600" class="w-full aspect-[3/4] object-cover grayscale">
+                    <div class="text-center font-hand mt-2">Ea</div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="rsvp" class="py-20 md:py-32 px-4 flex justify-center bg-[var(--c-paper)]">
+            
+            <div class="w-full max-w-4xl bg-[#F4F1EA] border border-gray-300 p-6 md:p-10 shadow-2xl relative">
+                <div class="absolute top-4 right-4 md:top-10 md:right-10 w-16 h-20 md:w-24 md:h-32 border-2 md:border-4 border-dashed border-gray-300 flex items-center justify-center opacity-50 rotate-6">
+                    <span class="font-mono text-[8px] md:text-xs uppercase text-center">Postage<br>Paid</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
+                    
+                    <div class="border-b md:border-b-0 md:border-r border-gray-300 pb-10 md:pb-0 md:pr-10 border-dashed">
+                        <h2 class="text-3xl md:text-4xl font-display mb-6">Detalii</h2>
+                        <div class="space-y-6 font-serif">
+                            <div>
+                                <span class="block font-mono text-xs uppercase text-[var(--c-sienna)]">Când</span>
+                                <p class="text-lg md:text-xl">24 August 2025, 16:00</p>
+                            </div>
+                            <div>
+                                <span class="block font-mono text-xs uppercase text-[var(--c-sienna)]">Unde</span>
+                                <p class="text-lg md:text-xl">Conacul Manasia</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col justify-center">
+                        <h3 class="font-hand text-3xl md:text-4xl mb-8 text-[var(--c-sienna)]">Dragă Mihai & Elena,</h3>
+                        
+                        <form class="space-y-6">
+                            <input type="text" class="w-full bg-transparent border-b-2 border-gray-300 py-2 font-mono text-base md:text-lg focus:border-[var(--c-sienna)] outline-none" placeholder="Numele meu este...">
+                            
+                            <div class="flex gap-4 font-mono text-xs md:text-sm">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="att" class="accent-[var(--c-sienna)]"> Voi veni
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="att" class="accent-[var(--c-sienna)]"> Nu pot veni
+                                </label>
+                            </div>
+
+                            <button class="stamp-btn mx-auto mt-10 hover:scale-110 text-xs md:text-sm">
+                                Trimite<br>Răspuns
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="py-10 text-center font-mono text-xs text-[var(--c-ink)] opacity-50">
+            Made with nostalgia • 2025
+        </footer>
+
+    </main>
+
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger, Draggable);
+
+        // 1. LOADER
+        const text = "LOADING MEMORIES...";
+        const loaderText = document.getElementById('typewriter');
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                loaderText.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 80);
+            } else {
+                setTimeout(hideLoader, 500);
+            }
+        }
+
+        function hideLoader() {
+            const loaderScreen = document.getElementById('loader');
+            gsap.to(loaderScreen, {
+                yPercent: -100,
+                duration: 1.2,
+                ease: "power4.inOut",
+                onComplete: initApp
+            });
+        }
+        typeWriter();
+
+
+        // 2. APP LOGIC
+        function initApp() {
+            
+            // Smooth Scroll (Always good)
+            const lenis = new Lenis({
+                duration: 1.5,
+                smooth: true
+            });
+            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+            requestAnimationFrame(raf);
+
+            // GSAP MATCH MEDIA (The Key for Mobile)
+            let mm = gsap.matchMedia();
+
+            // A. DESKTOP LOGIC (> 768px)
+            mm.add("(min-width: 768px)", () => {
+                // Enable Draggable only on desktop
+                Draggable.create(".drag-item", {
+                    type: "x,y",
+                    edgeResistance: 0.65,
+                    bounds: "#playground",
+                    inertia: true,
+                    onDragStart: function() {
+                        gsap.to(this.target, { scale: 1.1, zIndex: 100, duration: 0.2 });
+                    },
+                    onDragEnd: function() {
+                        gsap.to(this.target, { scale: 1, duration: 0.2 });
+                    }
+                });
+
+                // Parallax Hero
+                gsap.to("#heroName1", { xPercent: -20, scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: 1 } });
+                gsap.to("#heroName2", { xPercent: 20, scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: 1 } });
+            });
+
+            // B. MOBILE LOGIC (< 768px)
+            mm.add("(max-width: 767px)", () => {
+                // No draggable here. 
+                // The CSS handles the horizontal scroll layout.
+                // We can add simple fade-ins
+                gsap.utils.toArray(".drag-item").forEach(item => {
+                    gsap.from(item, {
+                        opacity: 0,
+                        y: 50,
+                        scrollTrigger: {
+                            trigger: "#playground",
+                            start: "top 70%"
+                        }
+                    })
+                });
+            });
+        }
+
+    </script>
+</body>
+</html>

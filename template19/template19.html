@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S & T | Beyond Ordinary</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Syncopate:wght@400;700&family=Manrope:wght@200;400;600&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'obsidian': '#0a0a0a',
+                        'platinum': '#e5e4e2',
+                        'neon-gold': '#ffd700'
+                    },
+                    fontFamily: {
+                        'title': ['Syncopate', 'sans-serif'],
+                        'royal': ['Cinzel', 'serif'],
+                        'body': ['Manrope', 'sans-serif'],
+                    },
+                    cursor: {
+                        'none': 'none',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            overflow: hidden; /* Blocăm scroll-ul nativ */
+            background-color: #0a0a0a;
+            color: #e5e4e2;
+            cursor: none; /* Ascundem cursorul default */
+        }
+
+        /* CUSTOM CURSOR */
+        #cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+            background: white; border-radius: 50%;
+            pointer-events: none; mix-blend-mode: difference; z-index: 9999;
+            transition: transform 0.1s;
+        }
+        #cursor-follower {
+            position: fixed; top: 0; left: 0; width: 60px; height: 60px;
+            border: 1px solid white; border-radius: 50%;
+            pointer-events: none; z-index: 9998;
+            transition: transform 0.15s ease-out;
+        }
+
+        /* SLIDES */
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; visibility: hidden;
+            transition: all 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transform: translateY(100%);
+        }
+        .slide.active {
+            opacity: 1; visibility: visible;
+            transform: translateY(0);
+        }
+        .slide.prev {
+            transform: translateY(-100%); opacity: 0;
+        }
+
+        /* SPLIT SECTION (HE/SHE) */
+        .split-container { position: relative; width: 100%; height: 100%; display: flex; }
+        .split-side {
+            position: relative; width: 50%; height: 100%; overflow: hidden;
+            transition: width 0.5s ease;
+        }
+        .split-side img {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100vw; height: 100vh; object-fit: cover; opacity: 0.6;
+            transition: opacity 0.5s;
+        }
+        .split-content {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            z-index: 10; padding: 4rem; opacity: 0; transition: opacity 0.5s 0.2s;
+        }
+        
+        /* Când ești pe o parte */
+        .split-container.hover-left .left { width: 90%; }
+        .split-container.hover-left .right { width: 10%; }
+        .split-container.hover-left .left img { opacity: 1; }
+        .split-container.hover-left .left .split-content { opacity: 1; }
+
+        .split-container.hover-right .right { width: 90%; }
+        .split-container.hover-right .left { width: 10%; }
+        .split-container.hover-right .right img { opacity: 1; }
+        .split-container.hover-right .right .split-content { opacity: 1; }
+
+        /* GALLERY MARQUEE */
+        .marquee { display: flex; gap: 20px; width: max-content; }
+        .marquee img { height: 60vh; width: auto; object-fit: cover; border-radius: 10px; filter: grayscale(100%); transition: filter 0.5s; }
+        .marquee img:hover { filter: grayscale(0%); }
+    </style>
+</head>
+<body class="font-body selection:bg-neon-gold selection:text-black">
+
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <div class="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
+        <button onclick="goToSlide(0)" class="nav-dot w-2 h-2 bg-white/20 rounded-full hover:bg-white transition-all" data-index="0"></button>
+        <button onclick="goToSlide(1)" class="nav-dot w-2 h-2 bg-white/20 rounded-full hover:bg-white transition-all" data-index="1"></button>
+        <button onclick="goToSlide(2)" class="nav-dot w-2 h-2 bg-white/20 rounded-full hover:bg-white transition-all" data-index="2"></button>
+        <button onclick="goToSlide(3)" class="nav-dot w-2 h-2 bg-white/20 rounded-full hover:bg-white transition-all" data-index="3"></button>
+        <button onclick="goToSlide(4)" class="nav-dot w-2 h-2 bg-white/20 rounded-full hover:bg-white transition-all" data-index="4"></button>
+        <button onclick="goToSlide(5)" class="nav-dot w-2 h-2 bg-white/20 rounded-full hover:bg-white transition-all" data-index="5"></button>
+    </div>
+
+    <main id="slider-container" class="relative w-full h-screen overflow-hidden">
+
+        <section class="slide active bg-obsidian flex flex-col justify-center items-center text-center relative">
+            <div class="absolute inset-0 z-0 opacity-40">
+                <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4" type="video/mp4">
+                </video>
+            </div>
+            
+            <div class="z-10 mix-blend-difference">
+                <p class="font-title text-sm tracking-[1em] text-neon-gold mb-10 animate-pulse">Save The Date</p>
+                <div id="magnetic-area" class="p-10">
+                    <h1 class="font-royal text-8xl md:text-[9rem] leading-none tracking-tighter transition-transform duration-100 ease-out" id="magnetic-text">
+                        SARA <span class="text-neon-gold text-6xl block md:inline">&</span> TOMA
+                    </h1>
+                </div>
+                <p class="mt-8 text-xs uppercase tracking-widest text-gray-400">Scroll pentru a începe experiența</p>
+            </div>
+        </section>
+
+
+        <section class="slide bg-white text-obsidian flex flex-col justify-center items-center relative">
+            <div class="absolute select-none opacity-5 font-title text-[20vw] font-bold leading-none text-center w-full">
+                24<br>AUG
+            </div>
+
+            <div class="z-10 text-center">
+                <div class="flex items-center gap-6 md:gap-12">
+                    <div>
+                        <span class="block text-9xl font-royal font-bold tracking-tighter">24</span>
+                        <span class="block text-sm uppercase tracking-[0.5em] mt-2">Duminică</span>
+                    </div>
+                    <div class="h-32 w-[2px] bg-obsidian"></div>
+                    <div>
+                        <span class="block text-9xl font-royal font-bold tracking-tighter text-neon-gold" style="color: #b8860b;">08</span>
+                        <span class="block text-sm uppercase tracking-[0.5em] mt-2">August</span>
+                    </div>
+                </div>
+                <h2 class="mt-12 font-title text-4xl">2025</h2>
+                
+                <div class="mt-16 grid grid-cols-2 gap-20 text-left border-t border-black pt-8">
+                    <div>
+                        <p class="font-bold uppercase tracking-widest text-sm mb-2">Ceremonia</p>
+                        <p class="font-royal text-4xl">16:00</p>
+                    </div>
+                    <div>
+                        <p class="font-bold uppercase tracking-widest text-sm mb-2">Party</p>
+                        <p class="font-royal text-4xl">19:00</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="slide bg-obsidian">
+            <div class="split-container" id="splitContainer">
+                
+                <div class="split-side left bg-gray-900 border-r border-white/10">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=1200&q=80" alt="El">
+                    <div class="split-content left-10 md:left-20">
+                        <span class="text-neon-gold text-xs tracking-[0.5em] uppercase">Mirele</span>
+                        <h2 class="font-royal text-6xl md:text-8xl mb-6">Toma</h2>
+                        <p class="max-w-md text-lg text-gray-300 leading-relaxed">
+                            "Am găsit în ea partenerul ideal de crime. Ea este scânteia care aprinde focul."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="split-side right bg-gray-800">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&q=80" alt="Ea">
+                    <div class="split-content right-10 md:right-20 text-right w-full pr-20 md:pr-40">
+                        <span class="text-neon-gold text-xs tracking-[0.5em] uppercase">Mireasa</span>
+                        <h2 class="font-royal text-6xl md:text-8xl mb-6">Sara</h2>
+                        <p class="max-w-md text-lg text-gray-300 leading-relaxed ml-auto">
+                            "El este ancora mea. Când lumea se învârte prea repede, el o oprește doar pentru mine."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="absolute inset-0 flex justify-center items-center pointer-events-none opacity-50" id="hover-hint">
+                    <div class="w-16 h-16 rounded-full border border-white flex items-center justify-center animate-pulse">
+                        <span class="text-xs">HOVER</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="slide bg-obsidian relative">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1519225427186-1db33e051cc4?w=1920&q=80" class="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition duration-1000">
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent"></div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 w-full p-12 md:p-24 flex flex-col md:flex-row justify-between items-end">
+                <div class="mb-8 md:mb-0">
+                    <span class="text-neon-gold text-xs tracking-[0.5em] uppercase">Locația</span>
+                    <h2 class="font-royal text-6xl md:text-8xl mt-4">Castelul<br>Cantacuzino</h2>
+                    <p class="mt-4 text-gray-400">Bușteni, România</p>
+                </div>
+                
+                <a href="https://maps.google.com" target="_blank" class="group relative px-8 py-4 overflow-hidden border border-white/30 rounded-full">
+                    <span class="relative z-10 text-sm font-bold uppercase tracking-widest group-hover:text-black transition">Vezi Harta</span>
+                    <div class="absolute inset-0 bg-white transform translate-y-full group-hover:translate-y-0 transition duration-300"></div>
+                </a>
+            </div>
+        </section>
+
+
+        <section class="slide bg-platinum text-obsidian flex flex-col justify-center overflow-hidden">
+            <div class="px-12 mb-12">
+                <h2 class="font-title text-4xl uppercase">Amintiri<br>Vizuale</h2>
+            </div>
+            
+            <div class="w-full overflow-hidden" id="marquee-container">
+                <div class="marquee" id="marquee-content">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=600&q=80">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600&q=80">
+                    <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=600&q=80">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600&q=80">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=600&q=80">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600&q=80">
+                </div>
+            </div>
+            
+            <p class="text-center mt-8 text-xs uppercase tracking-widest opacity-50">Drag to scroll</p>
+        </section>
+
+
+        <section class="slide bg-obsidian flex items-center justify-center relative">
+            <div class="absolute w-[600px] h-[600px] border border-neon-gold/20 rounded-full animate-[spin_20s_linear_infinite]"></div>
+            <div class="absolute w-[400px] h-[400px] border border-white/10 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+
+            <div class="z-10 w-full max-w-lg p-10 bg-black/50 backdrop-blur-md border border-white/10 relative">
+                <h2 class="font-title text-4xl text-neon-gold mb-8 text-center">R.S.V.P</h2>
+                
+                <form class="space-y-8">
+                    <div class="group">
+                        <input type="text" placeholder="NUME COMPLET" class="w-full bg-transparent border-b border-gray-700 py-4 text-white text-center uppercase tracking-widest focus:outline-none focus:border-neon-gold transition placeholder-gray-700">
+                    </div>
+                    
+                    <div class="flex justify-center gap-12 text-sm uppercase tracking-widest">
+                        <label class="flex items-center gap-2 cursor-pointer hover:text-neon-gold transition">
+                            <input type="radio" name="att" class="accent-neon-gold"> Confirm
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer hover:text-red-400 transition">
+                            <input type="radio" name="att" class="accent-neon-gold"> Declin
+                        </label>
+                    </div>
+
+                    <button class="w-full py-4 bg-white text-black font-bold uppercase tracking-[0.3em] hover:bg-neon-gold hover:text-black transition duration-300">
+                        Trimite
+                    </button>
+                </form>
+
+                <footer class="absolute -bottom-20 w-full text-center text-xs text-gray-600 uppercase tracking-widest">
+                    S & T © 2025
+                </footer>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // 1. CURSOR CUSTOM
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            follower.style.transform = `translate(${e.clientX - 20}px, ${e.clientY - 20}px)`;
+        });
+
+        // Hover effect pe linkuri/butoane
+        document.querySelectorAll('a, button, input, label').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.transform = `translate(${el.getBoundingClientRect().left}px, ${el.getBoundingClientRect().top}px)`;
+                follower.style.width = '0px'; 
+                follower.style.height = '0px';
+                cursor.style.transform = `scale(2) translate(${event.clientX}px, ${event.clientY}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.width = '60px'; 
+                follower.style.height = '60px';
+                cursor.style.transform = `scale(1) translate(${event.clientX}px, ${event.clientY}px)`;
+            });
+        });
+
+        // 2. SLIDER LOGIC (Mouse Wheel)
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.nav-dot');
+        const totalSlides = slides.length;
+        let isScrolling = false;
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active', 'prev');
+                if (index === currentSlide) slide.classList.add('active');
+                if (index < currentSlide) slide.classList.add('prev');
+            });
+            
+            dots.forEach((dot, index) => {
+                dot.style.background = index === currentSlide ? 'white' : 'rgba(255,255,255,0.2)';
+                dot.style.transform = index === currentSlide ? 'scale(1.5)' : 'scale(1)';
+            });
+        }
+
+        function goToSlide(index) {
+            if (index >= 0 && index < totalSlides) {
+                currentSlide = index;
+                updateSlides();
+            }
+        }
+
+        window.addEventListener('wheel', (e) => {
+            if (isScrolling) return;
+            isScrolling = true;
+            
+            if (e.deltaY > 0) {
+                goToSlide(currentSlide + 1);
+            } else {
+                goToSlide(currentSlide - 1);
+            }
+
+            setTimeout(() => { isScrolling = false; }, 1000); // Debounce pentru a nu sări prea repede
+        });
+
+        // Initial setup
+        updateSlides();
+
+        // 3. MAGNETIC HERO TEXT
+        const magneticArea = document.getElementById('magnetic-area');
+        const magneticText = document.getElementById('magnetic-text');
+
+        magneticArea.addEventListener('mousemove', (e) => {
+            const rect = magneticArea.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            magneticText.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+        });
+
+        magneticArea.addEventListener('mouseleave', () => {
+            magneticText.style.transform = `translate(0px, 0px)`;
+        });
+
+        // 4. SPLIT SCREEN INTERACTION
+        const splitContainer = document.getElementById('splitContainer');
+        const hint = document.getElementById('hover-hint');
+
+        splitContainer.addEventListener('mousemove', (e) => {
+            hint.style.opacity = 0; // Hide hint on interaction
+            const x = e.clientX / window.innerWidth;
+            
+            if (x < 0.5) {
+                splitContainer.classList.add('hover-left');
+                splitContainer.classList.remove('hover-right');
+            } else {
+                splitContainer.classList.add('hover-right');
+                splitContainer.classList.remove('hover-left');
+            }
+        });
+
+        splitContainer.addEventListener('mouseleave', () => {
+            splitContainer.classList.remove('hover-left', 'hover-right');
+            hint.style.opacity = 0.5;
+        });
+
+        // 5. MARQUEE ANIMATION
+        const marquee = document.getElementById('marquee-content');
+        let marqueePos = 0;
+        function animateMarquee() {
+            marqueePos -= 1; // Viteza
+            if (marqueePos <= -1000) marqueePos = 0; // Reset aproximativ
+            marquee.style.transform = `translateX(${marqueePos}px)`;
+            requestAnimationFrame(animateMarquee);
+        }
+        animateMarquee();
+
+    </script>
+</body>
+</html>

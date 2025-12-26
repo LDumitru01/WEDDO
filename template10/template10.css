@@ -1,0 +1,161 @@
+/* template10.css */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Jost:wght@300;400;500&display=swap');
+
+:root {
+    /* --- CONFIGURARE CULORI (LUXURY MONOCHROME) --- */
+    
+    /* 1. Fundalul (Alb Cald / Crem) */
+    --bg-color: 245, 245, 240; 
+    
+    /* 2. Textul Principal (Negru Soft) */
+    --text-color: 20, 20, 20;
+    
+    /* 3. Accent (Auriu Șters / Bej) */
+    --accent-color: 180, 160, 120;
+}
+
+body {
+    background-color: rgb(var(--bg-color));
+    color: rgb(var(--text-color));
+    font-family: 'Jost', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Titluri de lux */
+h1, h2, h3, .font-lux {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+/* --- 1. HERO ANIMATION --- */
+.hero-img-container {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+.hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: zoomOut 10s infinite alternate;
+}
+@keyframes zoomOut {
+    from { transform: scale(1.1); }
+    to { transform: scale(1); }
+}
+
+/* --- 2. MARQUEE (Text care curge) --- */
+.marquee-wrapper {
+    background: rgb(var(--text-color));
+    color: rgb(var(--bg-color));
+    padding: 15px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    z-index: 10;
+}
+.marquee-content {
+    display: inline-block;
+    animation: scrollText 20s linear infinite;
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+}
+@keyframes scrollText {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* --- 3. STICKY SCROLL SECTION (COMPLEX) --- */
+/* Aceasta este tehnica "WOW". Containerul este înalt (300vh), dar conținutul stă lipit. */
+.sticky-wrapper {
+    height: 300vh; /* Lungimea scroll-ului pentru poveste */
+    position: relative;
+}
+
+.sticky-content {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Cele două "Slide-uri" (El și Ea) sunt suprapuse */
+.story-slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0; /* Ascuns inițial */
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease;
+    background-color: rgb(var(--bg-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.story-slide.active {
+    opacity: 1; /* Vizibil */
+    z-index: 5;
+}
+
+.story-inner {
+    display: flex;
+    flex-direction: column;
+    md:flex-direction: row;
+    width: 90%;
+    max-width: 1200px;
+    height: 80%;
+    gap: 40px;
+    align-items: center;
+}
+
+/* --- 4. FORMULAR MINIMALIST --- */
+.input-line {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(var(--text-color), 0.3);
+    padding: 15px 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: rgb(var(--text-color));
+    outline: none;
+    transition: all 0.3s;
+}
+.input-line:focus {
+    border-bottom: 1px solid rgb(var(--text-color));
+    padding-left: 10px;
+}
+
+.btn-outline {
+    border: 1px solid rgb(var(--text-color));
+    background: transparent;
+    color: rgb(var(--text-color));
+    padding: 15px 40px;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.btn-outline:hover {
+    background: rgb(var(--text-color));
+    color: rgb(var(--bg-color));
+}
+
+/* Utilitar pentru imagini artistice */
+.art-img {
+    filter: grayscale(100%);
+    transition: filter 0.5s;
+}
+.art-img:hover {
+    filter: grayscale(0%);
+}

@@ -1,0 +1,159 @@
+/* template7.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Nothing+You+Could+Do&family=DM+Serif+Display&display=swap');
+
+:root {
+    /* --- CONFIGURARE CULORI (TRAVEL THEME) --- */
+    
+    /* 1. Culoarea Copertei (Pașaportului) */
+    /* Încearcă: 20, 30, 60 (Navy) sau 120, 20, 40 (Burgundy) sau 25, 50, 25 (Forest Green) */
+    --passport-bg: 28, 37, 65;
+
+    /* 2. Culoarea Metalică (Auriu/Argintiu pentru text) */
+    /* Gradientul se generează automat din aceste culori */
+    --foil-start: 223, 187, 133;
+    --foil-end: 179, 135, 76;
+
+    /* 3. Culoarea Hârtiei (Interior) */
+    --paper-bg: 248, 245, 242;
+
+    /* 4. Culoarea Cernelii (Text) */
+    --ink-color: 40, 50, 70;
+}
+
+body {
+    background-color: #e0e0e0; /* Fundal neutru (masa de lucru) */
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(var(--ink-color));
+    margin: 0;
+    padding: 20px 0;
+    overflow-x: hidden;
+}
+
+/* Fonturi Speciale */
+.font-stamp { font-family: 'Nothing You Could Do', cursive; } /* Scris de mână/Ștampilă */
+.font-serif { font-family: 'DM Serif Display', serif; }
+
+/* Efectul de "Gold Foil" (Text Metalic) */
+.gold-text {
+    background: linear-gradient(to right, rgb(var(--foil-start)), rgb(var(--foil-end)), rgb(var(--foil-start)));
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+
+/* Container Principal (Centrat) */
+.travel-container {
+    max-width: 600px;
+    margin: 0 auto;
+    perspective: 1000px;
+}
+
+/* CARDUL 1: COPERTA PAȘAPORT */
+.passport-cover {
+    background-color: rgb(var(--passport-bg));
+    color: rgb(var(--foil-start));
+    border-radius: 15px 15px 0 0;
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Textură granulată peste copertă */
+.passport-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+    opacity: 0.3;
+    pointer-events: none;
+    border-radius: 15px 15px 0 0;
+}
+
+/* CARDUL 2: BILETUL DE AVION (INTERIOR) */
+.boarding-pass {
+    background-color: rgb(var(--paper-bg));
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    /* Model de hârtie */
+    background-image: radial-gradient(rgb(var(--ink-color)) 0.5px, transparent 0.5px);
+    background-size: 20px 20px;
+    background-color: rgb(var(--paper-bg)); /* Fallback */
+}
+
+/* Linia Perforată (Tear-off line) */
+.tear-line {
+    border-top: 2px dashed rgba(var(--ink-color), 0.3);
+    margin: 30px 0;
+    position: relative;
+}
+/* Decupajele laterale ale liniei perforate */
+.tear-line::before, .tear-line::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    width: 20px;
+    height: 20px;
+    background-color: #e0e0e0; /* Aceeași culoare ca body */
+    border-radius: 50%;
+}
+.tear-line::before { left: -40px; }
+.tear-line::after { right: -40px; }
+
+/* Ștampile (Stamps) */
+.stamp-box {
+    border: 3px solid rgba(var(--passport-bg), 0.3);
+    border-radius: 10px;
+    padding: 10px;
+    transform: rotate(-5deg);
+    display: inline-block;
+    color: rgba(var(--passport-bg), 0.6);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    transition: transform 0.3s;
+}
+.stamp-box:hover {
+    transform: rotate(0deg) scale(1.1);
+    border-color: rgb(var(--passport-bg));
+    color: rgb(var(--passport-bg));
+}
+
+/* Formular "Visa Application" */
+.input-visa {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(var(--ink-color), 0.2);
+    width: 100%;
+    padding: 12px;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 10px;
+    color: rgb(var(--ink-color));
+}
+.input-visa:focus {
+    outline: 2px solid rgb(var(--passport-bg));
+}
+
+.btn-visa {
+    background-color: rgb(var(--passport-bg));
+    color: white;
+    width: 100%;
+    padding: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    letter-spacing: 1px;
+}
+.btn-visa:hover {
+    background-color: rgb(var(--ink-color));
+}

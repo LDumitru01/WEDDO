@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stacked Wedding | Art & Soul</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,900;1,6..96,400&family=Jost:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ZONA DE CONFIGURARE CULORI --- */
+        :root {
+            --bg-dark: #121212;
+            --bg-light: #f4f1ea;
+            --bg-accent: #9a3412; /* Un cărămiziu ars / Terracotta */
+            
+            --text-light: #f4f1ea;
+            --text-dark: #121212;
+            --text-gold: #d4af37;
+        }
+
+        /* --- STILURI DE BAZĂ --- */
+        body {
+            font-family: 'Jost', sans-serif;
+            background-color: var(--bg-dark);
+        }
+        
+        h1, h2, h3, .serif {
+            font-family: 'Bodoni Moda', serif;
+        }
+
+        /* --- MAGIA "STICKY STACKING" --- */
+        .stack-section {
+            position: sticky;
+            top: 0;
+            height: 100vh; /* Fiecare secțiune ocupă tot ecranul */
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 -10px 50px rgba(0,0,0,0.3); /* Umbră sus pentru separare */
+            transition: transform 0.5s ease, filter 0.5s ease;
+        }
+
+        /* Efecte vizuale extra */
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            color: transparent;
+        }
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        /* Input styling */
+        .input-line {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid currentColor;
+            width: 100%;
+            padding: 10px 0;
+            outline: none;
+            font-size: 1.2rem;
+            border-radius: 0;
+        }
+        .input-line:focus { border-bottom-width: 2px; }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference text-white pointer-events-none">
+        <div class="text-xl font-bold tracking-widest serif">M & D</div>
+        <div class="text-xs uppercase tracking-[0.3em] pointer-events-auto cursor-pointer border border-white/30 px-4 py-2 rounded-full hover:bg-white hover:text-black transition">
+            <a href="#rsvp">RSVP</a>
+        </div>
+    </nav>
+
+
+    <section class="stack-section z-10" style="background-color: var(--bg-dark); color: var(--text-light);">
+        <div class="relative w-full h-full flex flex-col justify-center items-center">
+            <div class="absolute inset-0 opacity-40">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=1920&q=80" class="w-full h-full object-cover">
+            </div>
+            
+            <div class="relative z-10 text-center mix-blend-difference px-4">
+                <p class="text-sm md:text-base uppercase tracking-[0.6em] mb-4 text-white/70">The Union Of</p>
+                <h1 class="text-[5rem] md:text-[10rem] leading-[0.8] font-bold">
+                    Matei <br> <span class="serif font-normal italic text-[4rem] md:text-[8rem]">&</span> Diana
+                </h1>
+            </div>
+
+            <div class="absolute bottom-10 animate-bounce text-white/50 text-xs uppercase tracking-widest">
+                Scroll to Stack
+            </div>
+        </div>
+    </section>
+
+
+    <section class="stack-section z-20" style="background-color: var(--bg-accent); color: var(--text-light);">
+        <div class="w-full h-full flex items-center justify-center relative overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+                <div class="w-[800px] h-[800px] border border-white/50 rounded-full flex items-center justify-center animate-[spin_30s_linear_infinite]">
+                    <div class="text-6xl uppercase tracking-widest text-center w-[1px] h-[50%] bg-transparent relative">
+                        <span class="absolute -top-10 -left-20 w-40">August</span>
+                    </div>
+                    <div class="text-6xl uppercase tracking-widest text-center w-[1px] h-[50%] bg-transparent relative rotate-180">
+                        <span class="absolute -top-10 -left-20 w-40">Twenty</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center z-10">
+                <div class="flex items-baseline justify-center gap-4 md:gap-8">
+                    <span class="text-[8rem] md:text-[15rem] leading-none serif font-bold">24</span>
+                    <div class="text-left">
+                        <span class="block text-2xl md:text-4xl uppercase tracking-widest">Aug</span>
+                        <span class="block text-xl md:text-2xl font-light">2025</span>
+                    </div>
+                </div>
+                <div class="mt-8 border-t border-white/30 pt-8 flex justify-around w-full max-w-lg mx-auto text-sm uppercase tracking-widest">
+                    <span>Duminică</span>
+                    <span>•</span>
+                    <span>Ora 16:00</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="stack-section z-30" style="background-color: var(--bg-light); color: var(--text-dark);">
+        <div class="container mx-auto px-6 h-full flex flex-col justify-center">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-0 w-full h-full md:h-[80vh]">
+                <div class="relative group overflow-hidden border-b md:border-b-0 md:border-r border-black/10">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                    <div class="absolute bottom-0 left-0 p-8 bg-white/80 w-full translate-y-full group-hover:translate-y-0 transition duration-500">
+                        <h3 class="text-3xl serif">Matei</h3>
+                        <p class="text-sm opacity-60">"Ea este busola mea."</p>
+                    </div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 serif text-6xl text-white mix-blend-difference pointer-events-none">EL</div>
+                </div>
+                
+                <div class="relative group overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                    <div class="absolute bottom-0 left-0 p-8 bg-white/80 w-full translate-y-full group-hover:translate-y-0 transition duration-500">
+                        <h3 class="text-3xl serif">Diana</h3>
+                        <p class="text-sm opacity-60">"El este ancora mea."</p>
+                    </div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 serif text-6xl text-white mix-blend-difference pointer-events-none">EA</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="stack-section z-40" style="background-color: #1a1a1a; color: var(--text-light);">
+        <div class="w-full h-full flex flex-col md:flex-row">
+            <div class="w-full md:w-1/2 p-10 md:p-20 flex flex-col justify-center border-b md:border-b-0 md:border-r border-white/10">
+                <span class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-6">Locația</span>
+                <h2 class="text-5xl md:text-7xl serif mb-6">Palatul<br>Bragadiru</h2>
+                <p class="text-gray-400 mb-10 text-lg font-light">
+                    Calea Rahovei 147-153,<br>București
+                </p>
+                <a href="https://maps.google.com" target="_blank" class="inline-block border border-white px-8 py-4 uppercase tracking-widest hover:bg-white hover:text-black transition w-max">
+                    Deschide Harta
+                </a>
+            </div>
+            <div class="w-full md:w-1/2 relative">
+                <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=800" class="w-full h-full object-cover opacity-60">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-transparent md:bg-gradient-to-l"></div>
+                
+                <div class="absolute bottom-10 right-10 text-right">
+                    <div class="serif text-4xl">16:00</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-400">Ceremonia</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="stack-section z-50" style="background-color: var(--bg-light); color: var(--text-dark);">
+        <div class="w-full flex flex-col justify-center">
+            <h2 class="text-center serif text-4xl mb-12">Momente</h2>
+            
+            <div class="marquee-container w-full py-10 bg-white">
+                <div class="marquee-content">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" class="h-64 inline-block mx-4 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition duration-500">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=500" class="h-64 inline-block mx-4 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition duration-500">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=500" class="h-64 inline-block mx-4 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition duration-500">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500" class="h-64 inline-block mx-4 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition duration-500">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=500" class="h-64 inline-block mx-4 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition duration-500">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" class="h-64 inline-block mx-4 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition duration-500">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=500" class="h-64 inline-block mx-4 aspect-[3/4] object-cover grayscale hover:grayscale-0 transition duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="rsvp" class="stack-section z-[60]" style="background-color: var(--bg-accent); color: var(--text-light);">
+        <div class="container mx-auto px-6 flex flex-col items-center justify-center">
+            
+            <div class="w-full max-w-lg bg-black/20 p-10 md:p-16 backdrop-blur-sm border border-white/10">
+                <div class="text-center mb-10">
+                    <h2 class="serif text-5xl mb-2">R.S.V.P.</h2>
+                    <p class="text-xs uppercase tracking-widest opacity-70">Până la 1 Iulie</p>
+                </div>
+
+                <form class="space-y-8">
+                    <div>
+                        <input type="text" class="input-line text-white placeholder-white/50" placeholder="Nume Complet">
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <select class="input-line text-white bg-transparent">
+                            <option class="text-black">1 Persoană</option>
+                            <option class="text-black">2 Persoane</option>
+                        </select>
+                    </div>
+
+                    <div class="flex justify-center gap-8 py-4">
+                        <label class="cursor-pointer flex items-center gap-2">
+                            <input type="radio" name="att" class="accent-white w-4 h-4"> Confirm
+                        </label>
+                        <label class="cursor-pointer flex items-center gap-2">
+                            <input type="radio" name="att" class="accent-white w-4 h-4"> Declin
+                        </label>
+                    </div>
+
+                    <button class="w-full py-4 bg-white text-black font-bold uppercase tracking-widest hover:bg-black hover:text-white transition duration-300">
+                        Trimite
+                    </button>
+                </form>
+            </div>
+
+            <footer class="absolute bottom-6 text-center text-xs opacity-50 uppercase tracking-widest">
+                © 2025 M & D
+            </footer>
+        </div>
+    </section>
+
+
+    <script>
+        // Acest script mic adaugă efectul de "scale down" pentru secțiunile care rămân în urmă
+        const sections = document.querySelectorAll('.stack-section');
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const windowH = window.innerHeight;
+
+            sections.forEach((section, index) => {
+                // Calculăm poziția secțiunii
+                // Deoarece sunt sticky, offsetTop se schimbă, dar putem estima indexul
+                // O secțiune începe să fie acoperită când scroll-ul depășește (index * windowH)
+                
+                // Logică simplificată pentru efect vizual:
+                // Verificăm distanța fiecărei secțiuni față de top
+                const rect = section.getBoundingClientRect();
+                
+                // Dacă secțiunea atinge partea de sus (e sticky) și nu e ultima
+                if (rect.top <= 0 && index < sections.length - 1) {
+                    // Cât de mult din următoarea secțiune a intrat în ecran?
+                    const nextSection = sections[index + 1];
+                    const nextRect = nextSection.getBoundingClientRect();
+                    
+                    // Procentul de acoperire (0 = neacoperit, 1 = complet acoperit de următoarea)
+                    const coverage = 1 - (nextRect.top / windowH);
+                    
+                    // Aplicăm scale și brightness
+                    // Scale merge de la 1 la 0.9
+                    // Brightness (filter) scade
+                    if(coverage > 0) {
+                        const scale = 1 - (coverage * 0.1); 
+                        const brightness = 1 - (coverage * 0.5);
+                        section.style.transform = `scale(${scale})`;
+                        section.style.filter = `brightness(${brightness})`;
+                    }
+                } else {
+                    // Reset
+                    section.style.transform = `scale(1)`;
+                    section.style.filter = `brightness(1)`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

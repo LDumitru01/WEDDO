@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ro" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Velvet | Aristocratic Wedding</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* === PALETA "ROYAL VELVET" === */
+            --bg-color: #F2EFE9;       /* Champagne Cream */
+            --ink-color: #4A0404;      /* Deep Merlot / Burgundy */
+            --ink-light: #8A5A5A;      /* Dusty Red */
+            --accent: #C5A059;         /* Antique Gold */
+            --white: #FFFFFF;
+            
+            /* Spacing */
+            --page-padding: 4vw;
+        }
+
+        /* RESET & BASE */
+        *, *::after, *::before { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--ink-color);
+            font-family: 'Satoshi', sans-serif;
+            overflow-x: hidden;
+            cursor: none; /* Custom Cursor */
+        }
+
+        .font-royal { font-family: 'Cinzel Decorative', cursive; }
+        .font-script { font-family: 'Pinyon Script', cursive; }
+
+        /* === 1. COMPLEX LOADER (CURTAINS) === */
+        .curtain-layer {
+            position: fixed; top: 0; height: 100%; width: 51%; /* 51% pt overlap */
+            background-color: var(--ink-color); z-index: 9999;
+            transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .curtain-left { left: 0; transform-origin: left; }
+        .curtain-right { right: 0; transform-origin: right; }
+        
+        .loader-logo {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 10000; color: var(--accent); font-family: 'Cinzel Decorative';
+            font-size: 3rem; opacity: 1; transition: opacity 0.5s;
+        }
+        
+        body.loaded .curtain-left { transform: scaleX(0); }
+        body.loaded .curtain-right { transform: scaleX(0); }
+        body.loaded .loader-logo { opacity: 0; pointer-events: none; }
+
+        /* === 2. CUSTOM CURSOR === */
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+            background-color: var(--ink-color); border-radius: 50%; pointer-events: none; z-index: 9000;
+        }
+        .cursor-circle {
+            position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+            border: 1px solid var(--ink-light); border-radius: 50%; pointer-events: none; z-index: 9000;
+            transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+        }
+        
+        /* Hover States */
+        body.hovering .cursor-circle { width: 80px; height: 80px; background-color: rgba(74, 4, 4, 0.05); border-color: transparent; }
+        body.hovering-white .cursor-dot { background-color: white; }
+        body.hovering-white .cursor-circle { border-color: white; }
+
+        /* === 3. ANIMATION UTILS === */
+        .char-wrap { overflow: hidden; display: inline-block; }
+        .char { display: inline-block; transform: translateY(100%); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .is-visible .char { transform: translateY(0); }
+
+        .img-parallax-container { overflow: hidden; position: relative; width: 100%; height: 100%; }
+        .img-parallax { width: 100%; height: 120%; object-fit: cover; will-change: transform; }
+
+        /* === 4. UI COMPONENTS === */
+        .btn-royal {
+            position: relative; padding: 1.2rem 3rem; border: 1px solid var(--ink-color);
+            color: var(--ink-color); text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em;
+            font-size: 0.8rem; overflow: hidden; transition: color 0.4s; display: inline-block;
+        }
+        .btn-royal::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--ink-color); transform: scaleX(0); transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); z-index: -1;
+        }
+        .btn-royal:hover { color: var(--bg-color); }
+        .btn-royal:hover::after { transform: scaleX(1); transform-origin: left; }
+
+        /* === 5. GRAIN TEXTURE (Essential for "Old Money" feel) === */
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 8000; opacity: 0.5;
+        }
+
+        /* === 6. GALLERY COLUMNS === */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw;
+            padding: 0 4vw; height: 150vh; overflow: hidden;
+        }
+        .gallery-col { display: flex; flex-direction: column; gap: 2vw; will-change: transform; }
+        .gallery-col:nth-child(2) { margin-top: -10vh; } /* Offset middle column */
+
+    </style>
+</head>
+<body>
+
+    <div class="grain"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+    <div class="curtain-layer curtain-left"></div>
+    <div class="curtain-layer curtain-right"></div>
+    <div class="loader-logo">A & V</div>
+
+    <nav class="fixed top-0 w-full px-8 py-6 flex justify-between items-center z-50 mix-blend-multiply pointer-events-none">
+        <div class="font-royal text-2xl font-bold pointer-events-auto hover-trigger">A & V</div>
+        
+        <div class="hidden md:flex gap-12 text-xs font-bold uppercase tracking-widest pointer-events-auto">
+            <a href="#story" class="hover:text-[var(--accent)] transition hover-trigger">Povestea</a>
+            <a href="#details" class="hover:text-[var(--accent)] transition hover-trigger">Eveniment</a>
+            <a href="#gallery" class="hover:text-[var(--accent)] transition hover-trigger">Memories</a>
+        </div>
+
+        <a href="#rsvp" class="pointer-events-auto btn-royal py-3 px-6 text-xs hover-trigger">RSVP</a>
+    </nav>
+
+
+    <main>
+
+        <section class="h-screen relative flex items-center justify-center overflow-hidden">
+            
+            <div class="absolute inset-0 z-0">
+                <div class="img-parallax-container">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=1600" class="img-parallax grayscale opacity-20" id="hero-img">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-b from-[#F2EFE9] via-transparent to-[#F2EFE9]"></div>
+            </div>
+
+            <div class="relative z-10 text-center flex flex-col items-center">
+                <span class="text-[var(--ink-light)] text-xs uppercase tracking-[0.5em] mb-6 reveal-stagger">The Wedding Celebration</span>
+                
+                <h1 class="font-royal text-[10vw] leading-[0.85] text-[var(--ink-color)] mb-4">
+                    <div class="char-wrap"><span class="char">ALEXANDRU</span></div>
+                </h1>
+                
+                <div class="font-script text-[6vw] text-[var(--accent)] my-[-1vw] z-20 relative">
+                    <div class="char-wrap"><span class="char">& Victoria</span></div>
+                </div>
+
+                <h1 class="font-royal text-[10vw] leading-[0.85] text-[var(--ink-color)]">
+                    <div class="char-wrap"><span class="char">STĂNESCU</span></div>
+                </h1>
+
+                <div class="mt-12 flex items-center gap-4 text-sm font-bold uppercase tracking-widest text-[var(--ink-light)] reveal-stagger">
+                    <span>24 . 08 . 2025</span>
+                    <span class="w-12 h-[1px] bg-[var(--ink-color)]"></span>
+                    <span>Palatul Suter</span>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="story" class="py-32 px-[var(--page-padding)] max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                <div class="md:col-span-4">
+                    <span class="block w-full h-[2px] bg-[var(--ink-color)] mb-4"></span>
+                    <span class="text-xs uppercase tracking-widest font-bold">Capitolul I</span>
+                </div>
+                <div class="md:col-span-8">
+                    <p class="text-3xl md:text-5xl font-royal leading-tight text-[var(--ink-color)] reveal-text">
+                        "Într-o lume zgomotoasă, ne-am găsit liniștea unul în celălalt. Ceea ce a început cu un dans s-a transformat într-un <span class="text-[var(--accent)] italic font-serif">parteneriat pentru eternitate</span>."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="py-20 px-[var(--page-padding)]">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-[120vh] md:h-[80vh]">
+                
+                <div class="relative group overflow-hidden border border-[var(--ink-color)] hover-trigger" data-type="image">
+                    <div class="absolute inset-0 p-10 flex flex-col justify-between z-10 mix-blend-difference text-white pointer-events-none">
+                        <span class="text-xs uppercase tracking-widest">Mirele</span>
+                        <h2 class="font-royal text-6xl">Alex</h2>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-1000">
+                </div>
+
+                <div class="relative group overflow-hidden border border-[var(--ink-color)] hover-trigger" data-type="image">
+                    <div class="absolute inset-0 p-10 flex flex-col justify-between z-10 mix-blend-difference text-white pointer-events-none">
+                        <span class="text-xs uppercase tracking-widest text-right">Mireasa</span>
+                        <h2 class="font-royal text-6xl text-right">Victoria</h2>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-1000">
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="details" class="py-32 relative bg-[var(--ink-color)] text-[#F2EFE9]">
+            <div class="px-[var(--page-padding)] flex flex-col md:flex-row gap-20">
+                
+                <div class="w-full md:w-1/3">
+                    <div class="sticky top-32">
+                        <span class="text-[var(--accent)] text-xs uppercase tracking-[0.4em] mb-4 block">Agenda</span>
+                        <h2 class="text-6xl font-royal mb-8">Programul<br>Zilei</h2>
+                        <p class="text-white/60 text-sm leading-relaxed max-w-xs">
+                            Fiecare moment a fost ales cu grijă pentru a crea o amintire perfectă. Vă rugăm să sosiți la timp.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-2/3 flex flex-col gap-32 pt-10">
+                    
+                    <div class="timeline-item flex gap-8 items-start group hover-trigger">
+                        <span class="text-4xl font-royal text-[var(--accent)]">16:00</span>
+                        <div class="pt-2 border-t border-white/20 w-full group-hover:border-[var(--accent)] transition duration-500">
+                            <h3 class="text-3xl font-serif mb-2">Ceremonia Religioasă</h3>
+                            <p class="text-white/50 text-sm uppercase tracking-wider">Capela Palatului Suter</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item flex gap-8 items-start group hover-trigger">
+                        <span class="text-4xl font-royal text-[var(--accent)]">18:00</span>
+                        <div class="pt-2 border-t border-white/20 w-full group-hover:border-[var(--accent)] transition duration-500">
+                            <h3 class="text-3xl font-serif mb-2">Cocktail Hour</h3>
+                            <p class="text-white/50 text-sm uppercase tracking-wider">Terasa cu vedere panoramică</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item flex gap-8 items-start group hover-trigger">
+                        <span class="text-4xl font-royal text-[var(--accent)]">20:00</span>
+                        <div class="pt-2 border-t border-white/20 w-full group-hover:border-[var(--accent)] transition duration-500">
+                            <h3 class="text-3xl font-serif mb-2">Cină Festivă & Dans</h3>
+                            <p class="text-white/50 text-sm uppercase tracking-wider">Sala de Bal a Cristalelor</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <section id="gallery" class="py-32 overflow-hidden">
+            <div class="text-center mb-20">
+                <span class="text-xs uppercase tracking-[0.4em] text-[var(--ink-light)]">Amintiri</span>
+                <h2 class="text-5xl font-royal mt-4 text-[var(--ink-color)]">Momente Prețioase</h2>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+                
+                <div class="gallery-col" data-speed="1.1">
+                    <div class="aspect-[3/4] bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=600" class="w-full h-full object-cover"></div>
+                    <div class="aspect-[3/4] bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="w-full h-full object-cover"></div>
+                    <div class="aspect-[3/4] bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=600" class="w-full h-full object-cover"></div>
+                </div>
+
+                <div class="gallery-col" data-speed="0.9">
+                    <div class="aspect-[3/4] bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="w-full h-full object-cover"></div>
+                    <div class="aspect-[3/4] bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600" class="w-full h-full object-cover"></div>
+                    <div class="aspect-[3/4] bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="w-full h-full object-cover"></div>
+                </div>
+
+                <div class="gallery-col" data-speed="1.2">
+                    <div class="aspect-[3/4] bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1520854221256-17451cc330e7?w=600" class="w-full h-full object-cover"></div>
+                    <div class="aspect-[3/4] bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600" class="w-full h-full object-cover"></div>
+                    <div class="aspect-[3/4] bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1513278974582-dc3384259edd?w=600" class="w-full h-full object-cover"></div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="rsvp" class="py-32 px-[var(--page-padding)] flex justify-center bg-white border-t border-[var(--ink-color)]">
+            <div class="w-full max-w-xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-6xl font-royal mb-4">R.S.V.P</h2>
+                    <p class="text-[var(--ink-light)] uppercase tracking-widest text-xs">Vă rugăm să confirmați prezența până la 1 Iulie</p>
+                </div>
+
+                <form class="space-y-12">
+                    <div class="group relative">
+                        <input type="text" class="peer w-full bg-transparent border-b border-[var(--ink-color)] py-4 text-xl font-serif text-[var(--ink-color)] focus:outline-none focus:border-[var(--accent)] transition-colors placeholder-transparent" placeholder="Nume" required>
+                        <label class="absolute left-0 top-4 text-[var(--ink-light)] text-xs uppercase tracking-widest transition-all peer-focus:-top-4 peer-focus:text-[var(--accent)] peer-valid:-top-4 pointer-events-none">Nume Complet</label>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8">
+                        <div>
+                            <span class="block text-xs uppercase tracking-widest text-[var(--ink-light)] mb-4">Oaspeți</span>
+                            <div class="flex gap-4">
+                                <label class="cursor-pointer hover-trigger">
+                                    <input type="radio" name="guests" class="peer hidden" checked>
+                                    <span class="block w-10 h-10 border border-[var(--ink-color)] rounded-full flex items-center justify-center peer-checked:bg-[var(--ink-color)] peer-checked:text-white transition">1</span>
+                                </label>
+                                <label class="cursor-pointer hover-trigger">
+                                    <input type="radio" name="guests" class="peer hidden">
+                                    <span class="block w-10 h-10 border border-[var(--ink-color)] rounded-full flex items-center justify-center peer-checked:bg-[var(--ink-color)] peer-checked:text-white transition">2</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="block text-xs uppercase tracking-widest text-[var(--ink-light)] mb-4">Răspuns</span>
+                            <div class="flex gap-4">
+                                <label class="cursor-pointer hover-trigger">
+                                    <input type="radio" name="att" class="peer hidden" checked>
+                                    <span class="block px-6 py-2 border border-[var(--ink-color)] rounded-full peer-checked:bg-[var(--ink-color)] peer-checked:text-white transition uppercase text-xs font-bold">Da</span>
+                                </label>
+                                <label class="cursor-pointer hover-trigger">
+                                    <input type="radio" name="att" class="peer hidden">
+                                    <span class="block px-6 py-2 border border-[var(--ink-color)] rounded-full peer-checked:bg-[var(--ink-color)] peer-checked:text-white transition uppercase text-xs font-bold">Nu</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="w-full py-6 bg-[var(--ink-color)] text-[var(--bg-color)] font-bold uppercase tracking-[0.2em] hover:bg-[var(--accent)] transition duration-500 hover-trigger">
+                        Trimite Confirmarea
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="py-12 text-center text-xs uppercase tracking-widest text-[var(--ink-light)]">
+            © 2025 Royal Velvet • Alexandru & Victoria
+        </footer>
+
+    </main>
+
+
+    <script>
+        // === A. LOAD ANIMATION SEQUENCE ===
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+
+            // 1. Curtains Open
+            tl.to('.curtain-left', { scaleX: 0, duration: 1.5, ease: 'expo.inOut' })
+              .to('.curtain-right', { scaleX: 0, duration: 1.5, ease: 'expo.inOut' }, "<") // Same time
+              .to('.loader-logo', { opacity: 0, duration: 0.5 }, "<")
+            
+            // 2. Hero Text Reveal (Char by Char)
+              .to('.char', { y: 0, stagger: 0.05, duration: 1, ease: 'power4.out' }, "-=0.5")
+              .from('.reveal-stagger', { y: 20, opacity: 0, stagger: 0.2, duration: 1 }, "-=0.5");
+
+            document.body.classList.add('loaded');
+        });
+
+
+        // === B. SMOOTH SCROLL (LENIS) ===
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+
+        // === C. SCROLL ANIMATIONS (GSAP ScrollTrigger) ===
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Hero Parallax Image
+        gsap.to('#hero-img', {
+            yPercent: 30,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: 'header',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+
+        // 2. Text Reveal Paragraph
+        gsap.from('.reveal-text', {
+            y: 50,
+            opacity: 0,
+            duration: 1.5,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: '.reveal-text',
+                start: 'top 80%'
+            }
+        });
+
+        // 3. Gallery Skew & Parallax
+        const galleryGrid = document.querySelector('.gallery-grid');
+        const cols = document.querySelectorAll('.gallery-col');
+
+        // Apply distinct speed to each column
+        cols.forEach((col, i) => {
+            const speed = col.getAttribute('data-speed');
+            gsap.to(col, {
+                y: -100 * speed, // Move up based on speed
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: galleryGrid,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+        });
+
+        // Apply Skew on Scroll Velocity
+        let proxy = { skew: 0 },
+            skewSetter = gsap.quickSetter(galleryGrid, "skewY", "deg"), // fast
+            clamp = gsap.utils.clamp(-5, 5); // limit skew
+
+        ScrollTrigger.create({
+            onUpdate: (self) => {
+                let skew = clamp(self.getVelocity() / -300);
+                if (Math.abs(skew) > Math.abs(proxy.skew)) {
+                    proxy.skew = skew;
+                    gsap.to(proxy, {
+                        skew: 0,
+                        duration: 0.8,
+                        ease: "power3",
+                        overwrite: true,
+                        onUpdate: () => skewSetter(proxy.skew)
+                    });
+                }
+            }
+        });
+
+
+        // === D. CUSTOM CURSOR ===
+        const dot = document.querySelector('.cursor-dot');
+        const circle = document.querySelector('.cursor-circle');
+
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            gsap.to(circle, { x: e.clientX, y: e.clientY, duration: 0.25 });
+        });
+
+        document.querySelectorAll('.hover-trigger').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+    </script>
+</body>
+</html>

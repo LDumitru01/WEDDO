@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nunta Noastră | Maria & Andrei</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Pinyon+Script&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'lux-green': '#0A2118',   /* Verde Smarald foarte închis */
+                        'lux-gold': '#D4AF37',    /* Auriu Clasic */
+                        'lux-cream': '#F9F7F2',   /* Alb Crem Hârtie */
+                        'lux-paper': '#F2EFE9',   /* Fundal texturat */
+                    },
+                    fontFamily: {
+                        serif: ['"Cinzel"', 'serif'],
+                        script: ['"Pinyon Script"', 'cursive'],
+                        sans: ['"Jost"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('https://www.transparenttextures.com/patterns/stardust.png')",
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- 1. STILURI PENTRU PLIC (ENVELOPE 3D) --- */
+        #envelope-stage {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+            background-color: #0A2118;
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+            transition: opacity 1s ease 0.5s, visibility 1s ease 0.5s;
+        }
+
+        .envelope-wrapper {
+            position: relative; width: 340px; height: 240px;
+            cursor: pointer; transition: transform 1s ease;
+        }
+        
+        .envelope-body {
+            position: absolute; bottom: 0; width: 100%; height: 100%;
+            background-color: #143326; /* Verde Plic */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            z-index: 10; border-radius: 4px;
+        }
+        /* Triunghiuri Plic */
+        .envelope-body::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 0;
+            border-style: solid; border-width: 0 170px 120px 170px;
+            border-color: transparent transparent #1a4031 transparent;
+        }
+        .envelope-body::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-style: solid; border-width: 120px 170px 120px 170px;
+            border-color: #0e291f transparent #0e291f transparent;
+            z-index: 11;
+        }
+        
+        /* Clapeta (Flap) */
+        .envelope-flap {
+            position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-style: solid; border-width: 120px 170px 0 170px;
+            border-color: #1a4031 transparent transparent transparent;
+            z-index: 12; transform-origin: top;
+            transition: transform 0.6s ease-in-out, z-index 0.6s ease-in-out;
+        }
+
+        /* Cardul din interior */
+        .letter-preview {
+            position: absolute; top: 10px; left: 10px; right: 10px; bottom: 5px;
+            background: #F9F7F2; z-index: 5;
+            transition: transform 0.8s ease 0.5s;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            padding-top: 40px;
+            box-shadow: 0 -5px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Sigiliul */
+        .wax-seal {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 60px; height: 60px; background: #D4AF37; border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 15;
+            display: flex; align-items: center; justify-content: center;
+            color: #0A2118; font-family: 'Cinzel', serif; font-size: 28px; font-weight: bold;
+            border: 4px solid #C59D24;
+            animation: pulse-gold 2s infinite;
+            transition: opacity 0.4s;
+        }
+
+        /* Animații Plic */
+        .envelope-wrapper.open .envelope-flap { transform: rotateX(180deg); z-index: 1; }
+        .envelope-wrapper.open .wax-seal { opacity: 0; pointer-events: none; }
+        .envelope-wrapper.open .letter-preview { transform: translateY(-160px); z-index: 20; }
+        .envelope-wrapper.full-expand { transform: scale(5); opacity: 0; pointer-events: none; }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        /* --- 2. STILURI SITE PRINCIPAL --- */
+        #app-container {
+            display: none; opacity: 0; transition: opacity 1.5s ease;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar Ascuns */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0A2118; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
+
+        /* Utilitare */
+        .text-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Muzica Buton */
+        .music-fab {
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            background: #D4AF37; color: #0A2118; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            z-index: 50; cursor: pointer; transition: transform 0.3s;
+        }
+        .music-fab.playing i { animation: spin 4s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Formular RSVP Input */
+        .input-lux {
+            width: 100%; background: transparent;
+            border-bottom: 1px solid #ccc;
+            padding: 12px 0;
+            font-family: 'Jost', sans-serif;
+            transition: border-color 0.3s;
+        }
+        .input-lux:focus { outline: none; border-bottom-color: #D4AF37; }
+    </style>
+</head>
+<body class="bg-lux-cream text-gray-800 antialiased selection:bg-lux-gold selection:text-white">
+
+    <audio id="wedding-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+    </audio>
+
+    <div id="envelope-stage">
+        <div class="absolute top-10 text-center text-white/50 animate-pulse">
+            <p class="text-[10px] uppercase tracking-[0.4em]">O invitație specială</p>
+            <p class="font-serif text-lux-gold mt-2">Apasă pentru a deschide</p>
+        </div>
+
+        <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body"></div>
+            
+            <div class="letter-preview">
+                <p class="text-lux-green text-[10px] uppercase tracking-[0.3em] mb-2">Save the Date</p>
+                <h1 class="font-serif text-4xl text-lux-green">M & A</h1>
+                <div class="w-8 h-[1px] bg-lux-gold my-2"></div>
+                <p class="font-serif text-sm text-gray-500">24.08.2025</p>
+            </div>
+            
+            <div class="wax-seal">M</div>
+        </div>
+    </div>
+
+    <div id="app-container" class="relative">
+        
+        <div class="music-fab" id="music-btn" onclick="toggleMusic()">
+            <i class="fas fa-music"></i>
+        </div>
+
+        <nav class="fixed w-full z-40 bg-lux-green/90 backdrop-blur-md text-white py-4 border-b border-white/10 transition-all duration-300" id="navbar">
+            <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+                <a href="#" class="font-serif text-2xl text-lux-gold">M <span class="text-white text-lg">&</span> A</a>
+                
+                <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-[0.2em]">
+                    <a href="#hero" class="hover:text-lux-gold transition-colors">Acasă</a>
+                    <a href="#story" class="hover:text-lux-gold transition-colors">Poveste</a>
+                    <a href="#timeline" class="hover:text-lux-gold transition-colors">Program</a>
+                    <a href="#rsvp" class="text-lux-gold border border-lux-gold px-4 py-1 rounded-full hover:bg-lux-gold hover:text-lux-green transition-colors">RSVP</a>
+                </div>
+
+                <div class="md:hidden text-lux-gold cursor-pointer" onclick="toggleMobileNav()">
+                    <i class="fas fa-bars text-xl"></i>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden bg-lux-green border-t border-white/10 text-center py-4 space-y-4 text-xs uppercase tracking-widest">
+                <a href="#hero" class="block py-2" onclick="toggleMobileNav()">Acasă</a>
+                <a href="#story" class="block py-2" onclick="toggleMobileNav()">Poveste</a>
+                <a href="#timeline" class="block py-2" onclick="toggleMobileNav()">Program</a>
+                <a href="#rsvp" class="block py-2 text-lux-gold font-bold" onclick="toggleMobileNav()">Confirmă</a>
+            </div>
+        </nav>
+
+        <header id="hero" class="relative h-screen flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1920&auto=format&fit=crop" class="w-full h-full object-cover brightness-[0.4]" alt="Couple">
+            </div>
+            
+            <div class="relative z-10 text-center text-white px-6 animate-float">
+                <p class="font-sans text-xs md:text-sm uppercase tracking-[0.5em] mb-6 text-lux-gold opacity-90">Noi doi și o poveste</p>
+                <h1 class="font-serif text-6xl md:text-8xl mb-4 leading-none text-shadow">
+                    Maria <span class="font-script text-lux-gold text-5xl md:text-7xl align-middle mx-2">&</span> Andrei
+                </h1>
+                <div class="w-24 h-[1px] bg-lux-gold mx-auto my-8"></div>
+                <p class="font-serif text-2xl italic tracking-wide">24 August 2025</p>
+                <p class="font-sans text-xs uppercase tracking-[0.2em] mt-2 text-gray-300">Complex Turistic Costești</p>
+                
+                <div class="mt-12">
+                    <a href="#rsvp" class="bg-lux-gold text-lux-green px-8 py-3 rounded-full text-xs uppercase tracking-[0.2em] font-bold hover:bg-white transition-colors shadow-lg hover:shadow-lux-gold/50">
+                        Confirmă Prezența
+                    </a>
+                </div>
+            </div>
+
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 animate-bounce">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </header>
+
+        <section class="py-16 bg-lux-green text-white text-center border-b border-lux-gold/20">
+            <div class="max-w-4xl mx-auto px-6 reveal">
+                <p class="text-[10px] uppercase tracking-[0.3em] text-lux-gold mb-8">Timpul rămas până la marele DA</p>
+                <div class="flex justify-center gap-6 md:gap-12 font-serif" id="countdown">
+                    <div><span id="d" class="text-4xl block">00</span><span class="text-[10px] text-gray-400 uppercase tracking-widest font-sans">Zile</span></div>
+                    <div class="text-2xl text-lux-gold pt-2">:</div>
+                    <div><span id="h" class="text-4xl block">00</span><span class="text-[10px] text-gray-400 uppercase tracking-widest font-sans">Ore</span></div>
+                    <div class="text-2xl text-lux-gold pt-2">:</div>
+                    <div><span id="m" class="text-4xl block">00</span><span class="text-[10px] text-gray-400 uppercase tracking-widest font-sans">Min</span></div>
+                    <div class="text-2xl text-lux-gold pt-2 hidden md:block">:</div>
+                    <div class="hidden md:block"><span id="s" class="text-4xl block">00</span><span class="text-[10px] text-gray-400 uppercase tracking-widest font-sans">Sec</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="story" class="py-24 px-6 bg-lux-paper relative">
+            <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-lux-green to-transparent opacity-10"></div>
+            
+            <div class="max-w-3xl mx-auto text-center reveal">
+                <i class="fas fa-quote-right text-4xl text-lux-gold/30 mb-6"></i>
+                <h2 class="font-serif text-3xl md:text-4xl text-lux-green mb-8 leading-relaxed">
+                    "Nu căutăm pe cineva cu care să trăim, <br> ci pe cineva fără de care nu putem trăi."
+                </h2>
+                <div class="w-16 h-1 bg-lux-gold mx-auto mb-8"></div>
+                <p class="font-sans text-gray-600 leading-7 font-light">
+                    Povestea noastră a început simplu, dar a crescut în ceva extraordinar. 
+                    Fiecare zi împreună a fost o cărămidă la temelia a ceea ce suntem azi. 
+                    Vă invităm să fiți parte din cel mai frumos capitol al vieții noastre.
+                </p>
+            </div>
+        </section>
+
+        <section id="timeline" class="py-24 px-6 bg-white">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <span class="text-lux-gold text-sm tracking-[0.3em] uppercase block mb-2">Agenda</span>
+                    <h2 class="font-serif text-4xl text-lux-green">Programul Evenimentului</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 relative">
+                    <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gray-200 -translate-x-1/2"></div>
+
+                    <div class="md:text-right reveal md:pr-12 relative">
+                        <div class="md:absolute right-[-55px] top-2 w-4 h-4 bg-lux-gold rounded-full border-4 border-white shadow hidden md:block z-10"></div>
+                        <span class="text-lux-gold font-bold font-serif text-xl block mb-2">16:00</span>
+                        <h3 class="font-serif text-2xl text-lux-green mb-2">Cununia Religioasă</h3>
+                        <p class="text-gray-500 text-sm">Mănăstirea Curchi. Un moment solemn de binecuvântare.</p>
+                    </div>
+                    <div class="hidden md:block"></div> <div class="hidden md:block"></div> <div class="md:text-left reveal md:pl-12 relative">
+                        <div class="md:absolute left-[-55px] top-2 w-4 h-4 bg-lux-gold rounded-full border-4 border-white shadow hidden md:block z-10"></div>
+                        <span class="text-lux-gold font-bold font-serif text-xl block mb-2">18:00</span>
+                        <h3 class="font-serif text-2xl text-lux-green mb-2">Welcome Drink</h3>
+                        <p class="text-gray-500 text-sm">Zona Lacului, Costești. Cocktailuri și socializare.</p>
+                    </div>
+
+                    <div class="md:text-right reveal md:pr-12 relative">
+                        <div class="md:absolute right-[-55px] top-2 w-4 h-4 bg-lux-gold rounded-full border-4 border-white shadow hidden md:block z-10"></div>
+                        <span class="text-lux-gold font-bold font-serif text-xl block mb-2">19:00</span>
+                        <h3 class="font-serif text-2xl text-lux-green mb-2">Petrecerea</h3>
+                        <p class="text-gray-500 text-sm">Sala Grandis. Cină festivă, dans și voie bună.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-6 bg-lux-green text-white">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center reveal">
+                <div class="space-y-6">
+                    <h2 class="font-serif text-4xl text-lux-gold">Locația</h2>
+                    <p class="text-gray-300 font-light leading-relaxed">
+                        Complex Turistic Costești, Sala Grandis.<br>
+                        O locație de vis, situată în inima naturii, perfectă pentru a sărbători dragostea.
+                    </p>
+                    <div class="pt-4">
+                        <a href="https://goo.gl/maps/example" target="_blank" class="inline-flex items-center gap-2 border border-lux-gold text-lux-gold px-6 py-3 rounded-full hover:bg-lux-gold hover:text-lux-green transition-all text-xs uppercase tracking-widest">
+                            <i class="fas fa-map-marker-alt"></i> Vezi Harta
+                        </a>
+                    </div>
+                </div>
+                <div class="h-80 w-full rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                    <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700">
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-6 bg-lux-paper">
+            <div class="max-w-2xl mx-auto reveal">
+                <h2 class="text-center font-serif text-3xl text-lux-green mb-10">Meniul Ales</h2>
+                
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="border-b border-gray-100">
+                        <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-serif text-lg text-lux-green">Gustare Rece</span>
+                            <i class="fas fa-chevron-down text-lux-gold transition-transform"></i>
+                        </button>
+                        <div class="hidden px-6 pb-6 text-sm text-gray-500 font-light leading-relaxed bg-gray-50/50">
+                            Tartine cu icre de manciuria, ruladă de pui cu fructe confiate, selecție de brânzeturi fine, bruschete cu roșii și busuioc.
+                        </div>
+                    </div>
+                    <div class="border-b border-gray-100">
+                        <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-serif text-lg text-lux-green">Fel Principal</span>
+                            <i class="fas fa-chevron-down text-lux-gold transition-transform"></i>
+                        </button>
+                        <div class="hidden px-6 pb-6 text-sm text-gray-500 font-light leading-relaxed bg-gray-50/50">
+                            File de șalău cu sos de lămâie și capere, servit cu buchet de legume sote. Mușchiuleț de porc la cuptor cu sos brun și cartofi gratinați.
+                        </div>
+                    </div>
+                    <div>
+                        <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-serif text-lg text-lux-green">Desert</span>
+                            <i class="fas fa-chevron-down text-lux-gold transition-transform"></i>
+                        </button>
+                        <div class="hidden px-6 pb-6 text-sm text-gray-500 font-light leading-relaxed bg-gray-50/50">
+                            Tortul mirilor (Mousse de ciocolată și fructe de pădure), Candy Bar diversificat și fructe proaspete.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="rsvp" class="py-24 px-6 bg-white relative">
+            <div class="absolute top-0 left-0 w-32 h-32 border-t-2 border-l-2 border-lux-gold opacity-30"></div>
+            <div class="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-lux-gold opacity-30"></div>
+
+            <div class="max-w-lg mx-auto bg-lux-paper p-10 shadow-2xl rounded-sm border border-lux-gold/20 reveal relative z-10">
+                <div class="text-center mb-10">
+                    <p class="font-script text-3xl text-lux-gold mb-2">Répondez s'il vous plaît</p>
+                    <h2 class="font-serif text-4xl text-lux-green mb-4">Ești alături de noi?</h2>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest">Confirmă până la 1 August</p>
+                </div>
+
+                <form onsubmit="handleRSVP(event)" class="space-y-8">
+                    <div>
+                        <input type="text" id="name" placeholder="Numele și Prenumele" required class="input-lux text-lg text-lux-green placeholder-gray-400">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2">Persoane</label>
+                            <select class="input-lux text-gray-700">
+                                <option>1 Persoană</option>
+                                <option>2 Persoane</option>
+                                <option>2 + Copil</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2">Decizie</label>
+                            <select class="input-lux text-gray-700" id="status">
+                                <option value="yes">Particip</option>
+                                <option value="no">Nu pot participa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <input type="text" placeholder="Mesaj / Restricții alimentare (Opțional)" class="input-lux text-sm text-gray-700 placeholder-gray-400">
+                    </div>
+
+                    <div class="pt-4">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="accent-lux-gold w-4 h-4">
+                            <span class="text-sm text-gray-500 font-light">Am nevoie de cazare la hotel</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full bg-lux-green text-lux-gold py-4 mt-4 font-serif uppercase tracking-widest text-sm hover:bg-lux-gold hover:text-lux-green transition-colors duration-300 shadow-md">
+                        Trimite Confirmarea
+                    </button>
+                    <p id="successMsg" class="hidden text-center text-green-600 font-serif mt-4 text-lg">Mulțumim! Te așteptăm cu drag.</p>
+                </form>
+            </div>
+        </section>
+
+        <footer class="bg-lux-green text-white py-12 text-center border-t border-white/5">
+            <h2 class="font-serif text-3xl mb-4">Maria & Andrei</h2>
+            <div class="flex justify-center gap-6 mb-8 text-lux-gold">
+                <a href="#" class="hover:text-white transition"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-facebook text-xl"></i></a>
+            </div>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest">© 2025 • Creat cu dragoste</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- 1. LOGICĂ DE UNBOXING (Plicul) ---
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            const stage = document.getElementById('envelope-stage');
+            const app = document.getElementById('app-container');
+            const music = document.getElementById('wedding-music');
+            const musicBtn = document.getElementById('music-btn');
+
+            // Animație Deschidere
+            envelope.classList.add('open');
+            
+            // Încercare pornire muzică
+            music.volume = 0.4;
+            music.play().then(() => {
+                musicBtn.classList.add('playing');
+                musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }).catch(e => console.log('Autoplay blocat de browser, userul va porni manual'));
+
+            // Tranziție către site
+            setTimeout(() => {
+                envelope.classList.add('full-expand'); // Zoom effect
+                
+                setTimeout(() => {
+                    stage.style.opacity = '0';
+                    stage.style.visibility = 'hidden';
+                    
+                    app.style.display = 'block';
+                    // Mic delay pentru a permite randarea CSS înainte de fade-in
+                    requestAnimationFrame(() => {
+                        app.style.opacity = '1';
+                        // Pornire scroll animations
+                        checkScroll();
+                    });
+                }, 800);
+            }, 1200);
+        }
+
+        // --- 2. AUDIO PLAYER ---
+        function toggleMusic() {
+            const music = document.getElementById('wedding-music');
+            const btn = document.getElementById('music-btn');
+            
+            if (music.paused) {
+                music.play();
+                btn.classList.add('playing');
+                btn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                music.pause();
+                btn.classList.remove('playing');
+                btn.innerHTML = '<i class="fas fa-music"></i>';
+            }
+        }
+
+        // --- 3. MENIU MOBIL ---
+        function toggleMobileNav() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- 4. ACCORDION (Meniu) ---
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('.fa-chevron-down');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // --- 5. COUNTDOWN TIMER ---
+        const eventDate = new Date("Aug 24, 2025 16:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = eventDate - now;
+            
+            if(diff > 0) {
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('d').innerText = d < 10 ? '0'+d : d;
+                document.getElementById('h').innerText = h < 10 ? '0'+h : h;
+                document.getElementById('m').innerText = m < 10 ? '0'+m : m;
+                document.getElementById('s').innerText = s < 10 ? '0'+s : s;
+            }
+        }, 1000);
+
+        // --- 6. SCROLL REVEAL ANIMATION ---
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const checkScroll = () => {
+            const triggerBottom = window.innerHeight * 0.85;
+            revealElements.forEach(el => {
+                const boxTop = el.getBoundingClientRect().top;
+                if(boxTop < triggerBottom) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', checkScroll);
+
+        // --- 7. FORM SUBMIT SIMULATION ---
+        function handleRSVP(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerText;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Se trimite...';
+            btn.classList.add('opacity-75');
+            
+            setTimeout(() => {
+                btn.style.display = 'none';
+                document.getElementById('successMsg').classList.remove('hidden');
+                // Aici poți adăuga logică reală de trimitere către un server/Google Sheets
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

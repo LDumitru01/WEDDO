@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ro" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Starlight | Baptism Invitation</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=quicksand@300,400,500,700&f[]=author@300,400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&family=Grand+Hotel&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* === PALETA "BOHO BABY" === */
+            --c-bg: #F9F7F2;           /* Cream Paper */
+            --c-sage: #9CAF88;         /* Dusty Sage Green */
+            --c-gold: #D4AF37;         /* Soft Gold */
+            --c-text: #4A4A4A;         /* Charcoal Grey (Soft) */
+            --c-white: #FFFFFF;
+            
+            --font-title: 'Grand Hotel', cursive;
+            --font-body: 'Quicksand', sans-serif;
+            --font-round: 'Comfortaa', cursive;
+        }
+
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+        }
+
+        /* === 1. CANVAS STARDUST === */
+        #starCanvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none; opacity: 0.6;
+        }
+
+        /* === 2. CLOUD LOADER === */
+        .loader-wrap {
+            position: fixed; inset: 0; z-index: 10000;
+            background: var(--c-sage); display: flex; justify-content: center; align-items: center;
+            border-radius: 0 0 50% 50% / 0 0 20% 20%; /* Curved bottom */
+            transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Elastic ease */
+        }
+        .loader-wrap.hidden { transform: translateY(-100%); }
+        
+        .loader-icon {
+            font-size: 4rem; color: var(--c-bg); animation: float 3s ease-in-out infinite;
+        }
+
+        /* === 3. FLOATING SHAPES (Pure CSS Animation) === */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .floating { animation: float 6s ease-in-out infinite; }
+        .floating-delay { animation: float 7s ease-in-out infinite 1s; }
+
+        /* === 4. UI COMPONENTS === */
+        /* Soft Card */
+        .soft-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 2px solid white;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(156, 175, 136, 0.15);
+        }
+
+        /* Organic Button */
+        .btn-bubbly {
+            display: inline-block; padding: 1rem 3rem; border-radius: 50px;
+            background: var(--c-sage); color: white; font-family: var(--font-round);
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+            font-size: 0.8rem; box-shadow: 0 10px 20px rgba(156, 175, 136, 0.3);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-bubbly:hover { transform: scale(1.05) translateY(-2px); }
+        .btn-bubbly:active { transform: scale(0.95); }
+
+        /* === 5. UNIQUE MASKS === */
+        /* Cloud Shape for Images */
+        .mask-cloud {
+            clip-path: inset(0 round 50px); /* Simple rounded for now, can be SVG */
+            transition: clip-path 1s ease;
+        }
+        .mask-cloud:hover { clip-path: inset(10px round 80px); }
+
+        /* === 6. ANIMATIONS === */
+        .reveal-pop { opacity: 0; transform: scale(0.8); } /* Initial state for GSAP */
+        
+        .text-gradient {
+            background: linear-gradient(45deg, var(--c-sage), var(--c-gold));
+            background-clip: text;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 15vw !important; }
+        }
+
+    </style>
+</head>
+<body class="overflow-hidden"> <canvas id="starCanvas"></canvas>
+
+    <div class="loader-wrap" id="loader">
+        <div class="text-center">
+            <div class="loader-icon">★</div>
+            <p class="font-family: var(--font-round); color: white; margin-top: 10px; letter-spacing: 2px;">LOADING JOY...</p>
+        </div>
+    </div>
+
+    <nav class="fixed top-6 right-6 z-50">
+        <a href="#rsvp" class="btn-bubbly">RSVP</a>
+    </nav>
+
+
+    <main>
+
+        <section class="min-h-screen relative flex flex-col justify-center items-center text-center px-4 overflow-hidden">
+            
+            <div class="absolute top-[10%] left-[10%] text-6xl text-[#E3E8DC] floating select-none opacity-50">☁</div>
+            <div class="absolute top-[20%] right-[15%] text-4xl text-[#E3E8DC] floating-delay select-none opacity-50">☁</div>
+            <div class="absolute bottom-[20%] left-[20%] text-5xl text-[#E3E8DC] floating select-none opacity-50">☁</div>
+
+            <div class="relative z-10">
+                <div class="mb-4 reveal-pop">
+                    <span class="px-6 py-2 rounded-full border border-[var(--c-sage)] text-[var(--c-sage)] text-xs uppercase font-bold tracking-widest bg-white/50 backdrop-blur-sm">
+                        Botezul Sfânt
+                    </span>
+                </div>
+
+                <h1 class="hero-title text-[8vw] md:text-[5vw] font-family: var(--font-title); leading-none text-[var(--c-text)] mb-2" style="font-family: 'Grand Hotel', cursive;">
+                    Bun venit pe lume,
+                </h1>
+                
+                <div class="text-[15vw] md:text-[10vw] font-bold text-[var(--c-sage)] leading-[0.9] tracking-tighter mix-blend-multiply reveal-pop" style="font-family: 'Comfortaa', cursive;">
+                    LUCA<br>ANDREI
+                </div>
+
+                <div class="mt-8 flex justify-center gap-4 text-sm font-bold text-gray-400 uppercase tracking-widest reveal-pop">
+                    <span>12 Octombrie 2025</span>
+                    <span>•</span>
+                    <span>Duminică</span>
+                </div>
+            </div>
+
+            <div class="absolute bottom-[-10%] md:bottom-[-5%] w-[60vw] md:w-[25vw] aspect-square rounded-full border-4 border-white shadow-2xl overflow-hidden floating-delay z-20 hover:scale-105 transition-transform duration-500">
+                <img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=800" class="w-full h-full object-cover opacity-90">
+            </div>
+        </section>
+
+
+        <section class="py-32 px-6 relative">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="soft-card p-10 md:p-16 relative">
+                    <div class="absolute -top-6 -left-6 text-4xl text-[var(--c-gold)]">✦</div>
+                    <div class="absolute -bottom-6 -right-6 text-4xl text-[var(--c-gold)]">✦</div>
+
+                    <h2 class="text-3xl md:text-5xl mb-8" style="font-family: 'Grand Hotel', cursive; color: var(--c-sage);">Ghidat de...</h2>
+                    
+                    <p class="text-lg md:text-xl leading-relaxed text-gray-600 font-medium mb-10">
+                        "Un copil este o rază de soare venită din cer pentru a lumina pământul. Alături de el, pașii îi vor fi ghidați de părinții spirituali."
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="reveal-pop">
+                            <div class="w-24 h-24 mx-auto rounded-full bg-[#E3E8DC] mb-4 flex items-center justify-center text-3xl">🕊️</div>
+                            <h3 class="text-xl font-bold uppercase tracking-widest text-[var(--c-text)]">Nașii</h3>
+                            <p class="text-[var(--c-sage)] font-bold text-lg mt-2">Marius & Elena<br>Popescu</p>
+                        </div>
+                        <div class="reveal-pop">
+                            <div class="w-24 h-24 mx-auto rounded-full bg-[#E3E8DC] mb-4 flex items-center justify-center text-3xl">🤍</div>
+                            <h3 class="text-xl font-bold uppercase tracking-widest text-[var(--c-text)]">Părinții</h3>
+                            <p class="text-[var(--c-sage)] font-bold text-lg mt-2">Alexandru & Maria<br>Ionescu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="py-20 bg-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-[50vw] h-[50vw] bg-[#F4F9F4] rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/3"></div>
+
+            <div class="container mx-auto px-6">
+                <h2 class="text-center text-5xl mb-20" style="font-family: 'Grand Hotel', cursive; color: var(--c-gold);">Povestea Zilei</h2>
+
+                <div class="relative space-y-12 md:space-y-0">
+                    <div class="hidden md:block absolute left-1/2 top-0 h-full w-[2px] bg-[#E3E8DC] -translate-x-1/2"></div>
+
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-20 reveal-line">
+                        <div class="md:w-1/2 text-center md:text-right">
+                            <div class="inline-block bg-[var(--c-sage)] text-white px-4 py-1 rounded-full text-sm font-bold mb-2">11:00</div>
+                            <h3 class="text-2xl font-bold text-[var(--c-text)]">Taina Botezului</h3>
+                            <p class="text-gray-500 mt-2">Biserica "Sfântul Nicolae"<br>Emoție și binecuvântare.</p>
+                        </div>
+                        <div class="md:w-1/2 md:pl-10">
+                            <div class="w-full h-48 md:h-64 rounded-[30px] overflow-hidden shadow-lg hover:rotate-2 transition-transform duration-500">
+                                <img src="https://images.unsplash.com/photo-1563225693-e47444b03692?w=600" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-20 reveal-line">
+                        <div class="md:w-1/2 order-2 md:order-1 md:text-right md:pr-10">
+                            <div class="w-full h-48 md:h-64 rounded-[30px] overflow-hidden shadow-lg hover:-rotate-2 transition-transform duration-500">
+                                <img src="https://images.unsplash.com/photo-1530103862676-de3c9a59af57?w=600" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 order-1 md:order-2 text-center md:text-left">
+                            <div class="inline-block bg-[var(--c-gold)] text-white px-4 py-1 rounded-full text-sm font-bold mb-2">14:00</div>
+                            <h3 class="text-2xl font-bold text-[var(--c-text)]">Petrecerea</h3>
+                            <p class="text-gray-500 mt-2">Restaurant "The Garden"<br>Dans, joacă și voie bună.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-20 reveal-line">
+                        <div class="md:w-1/2 text-center md:text-right">
+                            <div class="inline-block bg-[#E89E9E] text-white px-4 py-1 rounded-full text-sm font-bold mb-2">18:00</div>
+                            <h3 class="text-2xl font-bold text-[var(--c-text)]">Tortul Festiv</h3>
+                            <p class="text-gray-500 mt-2">Momentul dulce<br>O felie de magie.</p>
+                        </div>
+                        <div class="md:w-1/2 md:pl-10">
+                            <div class="w-full h-48 md:h-64 rounded-[30px] overflow-hidden shadow-lg hover:rotate-2 transition-transform duration-500">
+                                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <section class="py-20 px-6 bg-[var(--c-bg)]">
+            <div class="max-w-2xl mx-auto text-center">
+                <span class="text-4xl">✨</span>
+                <h2 class="text-4xl font-bold mt-4 mb-8" style="font-family: 'Comfortaa';">Trimite o urare</h2>
+                <div class="relative">
+                    <textarea class="w-full p-6 rounded-[30px] border-2 border-[#E3E8DC] focus:border-[var(--c-sage)] outline-none bg-white h-40 resize-none shadow-inner transition-colors" placeholder="Scrie un gând bun pentru Luca..."></textarea>
+                    <button class="absolute bottom-4 right-4 bg-[var(--c-sage)] text-white w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition shadow-md">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="rsvp" class="py-20 px-6 relative overflow-hidden bg-[var(--c-sage)]">
+            <div class="absolute top-0 left-0 w-full overflow-hidden leading-none rotate-180">
+                <svg viewBox="0 0 1200 120" preserveAspectRatio="none" style="width: calc(130% + 1.3px); height: 50px;">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#F9F7F2"></path>
+                </svg>
+            </div>
+
+            <div class="max-w-lg mx-auto bg-white rounded-[40px] p-8 md:p-12 shadow-2xl relative z-10 mt-10">
+                <div class="text-center mb-8">
+                    <span class="inline-block p-3 rounded-full bg-[#F4F9F4] text-3xl mb-2">🎈</span>
+                    <h2 class="text-3xl font-bold text-[var(--c-text)]">Confirmi Prezența?</h2>
+                    <p class="text-sm text-gray-400 mt-2">Te rugăm să ne anunți până pe 1 Septembrie.</p>
+                </div>
+
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-4">Numele Tău</label>
+                        <input type="text" class="w-full bg-[#F9F7F2] border-none rounded-2xl px-6 py-4 font-bold text-[var(--c-text)] focus:ring-2 focus:ring-[var(--c-sage)] outline-none transition" placeholder="ex: Familia Popescu">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-4">Adulți</label>
+                            <select class="w-full bg-[#F9F7F2] border-none rounded-2xl px-6 py-4 font-bold text-[var(--c-text)] focus:ring-2 focus:ring-[var(--c-sage)] outline-none cursor-pointer">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-4">Copii</label>
+                            <select class="w-full bg-[#F9F7F2] border-none rounded-2xl px-6 py-4 font-bold text-[var(--c-text)] focus:ring-2 focus:ring-[var(--c-sage)] outline-none cursor-pointer">
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 pt-4">
+                        <label class="flex-1 cursor-pointer group">
+                            <input type="radio" name="status" class="peer hidden" checked>
+                            <div class="w-full py-4 rounded-2xl border-2 border-[#E3E8DC] text-center peer-checked:border-[var(--c-sage)] peer-checked:bg-[var(--c-sage)] peer-checked:text-white transition group-hover:scale-105">
+                                🥳 Da, venim!
+                            </div>
+                        </label>
+                        <label class="flex-1 cursor-pointer group">
+                            <input type="radio" name="status" class="peer hidden">
+                            <div class="w-full py-4 rounded-2xl border-2 border-[#E3E8DC] text-center peer-checked:border-gray-400 peer-checked:bg-gray-400 peer-checked:text-white transition group-hover:scale-105">
+                                😢 Nu putem
+                            </div>
+                        </label>
+                    </div>
+
+                    <button class="w-full btn-bubbly mt-6 py-5 text-lg shadow-xl hover:shadow-2xl">
+                        Trimite
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="bg-[var(--c-sage)] text-white text-center py-10 pb-20">
+            <p class="font-family: var(--font-title); text-2xl opacity-80">Cu drag, Familia Ionescu</p>
+        </footer>
+
+    </main>
+
+
+    <script>
+        // A. APP LOGIC
+        const app = {
+            init: () => {
+                app.setupLoader();
+                app.setupScroll();
+                app.setupAnimations();
+                app.setupCanvas();
+            },
+
+            setupLoader: () => {
+                window.addEventListener('load', () => {
+                    const loader = document.getElementById('loader');
+                    setTimeout(() => {
+                        loader.classList.add('hidden');
+                        document.body.classList.remove('overflow-hidden');
+                        
+                        // Trigger Hero Animations
+                        gsap.to('.reveal-pop', {
+                            y: 0, opacity: 1, scale: 1,
+                            duration: 1.2, stagger: 0.1,
+                            ease: "elastic.out(1, 0.75)",
+                            delay: 0.5
+                        });
+                    }, 1000);
+                });
+            },
+
+            setupScroll: () => {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    smooth: true
+                });
+                function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+                requestAnimationFrame(raf);
+            },
+
+            setupAnimations: () => {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Timeline Items
+                gsap.utils.toArray('.reveal-line').forEach(item => {
+                    gsap.from(item, {
+                        y: 50, opacity: 0,
+                        duration: 1,
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 80%",
+                        }
+                    });
+                });
+
+                // Parallax Hero Title
+                gsap.to('.hero-title', {
+                    yPercent: 50,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: 'body',
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: true
+                    }
+                });
+            },
+
+            setupCanvas: () => {
+                const canvas = document.getElementById('starCanvas');
+                const ctx = canvas.getContext('2d');
+                let width, height, stars = [];
+
+                function resize() {
+                    width = canvas.width = window.innerWidth;
+                    height = canvas.height = window.innerHeight;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                class Star {
+                    constructor() {
+                        this.x = Math.random() * width;
+                        this.y = Math.random() * height;
+                        this.size = Math.random() * 2;
+                        this.speedX = (Math.random() - 0.5) * 0.5;
+                        this.speedY = (Math.random() - 0.5) * 0.5;
+                        this.alpha = Math.random();
+                    }
+                    update() {
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+                        this.alpha += (Math.random() - 0.5) * 0.05;
+                        if(this.alpha < 0) this.alpha = 0;
+                        if(this.alpha > 1) this.alpha = 1;
+
+                        if (this.x < 0) this.x = width;
+                        if (this.x > width) this.x = 0;
+                        if (this.y < 0) this.y = height;
+                        if (this.y > height) this.y = 0;
+                    }
+                    draw() {
+                        ctx.fillStyle = `rgba(212, 175, 55, ${this.alpha * 0.5})`; // Gold dust
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                for(let i=0; i<100; i++) stars.push(new Star());
+
+                function animate() {
+                    ctx.clearRect(0, 0, width, height);
+                    stars.forEach(star => {
+                        star.update();
+                        star.draw();
+                    });
+                    requestAnimationFrame(animate);
+                }
+                animate();
+            }
+        };
+
+        app.init();
+    </script>
+</body>
+</html>

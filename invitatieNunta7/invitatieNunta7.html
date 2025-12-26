@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Prism Wedding | Stable Version</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Tenor+Sans&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. CONFIGURARE --- */
+        :root {
+            --bg-dark: #0a0a0a;
+            --text-light: #e0e0e0;
+            --gold: #D4AF37;
+            --gold-dim: #8a7020;
+            --font-head: 'Cinzel', serif;
+            --font-body: 'Tenor Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* TEXTURĂ SUBTILĂ */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05; pointer-events: none; z-index: 9999;
+        }
+
+        /* CURSOR (Doar pe Desktop) */
+        @media (hover: hover) and (pointer: fine) {
+            .cursor-follower {
+                position: fixed; width: 20px; height: 20px;
+                border: 1px solid var(--gold); border-radius: 50%;
+                pointer-events: none; z-index: 10000;
+                transform: translate(-50%, -50%); transition: transform 0.1s;
+                mix-blend-mode: difference;
+            }
+        }
+
+        h1, h2, h3 { font-family: var(--font-head); text-transform: uppercase; font-weight: 400; }
+
+        /* --- 2. HERO --- */
+        .hero-section {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
+        .hero-bg-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.4; transform: scale(1.1);
+            animation: breathe 10s infinite alternate;
+        }
+        .hero-content { z-index: 2; text-align: center; position: relative; }
+        .hero-names {
+            font-size: clamp(3rem, 10vw, 8rem); line-height: 0.9;
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-date {
+            margin-top: 20px; font-size: 1.2rem; letter-spacing: 8px; color: var(--gold);
+            border: 1px solid var(--gold); padding: 10px 30px; display: inline-block;
+        }
+        @keyframes breathe { from { transform: scale(1.1); } to { transform: scale(1.15); } }
+
+        /* --- 3. COUNTDOWN --- */
+        .countdown-strip {
+            display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;
+            padding: 40px 0; background: #111; border-bottom: 1px solid #222;
+        }
+        .cd-item { text-align: center; min-width: 70px; }
+        .cd-num { font-size: 2rem; font-family: var(--font-head); color: var(--gold); }
+        .cd-label { font-size: 0.7rem; opacity: 0.6; letter-spacing: 2px; }
+
+        /* --- 4. ABOUT SECTION (REPARATĂ) --- */
+        .about-section {
+            display: flex; flex-direction: column;
+        }
+        
+        /* DESKTOP LAYOUT (Sticky) */
+        @media (min-width: 900px) {
+            .about-container {
+                height: 200vh; /* Foarte înalt pentru a permite scroll */
+                position: relative;
+            }
+            .sticky-wrapper {
+                position: sticky; top: 0; height: 100vh;
+                display: grid; grid-template-columns: 1fr 1fr;
+                overflow: hidden;
+            }
+            .about-images { position: relative; height: 100%; }
+            .img-layer {
+                position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                object-fit: cover; transition: opacity 0.8s ease-in-out;
+            }
+            .img-layer.hidden { opacity: 0; } /* Ascundem cu opacity, e mai safe */
+            
+            .about-text-col {
+                display: flex; flex-direction: column; justify-content: center; padding: 60px;
+                background: var(--bg-dark); position: relative;
+            }
+            .text-block {
+                position: absolute; width: 80%;
+                opacity: 0; transform: translateY(30px); transition: all 0.8s ease-in-out;
+            }
+            .text-block.visible { opacity: 1; transform: translateY(0); position: relative; }
+            .text-block.hidden-block { display: none; } /* Ascundem complet blocul inactiv */
+        }
+
+        /* MOBILE LAYOUT (Stack - mult mai sigur) */
+        @media (max-width: 899px) {
+            .about-container { height: auto; }
+            .sticky-wrapper { display: block; height: auto; position: static; }
+            .about-images { height: 400px; overflow: hidden; }
+            .img-layer { width: 100%; height: 100%; object-fit: cover; }
+            .img-layer:last-child { display: none; } /* Pe mobil arătăm o poză statică sau le punem pe amândouă una sub alta */
+            
+            /* Modificare: Pe mobil punem El și Ea unul sub altul clasic */
+            .mobile-stack-item { padding: 40px 20px; border-bottom: 1px solid #333; }
+            .mobile-img { width: 100%; height: 300px; object-fit: cover; margin-bottom: 20px; }
+            
+            /* Ascundem layout-ul de desktop pe mobil */
+            .sticky-wrapper { display: none; }
+        }
+
+        .vertical-line { width: 2px; height: 50px; background: var(--gold); margin-bottom: 20px; }
+        
+        /* --- 5. NAȘII --- */
+        .nasi-section {
+            padding: 100px 20px; text-align: center; border-bottom: 1px solid #222;
+        }
+        .nasi-names {
+            font-size: clamp(2.5rem, 5vw, 5rem); color: var(--gold); margin: 20px 0;
+            border: 1px solid rgba(212, 175, 55, 0.3); padding: 40px; display: inline-block;
+        }
+
+        /* --- 6. PROGRAM --- */
+        .program-section {
+            padding: 100px 20px; overflow-x: auto; background: #0f0f0f;
+        }
+        .program-track {
+            display: flex; gap: 50px; min-width: max-content; padding-bottom: 20px;
+        }
+        .p-card {
+            min-width: 250px; border-left: 2px solid var(--gold); padding-left: 20px;
+        }
+        .p-time { font-size: 2rem; font-family: var(--font-head); color: #fff; }
+
+        /* --- 7. LOCATIE --- */
+        .loc-section { position: relative; height: 500px; }
+        /* Pointer events none pe iframe ca sa poti da scroll peste harta */
+        iframe.map-frame { 
+            width: 100%; height: 100%; border: 0; 
+            filter: grayscale(100%) invert(90%); 
+            pointer-events: none; /* FIX IMPORTANT: Scrollul paginii nu se blocheaza in harta */
+        }
+        .loc-info {
+            position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8);
+            padding: 30px; border: 1px solid var(--gold); max-width: 300px;
+        }
+
+        /* --- 8. GALERIE --- */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px; padding: 10px;
+        }
+        .gallery-img { width: 100%; height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
+        .gallery-img:hover { filter: grayscale(0%); }
+
+        /* --- 9. FORMULAR --- */
+        .rsvp-section { padding: 100px 20px; max-width: 600px; margin: 0 auto; text-align: center; }
+        .input-gold {
+            width: 100%; background: transparent; border: none; border-bottom: 1px solid #555;
+            padding: 15px 0; color: #fff; font-size: 1.1rem; margin-bottom: 30px; outline: none;
+        }
+        .input-gold:focus { border-bottom-color: var(--gold); }
+        .btn-gold {
+            background: transparent; border: 1px solid var(--gold); color: var(--gold);
+            padding: 15px 40px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+            width: 100%; font-weight: bold;
+        }
+        .btn-gold:hover { background: var(--gold); color: #000; }
+
+        footer { padding: 50px; text-align: center; color: #666; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div class="cursor-follower" id="cursor"></div>
+
+    <header class="hero-section">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80" class="hero-bg-img" alt="Background">
+        <div class="hero-content">
+            <div style="letter-spacing: 5px; margin-bottom: 20px; color: #ccc;">NUNTA ANULUI</div>
+            <h1 class="hero-names">Andrei<br>& Maria</h1>
+            <div class="hero-date">24.08.2025</div>
+        </div>
+    </header>
+
+    <div class="countdown-strip">
+        <div class="cd-item"><span class="cd-num" id="d">00</span><span class="cd-label">ZILE</span></div>
+        <div class="cd-item"><span class="cd-num" id="h">00</span><span class="cd-label">ORE</span></div>
+        <div class="cd-item"><span class="cd-num" id="m">00</span><span class="cd-label">MIN</span></div>
+        <div class="cd-item"><span class="cd-num" id="s">00</span><span class="cd-label">SEC</span></div>
+    </div>
+
+    <div class="mobile-stack-item d-block d-lg-none" style="display: none;"> <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="mobile-img" alt="El">
+         <h2>Mirele</h2>
+         <p style="color:#ccc;">Andrei este un arhitect vizionar. Găsește echilibru în structură și iubire.</p>
+    </div>
+    <div class="mobile-stack-item d-block d-lg-none" style="display: none;">
+         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="mobile-img" alt="Ea">
+         <h2>Mireasa</h2>
+         <p style="color:#ccc;">Maria este sufletul petrecerii. Artistă și visătoare, aduce culoare vieții.</p>
+    </div>
+
+    <div class="about-container">
+        <div class="sticky-wrapper">
+            <div class="about-images">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="img-layer" id="img-el" alt="El">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="img-layer hidden" id="img-ea" alt="Ea">
+            </div>
+            <div class="about-text-col">
+                <div class="text-block visible" id="txt-el">
+                    <div class="vertical-line"></div>
+                    <h2>Mirele</h2>
+                    <h3 style="color:var(--gold); margin-bottom:20px;">Andrei Popescu</h3>
+                    <p style="font-size:1.1rem; color:#bbb;">"Ea este liniștea din haosul meu."<br>Andrei aduce stabilitate și calm. Un gentleman modern.</p>
+                </div>
+                <div class="text-block hidden-block" id="txt-ea"> <div class="vertical-line"></div>
+                    <h2>Mireasa</h2>
+                    <h3 style="color:var(--gold); margin-bottom:20px;">Maria Ionescu</h3>
+                    <p style="font-size:1.1rem; color:#bbb;">"El este ancora viselor mele."<br>Maria este energie pură, creativă și plină de viață.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="nasi-section">
+        <p style="letter-spacing: 3px; color: #888;">PĂRINȚI SPIRITUALI</p>
+        <div class="nasi-names">Radu & Elena</div>
+        <p>Fam. Ionescu</p>
+    </section>
+
+    <section class="program-section">
+        <div class="program-track">
+            <div class="p-card">
+                <div class="p-time">16:00</div>
+                <div style="color:var(--gold);">Cununia Religioasă</div>
+                <div style="color:#666; font-size:0.9rem;">Biserica Sf. Ioan</div>
+            </div>
+            <div class="p-card">
+                <div class="p-time">19:00</div>
+                <div style="color:var(--gold);">Recepția</div>
+                <div style="color:#666; font-size:0.9rem;">Palatul Știrbey</div>
+            </div>
+            <div class="p-card">
+                <div class="p-time">23:00</div>
+                <div style="color:var(--gold);">Primul Dans</div>
+                <div style="color:#666; font-size:0.9rem;">Sala de Bal</div>
+            </div>
+            <div class="p-card">
+                <div class="p-time">02:00</div>
+                <div style="color:var(--gold);">Tortul</div>
+                <div style="color:#666; font-size:0.9rem;">Moment Dulce</div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="gallery-grid">
+            <img src="https://images.unsplash.com/photo-1511285560982-1356c11d4606?w=600" class="gallery-img">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="gallery-img">
+            <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?w=600" class="gallery-img">
+            <img src="https://images.unsplash.com/photo-1623192023537-83c7482811a2?w=600" class="gallery-img">
+        </div>
+    </section>
+
+    <section class="loc-section">
+        <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8444388087937!2d26.10253831552336!3d44.43614137910199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff4770adb5b7%3A0x58147f39579fe6fa!2sBucharest!5e0!3m2!1sen!2sro!4v1620000000000!5m2!1sen!2sro" allowfullscreen="" loading="lazy"></iframe>
+        <div class="loc-info">
+            <h3 style="color:var(--gold)">Palatul Știrbey</h3>
+            <p>Strada Știrbey Vodă, Buftea</p>
+            <br>
+            <small style="color:#aaa;">*Harta este statică pentru a facilita scroll-ul.</small>
+        </div>
+    </section>
+
+    <section class="rsvp-section">
+        <h2 style="font-size:3rem; margin-bottom:30px;">RSVP</h2>
+        <form>
+            <input type="text" class="input-gold" placeholder="Nume Prenume">
+            <select class="input-gold">
+                <option style="color:#000;">Confirm Prezența</option>
+                <option style="color:#000;">Nu pot participa</option>
+            </select>
+            <input type="number" class="input-gold" placeholder="Nr. Persoane">
+            <button type="button" class="btn-gold">Trimite</button>
+        </form>
+    </section>
+
+    <footer>
+        © 2025 THE PRISM WEDDING
+    </footer>
+
+    <script>
+        // 1. Cursor Follower (Simplu)
+        const cursor = document.getElementById('cursor');
+        if (window.matchMedia("(hover: hover)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+        }
+
+        // 2. Countdown Timer
+        const targetDate = new Date("Aug 24, 2025 16:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('h').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('m').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('s').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        }, 1000);
+
+        // 3. SCROLL ANIMATION (Logica "El -> Ea")
+        // Folosim IntersectionObserver pentru stabilitate, nu pixeli
+        // Doar pe Desktop
+        if (window.innerWidth >= 900) {
+            const aboutContainer = document.querySelector('.about-container');
+            const imgEl = document.getElementById('img-el');
+            const imgEa = document.getElementById('img-ea');
+            const txtEl = document.getElementById('txt-el');
+            const txtEa = document.getElementById('txt-ea');
+
+            window.addEventListener('scroll', () => {
+                const rect = aboutContainer.getBoundingClientRect();
+                const viewHeight = window.innerHeight;
+
+                // Când containerul este la jumătatea scroll-ului său
+                // rect.top începe pozitiv și devine negativ pe măsură ce dăm scroll
+                // -rect.top înseamnă câți pixeli am scrollat în interiorul containerului
+                
+                const scrollProgress = -rect.top;
+                
+                // Punctul de schimbare (aprox 400px scroll in sectiune)
+                if (scrollProgress > viewHeight * 0.5) {
+                    // SWITCH TO EA
+                    imgEl.classList.add('hidden');
+                    imgEa.classList.remove('hidden');
+                    
+                    txtEl.classList.remove('visible');
+                    txtEl.classList.add('hidden-block'); // Ascundem complet
+                    
+                    txtEa.classList.remove('hidden-block');
+                    setTimeout(() => txtEa.classList.add('visible'), 50); // Mic delay pt animatie
+                    
+                } else {
+                    // SWITCH TO EL
+                    imgEl.classList.remove('hidden');
+                    imgEa.classList.add('hidden');
+                    
+                    txtEa.classList.remove('visible');
+                    txtEa.classList.add('hidden-block');
+                    
+                    txtEl.classList.remove('hidden-block');
+                    setTimeout(() => txtEl.classList.add('visible'), 50);
+                }
+            });
+        } else {
+            // MOBILE FIX: Afișăm elementele de mobil (prin CSS Media Queries)
+            // Clasa d-lg-none se ocupa de asta in stiluri
+            document.querySelectorAll('.mobile-stack-item').forEach(el => el.style.display = 'block');
+        }
+    </script>
+</body>
+</html>

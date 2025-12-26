@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestial Wedding | Full Experience</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CONFIGURARE --- */
+        :root {
+            --bg-deep: #050505;
+            --glass-surface: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glow-color: #d4af37;
+            --text-primary: #ffffff;
+            --text-secondary: #aaa;
+            --font-display: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        canvas#stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+
+        main { position: relative; z-index: 1; padding-bottom: 100px; }
+        h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 300; letter-spacing: 2px; }
+        
+        /* --- GLASS CARD SYSTEM --- */
+        .celestial-card {
+            background: var(--glass-surface);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 40px; margin: 40px auto;
+            max-width: 1000px;
+            transition: transform 0.1s ease-out, box-shadow 0.3s;
+            transform-style: preserve-3d;
+        }
+        .celestial-card:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .section-title {
+            text-align: center; font-size: 3rem; margin-bottom: 50px; color: var(--glow-color);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+        }
+        .hero h1 {
+            font-size: clamp(4rem, 10vw, 8rem);
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            line-height: 0.9; margin-bottom: 20px;
+        }
+
+        /* --- COUNTDOWN (NOU) --- */
+        .countdown-container {
+            display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 30px;
+        }
+        .timer-box {
+            background: rgba(0,0,0,0.5); border: 1px solid var(--glow-color);
+            width: 100px; height: 100px; border-radius: 50%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+        .timer-val { font-size: 2rem; font-family: var(--font-display); color: var(--glow-color); }
+        .timer-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* --- TIMELINE / PROGRAM (NOU) --- */
+        .timeline-list {
+            list-style: none; padding: 0; position: relative; max-width: 600px; margin: 0 auto;
+        }
+        .timeline-list::before {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 1px; height: 100%; background: linear-gradient(to bottom, transparent, var(--glow-color), transparent);
+        }
+        .timeline-item {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; position: relative;
+        }
+        .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+        .timeline-dot {
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+            width: 15px; height: 15px; background: var(--glow-color); border-radius: 50%;
+            box-shadow: 0 0 10px var(--glow-color); z-index: 2;
+        }
+        .timeline-time { width: 45%; text-align: right; font-size: 1.5rem; color: var(--glow-color); font-family: var(--font-display); }
+        .timeline-item:nth-child(even) .timeline-time { text-align: left; }
+        .timeline-content { width: 45%; text-align: left; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .timeline-item:nth-child(even) .timeline-content { text-align: right; }
+
+        /* --- STORY & NASI --- */
+        .story-container {
+            display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; padding: 50px 20px;
+        }
+        .profile-card { width: 350px; height: 500px; position: relative; }
+        .profile-img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; opacity: 0.8; }
+        .profile-content {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px;
+            background: linear-gradient(to top, #000, transparent); border-radius: 0 0 16px 16px;
+        }
+
+        /* Stil special pentru Nasi (Card orizontal) */
+        .nasi-section { text-align: center; }
+        .nasi-names { font-size: 2rem; color: #fff; margin-top: 10px; }
+        .nasi-role { color: var(--glow-color); text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; }
+
+        /* --- 3D CAROUSEL --- */
+        .gallery-3d-section {
+            height: 400px; perspective: 1000px; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; margin: 50px 0;
+        }
+        .spinner {
+            width: 300px; height: 200px; position: relative;
+            transform-style: preserve-3d; animation: spin 20s infinite linear;
+        }
+        .spinner:hover { animation-play-state: paused; }
+        .slide-3d {
+            position: absolute; width: 300px; height: 200px;
+            background: rgba(255,255,255,0.1); border: 1px solid var(--glow-color);
+        }
+        .slide-3d img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .s1 { transform: rotateY(0deg) translateZ(350px); }
+        .s2 { transform: rotateY(60deg) translateZ(350px); }
+        .s3 { transform: rotateY(120deg) translateZ(350px); }
+        .s4 { transform: rotateY(180deg) translateZ(350px); }
+        .s5 { transform: rotateY(240deg) translateZ(350px); }
+        .s6 { transform: rotateY(300deg) translateZ(350px); }
+        @keyframes spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+        /* --- FORM & INPUTS --- */
+        .input-glow {
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; padding: 15px; margin-bottom: 20px; border-radius: 5px; outline: none; transition: 0.3s;
+        }
+        .input-glow:focus { background: rgba(255,255,255,0.1); border-color: var(--glow-color); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .btn-neon {
+            width: 100%; padding: 15px; background: transparent; color: var(--glow-color);
+            border: 1px solid var(--glow-color); text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; transition: 0.4s; font-weight: bold;
+        }
+        .btn-neon:hover { background: var(--glow-color); color: #000; box-shadow: 0 0 30px rgba(212, 175, 55, 0.8); }
+
+        .footer-end { text-align: center; padding: 50px; color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 2px; }
+
+        /* Responsive timeline */
+        @media (max-width: 768px) {
+            .timeline-list::before { left: 20px; }
+            .timeline-item { flex-direction: column !important; align-items: flex-start; margin-left: 50px; }
+            .timeline-dot { left: 20px; }
+            .timeline-time, .timeline-content, .timeline-item:nth-child(even) .timeline-content { width: 100%; text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="stars"></canvas>
+
+    <main>
+        <section class="hero">
+            <div class="celestial-card js-tilt" style="padding: 60px 50px; border:none; background: transparent; box-shadow: none;">
+                <h3 style="margin-bottom:20px; font-style:italic;">Save the Date</h3>
+                <h1 id="hero-names">Andrei & Maria</h1>
+                <div style="font-size: 1.5rem; letter-spacing: 5px; margin-top: 10px;">24 AUGUST 2025</div>
+            </div>
+        </section>
+
+        <section style="padding: 0 20px;">
+            <div class="celestial-card js-tilt" style="text-align: center;">
+                <h2 class="section-title" style="margin-bottom: 20px; font-size: 2rem;">Timp Rămas</h2>
+                <div class="countdown-container" id="countdown">
+                    <div class="timer-box"><div class="timer-val" id="days">00</div><div class="timer-label">Zile</div></div>
+                    <div class="timer-box"><div class="timer-val" id="hours">00</div><div class="timer-label">Ore</div></div>
+                    <div class="timer-box"><div class="timer-val" id="minutes">00</div><div class="timer-label">Min</div></div>
+                    <div class="timer-box"><div class="timer-val" id="seconds">00</div><div class="timer-label">Sec</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="story-container">
+            <div class="celestial-card profile-card js-tilt">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600" class="profile-img" alt="El">
+                <div class="profile-content">
+                    <h2 style="color:var(--glow-color)">Mirele</h2>
+                    <p style="color: #ddd; font-size: 0.9rem;">"În ochii ei am găsit liniștea."</p>
+                </div>
+            </div>
+            <div class="celestial-card profile-card js-tilt">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600" class="profile-img" alt="Ea">
+                <div class="profile-content">
+                    <h2 style="color:var(--glow-color)">Mireasa</h2>
+                    <p style="color: #ddd; font-size: 0.9rem;">"El este ancora mea."</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 0 20px;">
+            <div class="celestial-card js-tilt nasi-section">
+                <div class="nasi-role">Părinți Spirituali</div>
+                <h2 class="nasi-names">Radu & Elena Ionescu</h2>
+                <p style="margin-top: 20px; color: #ccc;">"Cei care ne vor ghida pașii în această călătorie frumoasă a vieții."</p>
+            </div>
+        </section>
+
+        <section style="padding: 0 20px;">
+            <div class="celestial-card js-tilt">
+                <h2 class="section-title">Programul Zilei</h2>
+                <ul class="timeline-list">
+                    <li class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">16:00</div>
+                        <div class="timeline-content">
+                            <h4 style="color:var(--glow-color)">Cununia Religioasă</h4>
+                            <p style="font-size:0.9rem;">Biserica Sfântul Ioan</p>
+                        </div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">19:00</div>
+                        <div class="timeline-content">
+                            <h4 style="color:var(--glow-color)">Primirea Invitaților</h4>
+                            <p style="font-size:0.9rem;">Palatul Știrbey</p>
+                        </div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">23:00</div>
+                        <div class="timeline-content">
+                            <h4 style="color:var(--glow-color)">Dansul Mirilor</h4>
+                            <p style="font-size:0.9rem;">Momentul magic</p>
+                        </div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">02:00</div>
+                        <div class="timeline-content">
+                            <h4 style="color:var(--glow-color)">Tortul</h4>
+                            <p style="font-size:0.9rem;">Cel mai dulce moment</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Momente Eterne</h2>
+            <div class="gallery-3d-section">
+                <div class="spinner">
+                    <div class="slide-3d s1"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600"></div>
+                    <div class="slide-3d s2"><img src="https://images.unsplash.com/photo-1511285560982-1356c11d4606?w=600"></div>
+                    <div class="slide-3d s3"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600"></div>
+                    <div class="slide-3d s4"><img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?w=600"></div>
+                    <div class="slide-3d s5"><img src="https://images.unsplash.com/photo-1520854221256-17451cc330e7?w=600"></div>
+                    <div class="slide-3d s6"><img src="https://images.unsplash.com/photo-1623192023537-83c7482811a2?w=600"></div>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 0 20px;">
+            <div class="celestial-card js-tilt">
+                <h2 class="section-title" style="margin-bottom: 20px; font-size: 2rem;">Locația</h2>
+                <p style="text-align: center; font-size: 1.2rem; margin-bottom: 30px;">
+                    Palatul Știrbey<br>
+                    <span style="color: var(--text-secondary); font-size: 0.9rem;">Buftea, Strada Știrbey Vodă</span>
+                </p>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8444388087937!2d26.10253831552336!3d44.43614137910199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff4770adb5b7%3A0x58147f39579fe6fa!2sBucharest!5e0!3m2!1sen!2sro!4v1620000000000!5m2!1sen!2sro" width="100%" height="300" style="border:0; border-radius: 8px; filter: invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </section>
+
+        <section style="padding: 50px 20px;">
+            <div class="celestial-card js-tilt" style="max-width: 600px;">
+                <h2 class="section-title" style="font-size: 2rem;">Confirmare</h2>
+                <form>
+                    <input type="text" class="input-glow" placeholder="Nume Prenume">
+                    <div style="display: flex; gap: 10px;">
+                         <select class="input-glow" style="color:#000;">
+                            <option>Da, particip</option>
+                            <option>Nu pot participa</option>
+                        </select>
+                        <input type="number" class="input-glow" placeholder="Persoane" style="width: 100px;">
+                    </div>
+                    <textarea class="input-glow" rows="3" placeholder="Mesaj special..."></textarea>
+                    <button type="button" class="btn-neon">Trimite Răspuns</button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="footer-end">
+            © 2025 CELESTIAL DESIGN | Creat cu pasiune
+        </footer>
+    </main>
+
+    <script>
+        // --- 1. PARTICLE SYSTEM ---
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random();
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > width) this.x = 0; if (this.x < 0) this.x = width;
+                if (this.y > height) this.y = 0; if (this.y < 0) this.y = height;
+                this.opacity += (Math.random() - 0.5) * 0.05;
+                if(this.opacity < 0) this.opacity = 0; if(this.opacity > 1) this.opacity = 1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+        for(let i=0; i<150; i++) particles.push(new Particle());
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // --- 2. 3D TILT EFFECT ---
+        const cards = document.querySelectorAll('.js-tilt');
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX; const y = e.clientY;
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const deltaX = x - centerX; const deltaY = y - centerY;
+                const rotateY = deltaX / 25; const rotateX = -deltaY / 25;
+                if(rect.top < window.innerHeight && rect.bottom > 0) {
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                }
+            });
+        });
+        document.addEventListener('mouseleave', () => {
+            cards.forEach(card => card.style.transform = `perspective(1000px) rotateX(0) rotateY(0)`);
+        });
+
+        // --- 3. COUNTDOWN TIMER LOGIC ---
+        const weddingDate = new Date("August 24, 2025 16:00:00").getTime();
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById("days").innerText = days < 10 ? "0"+days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0"+hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0"+minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0"+seconds : seconds;
+        }, 1000);
+    </script>
+</body>
+</html>

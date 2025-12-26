@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitație Retro - Vinyl</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="template5.css">
+</head>
+<body>
+
+    <div class="record-player-container" id="player">
+        
+        <div class="vinyl-record">
+            <div class="vinyl-label">
+                SIDE A<br>
+                <span style="font-size: 0.6rem; opacity: 0.8;">Love Songs</span>
+            </div>
+        </div>
+
+        <div class="album-cover">
+            
+            <div class="flex justify-between items-end border-b-2 border-[rgb(var(--color-dark))] pb-4 mb-4">
+                <div>
+                    <h1 class="text-4xl font-retro leading-none tracking-tighter">Save<br>The<br>Date</h1>
+                </div>
+                <div class="text-right">
+                    <p class="font-bold text-xs uppercase tracking-widest opacity-60">Live Tour</p>
+                    <p class="font-bold text-lg">25.08.2025</p>
+                </div>
+            </div>
+
+            <div class="flex-grow relative overflow-hidden">
+                
+                <div class="content-section active-tab" id="tab-intro">
+                    <h2 class="text-2xl mb-2 text-[rgb(var(--color-accent))]">Ana & Andrei</h2>
+                    <p class="text-sm leading-relaxed mb-6 opacity-80">
+                        Dragostea sună cel mai bine live. Te invităm să fii alături de noi când lansăm "albumul" vieții noastre. Va fi o seară de neuitat!
+                    </p>
+                    <button onclick="startPlayer()" class="btn-main uppercase tracking-widest text-sm">
+                        ▶ Apasă Play
+                    </button>
+                    <p class="text-xs text-center mt-3 opacity-50">Pornește muzica pentru a continua</p>
+                </div>
+
+                <div class="content-section" id="tab-locatie">
+                    <div class="space-y-6 mt-2">
+                        <div class="bg-gray-100 p-4 border border-[rgb(var(--color-dark))]">
+                            <p class="text-xs uppercase font-bold text-[rgb(var(--color-accent))]">Locația</p>
+                            <h3 class="font-bold text-lg">Clubul Diplomaților</h3>
+                            <p class="text-sm opacity-70">Șoseaua București-Ploiești</p>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-xs uppercase font-bold text-[rgb(var(--color-accent))]">Ora</p>
+                                <p class="font-bold">17:00</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase font-bold text-[rgb(var(--color-accent))]">Dress Code</p>
+                                <p class="font-bold">Retro Chic</p>
+                            </div>
+                        </div>
+
+                        <a href="#" class="block text-center text-xs underline decoration-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent))] transition-colors">Vezi harta GPS &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="content-section" id="tab-rsvp">
+                    <h2 class="text-xl mb-4 font-retro">Confirmare</h2>
+                    <form class="space-y-4">
+                        <div>
+                            <label class="text-xs uppercase font-bold opacity-50">Numele Tău</label>
+                            <input type="text" class="input-retro" placeholder="ex: Popescu Ion">
+                        </div>
+                        
+                        <div class="flex gap-4 py-2">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="attendance" class="accent-[rgb(var(--color-accent))]">
+                                <span class="text-sm font-bold">Vin!</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="attendance" class="accent-[rgb(var(--color-accent))]">
+                                <span class="text-sm font-bold">Nu pot</span>
+                            </label>
+                        </div>
+
+                        <button type="button" class="btn-main">Trimite Răspuns</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="nav-footer">
+                <div class="nav-btn active" onclick="switchTab('tab-intro', this)">01. Intro</div>
+                <div class="nav-btn" onclick="switchTab('tab-locatie', this)">02. Info</div>
+                <div class="nav-btn" onclick="switchTab('tab-rsvp', this)">03. RSVP</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="template5.js"></script>
+</body>
+</html>

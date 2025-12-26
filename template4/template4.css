@@ -1,0 +1,124 @@
+/* template3.css */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Raleway:wght@300;400;500&display=swap');
+
+:root {
+    /* --- CONFIGURARE CULORI (LUXURY DARK) --- */
+    /* Fundal principal: Un negru foarte adânc, ușor albăstrui */
+    --color-bg: 5, 5, 10;
+    
+    /* Text principal: Alb spart */
+    --color-text: 240, 240, 240;
+    
+    /* Accent: Auriu Metalic */
+    --color-gold: 212, 175, 55;
+}
+
+body {
+    background-color: rgb(var(--color-bg));
+    color: rgb(var(--color-text));
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    overflow: hidden; /* Ascundem scrollbar-ul nativ pentru experiență App-like */
+}
+
+h1, h2, h3, .font-cinzel {
+    font-family: 'Cinzel', serif;
+}
+
+/* --- FILM GRAIN EFFECT (SENIOR TOUCH) --- */
+/* Adaugă textură ca să nu pară un site "plat" */
+.noise-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 90;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* --- SCROLL SNAP CONTAINER --- */
+.snap-container {
+    height: 100vh;
+    width: 100vw;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+.snap-section {
+    height: 100vh;
+    width: 100vw;
+    scroll-snap-align: start;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* --- CUSTOM CURSOR --- */
+/* Ascundem cursorul default doar pe desktop */
+@media (min-width: 1024px) {
+    body { cursor: none; }
+    .custom-cursor {
+        position: fixed;
+        top: 0; left: 0;
+        width: 20px; height: 20px;
+        border: 1px solid rgba(var(--color-gold), 1);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 100;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease, width 0.3s, height 0.3s, background-color 0.3s;
+        mix-blend-mode: difference;
+    }
+    .custom-cursor.hovered {
+        width: 50px;
+        height: 50px;
+        background-color: rgba(var(--color-gold), 0.2);
+        border-color: transparent;
+    }
+}
+
+/* --- TEXT GRADIENT & GLOW --- */
+.text-gold-glow {
+    color: rgb(var(--color-gold));
+    text-shadow: 0 0 20px rgba(var(--color-gold), 0.3);
+}
+
+.text-reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease;
+}
+
+.active .text-reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+}
+
+/* Navigație laterală (Puncte) */
+.nav-dots {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.dot {
+    width: 10px;
+    height: 10px;
+    border: 1px solid rgba(var(--color-text), 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.dot.active {
+    background-color: rgb(var(--color-gold));
+    border-color: rgb(var(--color-gold));
+    box-shadow: 0 0 10px rgba(var(--color-gold), 0.5);
+}

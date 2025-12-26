@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="ro" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nuntă la LAGO — Invitație Digitală</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* PALETA DE CULORI LAGO (Petrol Blue & Gold) */
+      --bg-main: #0B253A;       /* Albastru închis profund */
+      --bg-light: #102e46;      /* O nuanță ușor mai deschisă */
+      --text-main: #FFFFFF;     /* Alb */
+      --text-muted: #CBD5E1;    /* Gri deschis */
+      --accent: #D4AF37;        /* Auriu metalic */
+      
+      --font-serif: 'Playfair Display', serif;
+      --font-sans: 'Lato', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+    }
+
+    /* Stiluri specifice pentru titluri */
+    h1, h2, h3, h4, .font-serif-custom {
+      font-family: var(--font-serif);
+    }
+
+    /* Buton specific stil LAGO (border fin, uppercase) */
+    .btn-lago {
+      display: inline-block;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 12px 32px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.4s ease;
+      font-family: var(--font-serif);
+      background: transparent;
+      color: white;
+      cursor: pointer;
+    }
+
+    .btn-lago:hover {
+      background-color: white;
+      color: var(--bg-main);
+      border-color: white;
+    }
+
+    /* Carduri Săli - Hover Effect */
+    .hall-card-img {
+      transition: transform 0.8s ease;
+    }
+    .hall-card:hover .hall-card-img {
+      transform: scale(1.05);
+    }
+
+    /* Animații Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Linie decorativă */
+    .separator {
+      width: 60px;
+      height: 1px;
+      background-color: var(--accent);
+      margin: 20px auto;
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#0B253A]/90 backdrop-blur-md border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      
+      <div class="text-center md:text-left">
+        <a href="#" class="block">
+          <div class="text-xl md:text-2xl font-serif tracking-widest text-white leading-none">LAGO EVENT PARK</div>
+          <div class="text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-white/60 mt-1 text-center">Wedding & Resort</div>
+        </a>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-8 text-[12px] uppercase tracking-widest font-serif text-white/80">
+        <a href="#home" class="hover:text-[#D4AF37] transition-colors py-2">Acasă</a>
+        <a href="#about" class="hover:text-[#D4AF37] transition-colors py-2">Povestea</a>
+        <a href="#halls" class="hover:text-[#D4AF37] transition-colors py-2">Săli</a>
+        <a href="#menu" class="hover:text-[#D4AF37] transition-colors py-2">Meniu</a>
+        <a href="#gallery" class="hover:text-[#D4AF37] transition-colors py-2">Galerie</a>
+      </nav>
+
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#rsvp" class="text-[12px] uppercase tracking-widest font-serif text-[#D4AF37] border-b border-[#D4AF37]/30 pb-1 hover:text-white hover:border-white transition-all">
+          RSVP
+        </a>
+        <span class="text-[10px] text-white/30">RO</span>
+      </div>
+
+      <button id="menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
+        &#9776;
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-[#0B253A] z-40 flex flex-col items-center justify-center gap-8 transform translate-x-full transition-transform duration-300 md:hidden">
+      <button id="close-menu" class="absolute top-6 right-6 text-white text-4xl">&times;</button>
+      <a href="#home" class="text-2xl font-serif text-white hover:text-[#D4AF37]">Acasă</a>
+      <a href="#about" class="text-2xl font-serif text-white hover:text-[#D4AF37]">Povestea</a>
+      <a href="#halls" class="text-2xl font-serif text-white hover:text-[#D4AF37]">Săli</a>
+      <a href="#gallery" class="text-2xl font-serif text-white hover:text-[#D4AF37]">Galerie</a>
+      <a href="#rsvp" class="text-2xl font-serif text-[#D4AF37] font-bold mt-4">RSVP</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2070&auto=format&fit=crop" 
+             class="w-full h-full object-cover opacity-60" alt="Wedding Hero">
+        <div class="absolute inset-0 bg-gradient-to-b from-[#0B253A]/40 via-transparent to-[#0B253A]"></div>
+      </div>
+
+      <div class="relative z-10 text-center px-4 reveal">
+        <p class="text-[#D4AF37] text-xs md:text-sm uppercase tracking-[0.3em] font-bold mb-6">25 August 2026</p>
+        <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-lg">
+          Ana & Andrei
+        </h1>
+        <div class="separator"></div>
+        <p class="text-white/90 text-lg md:text-xl font-light max-w-2xl mx-auto mb-10 leading-relaxed">
+          Vă invităm să celebrați dragostea noastră într-un cadru rafinat,<br> la LAGO Event Park.
+        </p>
+        <a href="#rsvp" class="btn-lago">Confirmă Prezența</a>
+      </div>
+    </section>
+
+    <section id="about" class="py-24 px-6 bg-[#0B253A]">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div class="order-2 md:order-1 reveal">
+          <h2 class="text-3xl md:text-4xl font-serif text-white mb-6">Povestea Noastră</h2>
+          <p class="text-white/70 text-lg leading-relaxed mb-6 font-light">
+            Totul a început cu o privire și un zâmbet. De atunci, am construit împreună amintiri care ne vor lega pentru totdeauna.
+          </p>
+          <p class="text-white/70 text-lg leading-relaxed mb-8 font-light">
+            Nunta noastră la LAGO nu este doar o petrecere, ci o promisiune făcută sub cerul liber, înconjurați de oamenii cei mai dragi nouă.
+          </p>
+          <div class="flex gap-8 mt-8 border-t border-white/10 pt-8">
+            <div>
+              <span class="block text-[#D4AF37] text-2xl font-serif mb-1">16:00</span>
+              <span class="text-xs uppercase tracking-widest text-white/50">Cununia</span>
+            </div>
+            <div>
+              <span class="block text-[#D4AF37] text-2xl font-serif mb-1">19:00</span>
+              <span class="text-xs uppercase tracking-widest text-white/50">Petrecerea</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="order-1 md:order-2 reveal">
+          <div class="relative p-2 border border-white/10">
+            <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?auto=format&fit=crop&w=1200&q=80" 
+                 class="w-full h-auto object-cover grayscale hover:grayscale-0 transition duration-1000" alt="Couple">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="halls" class="py-24 px-6 bg-[#0B253A]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <h2 class="text-3xl md:text-4xl font-serif text-white mb-4">Locațiile Evenimentului</h2>
+          <div class="separator"></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          
+          <div class="hall-card group reveal">
+            <div class="h-72 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80" 
+                   class="hall-card-img w-full h-full object-cover" alt="Sala Amalfi">
+            </div>
+            <div class="pt-8 pb-4 pr-4 bg-[#0B253A]">
+              <h3 class="text-2xl font-serif text-white mb-4">Amalfi</h3>
+              <p class="text-white/60 text-sm leading-7 font-light mb-6">
+                O sală cu rafinament italian, lumină caldă și priveliște spre terasă – perfectă pentru relaxare și momente de neuitat.
+              </p>
+              <a href="#" class="text-[10px] uppercase tracking-[0.2em] border-b border-white/20 pb-1 hover:text-[#D4AF37] hover:border-[#D4AF37] transition">Detalii</a>
+            </div>
+          </div>
+
+          <div class="hall-card group reveal transition delay-100">
+            <div class="h-72 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80" 
+                   class="hall-card-img w-full h-full object-cover" alt="Sala Florenza">
+            </div>
+            <div class="pt-8 pb-4 pr-4 bg-[#0B253A]">
+              <h3 class="text-2xl font-serif text-white mb-4">Florenza</h3>
+              <p class="text-white/60 text-sm leading-7 font-light mb-6">
+                Un spațiu plin de lumină și eleganță, cu vedere spre lac – creat pentru clipe de liniște și inspirație în ziua nunții.
+              </p>
+              <a href="#" class="text-[10px] uppercase tracking-[0.2em] border-b border-white/20 pb-1 hover:text-[#D4AF37] hover:border-[#D4AF37] transition">Detalii</a>
+            </div>
+          </div>
+
+          <div class="hall-card group reveal transition delay-200">
+            <div class="h-72 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80" 
+                   class="hall-card-img w-full h-full object-cover" alt="Sala Parma">
+            </div>
+            <div class="pt-8 pb-4 pr-4 bg-[#0B253A]">
+              <h3 class="text-2xl font-serif text-white mb-4">Parma</h3>
+              <p class="text-white/60 text-sm leading-7 font-light mb-6">
+                O cameră ce aduce farmecul autentic al Italiei, cu detalii elegante și o ambianță liniștită, perfectă pentru relaxare.
+              </p>
+              <a href="#" class="text-[10px] uppercase tracking-[0.2em] border-b border-white/20 pb-1 hover:text-[#D4AF37] hover:border-[#D4AF37] transition">Detalii</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="py-24 px-6 bg-[#102e46]">
+      <div class="max-w-5xl mx-auto reveal">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-serif text-white mb-4">Experiență Culinară</h2>
+          <p class="text-white/60">Preparate alese pentru o seară perfectă.</p>
+        </div>
+
+        <div class="flex justify-center gap-6 mb-12 border-b border-white/10 pb-4">
+          <button onclick="changeMenu('aperitiv')" class="menu-tab active text-sm uppercase tracking-widest pb-2 border-b-2 border-[#D4AF37] text-white">Aperitiv</button>
+          <button onclick="changeMenu('main')" class="menu-tab text-sm uppercase tracking-widest pb-2 border-b-2 border-transparent text-white/50 hover:text-white">Fel Principal</button>
+          <button onclick="changeMenu('desert')" class="menu-tab text-sm uppercase tracking-widest pb-2 border-b-2 border-transparent text-white/50 hover:text-white">Desert</button>
+        </div>
+
+        <div id="menu-content" class="grid md:grid-cols-2 gap-10 items-center">
+          <img src="https://images.unsplash.com/photo-1605494236967-850d9954d39f?auto=format&fit=crop&w=800&q=80" 
+               class="w-full h-80 object-cover rounded-sm shadow-xl" id="menu-img" alt="Food">
+          
+          <div class="space-y-6">
+            <div class="border-b border-white/10 pb-4">
+              <div class="flex justify-between items-baseline mb-2">
+                <h4 class="text-xl font-serif text-white">Tartar de Somon</h4>
+                <span class="text-[#D4AF37] text-sm">Signature</span>
+              </div>
+              <p class="text-white/50 text-sm font-light">Cu avocado, capere și dressing de citrice.</p>
+            </div>
+            <div class="border-b border-white/10 pb-4">
+              <div class="flex justify-between items-baseline mb-2">
+                <h4 class="text-xl font-serif text-white">Burrata cu Trufe</h4>
+              </div>
+              <p class="text-white/50 text-sm font-light">Roșii cherry confiate, busuioc proaspăt și ulei de trufe.</p>
+            </div>
+            <div class="border-b border-white/10 pb-4">
+              <div class="flex justify-between items-baseline mb-2">
+                <h4 class="text-xl font-serif text-white">Selecție Brânzeturi</h4>
+              </div>
+              <p class="text-white/50 text-sm font-light">Gorgonzola, Pecorino, Camembert, servite cu miere și nuci.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="py-24 px-6 bg-[#0B253A]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <h2 class="text-3xl font-serif text-white">Momente Magice</h2>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="reveal overflow-hidden cursor-pointer" onclick="openLightbox(0)">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" class="w-full h-64 object-cover hover:scale-110 transition duration-700">
+          </div>
+          <div class="reveal overflow-hidden cursor-pointer md:col-span-2" onclick="openLightbox(1)">
+            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80" class="w-full h-64 object-cover hover:scale-105 transition duration-700">
+          </div>
+          <div class="reveal overflow-hidden cursor-pointer" onclick="openLightbox(2)">
+            <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80" class="w-full h-64 object-cover hover:scale-110 transition duration-700">
+          </div>
+          <div class="reveal overflow-hidden cursor-pointer" onclick="openLightbox(3)">
+            <img src="https://images.unsplash.com/photo-1520854221250-85d30970d53e?auto=format&fit=crop&w=800&q=80" class="w-full h-64 object-cover hover:scale-110 transition duration-700">
+          </div>
+          <div class="reveal overflow-hidden cursor-pointer" onclick="openLightbox(4)">
+            <img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=800&q=80" class="w-full h-64 object-cover hover:scale-110 transition duration-700">
+          </div>
+          <div class="reveal overflow-hidden cursor-pointer md:col-span-2" onclick="openLightbox(5)">
+            <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80" class="w-full h-64 object-cover hover:scale-105 transition duration-700">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rsvp" class="py-24 px-6 bg-[#0B253A] border-t border-white/5">
+      <div class="max-w-xl mx-auto border border-white/20 p-8 md:p-12 reveal text-center bg-[#0B253A]">
+        <h2 class="text-3xl font-serif text-white mb-4">RSVP</h2>
+        <p class="text-white/60 mb-10 font-light text-sm">
+          Vă rugăm să confirmați prezența până la data de 1 Iulie 2026.
+        </p>
+
+        <form id="rsvp-form" class="space-y-8 text-left">
+          <div class="group">
+            <label class="block text-[10px] uppercase tracking-widest text-white/40 mb-2">Nume și Prenume</label>
+            <input type="text" required class="w-full bg-transparent border-b border-white/20 py-2 text-white text-lg font-serif focus:outline-none focus:border-[#D4AF37] transition placeholder-white/10" placeholder="Ex: Popescu Ion">
+          </div>
+
+          <div class="grid grid-cols-2 gap-8">
+            <div>
+              <label class="block text-[10px] uppercase tracking-widest text-white/40 mb-2">Persoane</label>
+              <select class="w-full bg-[#0B253A] border-b border-white/20 py-2 text-white text-lg font-serif focus:outline-none focus:border-[#D4AF37]">
+                <option>1 Persoană</option>
+                <option>2 Persoane</option>
+                <option>3 Persoane</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] uppercase tracking-widest text-white/40 mb-2">Confirmare</label>
+              <select class="w-full bg-[#0B253A] border-b border-white/20 py-2 text-white text-lg font-serif focus:outline-none focus:border-[#D4AF37]">
+                <option>Prezent</option>
+                <option>Absent</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="group">
+            <label class="block text-[10px] uppercase tracking-widest text-white/40 mb-2">Mesaj (Opțional)</label>
+            <textarea rows="2" class="w-full bg-transparent border-b border-white/20 py-2 text-white text-lg font-serif focus:outline-none focus:border-[#D4AF37] transition placeholder-white/10"></textarea>
+          </div>
+
+          <button type="submit" class="w-full btn-lago mt-4 hover:bg-white hover:text-[#0B253A]">
+            Trimite Confirmarea
+          </button>
+          <p id="form-message" class="text-[#D4AF37] text-sm mt-4 hidden">Mulțumim! Răspunsul a fost înregistrat.</p>
+        </form>
+      </div>
+    </section>
+
+    <footer class="bg-[#081b2b] py-16 px-6 text-center border-t border-white/5">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl font-serif text-white tracking-widest mb-6">LAGO EVENT PARK</h2>
+        <div class="flex justify-center gap-8 mb-8">
+          <a href="#" class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-[#0B253A] transition">FB</a>
+          <a href="#" class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-[#0B253A] transition">IG</a>
+        </div>
+        <div class="text-[10px] uppercase tracking-widest text-white/40 space-y-2">
+          <p>Strada Dacia 1, Chișinău, Moldova</p>
+          <p>Telefon: +373 69 000 000</p>
+          <p class="pt-8 opacity-50">&copy; 2026. Design Concept LAGO.</p>
+        </div>
+      </div>
+    </footer>
+
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 hidden items-center justify-center p-4">
+      <button id="close-lb" class="absolute top-6 right-6 text-white text-4xl hover:text-[#D4AF37]">&times;</button>
+      <img id="lb-img" class="max-h-[90vh] max-w-full shadow-2xl border-4 border-white/10">
+    </div>
+
+  </main>
+
+  <script>
+    // 1. Mobile Menu Logic
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMenu = document.getElementById('close-menu');
+    const menuLinks = mobileMenu.querySelectorAll('a');
+
+    function toggleMenu() {
+      mobileMenu.classList.toggle('translate-x-full');
+    }
+
+    menuBtn.addEventListener('click', toggleMenu);
+    closeMenu.addEventListener('click', toggleMenu);
+    menuLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+    // 2. Navbar Scroll Effect
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('py-2', 'shadow-lg');
+        nav.classList.remove('py-4');
+      } else {
+        nav.classList.add('py-4');
+        nav.classList.remove('py-2', 'shadow-lg');
+      }
+    });
+
+    // 3. Scroll Reveal Animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // 4. Menu Tabs Logic
+    const menuData = {
+      aperitiv: {
+        img: "https://images.unsplash.com/photo-1605494236967-850d9954d39f?auto=format&fit=crop&w=800&q=80",
+        items: [
+          { title: "Tartar de Somon", desc: "Cu avocado, capere și dressing de citrice." },
+          { title: "Burrata cu Trufe", desc: "Roșii cherry confiate, busuioc proaspăt." },
+          { title: "Selecție Brânzeturi", desc: "Gorgonzola, Pecorino, Camembert, miere și nuci." }
+        ]
+      },
+      main: {
+        img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+        items: [
+          { title: "Muschi de Vită", desc: "Gătit medium-rare, cu sos de vin roșu." },
+          { title: "File de Doradă", desc: "Pe pat de legume mediteraneene." },
+          { title: "Risotto cu Hribi", desc: "Orez Arborio, parmezan și ulei de trufe." }
+        ]
+      },
+      desert: {
+        img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80",
+        items: [
+          { title: "Mousse au Chocolat", desc: "Ciocolată belgiană neagră." },
+          { title: "Pavlova", desc: "Bezea crocantă cu fructe de pădure." },
+          { title: "Platou Fructe", desc: "Fructe de sezon proaspete." }
+        ]
+      }
+    };
+
+    function changeMenu(type) {
+      // Update buttons
+      document.querySelectorAll('.menu-tab').forEach(btn => {
+        btn.classList.remove('border-[#D4AF37]', 'text-white');
+        btn.classList.add('border-transparent', 'text-white/50');
+      });
+      event.target.classList.remove('border-transparent', 'text-white/50');
+      event.target.classList.add('border-[#D4AF37]', 'text-white');
+
+      // Update Content
+      const data = menuData[type];
+      const content = document.getElementById('menu-content');
+      
+      // Rebuild HTML
+      let itemsHtml = '';
+      data.items.forEach(item => {
+        itemsHtml += `
+          <div class="border-b border-white/10 pb-4">
+            <div class="flex justify-between items-baseline mb-2">
+              <h4 class="text-xl font-serif text-white">${item.title}</h4>
+            </div>
+            <p class="text-white/50 text-sm font-light">${item.desc}</p>
+          </div>
+        `;
+      });
+
+      content.innerHTML = `
+        <img src="${data.img}" class="w-full h-80 object-cover rounded-sm shadow-xl animate-fade-in" alt="Food">
+        <div class="space-y-6 animate-slide-up">${itemsHtml}</div>
+      `;
+    }
+
+    // 5. Lightbox Logic
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const closeLb = document.getElementById('close-lb');
+    const galleryImages = [
+      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1520854221250-85d30970d53e?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1600&q=80"
+    ];
+
+    function openLightbox(index) {
+      lbImg.src = galleryImages[index];
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+    }
+
+    closeLb.addEventListener('click', () => {
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if(e.target === lightbox) closeLb.click();
+    });
+
+    // 6. RSVP Form
+    const form = document.getElementById('rsvp-form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button');
+      const msg = document.getElementById('form-message');
+      
+      btn.innerText = "Se trimite...";
+      setTimeout(() => {
+        btn.innerText = "Trimis!";
+        btn.style.backgroundColor = "#D4AF37";
+        btn.style.color = "#0B253A";
+        msg.classList.remove('hidden');
+        form.reset();
+      }, 1500);
+    });
+
+  </script>
+</body>
+</html>

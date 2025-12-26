@@ -1,0 +1,211 @@
+/* template11.css */
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@400;600&display=swap');
+
+:root {
+    /* --- ZONA CULORI --- */
+    /* Culoarea Desktop-ului (Fundal) - Un Teal Retro sau Roz Modern */
+    --desktop-bg: 0, 128, 128; 
+    
+    /* Culoarea Ferestrelor (Gri deschis clasic) */
+    --win-bg: 230, 230, 230;
+    
+    /* Culoarea Barei de Titlu a Ferestrei (Albastru) */
+    --title-bar: 0, 0, 128;
+    
+    /* Culoarea Textului */
+    --text-color: 0, 0, 0;
+}
+
+body {
+    background-color: rgb(var(--desktop-bg));
+    /* Imagine de fundal (Hero) care se vede pe Desktop */
+    background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay; /* Amestecă culoarea cu poza */
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* Fără scroll pe body, doar în ferestre */
+    font-family: 'Inter', sans-serif;
+    user-select: none; /* Previne selectarea textului când tragi ferestre */
+}
+
+/* Font Retro pentru titluri */
+h1, h2, .retro-font {
+    font-family: 'VT323', monospace;
+    text-transform: uppercase;
+}
+
+/* --- ICONIȚELE DE PE DESKTOP --- */
+.desktop-icons {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+}
+
+.icon {
+    width: 80px;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+.icon img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 5px;
+    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.5));
+    transition: transform 0.1s;
+}
+.icon:hover img {
+    transform: scale(1.1);
+}
+.icon span {
+    background: rgba(0,0,0,0.5);
+    padding: 2px 5px;
+    font-size: 0.8rem;
+    font-family: 'VT323', monospace;
+}
+
+/* --- FERESTRELE (WINDOWS) --- */
+.window {
+    position: absolute;
+    background: rgb(var(--win-bg));
+    border: 2px solid;
+    /* Efect 3D Retro */
+    border-color: #fff #808080 #808080 #fff;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
+    width: 90%;
+    max-width: 500px;
+    display: none; /* Ascuns default */
+    flex-direction: column;
+    /* Centrare inițială */
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%); 
+}
+
+.window.active {
+    display: flex;
+    z-index: 100; /* Cea activă e mereu deasupra */
+}
+
+/* Bara de titlu (pentru Drag & Drop) */
+.title-bar {
+    background: rgb(var(--title-bar));
+    color: white;
+    padding: 4px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+}
+.title-bar:active {
+    cursor: grabbing;
+}
+
+.close-btn {
+    background: #c0c0c0;
+    border: 1px solid;
+    border-color: #fff #000 #000 #fff;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 16px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+.close-btn:active {
+    border-color: #000 #fff #fff #000;
+    transform: translate(1px, 1px);
+}
+
+/* Conținutul ferestrei (cu scroll) */
+.window-content {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 60vh;
+    color: rgb(var(--text-color));
+}
+
+/* --- TASKBAR (FOOTER) --- */
+.taskbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+.start-btn {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #000 #000 #fff;
+    padding: 4px 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 1px 1px 0 black;
+    cursor: pointer;
+}
+.clock {
+    background: inset;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    padding: 5px 10px;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+}
+
+/* Elemente specifice ferestrelor */
+.profile-split {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.profile-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 2px solid #808080;
+}
+.retro-input {
+    width: 100%;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    padding: 5px;
+    background: white;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 10px;
+}
+.retro-btn {
+    width: 100%;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #000 #000 #fff;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.retro-btn:active {
+    border-color: #000 #fff #fff #000;
+    transform: translate(1px, 1px);
+}

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ro" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eternity | Premium Wedding Experience</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* === PALETA DE CULORI GLOBALE (SCHIMBĂ AICI) === */
+            --c-bg: #0e0e0e;           /* Fundal Principal */
+            --c-surface: #141414;      /* Fundal Secundar (Carduri) */
+            --c-text-main: #f0f0f0;    /* Text Principal */
+            --c-text-muted: #888888;   /* Text Secundar */
+            --c-accent: #D4AF37;       /* Accent (Auriu) */
+            --c-line: rgba(255, 255, 255, 0.1); /* Linii divizoare */
+            
+            /* Typography */
+            --font-display: 'Clash Display', sans-serif;
+            --font-body: 'General Sans', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+        }
+
+        /* RESET & BASE */
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            cursor: none; /* Ascundem cursorul default */
+        }
+
+        h1, h2, h3, h4 { font-family: var(--font-display); }
+        .serif { font-family: var(--font-serif); }
+
+        /* TEXTURĂ NOISE (Aspect Cinematic) */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9000;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        /* CUSTOM CURSOR */
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px; background: var(--c-accent);
+            border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%);
+        }
+        .cursor-circle {
+            position: fixed; top: 0; left: 0; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+        .cursor-hover .cursor-circle { width: 80px; height: 80px; background: rgba(255,255,255,0.05); border-color: transparent; }
+
+        /* LOADER */
+        .loader-screen {
+            position: fixed; inset: 0; background: var(--c-bg); z-index: 11000;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+        }
+        .loader-bar { width: 200px; height: 1px; background: var(--c-line); margin-top: 20px; overflow: hidden; }
+        .loader-progress { width: 0%; height: 100%; background: var(--c-accent); }
+
+        /* UTILITARE ANIMATII */
+        .reveal-wrap { overflow: hidden; display: block; }
+        .reveal-text { transform: translateY(110%); display: block; transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .is-inview .reveal-text { transform: translateY(0); }
+        
+        .img-parallax-container { overflow: hidden; position: relative; }
+        .img-parallax { width: 100%; height: 115%; object-fit: cover; transform: translateY(0); will-change: transform; }
+
+        /* UTILS */
+        .separator { width: 100%; height: 1px; background: var(--c-line); }
+        .magnetic-wrap { display: inline-block; }
+
+        /* FORM STYLES */
+        .custom-input {
+            background: transparent; border: none; border-bottom: 1px solid var(--c-line);
+            width: 100%; padding: 15px 0; color: white; font-family: var(--font-display);
+            font-size: 1.2rem; transition: border-color 0.3s; outline: none;
+        }
+        .custom-input:focus { border-bottom-color: var(--c-accent); }
+        
+        /* CUSTOM RADIO */
+        .custom-radio { display: none; }
+        .radio-label {
+            display: flex; align-items: center; cursor: pointer; gap: 10px; opacity: 0.5; transition: opacity 0.3s;
+        }
+        .radio-label:hover { opacity: 1; }
+        .radio-circle {
+            width: 20px; height: 20px; border: 1px solid white; border-radius: 50%; position: relative;
+        }
+        .custom-radio:checked + .radio-label { opacity: 1; }
+        .custom-radio:checked + .radio-label .radio-circle::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 10px; height: 10px; background: var(--c-accent); border-radius: 50%;
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--c-bg)',
+                        surface: 'var(--c-surface)',
+                        accent: 'var(--c-accent)',
+                        muted: 'var(--c-text-muted)',
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+    <div class="loader-screen" id="loader">
+        <div class="font-serif text-3xl italic text-white mb-4 tracking-widest">Loading Memories</div>
+        <div class="loader-bar"><div class="loader-progress" id="loaderBar"></div></div>
+        <div class="text-xs text-muted mt-2 font-mono"><span id="loaderText">0</span>%</div>
+    </div>
+
+    <div class="fixed inset-0 bg-[#0e0e0e] z-50 transform translate-x-full transition-transform duration-700 ease-expo flex flex-col justify-center items-center" id="mobileMenu">
+        <button class="absolute top-6 right-6 text-white p-4 hover-trigger" onclick="toggleMenu()">✕ CLOSE</button>
+        <div class="flex flex-col gap-8 text-center">
+            <a href="#hero" class="text-4xl font-display hover:text-accent transition hover-trigger" onclick="toggleMenu()">HOME</a>
+            <a href="#couple" class="text-4xl font-display hover:text-accent transition hover-trigger" onclick="toggleMenu()">COUPLE</a>
+            <a href="#location" class="text-4xl font-display hover:text-accent transition hover-trigger" onclick="toggleMenu()">LOCATION</a>
+            <a href="#gallery" class="text-4xl font-display hover:text-accent transition hover-trigger" onclick="toggleMenu()">GALLERY</a>
+            <a href="#rsvp" class="text-4xl font-display hover:text-accent transition hover-trigger" onclick="toggleMenu()">RSVP</a>
+        </div>
+    </div>
+
+    <nav class="fixed top-0 w-full p-6 md:p-10 flex justify-between items-center z-40 mix-blend-difference text-white">
+        <div class="text-xl font-bold tracking-widest hover-trigger magnetic-wrap">A & M</div>
+        
+        <div class="hidden md:flex gap-10 text-xs uppercase tracking-widest font-bold">
+            <a href="#couple" class="hover:text-accent transition hover-trigger">Povestea</a>
+            <a href="#location" class="hover:text-accent transition hover-trigger">Locația</a>
+            <a href="#rsvp" class="hover:text-accent transition hover-trigger">RSVP</a>
+        </div>
+
+        <button class="md:hidden text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full hover-trigger" onclick="toggleMenu()">
+            Menu
+        </button>
+    </nav>
+
+
+    <main>
+
+        <section id="hero" class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=1920&q=80" 
+                     class="w-full h-full object-cover opacity-40 scale-110" id="heroImg">
+            </div>
+
+            <div class="relative z-10 text-center flex flex-col items-center">
+                <div class="reveal-wrap">
+                    <p class="reveal-text text-accent text-xs md:text-sm uppercase tracking-[0.6em] mb-6">The Wedding Celebration</p>
+                </div>
+                
+                <div class="reveal-wrap">
+                    <h1 class="reveal-text font-display text-[15vw] leading-[0.8] mix-blend-overlay text-white font-bold tracking-tighter">
+                        ANDREI
+                    </h1>
+                </div>
+                
+                <div class="reveal-wrap relative -mt-4 md:-mt-8 z-20">
+                    <h1 class="reveal-text font-serif italic text-[8vw] leading-[0.8] text-accent font-light">
+                        & Maria
+                    </h1>
+                </div>
+
+                <div class="reveal-wrap mt-10">
+                    <div class="reveal-text flex items-center gap-4 text-xs uppercase tracking-widest text-muted">
+                        <span>24 August 2025</span>
+                        <span class="w-10 h-[1px] bg-white/20"></span>
+                        <span>București</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute bottom-10 left-10 hidden md:block">
+                <div class="w-[1px] h-20 bg-white/20 overflow-hidden">
+                    <div class="w-full h-full bg-accent animate-scrolldown"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="py-32 px-6 md:px-20 container mx-auto">
+            <div class="flex flex-col md:flex-row gap-20">
+                <div class="w-full md:w-1/3">
+                    <span class="block w-full h-[1px] bg-white/20 mb-4"></span>
+                    <span class="text-accent text-xs uppercase tracking-widest">Capitolul 1</span>
+                </div>
+                <div class="w-full md:w-2/3">
+                    <p class="text-3xl md:text-5xl leading-tight font-light text-white/40 reveal-paragraph">
+                        Iubirea nu este despre a găsi pe cineva cu care să trăiești, ci pe cineva <span class="text-white">fără de care nu poți trăi.</span> După 5 ani de aventuri, râsete și vise împărtășite, suntem gata să spunem cel mai important "DA".
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="couple" class="py-20 relative">
+            <div class="absolute top-20 left-0 w-full overflow-hidden opacity-5 pointer-events-none">
+                <h2 class="text-[20vw] font-display whitespace-nowrap marquee-text">THE COUPLE THE COUPLE</h2>
+            </div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="flex flex-col md:flex-row items-center gap-10 mb-32">
+                    <div class="w-full md:w-5/12 order-2 md:order-1">
+                        <div class="img-parallax-container aspect-[3/4] hover-trigger">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="img-parallax grayscale hover:grayscale-0 transition duration-700">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 order-1 md:order-2 md:pl-20">
+                        <div class="reveal-wrap"><h3 class="reveal-text text-6xl font-display mb-4">Andrei</h3></div>
+                        <div class="reveal-wrap"><p class="reveal-text text-accent uppercase tracking-widest text-sm mb-8">Mirele</p></div>
+                        <p class="text-muted leading-relaxed">"Maria este busola mea. Indiferent unde ne poartă viața, știu că sunt acasă atâta timp cât suntem împreună."</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-10">
+                    <div class="w-full md:w-1/2 md:text-right md:pr-20">
+                        <div class="reveal-wrap"><h3 class="reveal-text text-6xl font-display mb-4">Maria</h3></div>
+                        <div class="reveal-wrap"><p class="reveal-text text-accent uppercase tracking-widest text-sm mb-8">Mireasa</p></div>
+                        <p class="text-muted leading-relaxed">"Andrei aduce liniște în haosul meu. El este partenerul meu de crimă, cel mai bun prieten și marea mea iubire."</p>
+                    </div>
+                    <div class="w-full md:w-5/12">
+                        <div class="img-parallax-container aspect-[3/4] hover-trigger">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800" class="img-parallax grayscale hover:grayscale-0 transition duration-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="location" class="py-32 bg-surface text-white relative border-t border-white/5">
+            <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16">
+                
+                <div>
+                    <span class="text-accent text-xs uppercase tracking-widest mb-6 block">Logistica</span>
+                    <h2 class="text-5xl font-display mb-10">Program & Locație</h2>
+                    
+                    <div class="space-y-8">
+                        <div class="group border-b border-white/10 pb-8 hover:border-accent transition duration-500 cursor-pointer hover-trigger">
+                            <div class="flex justify-between items-end mb-2">
+                                <h4 class="text-2xl font-serif italic">Cununia Civilă</h4>
+                                <span class="text-accent font-mono">16:00</span>
+                            </div>
+                            <p class="text-muted text-sm group-hover:text-white transition">Grădina de Vară a Palatului</p>
+                        </div>
+
+                        <div class="group border-b border-white/10 pb-8 hover:border-accent transition duration-500 cursor-pointer hover-trigger">
+                            <div class="flex justify-between items-end mb-2">
+                                <h4 class="text-2xl font-serif italic">Cununia Religioasă</h4>
+                                <span class="text-accent font-mono">17:30</span>
+                            </div>
+                            <p class="text-muted text-sm group-hover:text-white transition">Capela Domeniului</p>
+                        </div>
+
+                        <div class="group border-b border-white/10 pb-8 hover:border-accent transition duration-500 cursor-pointer hover-trigger">
+                            <div class="flex justify-between items-end mb-2">
+                                <h4 class="text-2xl font-serif italic">Recepția & Party</h4>
+                                <span class="text-accent font-mono">19:00</span>
+                            </div>
+                            <p class="text-muted text-sm group-hover:text-white transition">Sala Mare de Bal</p>
+                        </div>
+                    </div>
+
+                    <a href="https://maps.google.com" target="_blank" class="hover-trigger inline-flex items-center gap-2 mt-12 text-sm uppercase tracking-widest border border-white/30 px-8 py-4 rounded-full hover:bg-white hover:text-black transition duration-300">
+                        Vezi Harta <span>↗</span>
+                    </a>
+                </div>
+
+                <div class="relative h-[600px] w-full rounded-2xl overflow-hidden hover-trigger">
+                    <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1200" class="img-parallax h-[120%] w-full object-cover">
+                    <div class="absolute inset-0 bg-black/20 pointer-events-none"></div>
+                    <div class="absolute bottom-8 left-8 bg-black/80 backdrop-blur-md px-6 py-4 rounded-lg">
+                        <p class="text-xs uppercase text-accent mb-1">Locația</p>
+                        <p class="font-display text-xl">Palatul Noblesse</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="gallery" class="py-32 px-4 container mx-auto">
+            <div class="text-center mb-20">
+                <span class="text-accent text-xs uppercase tracking-[0.4em]">Amintiri</span>
+                <h2 class="text-6xl font-display mt-4">Galeria Foto</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-[120vh] overflow-hidden">
+                
+                <div class="flex flex-col gap-8 parallax-col" data-speed="1">
+                    <div class="aspect-[3/4] overflow-hidden hover-trigger"><img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"></div>
+                    <div class="aspect-[3/4] overflow-hidden hover-trigger"><img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"></div>
+                </div>
+
+                <div class="flex flex-col gap-8 parallax-col pt-20" data-speed="1.2">
+                    <div class="aspect-[3/4] overflow-hidden hover-trigger"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"></div>
+                    <div class="aspect-[3/4] overflow-hidden hover-trigger"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"></div>
+                </div>
+
+                <div class="flex flex-col gap-8 parallax-col hidden md:flex" data-speed="1">
+                    <div class="aspect-[3/4] overflow-hidden hover-trigger"><img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"></div>
+                    <div class="aspect-[3/4] overflow-hidden hover-trigger"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"></div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="rsvp" class="py-32 relative bg-surface">
+            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-accent rounded-full blur-[150px] opacity-10 pointer-events-none"></div>
+
+            <div class="container mx-auto px-6 max-w-2xl relative z-10">
+                <div class="text-center mb-16">
+                    <h2 class="text-6xl font-display mb-4">R.S.V.P</h2>
+                    <p class="text-muted">Te rugăm să ne răspunzi până la 1 Iulie.</p>
+                </div>
+
+                <form class="space-y-10">
+                    <div class="group">
+                        <label class="block text-xs uppercase tracking-widest text-muted mb-2">Nume Complet</label>
+                        <input type="text" class="custom-input hover-trigger" placeholder="Introduceți numele..." required>
+                    </div>
+
+                    <div class="group">
+                        <label class="block text-xs uppercase tracking-widest text-muted mb-2">Email</label>
+                        <input type="email" class="custom-input hover-trigger" placeholder="adresa@email.com" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-muted mb-4">Număr de persoane</label>
+                            <div class="flex gap-4">
+                                <label class="radio-label hover-trigger">
+                                    <input type="radio" name="guests" class="custom-radio" checked>
+                                    <div class="radio-circle"></div>
+                                    <span>1 Pers.</span>
+                                </label>
+                                <label class="radio-label hover-trigger">
+                                    <input type="radio" name="guests" class="custom-radio">
+                                    <div class="radio-circle"></div>
+                                    <span>2 Pers.</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-muted mb-4">Status</label>
+                            <div class="flex gap-4">
+                                <label class="radio-label hover-trigger">
+                                    <input type="radio" name="status" class="custom-radio" checked>
+                                    <div class="radio-circle"></div>
+                                    <span>Confirm</span>
+                                </label>
+                                <label class="radio-label hover-trigger">
+                                    <input type="radio" name="status" class="custom-radio">
+                                    <div class="radio-circle"></div>
+                                    <span>Declin</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <label class="block text-xs uppercase tracking-widest text-muted mb-2">Mesaj (Opțional)</label>
+                        <textarea class="custom-input hover-trigger" rows="2" placeholder="Restricții alimentare sau alte note..."></textarea>
+                    </div>
+
+                    <button class="w-full py-6 mt-10 bg-white text-black font-bold uppercase tracking-[0.3em] hover:bg-accent hover:text-white transition duration-500 rounded-lg hover-trigger">
+                        Trimite Confirmarea
+                    </button>
+                </form>
+            </div>
+        </section>
+
+
+        <footer class="py-20 text-center border-t border-white/5 relative bg-black">
+            <h2 class="font-serif text-4xl text-white/20 mb-6">Andrei & Maria</h2>
+            <div class="flex justify-center gap-8 mb-8 text-xs uppercase tracking-widest text-muted">
+                <a href="#" class="hover:text-accent transition hover-trigger">Instagram</a>
+                <a href="#" class="hover:text-accent transition hover-trigger">Locație</a>
+                <a href="#" class="hover:text-accent transition hover-trigger">Contact</a>
+            </div>
+            <p class="text-[10px] text-white/10 uppercase tracking-widest">© 2025 Eternity Wedding Template</p>
+        </footer>
+
+    </main>
+
+
+    <script>
+        // 1. LOADER LOGIC
+        // Simulăm o încărcare complexă
+        const loader = document.getElementById('loader');
+        const loaderBar = document.getElementById('loaderBar');
+        const loaderText = document.getElementById('loaderText');
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += Math.floor(Math.random() * 5) + 1;
+            if(progress > 100) progress = 100;
+            
+            loaderBar.style.width = `${progress}%`;
+            loaderText.innerText = progress;
+
+            if(progress === 100) {
+                clearInterval(interval);
+                // Animație de ieșire Loader
+                gsap.to(loader, {
+                    yPercent: -100,
+                    duration: 1.5,
+                    ease: "power4.inOut",
+                    delay: 0.5,
+                    onComplete: initAnimations // Pornim restul doar după ce dispare loader-ul
+                });
+            }
+        }, 30);
+
+
+        // 2. CURSOR CUSTOM LOGIC
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorCircle = document.querySelector('.cursor-circle');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            gsap.to(cursorCircle, { x: e.clientX, y: e.clientY, duration: 0.3 });
+        });
+
+        hoverTriggers.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+
+
+        // 3. INIT ANIMATIONS (După Loader)
+        function initAnimations() {
+            
+            // A. Smooth Scroll (Lenis)
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smooth: true
+            });
+            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+            requestAnimationFrame(raf);
+
+            // B. Hero Parallax
+            gsap.to("#heroImg", {
+                yPercent: 30,
+                scale: 1,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // C. Reveal Texts (Intersection Observer pentru performanță)
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) entry.target.classList.add('is-inview');
+                });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.reveal-wrap').forEach(el => observer.observe(el));
+
+            // D. Image Parallax (GSAP)
+            gsap.utils.toArray('.img-parallax').forEach(img => {
+                gsap.to(img, {
+                    yPercent: 20,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: img.parentElement,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // E. Marquee Text
+            gsap.to(".marquee-text", {
+                xPercent: -20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#couple",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1
+                }
+            });
+
+            // F. Text Color Fill (Intro Paragraph)
+            gsap.fromTo(".reveal-paragraph", 
+                { backgroundPosition: "0% 0%" }, // Start
+                { 
+                    backgroundPosition: "100% 0%", // End (nu merge direct pe text color cu tailwind, trebuie custom css pt background-clip, am lasat simplu fade aici pt stabilitate)
+                    opacity: 1,
+                    color: "white",
+                    scrollTrigger: {
+                        trigger: ".reveal-paragraph",
+                        start: "top 80%",
+                        end: "bottom 60%",
+                        scrub: true
+                    }
+                }
+            );
+            
+            // G. Gallery Columns Parallax
+            if(window.innerWidth > 768) { // Doar pe desktop
+                gsap.utils.toArray('.parallax-col').forEach((col, i) => {
+                    const speed = col.getAttribute('data-speed');
+                    gsap.to(col, {
+                        y: -100 * speed,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: "#gallery",
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true
+                        }
+                    });
+                });
+            }
+        }
+
+        // 4. MOBILE MENU LOGIC
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('translate-x-full');
+        }
+
+        // ANIMAȚIE SCROLLDOWN BAR
+        gsap.to(".animate-scrolldown", {
+            y: "100%",
+            duration: 2,
+            repeat: -1,
+            ease: "power2.inOut"
+        });
+
+    </script>
+</body>
+</html>

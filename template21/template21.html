@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S & A | The Modern Grid</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Archivo:wght@100;400;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-body: #0e0e0e;
+            --bg-card: #1a1a1a;
+            --text-main: #e0e0e0;
+            --accent: #c4a05e; /* Gold Muted */
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+            cursor: crosshair; /* Cursor neobișnuit */
+        }
+
+        /* TEXTURA DE FILM (NOISE) */
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9999; opacity: 0.07;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+        }
+
+        /* TIPOGRAFIE */
+        .font-serif { font-family: 'Italiana', serif; }
+        .font-sans { font-family: 'Archivo', sans-serif; }
+
+        /* INTERACTIVITATE MIRII (EXPAND) */
+        .couple-container { display: flex; height: 80vh; width: 100%; overflow: hidden; }
+        .couple-panel {
+            position: relative;
+            flex: 1;
+            transition: flex 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            overflow: hidden;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        /* Pe desktop, când faci hover, panoul crește */
+        @media(min-width: 768px) {
+            .couple-panel:hover { flex: 2.5; }
+            .couple-panel img { transition: transform 0.8s; }
+            .couple-panel:hover img { transform: scale(1.1); }
+            
+            /* Ascundem textul și îl arătăm la hover */
+            .couple-info { opacity: 0; transform: translateY(20px); transition: all 0.5s ease; }
+            .couple-panel:hover .couple-info { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SCROLLING MARQUEE (TEXT CARE CURGE) */
+        .marquee { display: flex; overflow: hidden; white-space: nowrap; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .marquee-content { display: flex; animation: scroll 20s linear infinite; }
+        .marquee-item { font-size: 4rem; text-transform: uppercase; padding: 0 40px; font-family: 'Archivo', sans-serif; font-weight: 800; color: transparent; -webkit-text-stroke: 1px var(--text-main); }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+        /* REVEAL ANIMATION */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: 'var(--accent)',
+                        card: 'var(--bg-card)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased selection:bg-gold selection:text-black">
+
+    <div class="noise"></div>
+
+    <nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference">
+        <div class="font-sans font-bold tracking-tighter text-2xl">S+A</div>
+        <a href="#rsvp" class="bg-white text-black px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-gold transition">RSVP</a>
+    </nav>
+
+
+    <header class="min-h-screen pt-24 pb-10 px-4 md:px-10 container mx-auto flex flex-col justify-between">
+        <div class="reveal active">
+            <p class="text-gold uppercase tracking-[0.5em] text-xs mb-4">The Wedding Celebration</p>
+            <h1 class="font-serif text-[5rem] md:text-[9rem] leading-[0.85] mix-blend-overlay">
+                Sebastian <br> <span class="ml-10 md:ml-32 italic text-gold">&</span> Alexandra
+            </h1>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 reveal delay-200">
+            <div class="p-6 bg-card rounded-lg border border-white/5 hover:border-gold transition duration-500">
+                <span class="block text-gray-500 text-xs uppercase mb-2">Data</span>
+                <span class="font-serif text-4xl">24 Aug</span>
+            </div>
+            <div class="p-6 bg-card rounded-lg border border-white/5 hover:border-gold transition duration-500">
+                <span class="block text-gray-500 text-xs uppercase mb-2">Anul</span>
+                <span class="font-serif text-4xl">2025</span>
+            </div>
+            <div class="p-6 bg-card rounded-lg border border-white/5 hover:border-gold transition duration-500 col-span-2 md:col-span-1">
+                <span class="block text-gray-500 text-xs uppercase mb-2">Locația</span>
+                <span class="font-sans text-xl font-bold">Nord Events</span>
+            </div>
+            <div class="p-6 bg-gold text-black rounded-lg flex items-center justify-center cursor-pointer hover:bg-white transition duration-300">
+                <span class="font-bold uppercase tracking-widest text-sm">↓ Explore</span>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="marquee bg-gold text-black">
+        <div class="marquee-content">
+            <span class="marquee-item" style="-webkit-text-stroke: 0; color: black;">Save The Date</span>
+            <span class="marquee-item" style="-webkit-text-stroke: 0; color: black;">•</span>
+            <span class="marquee-item" style="-webkit-text-stroke: 0; color: black;">24 August 2025</span>
+            <span class="marquee-item" style="-webkit-text-stroke: 0; color: black;">•</span>
+            <span class="marquee-item" style="-webkit-text-stroke: 0; color: black;">Love Story</span>
+            <span class="marquee-item" style="-webkit-text-stroke: 0; color: black;">•</span>
+            <span class="marquee-item" style="-webkit-text-stroke: 0; color: black;">Save The Date</span>
+            <span class="marquee-item" style="-webkit-text-stroke: 0; color: black;">•</span>
+            <span class="marquee-item" style="-webkit-text-stroke: 0; color: black;">24 August 2025</span>
+        </div>
+    </div>
+
+
+    <section class="border-b border-white/10">
+        <div class="couple-container flex-col md:flex-row h-auto md:h-[90vh]">
+            
+            <div class="couple-panel h-[50vh] md:h-auto group">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0">
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition"></div>
+                
+                <div class="absolute bottom-0 left-0 p-10 w-full z-10">
+                    <h2 class="font-serif text-6xl md:text-8xl mb-4">Sebastian</h2>
+                    <div class="couple-info md:opacity-0 md:translate-y-4">
+                        <p class="text-gray-300 max-w-sm text-lg border-l-2 border-gold pl-4">
+                            "Ea este culoarea din viața mea alb-negru. Liniștea și aventura deopotrivă."
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="couple-panel h-[50vh] md:h-auto group">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0">
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition"></div>
+                
+                <div class="absolute bottom-0 right-0 p-10 w-full z-10 text-right">
+                    <h2 class="font-serif text-6xl md:text-8xl mb-4">Alexandra</h2>
+                    <div class="couple-info md:opacity-0 md:translate-y-4 flex justify-end">
+                        <p class="text-gray-300 max-w-sm text-lg border-r-2 border-gold pr-4">
+                            "El este acasă. Brațele lui sunt singurul loc în care timpul stă în loc."
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="py-32 px-4 md:px-10 container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="col-span-1 md:col-span-2 relative h-[500px] rounded-2xl overflow-hidden group reveal">
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1200" class="w-full h-full object-cover transition duration-700 group-hover:scale-105 opacity-60">
+                <div class="absolute inset-0 p-10 flex flex-col justify-end bg-gradient-to-t from-black to-transparent">
+                    <h3 class="text-gold uppercase tracking-widest text-sm mb-2">Locația</h3>
+                    <h2 class="font-serif text-5xl md:text-6xl mb-4">Nord Events Center</h2>
+                    <p class="text-gray-400 mb-6">Strada Gara Herăstrău 4, București</p>
+                    <a href="https://maps.google.com" target="_blank" class="bg-white text-black px-6 py-3 w-max rounded-full font-bold uppercase text-xs tracking-widest hover:bg-gold transition">
+                        Vezi pe Hartă
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-card rounded-2xl p-10 flex flex-col justify-center border border-white/5 hover:border-gold transition duration-500 reveal delay-100">
+                <h3 class="font-serif text-4xl mb-8 border-b border-white/10 pb-4">Program</h3>
+                
+                <div class="space-y-8">
+                    <div>
+                        <span class="block text-gold text-sm font-bold uppercase tracking-widest">16:00</span>
+                        <span class="text-xl">Cununia Religioasă</span>
+                    </div>
+                    <div>
+                        <span class="block text-gold text-sm font-bold uppercase tracking-widest">18:00</span>
+                        <span class="text-xl">Welcome Drink</span>
+                    </div>
+                    <div>
+                        <span class="block text-gold text-sm font-bold uppercase tracking-widest">19:30</span>
+                        <span class="text-xl">Party & Dinner</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="py-20 overflow-hidden bg-white text-black">
+        <div class="px-10 mb-10 flex justify-between items-end">
+            <h2 class="font-serif text-6xl">Momente</h2>
+            <p class="text-sm uppercase tracking-widest opacity-50 hidden md:block">Scroll for more →</p>
+        </div>
+
+        <div class="flex gap-6 px-10 overflow-x-auto pb-10 scrollbar-hide snap-x" style="scrollbar-width: none;">
+            <div class="min-w-[300px] md:min-w-[400px] h-[500px] relative snap-center group">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=600" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+            </div>
+            <div class="min-w-[300px] md:min-w-[400px] h-[500px] relative snap-center group">
+                <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+            </div>
+            <div class="min-w-[300px] md:min-w-[400px] h-[500px] relative snap-center group">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+            </div>
+            <div class="min-w-[300px] md:min-w-[400px] h-[500px] relative snap-center group">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+            </div>
+             <div class="min-w-[300px] md:min-w-[400px] h-[500px] relative snap-center group">
+                <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=600" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+            </div>
+        </div>
+    </section>
+
+
+    <section id="rsvp" class="py-32 px-4 container mx-auto flex justify-center">
+        <div class="w-full max-w-2xl bg-card p-10 md:p-16 rounded-3xl border border-white/5 relative overflow-hidden reveal">
+            <div class="absolute -top-20 -right-20 w-64 h-64 bg-gold rounded-full blur-[100px] opacity-20"></div>
+
+            <h2 class="font-serif text-5xl mb-2 text-center">Ești alături de noi?</h2>
+            <p class="text-center text-gray-400 mb-12 uppercase tracking-widest text-xs">Confirmă până la 1 Iulie</p>
+
+            <form class="space-y-6 relative z-10">
+                <input type="text" placeholder="Nume Complet" class="w-full bg-transparent border-b border-gray-600 py-4 text-xl outline-none focus:border-gold transition">
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <select class="w-full bg-transparent border-b border-gray-600 py-4 text-xl outline-none focus:border-gold transition appearance-none">
+                        <option class="bg-card">1 Persoană</option>
+                        <option class="bg-card">2 Persoane</option>
+                    </select>
+                    <select class="w-full bg-transparent border-b border-gray-600 py-4 text-xl outline-none focus:border-gold transition appearance-none">
+                        <option class="bg-card">Confirm</option>
+                        <option class="bg-card">Declin</option>
+                    </select>
+                </div>
+
+                <button class="w-full py-5 mt-4 bg-gold text-black font-bold uppercase tracking-[0.2em] rounded-lg hover:bg-white transition duration-300">
+                    Trimite Răspuns
+                </button>
+            </form>
+        </div>
+    </section>
+
+
+    <footer class="py-10 text-center border-t border-white/10 text-gray-600 uppercase text-xs tracking-widest">
+        <p>© 2025 S & A. Made for Love.</p>
+    </footer>
+
+
+    <script>
+        // Intersection Observer pentru efectele de Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

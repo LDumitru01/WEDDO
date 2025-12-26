@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evelyn & Arthur | The Golden Era</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lato:wght@300;400&family=Allura&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'void': '#050505',
+                        'gold': '#D4AF37',
+                        'gold-light': '#F3E5AB',
+                        'charcoal': '#1a1a1a'
+                    },
+                    fontFamily: {
+                        'royal': ['Cinzel Decorative', 'serif'],
+                        'body': ['Lato', 'sans-serif'],
+                        'hand': ['Allura', 'cursive'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('https://grainy-gradients.vercel.app/noise.svg')",
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; }
+
+        /* Reveal Animations */
+        .reveal-text { opacity: 0; transform: translateY(40px); transition: all 1s ease-out; }
+        .reveal-text.active { opacity: 1; transform: translateY(0); }
+        
+        .reveal-img { opacity: 0; transform: scale(0.95); filter: blur(10px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-img.active { opacity: 1; transform: scale(1); filter: blur(0); }
+
+        /* Smooth marquee animation for text */
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee { display: inline-block; animation: marquee 20s linear infinite; }
+    </style>
+</head>
+<body class="bg-void text-white font-body overflow-x-hidden selection:bg-gold selection:text-void">
+
+    <nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference">
+        <span class="font-royal font-bold text-xl text-gold">E & A</span>
+        <a href="#rsvp" class="text-xs tracking-[0.3em] uppercase border border-gold px-6 py-2 hover:bg-gold hover:text-void transition duration-500">RSVP</a>
+    </nav>
+
+    <header class="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img id="hero-bg" src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                 class="w-full h-full object-cover opacity-40 scale-110" alt="Hero">
+            <div class="absolute inset-0 bg-gradient-to-t from-void via-transparent to-void"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4">
+            <p class="text-gold tracking-[0.5em] text-sm uppercase mb-6 reveal-text">The Wedding Of</p>
+            <h1 class="font-royal text-6xl md:text-9xl text-gold-light drop-shadow-2xl mb-4 reveal-text" style="transition-delay: 200ms;">
+                Evelyn <span class="text-gold font-hand text-5xl md:text-8xl block md:inline my-4 md:my-0">&</span> Arthur
+            </h1>
+            <div class="w-[1px] h-24 bg-gradient-to-b from-gold to-transparent mx-auto mt-10 reveal-text" style="transition-delay: 400ms;"></div>
+        </div>
+    </header>
+
+    <section class="py-20 border-y border-white/5 bg-charcoal relative overflow-hidden">
+        <div class="absolute top-1/2 -translate-y-1/2 w-full opacity-5 pointer-events-none whitespace-nowrap">
+            <span class="font-royal text-[10rem] animate-marquee">SAVE THE DATE • 24 AUGUST 2025 • SAVE THE DATE • 24 AUGUST 2025 • </span>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-gold">
+                <div class="text-center reveal-text">
+                    <span class="block text-6xl font-royal font-bold">24</span>
+                    <span class="text-sm tracking-widest uppercase">Duminică</span>
+                </div>
+                <div class="text-center reveal-text border-x border-white/10 py-8">
+                    <span class="block text-4xl font-royal uppercase mb-2">August</span>
+                    <span class="text-xl font-light italic text-white">Două Mii Douăzeci și Cinci</span>
+                </div>
+                <div class="text-center reveal-text">
+                    <span class="block text-6xl font-royal font-bold">16:00</span>
+                    <span class="text-sm tracking-widest uppercase">Ceremonia</span>
+                </div>
+            </div>
+            
+            <div id="countdown" class="mt-16 flex justify-center gap-8 text-white/50 text-xs font-mono tracking-widest reveal-text">
+                <div><span id="days" class="text-gold text-lg block">00</span> ZILE</div>
+                <div><span id="hours" class="text-gold text-lg block">00</span> ORE</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="min-h-screen flex flex-col md:flex-row items-center">
+        <div class="w-full md:w-1/2 h-[50vh] md:h-screen relative reveal-img">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                 class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-1000" alt="He">
+            <div class="absolute inset-0 bg-void/20"></div>
+        </div>
+        <div class="w-full md:w-1/2 p-12 md:p-24 bg-void text-right flex flex-col justify-center h-full">
+            <h2 class="font-royal text-4xl md:text-6xl text-gold mb-6 reveal-text">Arthur</h2>
+            <h3 class="text-xs tracking-[0.4em] uppercase text-white/50 mb-8 reveal-text">Mirele</h3>
+            <p class="text-lg text-white/80 leading-relaxed font-light reveal-text">
+                "Am căutat perfecțiunea și am găsit-o în zâmbetul ei. Ea este ancora mea, partenerul meu de crimă și liniștea din mijlocul furtunii."
+            </p>
+            <div class="mt-8 self-end w-16 h-[2px] bg-gold reveal-text"></div>
+        </div>
+    </section>
+
+    <section class="min-h-screen flex flex-col md:flex-row-reverse items-center bg-white text-void">
+        <div class="w-full md:w-1/2 h-[50vh] md:h-screen relative reveal-img">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                 class="w-full h-full object-cover" alt="She">
+        </div>
+        <div class="w-full md:w-1/2 p-12 md:p-24 flex flex-col justify-center h-full">
+            <h2 class="font-royal text-4xl md:text-6xl text-gold-600 mb-6 reveal-text">Evelyn</h2>
+            <h3 class="text-xs tracking-[0.4em] uppercase text-void/50 mb-8 reveal-text">Mireasa</h3>
+            <p class="text-lg text-void/80 leading-relaxed font-light reveal-text">
+                "El este cel care face ca lumea să pară un loc sigur. Brațele lui sunt singurul loc în care vreau să fiu pentru totdeauna."
+            </p>
+            <div class="mt-8 self-start w-16 h-[2px] bg-gold-600 reveal-text"></div>
+        </div>
+    </section>
+
+    <section class="relative py-32 px-6 bg-void">
+        <div class="container mx-auto relative z-10">
+            <div class="flex flex-col md:flex-row gap-12 border border-gold/30 p-2 md:p-4 rounded-3xl backdrop-blur-sm bg-white/5">
+                
+                <div class="w-full md:w-1/3 p-8 flex flex-col justify-center reveal-text">
+                    <h2 class="font-royal text-3xl text-gold mb-8">Locația de Vis</h2>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <h4 class="text-lg font-bold text-white uppercase tracking-widest">Castelul Regal</h4>
+                            <p class="text-white/60">Strada Principală Nr. 1</p>
+                            <p class="text-white/60">Sinaia, România</p>
+                        </div>
+                        
+                        <div class="border-l-2 border-gold pl-4">
+                            <p class="text-gold font-bold">16:00 - Ceremonia</p>
+                            <p class="text-white/60 text-sm">Capela Castelului</p>
+                        </div>
+                        <div class="border-l-2 border-gold pl-4">
+                            <p class="text-gold font-bold">18:00 - Recepția</p>
+                            <p class="text-white/60 text-sm">Sala Oglinzilor</p>
+                        </div>
+                    </div>
+                    <a href="https://maps.google.com" target="_blank" class="mt-10 inline-block px-8 py-3 border border-gold text-gold hover:bg-gold hover:text-void transition uppercase text-xs tracking-widest text-center">Navighează</a>
+                </div>
+
+                <div class="w-full md:w-2/3 h-[400px] md:h-auto relative overflow-hidden rounded-2xl reveal-img">
+                    <img src="https://images.unsplash.com/photo-1519225427186-1db33e051cc4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover opacity-80" alt="Locatie">
+                    <div class="absolute inset-0 bg-gradient-to-r from-void via-transparent to-transparent"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-charcoal">
+        <div class="container mx-auto px-6 mb-12 text-center">
+            <span class="font-hand text-4xl text-gold reveal-text">Povestea Noastră</span>
+            <h2 class="font-royal text-3xl mt-2 reveal-text">Momente de neuitat</h2>
+        </div>
+
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 h-[800px] md:h-[600px]">
+                <div class="col-span-2 row-span-2 relative overflow-hidden group reveal-img">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="G1">
+                </div>
+                <div class="relative overflow-hidden group reveal-img">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="G2">
+                </div>
+                <div class="relative overflow-hidden group reveal-img">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="G3">
+                </div>
+                <div class="col-span-2 relative overflow-hidden group reveal-img">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="w-full h-full object-cover transition duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="G4">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="rsvp" class="py-32 bg-void relative flex items-center justify-center">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10"></div>
+        
+        <div class="relative z-10 w-full max-w-lg p-10 border border-gold/40 bg-black/50 backdrop-blur-md reveal-text">
+            <div class="text-center mb-10">
+                <h2 class="font-royal text-4xl text-gold mb-4">R.S.V.P</h2>
+                <p class="text-white/60 text-sm uppercase tracking-widest">Te rugăm să confirmi prezența</p>
+                <div class="w-10 h-[1px] bg-gold mx-auto mt-6"></div>
+            </div>
+
+            <form class="space-y-8">
+                <div class="relative group">
+                    <input type="text" required class="w-full bg-transparent border-b border-white/30 py-3 text-white focus:outline-none focus:border-gold transition peer">
+                    <label class="absolute left-0 top-3 text-white/40 text-sm transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-gold peer-valid:-top-4 peer-valid:text-xs peer-valid:text-gold pointer-events-none">Nume Complet</label>
+                </div>
+                
+                <div class="relative group">
+                    <select class="w-full bg-transparent border-b border-white/30 py-3 text-white focus:outline-none focus:border-gold transition appearance-none">
+                        <option class="bg-void text-white/50" disabled selected>Număr Persoane</option>
+                        <option class="bg-void" value="1">1 Persoană</option>
+                        <option class="bg-void" value="2">2 Persoane</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-center gap-8 pt-4">
+                    <label class="cursor-pointer flex items-center gap-2 group">
+                        <div class="w-4 h-4 border border-gold rounded-full flex items-center justify-center group-hover:bg-gold/20">
+                            <input type="radio" name="att" class="appearance-none checked:bg-gold w-2 h-2 rounded-full">
+                        </div>
+                        <span class="text-sm text-white/80">Confirm</span>
+                    </label>
+                    <label class="cursor-pointer flex items-center gap-2 group">
+                        <div class="w-4 h-4 border border-white/50 rounded-full flex items-center justify-center group-hover:bg-white/10">
+                            <input type="radio" name="att" class="appearance-none checked:bg-white w-2 h-2 rounded-full">
+                        </div>
+                        <span class="text-sm text-white/80">Declin</span>
+                    </label>
+                </div>
+
+                <button class="w-full py-4 mt-4 bg-gold text-void font-bold uppercase tracking-[0.2em] hover:bg-white transition duration-500">
+                    Trimite Răspuns
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-black py-12 text-center border-t border-white/10">
+        <h2 class="font-royal text-2xl text-white/30 mb-4">E & A</h2>
+        <p class="text-white/20 text-xs uppercase tracking-widest">© 2025 The Wedding.</p>
+    </footer>
+
+    <script>
+        // 1. Reveal Animations on Scroll
+        const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-text, .reveal-img').forEach(el => observer.observe(el));
+
+        // 2. Parallax Effect for Hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const heroBg = document.getElementById('hero-bg');
+            if(scrolled < window.innerHeight) {
+                heroBg.style.transform = `translateY(${scrolled * 0.5}px) scale(1.1)`;
+            }
+        });
+
+        // 3. Countdown
+        const weddingDate = new Date('Aug 24, 2025 16:00:00').getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('days').innerText = d < 10 ? '0'+d : d;
+            document.getElementById('hours').innerText = h < 10 ? '0'+h : h;
+        }, 1000);
+    </script>
+</body>
+</html>

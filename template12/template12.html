@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Love Story</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="template12.css">
+</head>
+<body>
+
+    <header class="hero">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop" class="hero-img-bg">
+        
+        <div class="z-10 bg-[rgb(var(--bg-color))]/80 p-8 md:p-12 backdrop-blur-sm border border-[rgb(var(--accent-color))]">
+            <p class="uppercase tracking-[0.4em] text-xs mb-4">Noi doi</p>
+            <h1 class="text-6xl md:text-8xl mb-2 text-[rgb(var(--accent-color))]">Ana & Vlad</h1>
+            <p class="serif text-2xl italic">24 August 2025</p>
+        </div>
+        
+        <div class="absolute bottom-10 animate-bounce text-[rgb(var(--accent-color))]">
+            Start Journey ↓
+        </div>
+    </header>
+
+    <div class="timeline-container">
+        
+        <div class="timeline-track"></div>
+        <div class="timeline-progress" id="progressLine">
+            <div class="timeline-head"></div> </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="content-card">
+                <h2 class="text-3xl mb-4 text-[rgb(var(--accent-color))]">Începutul</h2>
+                <p class="leading-relaxed opacity-80">
+                    Totul a început cu o cafea. Nu știam atunci că acea conversație va dura o viață întreagă. Suntem bucuroși să vă avem alături la celebrarea iubirii noastre.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="content-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop" class="card-img">
+                <h3 class="text-2xl font-bold">Mirele</h3>
+                <p class="italic text-[rgb(var(--accent-color))] mb-2">Vlad Ionescu</p>
+                <p class="text-sm opacity-70">
+                    Pasionat de munte și tehnologie. Vlad a găsit în Ana liniștea de care avea nevoie după fiecare aventură.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="content-card">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop" class="card-img">
+                <h3 class="text-2xl font-bold">Mireasa</h3>
+                <p class="italic text-[rgb(var(--accent-color))] mb-2">Ana Popa</p>
+                <p class="text-sm opacity-70">
+                    Artistă și visătoare. Ana a găsit în Vlad sprijinul și curajul de a transforma orice vis în realitate.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="content-card">
+                <h2 class="text-3xl mb-6 text-[rgb(var(--accent-color))]">Destinația</h2>
+                
+                <div class="mb-6">
+                    <h4 class="font-bold uppercase tracking-widest text-sm">Cununia • 16:00</h4>
+                    <p class="serif text-xl">Biserica Stavropoleos</p>
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="font-bold uppercase tracking-widest text-sm">Petrecerea • 19:00</h4>
+                    <p class="serif text-xl">Palatul Mogoșoaia</p>
+                    <p class="text-sm opacity-60">Sala Tronului</p>
+                </div>
+
+                <a href="#" class="inline-block border-b border-[rgb(var(--accent-color))] text-[rgb(var(--accent-color))] pb-1">Vezi Harta</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="content-card p-2">
+                <h3 class="text-center py-4 text-xl uppercase tracking-widest">Amintiri</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=400" class="w-full h-32 object-cover">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?q=80&w=400" class="w-full h-32 object-cover">
+                    <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=400" class="w-full h-32 object-cover">
+                    <img src="https://images.unsplash.com/photo-1520854221256-17451cc330e7?q=80&w=400" class="w-full h-32 object-cover">
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot bg-[rgb(var(--accent-color))]"></div>
+            <div class="content-card bg-white border-2 border-[rgb(var(--accent-color))]">
+                <h2 class="text-3xl mb-2 text-center serif">RSVP</h2>
+                <p class="text-center text-sm opacity-60 mb-6">Te așteptăm cu drag!</p>
+                
+                <form>
+                    <input type="text" placeholder="Nume Familiei" class="input-elegant">
+                    <div class="flex gap-4">
+                        <select class="input-elegant w-1/2">
+                            <option>1 Persoană</option>
+                            <option>2 Persoane</option>
+                        </select>
+                        <select class="input-elegant w-1/2">
+                            <option>Meniu Clasic</option>
+                            <option>Vegetarian</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn-gold w-full mt-4">Confirm</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center py-12 opacity-50 text-sm">
+        <p>Ana & Vlad • 2025</p>
+    </footer>
+
+    <script src="template12.js"></script>
+</body>
+</html>

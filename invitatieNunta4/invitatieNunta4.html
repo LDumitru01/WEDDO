@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Invitație de nuntă | Elena & David</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Great+Vibes&family=Nunito:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            weddo: {
+              bg: '#f7f3ee',
+              card: '#ffffff',
+              accent: '#c19a6b',
+              accentDark: '#8f6b3d',
+              textMain: '#4a3b35'
+            }
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body: ['Nunito', 'sans-serif'],
+            script: ['"Great Vibes"', 'cursive']
+          },
+          boxShadow: {
+            soft: '0 18px 45px rgba(0,0,0,0.08)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: #f7f3ee;
+      color: #4a3b35;
+    }
+
+    /* Hero background (poți schimba imaginea) */
+    .hero-bg {
+      background-image:
+        linear-gradient(to bottom, rgba(23, 15, 10, 0.45), rgba(23, 15, 10, 0.65)),
+        url("https://images.unsplash.com/photo-1529634892667-3b5df1b867c5?auto=format&fit=crop&w=1000&q=80");
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Secțiuni fade-in la scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+
+    .reveal.reveal-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Scrollbar mic */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f7f3ee;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c19a6b;
+      border-radius: 999px;
+    }
+  </style>
+</head>
+
+<body class="bg-weddo-bg text-weddo-textMain">
+
+<!-- NAVBAR STICKY -->
+<header class="sticky top-0 z-40 shadow-md shadow-black/5 bg-[#f7f3ee]/80 backdrop-blur">
+  <div class="max-w-5xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full border border-weddo-accent flex items-center justify-center">
+        <span class="font-script text-lg text-weddo-accent">E&D</span>
+      </div>
+      <div class="hidden sm:block">
+        <p class="text-[11px] uppercase tracking-[0.24em] text-weddo-accentDark">
+          Nunta Elena & David
+        </p>
+      </div>
+    </div>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex gap-6 text-[12px] uppercase tracking-[0.18em]">
+      <a href="#hero" class="nav-link hover:text-weddo-accent">Acasă</a>
+      <a href="#about" class="nav-link hover:text-weddo-accent">Povestea</a>
+      <a href="#schedule" class="nav-link hover:text-weddo-accent">Program</a>
+      <a href="#details" class="nav-link hover:text-weddo-accent">Detalii</a>
+      <a href="#gallery" class="nav-link hover:text-weddo-accent">Galerie</a>
+      <a href="#accommodation" class="nav-link hover:text-weddo-accent">Cazare</a>
+      <a href="#rsvp" class="nav-link text-weddo-accentDark">RSVP</a>
+    </nav>
+
+    <!-- Mobile menu button -->
+    <button id="menuBtn"
+            class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-weddo-accent">
+      <i class="fa-solid fa-bars text-xs text-weddo-accentDark"></i>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="md:hidden hidden border-t border-weddo-accent/20 bg-[#f7f3ee]">
+    <nav class="max-w-5xl mx-auto px-4 py-3 flex flex-col gap-2 text-[12px] uppercase tracking-[0.18em]">
+      <a href="#hero" class="py-1 nav-link-mobile">Acasă</a>
+      <a href="#about" class="py-1 nav-link-mobile">Povestea noastră</a>
+      <a href="#schedule" class="py-1 nav-link-mobile">Program</a>
+      <a href="#details" class="py-1 nav-link-mobile">Detalii</a>
+      <a href="#gallery" class="py-1 nav-link-mobile">Galerie</a>
+      <a href="#accommodation" class="py-1 nav-link-mobile">Cazare</a>
+      <a href="#rsvp" class="py-1 nav-link-mobile text-weddo-accentDark">Confirmare</a>
+      <a href="#faq" class="py-1 nav-link-mobile">FAQ</a>
+      <a href="#contact" class="py-1 nav-link-mobile">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero"
+         class="hero-bg text-white min-h-[80vh] flex items-center">
+  <div class="max-w-5xl mx-auto w-full px-4 md:px-6 py-12 grid md:grid-cols-[1.2fr,0.9fr] gap-10 items-center">
+    <!-- Text -->
+    <div class="space-y-6 reveal">
+      <p class="text-[11px] uppercase tracking-[0.35em] text-white/80">
+        Save the Date
+      </p>
+      <h1 class="font-script text-5xl md:text-6xl leading-tight">
+        Elena & David
+      </h1>
+      <p class="font-display text-lg md:text-2xl tracking-wide">
+        20 Septembrie 2025 · Palatul Suter, București
+      </p>
+      <p class="text-sm md:text-[15px] text-white/80 max-w-xl">
+        Cu bucurie în suflet, vă invităm să fiți alături de noi în ziua în care
+        ne unim destinele. Ziua în care „eu” și „tu” devenim „noi”.
+      </p>
+
+      <!-- Countdown -->
+      <div class="inline-flex items-center gap-5 bg-white/10 backdrop-blur-sm rounded-full px-5 py-3 text-xs">
+        <div>
+          <p class="uppercase tracking-[0.18em] text-[10px] text-white/70">Au mai rămas</p>
+          <div class="flex gap-4 mt-1">
+            <div class="text-center">
+              <div id="cd-days" class="text-lg font-semibold">00</div>
+              <div class="text-[10px] uppercase tracking-[0.18em]">zile</div>
+            </div>
+            <div class="text-center">
+              <div id="cd-hours" class="text-lg font-semibold">00</div>
+              <div class="text-[10px] uppercase tracking-[0.18em]">ore</div>
+            </div>
+            <div class="text-center">
+              <div id="cd-minutes" class="text-lg font-semibold">00</div>
+              <div class="text-[10px] uppercase tracking-[0.18em]">minute</div>
+            </div>
+          </div>
+        </div>
+        <a href="#rsvp"
+           class="ml-2 bg-white text-weddo-accentDark text-[11px] uppercase tracking-[0.25em] px-4 py-2 rounded-full hover:bg-weddo-accent hover:text-white transition">
+          Confirmă prezența
+        </a>
+      </div>
+    </div>
+
+    <!-- Card foto / detalii scurte -->
+    <div
+      class="bg-white/95 text-weddo-textMain rounded-3xl shadow-soft p-6 md:p-7 flex flex-col gap-5 backdrop-blur reveal">
+      <div class="aspect-[3/4] rounded-2xl overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80"
+          alt="Cuplu"
+          class="w-full h-full object-cover">
+      </div>
+      <div class="space-y-3">
+        <p class="text-[11px] uppercase tracking-[0.25em] text-weddo-accentDark">
+          Detalii eveniment
+        </p>
+        <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-[13px]">
+          <div>
+            <p class="font-semibold">Data</p>
+            <p>20 Septembrie 2025</p>
+          </div>
+          <div>
+            <p class="font-semibold">Ora</p>
+            <p>17:00 · Cununie civilă</p>
+          </div>
+          <div>
+            <p class="font-semibold">Loc</p>
+            <p>Palatul Suter, București</p>
+          </div>
+          <div>
+            <p class="font-semibold">Dress code</p>
+            <p>Elegant · Evening</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / POVESTE -->
+<section id="about" class="py-16 md:py-20">
+  <div class="max-w-5xl mx-auto px-4 md:px-6 grid md:grid-cols-[1.1fr,0.9fr] gap-10 md:gap-14 items-center">
+    <div class="reveal">
+      <p class="text-[11px] uppercase tracking-[0.35em] text-weddo-accentDark mb-2">
+        Povestea noastră
+      </p>
+      <h2 class="font-display text-3xl md:text-4xl mb-4">
+        De la primul zâmbet, la „Hai să fim pentru totdeauna”.
+      </h2>
+      <p class="text-[15px] leading-relaxed mb-3">
+        Ne-am întâlnit într-o zi obișnuită, care s-a transformat într-un moment
+        pe care nu îl vom uita niciodată. De atunci, fiecare cafea, fiecare drum
+        cu mașina și fiecare apus au fost mai frumoase împreună.
+      </p>
+      <p class="text-[15px] leading-relaxed mb-3">
+        Ziua nunții pentru noi nu este doar o petrecere, ci o celebrare a
+        tuturor oamenilor dragi care au fost martori la această călătorie.
+        Ne-am dori mult să fii alături de noi.
+      </p>
+      <p class="font-script text-3xl text-weddo-accent mt-2">
+        Cu drag, Elena & David
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 reveal">
+      <div class="rounded-3xl overflow-hidden shadow-soft">
+        <img
+          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80"
+          alt="Cuplu 1"
+          class="w-full h-full object-cover">
+      </div>
+      <div class="flex flex-col gap-4 mt-6">
+        <div class="rounded-3xl overflow-hidden shadow-soft h-32 md:h-36">
+          <img
+            src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80"
+            alt="Cuplu 2"
+            class="w-full h-full object-cover">
+        </div>
+        <div class="rounded-3xl overflow-hidden shadow-soft h-32 md:h-36">
+          <img
+            src="https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0?auto=format&fit=crop&w=800&q=80"
+            alt="Cuplu 3"
+            class="w-full h-full object-cover">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM -->
+<section id="schedule" class="py-16 md:py-20 bg-white/70">
+  <div class="max-w-5xl mx-auto px-4 md:px-6">
+    <div class="text-center mb-10 reveal">
+      <p class="text-[11px] uppercase tracking-[0.35em] text-weddo-accentDark mb-2">
+        Programul zilei
+      </p>
+      <h2 class="font-display text-3xl md:text-4xl mb-3">
+        O zi plină de emoții frumoase
+      </h2>
+      <p class="max-w-xl mx-auto text-[14px] text-neutral-600">
+        Ca să îți fie mai ușor să-ți organizezi ziua, am pregătit un scurt
+        program orientativ al momentelor importante.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 reveal">
+      <div class="bg-weddo-card rounded-3xl shadow-soft p-6 flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-9 h-9 rounded-full bg-weddo-accent/10 text-weddo-accent flex items-center justify-center">
+            <i class="fa-regular fa-heart"></i>
+          </div>
+          <p class="text-sm font-semibold">Cununia civilă</p>
+        </div>
+        <p class="text-xs uppercase tracking-[0.2em] text-weddo-accentDark">
+          17:00 · Grădina Palatului
+        </p>
+        <p class="text-[13px] text-neutral-600">
+          Ne vedem în grădina Palatului Suter pentru momentul în care spunem
+          „DA” în fața familiei și prietenilor.
+        </p>
+      </div>
+
+      <div class="bg-weddo-card rounded-3xl shadow-soft p-6 flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-9 h-9 rounded-full bg-weddo-accent/10 text-weddo-accent flex items-center justify-center">
+            <i class="fa-solid fa-church"></i>
+          </div>
+        <p class="text-sm font-semibold">Ceremonia religioasă</p>
+        </div>
+        <p class="text-xs uppercase tracking-[0.2em] text-weddo-accentDark">
+          18:30 · Capela Palatului
+        </p>
+        <p class="text-[13px] text-neutral-600">
+          Un moment emoționant și intim, în care vom primi binecuvântarea
+          pentru drumul nostru împreună.
+        </p>
+      </div>
+
+      <div class="bg-weddo-card rounded-3xl shadow-soft p-6 flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-9 h-9 rounded-full bg-weddo-accent/10 text-weddo-accent flex items-center justify-center">
+            <i class="fa-solid fa-champagne-glasses"></i>
+          </div>
+          <p class="text-sm font-semibold">Petrecerea</p>
+        </div>
+        <p class="text-xs uppercase tracking-[0.2em] text-weddo-accentDark">
+          20:00 · Sala de Bal
+        </p>
+        <p class="text-[13px] text-neutral-600">
+          Cina festivă, momente surpriză, dans până târziu și amintiri pentru
+          o viață întreagă.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DETALII: Locație + Dress code + Hartă -->
+<section id="details" class="py-16 md:py-20">
+  <div class="max-w-5xl mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-10 reveal">
+    <!-- Locație -->
+    <div class="bg-weddo-card rounded-3xl shadow-soft p-6 md:p-7 flex flex-col gap-4">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-9 h-9 rounded-full bg-weddo-accent/10 text-weddo-accent flex items-center justify-center">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+        <h3 class="font-display text-xl">Locația</h3>
+      </div>
+      <p class="text-[14px] text-neutral-700">
+        Palatul Suter · Aleea Suter 23-25, București
+      </p>
+      <p class="text-[13px] text-neutral-600">
+        Palatul Suter este una dintre cele mai elegante locații din București,
+        cu o priveliște superbă asupra orașului și un interior care îmbină
+        rafinamentul clasic cu confortul modern.
+      </p>
+      <a href="https://maps.google.com" target="_blank"
+         class="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.23em] text-weddo-accentDark mt-2">
+        <i class="fa-solid fa-map"></i>
+        Deschide în Google Maps
+      </a>
+      <div class="mt-4 rounded-2xl overflow-hidden border border-dashed border-weddo-accent/40 h-40">
+        <!-- Poți înlocui cu embed real de hartă -->
+        <iframe
+          src="https://maps.google.com/maps?q=Palatul%20Suter%20Bucuresti&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          class="w-full h-full border-0"></iframe>
+      </div>
+    </div>
+
+    <!-- Dress code -->
+    <div class="bg-weddo-card rounded-3xl shadow-soft p-6 md:p-7 flex flex-col gap-4">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-9 h-9 rounded-full bg-weddo-accent/10 text-weddo-accent flex items-center justify-center">
+          <i class="fa-solid fa-suitcase"></i>
+        </div>
+        <h3 class="font-display text-xl">Dress code & paletă</h3>
+      </div>
+      <p class="text-[14px] text-neutral-700">
+        Ne-ar plăcea ca invitații noștri să poarte ținute elegante de seară.
+      </p>
+      <ul class="list-disc text-[13px] text-neutral-600 pl-5 space-y-1">
+        <li>Doamne: rochii midi sau lungi, în nuanțe neutre sau calde.</li>
+        <li>Domni: costum închis la culoare (bleumarin, gri închis, negru).</li>
+        <li>Te rugăm să eviți ținutele complet albe.</li>
+      </ul>
+
+      <div class="mt-4 flex gap-3">
+        <div class="w-10 h-10 rounded-xl bg-[#2f3543]"></div>
+        <div class="w-10 h-10 rounded-xl bg-[#c19a6b]"></div>
+        <div class="w-10 h-10 rounded-xl bg-[#f1e3d0] border border-weddo-accent/40"></div>
+        <div class="w-10 h-10 rounded-xl bg-[#e5d6c3]"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section id="gallery" class="py-16 md:py-20 bg-white/70">
+  <div class="max-w-5xl mx-auto px-4 md:px-6">
+    <div class="text-center mb-10 reveal">
+      <p class="text-[11px] uppercase tracking-[0.35em] text-weddo-accentDark mb-2">
+        Galerie
+      </p>
+      <h2 class="font-display text-3xl md:text-4xl mb-1">
+        Înainte de „Da”
+      </h2>
+      <p class="text-[14px] text-neutral-600 max-w-xl mx-auto">
+        Câteva cadre din sesiunile noastre foto – pentru ca tu să intri în
+        atmosfera zilei.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 reveal">
+      <div class="rounded-3xl overflow-hidden shadow-soft">
+        <img
+          src="https://images.unsplash.com/photo-1528744598421-b7b93e12df0b?auto=format&fit=crop&w=900&q=80"
+          class="w-full h-full object-cover" alt="">
+      </div>
+      <div class="rounded-3xl overflow-hidden shadow-soft">
+        <img
+          src="https://images.unsplash.com/photo-1529634806980-85c3b71a096f?auto=format&fit=crop&w=900&q=80"
+          class="w-full h-full object-cover" alt="">
+      </div>
+      <div class="rounded-3xl overflow-hidden shadow-soft sm:col-span-2 md:col-span-1">
+        <img
+          src="https://images.unsplash.com/photo-1517840933442-d2d1a05edb75?auto=format&fit=crop&w=900&q=80"
+          class="w-full h-full object-cover" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAZARE -->
+<section id="accommodation" class="py-16 md:py-20">
+  <div class="max-w-5xl mx-auto px-4 md:px-6 grid md:grid-cols-[1.1fr,0.9fr] gap-10 reveal">
+    <div class="bg-weddo-card rounded-3xl shadow-soft p-6 md:p-7 space-y-3">
+      <div class="flex items-center gap-3 mb-2">
+        <div
+          class="w-9 h-9 rounded-full bg-weddo-accent/10 text-weddo-accent flex items-center justify-center">
+          <i class="fa-solid fa-bed"></i>
+        </div>
+        <h3 class="font-display text-xl">Cazare pentru invitați</h3>
+      </div>
+      <p class="text-[14px] text-neutral-700">
+        Pentru cei care vin din alte orașe, am pregătit câteva recomandări de
+        cazare în apropierea Palatului Suter.
+      </p>
+      <ul class="list-disc text-[13px] text-neutral-600 pl-5 space-y-1">
+        <li><strong>Hotel Carol Parc</strong> — 3 minute de mers pe jos.</li>
+        <li><strong>Hotel Parliament</strong> — 7 minute cu mașina.</li>
+        <li><strong>Airbnb în zona Parcul Carol</strong> — multe opțiuni accesibile.</li>
+      </ul>
+      <p class="text-[13px] text-neutral-600">
+        Dacă ai nevoie de ajutor cu rezervările, ne poți scrie oricând.
+      </p>
+    </div>
+
+    <div class="bg-weddo-card rounded-3xl shadow-soft p-6 md:p-7 space-y-3">
+      <div class="flex items-center gap-3 mb-2">
+        <div
+          class="w-9 h-9 rounded-full bg-weddo-accent/10 text-weddo-accent flex items-center justify-center">
+          <i class="fa-solid fa-car"></i>
+        </div>
+        <h3 class="font-display text-xl">Parcare & transport</h3>
+      </div>
+      <ul class="list-disc text-[13px] text-neutral-600 pl-5 space-y-1">
+        <li>Parcare disponibilă în curtea Palatului (locuri limitate).</li>
+        <li>În zonă există locuri de parcare pe străzile adiacente.</li>
+        <li>Recomandăm Bolt/Uber pentru deplasare până la locație.</li>
+      </ul>
+      <p class="text-[13px] text-neutral-600">
+        La finalul petrecerii, vom avea și câteva mașini disponibile pentru a
+        ajuta invitații să ajungă în siguranță acasă sau la hotel.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- RSVP -->
+<section id="rsvp" class="py-18 md:py-24">
+  <div class="max-w-5xl mx-auto px-4 md:px-6 grid md:grid-cols-[1.1fr,0.9fr] gap-10 items-center">
+    <div class="reveal">
+      <p class="text-[11px] uppercase tracking-[0.35em] text-weddo-accentDark mb-2">
+        Confirmare de prezență
+      </p>
+      <h2 class="font-display text-3xl md:text-4xl mb-4">
+        Te rugăm să ne spui dacă vei fi alături de noi
+      </h2>
+      <p class="text-[14px] text-neutral-700 mb-3">
+        Pentru a organiza cât mai bine ziua nunții, te rugăm să completezi
+        formularul de alături până la <strong>1 august 2025</strong>.
+      </p>
+      <ul class="list-disc text-[13px] text-neutral-600 pl-5 space-y-1">
+        <li>Poți menționa eventuale restricții alimentare.</li>
+        <li>Ne poți spune dacă vii însoțit(ă) sau cu copiii.</li>
+        <li>Dacă apar schimbări, ne poți scrie oricând pe WhatsApp.</li>
+      </ul>
+    </div>
+
+    <!-- FORM -->
+    <div class="bg-weddo-card rounded-3xl shadow-soft p-6 md:p-7 reveal">
+      <form id="rsvpForm" class="space-y-4 text-[14px]">
+        <div>
+          <label class="block text-[12px] font-semibold mb-1">Nume complet</label>
+          <input type="text" name="name" required
+                 class="w-full rounded-xl border border-neutral-300 px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-weddo-accent/70">
+        </div>
+
+        <div>
+          <label class="block text-[12px] font-semibold mb-1">Adresă de email</label>
+          <input type="email" name="email"
+                 class="w-full rounded-xl border border-neutral-300 px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-weddo-accent/70">
+        </div>
+
+        <div>
+          <label class="block text-[12px] font-semibold mb-1">Număr de telefon</label>
+          <input type="tel" name="phone"
+                 class="w-full rounded-xl border border-neutral-300 px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-weddo-accent/70">
+        </div>
+
+        <div>
+          <p class="block text-[12px] font-semibold mb-1">Vei participa?</p>
+          <div class="flex gap-3">
+            <label
+              class="flex-1 border rounded-xl px-3 py-2 cursor-pointer text-center text-[13px] hover:border-weddo-accent">
+              <input type="radio" name="attend" value="da" class="hidden" required>
+              <span>Da, cu drag</span>
+            </label>
+            <label
+              class="flex-1 border rounded-xl px-3 py-2 cursor-pointer text-center text-[13px] hover:border-weddo-accent">
+              <input type="radio" name="attend" value="nu" class="hidden">
+              <span>Din păcate nu</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[12px] font-semibold mb-1">Număr de persoane</label>
+          <select name="guests"
+                  class="w-full rounded-xl border border-neutral-300 px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-weddo-accent/70">
+            <option value="1">1 persoană</option>
+            <option value="2">2 persoane</option>
+            <option value="3">3 persoane</option>
+            <option value="4">4 persoane</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-[12px] font-semibold mb-1">Mesaj / restricții alimentare</label>
+          <textarea name="message" rows="3"
+                    class="w-full rounded-xl border border-neutral-300 px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-weddo-accent/70"
+                    placeholder="Ex: vegetarian, fără gluten, alergii etc."></textarea>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-weddo-accent text-white text-[12px] uppercase tracking-[0.25em] py-3 rounded-full hover:bg-weddo-accentDark transition flex items-center justify-center gap-2">
+          <span>Trimite confirmarea</span>
+          <i class="fa-regular fa-paper-plane text-xs"></i>
+        </button>
+
+        <p id="rsvpSuccess"
+           class="hidden mt-2 text-[13px] text-green-600 text-center">
+          Îți mulțumim! Confirmarea ta a fost înregistrată.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-16 md:py-20 bg-white/70">
+  <div class="max-w-4xl mx-auto px-4 md:px-6 reveal">
+    <p class="text-[11px] uppercase tracking-[0.35em] text-weddo-accentDark mb-2 text-center">
+      Întrebări frecvente
+    </p>
+    <h2 class="font-display text-3xl md:text-4xl mb-6 text-center">
+      Poate te întrebi și...
+    </h2>
+
+    <div class="space-y-4 text-[14px]">
+      <details class="bg-weddo-card rounded-2xl shadow-soft p-4">
+        <summary class="cursor-pointer font-semibold">
+          Pot veni cu copiii?
+        </summary>
+        <p class="mt-2 text-neutral-600">
+          Desigur! Ne bucurăm să avem copiii alături de noi. Te rugăm doar să
+          menționezi numărul lor în formularul RSVP.
+        </p>
+      </details>
+
+      <details class="bg-weddo-card rounded-2xl shadow-soft p-4">
+        <summary class="cursor-pointer font-semibold">
+          Până când pot confirma prezența?
+        </summary>
+        <p class="mt-2 text-neutral-600">
+          Ideal ar fi să primim confirmarea ta până la data de 1 august 2025,
+          pentru a putea organiza totul în cele mai bune condiții.
+        </p>
+      </details>
+
+      <details class="bg-weddo-card rounded-2xl shadow-soft p-4">
+        <summary class="cursor-pointer font-semibold">
+          Ce se întâmplă dacă intervin schimbări?
+        </summary>
+        <p class="mt-2 text-neutral-600">
+          Înțelegem că pot apărea situații neprevăzute. Te rugăm doar să ne
+          anunți cât mai repede, prin telefon sau WhatsApp.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-12">
+  <div class="max-w-3xl mx-auto px-4 md:px-6 text-center reveal">
+    <p class="text-[11px] uppercase tracking-[0.35em] text-weddo-accentDark mb-2">
+      Contact
+    </p>
+    <h2 class="font-display text-3xl mb-4">
+      Dacă ai întrebări, suntem aici
+    </h2>
+    <p class="text-[14px] text-neutral-600 mb-4">
+      Pentru detalii suplimentare legate de cazare, transport sau orice alt
+      aspect, ne poți scrie sau suna:
+    </p>
+
+    <div class="inline-flex flex-col gap-2 text-[14px] bg-weddo-card rounded-3xl shadow-soft px-6 py-4">
+      <p><strong>Elena:</strong> 07xx xxx xxx</p>
+      <p><strong>David:</strong> 07xx xxx xxx</p>
+      <p><strong>Email:</strong> elena.david.nunta@example.com</p>
+    </div>
+    <p class="mt-6 font-script text-3xl text-weddo-accent">
+      Abia așteptăm să sărbătorim împreună!
+    </p>
+  </div>
+</section>
+
+<footer class="py-6 border-t border-neutral-200 text-center text-[11px] text-neutral-500">
+  Elena & David · 20 Septembrie 2025 · Palatul Suter, București
+</footer>
+
+<!-- JS: meniul mobil, countdown, reveal, form -->
+<script>
+  // MOBILE MENU
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+
+  document.querySelectorAll('.nav-link-mobile').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+    });
+  });
+
+  // SMOOTH SCROLL (optional, browser support e ok)
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href').slice(1);
+      const el = document.getElementById(targetId);
+      if (!el) return;
+      e.preventDefault();
+      window.scrollTo({
+        top: el.offsetTop - 70,
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // COUNTDOWN
+  const eventDate = new Date("2025-09-20T17:00:00").getTime();
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = eventDate - now;
+    if (diff <= 0) return;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    document.getElementById("cd-days").textContent = days.toString().padStart(2, "0");
+    document.getElementById("cd-hours").textContent = hours.toString().padStart(2, "0");
+    document.getElementById("cd-minutes").textContent = minutes.toString().padStart(2, "0");
+  }, 1000);
+
+  // REVEAL ANIMATIONS
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reveal-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // RSVP FORM (simulare)
+  const rsvpForm = document.getElementById('rsvpForm');
+  const rsvpSuccess = document.getElementById('rsvpSuccess');
+
+  rsvpForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = rsvpForm.querySelector('button');
+    const initialText = btn.innerHTML;
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xs"></i> <span>Se trimite...</span>';
+
+    setTimeout(() => {
+      btn.innerHTML = initialText;
+      btn.disabled = false;
+      rsvpSuccess.classList.remove('hidden');
+      rsvpForm.reset();
+    }, 1500);
+  });
+</script>
+
+</body>
+</html>

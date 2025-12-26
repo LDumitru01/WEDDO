@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isabella & Marcus | The Royal Wedding</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           CONFIGURARE CULORI (MODIFICĂ AICI)
+           ========================================= */
+        :root {
+            /* Culoarea Principală (Accent / Auriu) */
+            --color-primary: #C0A062;
+            
+            /* Culoarea Secundară (Auriu deschis pentru fundaluri subtile) */
+            --color-primary-light: #E6CFA0;
+
+            /* Fundal Întunecat (Negru / Dark Mode areas) */
+            --color-surface: #0F0F0F;
+            
+            /* Fundal Secundar Întunecat (Carduri, Formulare) */
+            --color-surface-light: #1A1A1A;
+
+            /* Fundal Luminos (Hârtie / Secțiuni deschise) */
+            --color-paper: #F7F5F2;
+
+            /* Text Principal (Pe fundal deschis) */
+            --color-text-main: #1A1A1A;
+        }
+
+        /* Navigare Glass Effect folosind variabila de culoare */
+        .glass-nav {
+            background-color: var(--color-surface) !important;
+            opacity: 0.95;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* =========================================
+           UTILITIES & RESET
+           ========================================= */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--color-surface); }
+        ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 4px; }
+
+        .reveal-section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .reveal-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #loader {
+            position: fixed; inset: 0;
+            background-color: var(--color-surface);
+            z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+        .loader-hidden { opacity: 0; visibility: hidden; }
+        
+        #lightbox { transition: opacity 0.3s ease; }
+        
+        /* Input Autofill fix */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px var(--color-surface-light) inset !important;
+            -webkit-text-fill-color: white !important;
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--color-primary)',
+                        'primary-light': 'var(--color-primary-light)',
+                        surface: 'var(--color-surface)',
+                        'surface-light': 'var(--color-surface-light)',
+                        paper: 'var(--color-paper)',
+                        'text-main': 'var(--color-text-main)',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        'widest-xl': '0.25em',
+                    },
+                    animation: {
+                        'slide-up': 'slideUp 1s ease-out forwards',
+                        'scale-slow': 'scaleSlow 20s linear infinite alternate',
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleSlow: {
+                            '0%': { transform: 'scale(1.0)' },
+                            '100%': { transform: 'scale(1.1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-paper text-text-main antialiased font-sans overflow-x-hidden">
+
+    <div id="loader">
+        <div class="text-center">
+            <div class="w-16 h-16 border-t-2 border-b-2 border-primary rounded-full animate-spin mx-auto mb-4"></div>
+            <p class="text-primary-light font-serif italic text-lg tracking-widest animate-pulse">Loading Love Story...</p>
+        </div>
+    </div>
+
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="text-2xl font-serif font-bold text-white tracking-widest z-50 relative group">
+                I <span class="text-primary">&</span> M
+                <span class="absolute -bottom-2 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full"></span>
+            </a>
+
+            <div class="hidden md:flex space-x-10">
+                <a href="#story" class="nav-link text-white/80 hover:text-primary text-xs uppercase tracking-widest transition-colors">Povestea</a>
+                <a href="#events" class="nav-link text-white/80 hover:text-primary text-xs uppercase tracking-widest transition-colors">Evenimente</a>
+                <a href="#gallery" class="nav-link text-white/80 hover:text-primary text-xs uppercase tracking-widest transition-colors">Galerie</a>
+                <a href="#faq" class="nav-link text-white/80 hover:text-primary text-xs uppercase tracking-widest transition-colors">Detalii</a>
+            </div>
+
+            <a href="#rsvp" class="hidden md:block border border-primary text-primary px-8 py-2 text-xs uppercase tracking-widest hover:bg-primary hover:text-surface transition-all duration-300">
+                RSVP
+            </a>
+
+            <button id="mobile-menu-btn" class="md:hidden text-white z-50 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="fixed inset-0 bg-surface z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8">
+            <a href="#story" class="text-2xl font-serif text-white hover:text-primary" onclick="toggleMenu()">Povestea</a>
+            <a href="#events" class="text-2xl font-serif text-white hover:text-primary" onclick="toggleMenu()">Evenimente</a>
+            <a href="#gallery" class="text-2xl font-serif text-white hover:text-primary" onclick="toggleMenu()">Galerie</a>
+            <a href="#rsvp" class="text-2xl font-serif text-primary hover:text-white" onclick="toggleMenu()">RSVP</a>
+        </div>
+    </nav>
+
+    <header class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-black/40 z-10"></div> 
+            <img src="https://images.unsplash.com/photo-1519225421980-715cb0202128?q=80&w=2400&auto=format&fit=crop" class="w-full h-full object-cover animate-scale-slow" alt="Wedding Couple">
+        </div>
+
+        <div class="relative z-20 text-center text-white px-4">
+            <p class="text-xs md:text-sm uppercase tracking-widest-xl mb-6 opacity-0 animate-slide-up" style="animation-delay: 0.5s;">Save The Date</p>
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl mb-4 leading-none opacity-0 animate-slide-up" style="animation-delay: 0.8s;">
+                Isabella <span class="text-primary italic">&</span> Marcus
+            </h1>
+            <p class="font-serif italic text-2xl md:text-3xl mt-8 opacity-0 animate-slide-up" style="animation-delay: 1.1s;">August 24, 2025</p>
+            <p class="text-sm uppercase tracking-widest mt-2 opacity-0 animate-slide-up" style="animation-delay: 1.3s;">Château de Santeny • France</p>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
+            <svg class="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+    </header>
+
+    <section class="bg-surface py-16 border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/10" id="countdown">
+                <div class="reveal-section">
+                    <span id="days" class="block text-4xl md:text-6xl font-serif text-primary">00</span>
+                    <span class="text-xs text-white/50 uppercase tracking-widest">Zile</span>
+                </div>
+                <div class="reveal-section" style="transition-delay: 100ms">
+                    <span id="hours" class="block text-4xl md:text-6xl font-serif text-primary">00</span>
+                    <span class="text-xs text-white/50 uppercase tracking-widest">Ore</span>
+                </div>
+                <div class="reveal-section" style="transition-delay: 200ms">
+                    <span id="minutes" class="block text-4xl md:text-6xl font-serif text-primary">00</span>
+                    <span class="text-xs text-white/50 uppercase tracking-widest">Minute</span>
+                </div>
+                <div class="reveal-section" style="transition-delay: 300ms">
+                    <span id="seconds" class="block text-4xl md:text-6xl font-serif text-primary">00</span>
+                    <span class="text-xs text-white/50 uppercase tracking-widest">Secunde</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="story" class="py-24 bg-paper overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-20 reveal-section">
+                <span class="text-primary text-xs font-bold uppercase tracking-widest block mb-3">Timeline</span>
+                <h2 class="font-serif text-5xl text-text-main">Povestea Noastră</h2>
+                <div class="w-24 h-[1px] bg-primary mx-auto mt-6"></div>
+            </div>
+
+            <div class="relative">
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-[1px] h-full bg-primary-light hidden md:block"></div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between mb-16 relative reveal-section group">
+                    <div class="w-full md:w-5/12 text-center md:text-right pr-0 md:pr-10 order-2 md:order-1">
+                        <h3 class="font-serif text-2xl text-text-main mb-2">Prima Întâlnire</h3>
+                        <p class="text-primary text-sm font-bold uppercase mb-4">14 Februarie 2020</p>
+                        <p class="text-gray-600 font-light leading-relaxed">O cafenea mică în Paris. Afară ploua, dar înăuntru timpul s-a oprit când privirile noastre s-au întâlnit pentru prima dată.</p>
+                    </div>
+                    <div class="w-4 h-4 bg-primary rounded-full border-4 border-white absolute left-1/2 transform -translate-x-1/2 z-10 hidden md:block group-hover:scale-150 transition-transform"></div>
+                    <div class="w-full md:w-5/12 pl-0 md:pl-10 order-1 md:order-2 mb-6 md:mb-0">
+                        <div class="overflow-hidden rounded-lg shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1516575334481-f85287c2c81d?q=80&w=800&auto=format&fit=crop" class="w-full h-64 object-cover transition-transform duration-700 hover:scale-110">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between mb-16 relative reveal-section group">
+                    <div class="w-full md:w-5/12 text-center md:text-right pr-0 md:pr-10 order-1 mb-6 md:mb-0">
+                         <div class="overflow-hidden rounded-lg shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=800&auto=format&fit=crop" class="w-full h-64 object-cover transition-transform duration-700 hover:scale-110">
+                        </div>
+                    </div>
+                    <div class="w-4 h-4 bg-primary rounded-full border-4 border-white absolute left-1/2 transform -translate-x-1/2 z-10 hidden md:block group-hover:scale-150 transition-transform"></div>
+                    <div class="w-full md:w-5/12 pl-0 md:pl-10 order-2 text-center md:text-left">
+                        <h3 class="font-serif text-2xl text-text-main mb-2">Marea Întrebare</h3>
+                        <p class="text-primary text-sm font-bold uppercase mb-4">24 Decembrie 2023</p>
+                        <p class="text-gray-600 font-light leading-relaxed">Sub luminile bradului de Crăciun, cu inima bătând puternic, Marcus a pus întrebarea care ne-a schimbat viața pentru totdeauna.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-fixed bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2000&auto=format&fit=crop');">
+        <div class="absolute inset-0 bg-surface/60"></div>
+        <div class="relative z-10 max-w-3xl mx-auto text-center text-white px-6 reveal-section">
+            <svg class="w-12 h-12 text-primary mx-auto mb-6 opacity-80" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 13.1216 16 12.017 16H11.983C10.8784 16 9.983 16.8954 9.983 18L9.983 21C9.983 22.1046 10.8784 23 11.983 23H12.017C13.1216 23 14.017 22.1046 14.017 21ZM21 21L21 10L12 2L3 10L3 21H21Z"/></svg>
+            <h2 class="font-serif text-3xl md:text-5xl leading-tight italic">"Dragostea nu constă în a privi unul la celălalt, ci în a privi împreună în aceeași direcție."</h2>
+            <p class="mt-8 font-sans uppercase tracking-widest text-sm text-primary-light">— Antoine de Saint-Exupéry</p>
+        </div>
+    </section>
+
+    <section id="events" class="py-24 bg-paper">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 reveal-section">
+                <span class="text-primary text-xs font-bold uppercase tracking-widest block mb-3">Agenda</span>
+                <h2 class="font-serif text-5xl text-text-main">Evenimentele</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-10 shadow-lg border-t-4 border-primary reveal-section hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-primary mb-6">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="font-serif text-3xl text-center mb-2">Cununia Religioasă</h3>
+                    <p class="text-center text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">15:00 - 16:30</p>
+                    <div class="text-center text-gray-600 font-light mb-8">
+                        <p class="mb-2">Catedrala Sfântul Iosif</p>
+                        <p>Strada General Berthelot, București</p>
+                    </div>
+                    <button class="w-full border border-gray-300 py-3 text-xs font-bold uppercase hover:bg-surface hover:text-white transition-colors">Vezi pe Hartă</button>
+                </div>
+
+                <div class="bg-surface text-white p-12 shadow-2xl relative transform lg:-translate-y-4 reveal-section">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primary text-surface px-4 py-1 text-xs font-bold uppercase tracking-widest">Main Event</div>
+                    <div class="text-primary mb-6">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="font-serif text-3xl text-center mb-2 text-primary-light">Petrecerea</h3>
+                    <p class="text-center text-xs font-bold uppercase tracking-widest text-primary mb-6">18:00 - Dimineața</p>
+                    <div class="text-center text-gray-300 font-light mb-8">
+                        <p class="mb-2">Palatul Snagov</p>
+                        <p>Ballroom "Royal Hall"</p>
+                        <p class="mt-4 italic text-sm text-primary">Dress Code: Black Tie</p>
+                    </div>
+                    <button class="w-full bg-primary text-surface py-3 text-xs font-bold uppercase hover:bg-white transition-colors">Vezi pe Hartă</button>
+                </div>
+
+                <div class="bg-white p-10 shadow-lg border-t-4 border-primary reveal-section hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-primary mb-6">
+                         <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </div>
+                    <h3 class="font-serif text-3xl text-center mb-2">Soup de Lendemain</h3>
+                    <p class="text-center text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">A doua zi, 11:00</p>
+                    <div class="text-center text-gray-600 font-light mb-8">
+                        <p class="mb-2">Terasa Palatului</p>
+                        <p>O ciorbă de potroace și cafea pentru recuperare.</p>
+                    </div>
+                    <button class="w-full border border-gray-300 py-3 text-xs font-bold uppercase hover:bg-surface hover:text-white transition-colors">Vezi pe Hartă</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+             <div class="text-center mb-12 reveal-section">
+                <h2 class="font-serif text-4xl text-text-main">Amintiri Împreună</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 auto-rows-[200px]">
+                <div class="row-span-2 col-span-2 relative group overflow-hidden cursor-pointer reveal-section" onclick="openLightbox(0)">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                    </div>
+                </div>
+                <div class="relative group overflow-hidden cursor-pointer reveal-section" onclick="openLightbox(1)">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="relative group overflow-hidden cursor-pointer reveal-section" onclick="openLightbox(2)">
+                    <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="row-span-2 relative group overflow-hidden cursor-pointer reveal-section" onclick="openLightbox(3)">
+                    <img src="https://images.unsplash.com/photo-1520854221256-17451cc330e7?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="relative group overflow-hidden cursor-pointer reveal-section" onclick="openLightbox(4)">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-24 bg-paper border-t border-gray-200">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="font-serif text-3xl text-center mb-12 text-text-main reveal-section">Detalii Logistice</h2>
+            
+            <div class="space-y-4">
+                <div class="border border-gray-200 bg-white p-6 reveal-section group cursor-pointer" onclick="this.classList.toggle('active')">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-serif text-lg">Există transport asigurat?</h4>
+                        <span class="text-primary text-xl transform transition-transform duration-300 group-[.active]:rotate-45">+</span>
+                    </div>
+                    <div class="max-h-0 overflow-hidden transition-all duration-500 group-[.active]:max-h-40">
+                        <p class="text-gray-600 font-light mt-4">Da, vom pune la dispoziție autocare din Piața Victoriei la ora 14:00 pentru ceremonie, și transport retur la orele 01:00 și 04:00.</p>
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 bg-white p-6 reveal-section group cursor-pointer" onclick="this.classList.toggle('active')">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-serif text-lg">Care este dress code-ul?</h4>
+                        <span class="text-primary text-xl transform transition-transform duration-300 group-[.active]:rotate-45">+</span>
+                    </div>
+                    <div class="max-h-0 overflow-hidden transition-all duration-500 group-[.active]:max-h-40">
+                        <p class="text-gray-600 font-light mt-4">Dress code-ul este Black Tie Optional. Încurajăm rochiile lungi și costumele închise la culoare.</p>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 bg-white p-6 reveal-section group cursor-pointer" onclick="this.classList.toggle('active')">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-serif text-lg">Copiii sunt invitați?</h4>
+                        <span class="text-primary text-xl transform transition-transform duration-300 group-[.active]:rotate-45">+</span>
+                    </div>
+                    <div class="max-h-0 overflow-hidden transition-all duration-500 group-[.active]:max-h-40">
+                        <p class="text-gray-600 font-light mt-4">Deși adorăm copiii, dorim ca această seară să fie una de relaxare totală pentru părinți, așadar evenimentul este "Adults Only".</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="rsvp" class="py-32 bg-surface text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-primary opacity-5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-primary opacity-5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-2xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 reveal-section">
+                <span class="text-primary text-xs font-bold uppercase tracking-widest block mb-4">Répondez s'il vous plaît</span>
+                <h2 class="font-serif text-5xl mb-6">Te așteptăm cu drag</h2>
+                <p class="text-white/60 font-light">Te rugăm să confirmi prezența până la data de 1 August 2025.</p>
+            </div>
+
+            <form id="rsvpForm" class="space-y-8 reveal-section bg-surface-light p-8 md:p-12 border border-white/5 shadow-2xl">
+                <div class="relative group">
+                    <input type="text" id="name" name="name" required class="w-full bg-surface border border-white/20 p-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all peer placeholder-transparent" placeholder="Nume Complet">
+                    <label for="name" class="absolute left-4 top-4 text-white/50 text-sm transition-all peer-focus:-top-3 peer-focus:left-2 peer-focus:bg-surface-light peer-focus:px-2 peer-focus:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-base">Numele Familei / Invitaților</label>
+                </div>
+
+                <div class="relative group">
+                    <input type="email" id="email" name="email" required class="w-full bg-surface border border-white/20 p-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all peer placeholder-transparent" placeholder="Email">
+                    <label for="email" class="absolute left-4 top-4 text-white/50 text-sm transition-all peer-focus:-top-3 peer-focus:left-2 peer-focus:bg-surface-light peer-focus:px-2 peer-focus:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-base">Adresa de Email</label>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 justify-center py-4">
+                    <label class="flex items-center space-x-3 cursor-pointer bg-surface p-4 border border-white/10 hover:border-primary transition-colors flex-1">
+                        <input type="radio" name="attendance" value="yes" class="form-radio text-primary focus:ring-primary h-5 w-5 bg-surface-light border-white/30" checked>
+                        <span>Confirm cu plăcere</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer bg-surface p-4 border border-white/10 hover:border-red-400 transition-colors flex-1">
+                        <input type="radio" name="attendance" value="no" class="form-radio text-red-500 focus:ring-red-500 h-5 w-5 bg-surface-light border-white/30">
+                        <span>Din păcate nu pot ajunge</span>
+                    </label>
+                </div>
+
+                <div class="relative">
+                    <label class="block text-xs uppercase tracking-widest text-white/50 mb-2">Număr persoane</label>
+                    <select class="w-full bg-surface border border-white/20 p-4 text-white focus:outline-none focus:border-primary transition-all">
+                        <option>1 Persoană</option>
+                        <option>2 Persoane</option>
+                        <option>3 Persoane</option>
+                        <option>Familie (4+)</option>
+                    </select>
+                </div>
+
+                <div class="relative group">
+                    <textarea id="message" rows="3" class="w-full bg-surface border border-white/20 p-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all peer placeholder-transparent" placeholder="Mesaj"></textarea>
+                    <label for="message" class="absolute left-4 top-4 text-white/50 text-sm transition-all peer-focus:-top-3 peer-focus:left-2 peer-focus:bg-surface-light peer-focus:px-2 peer-focus:text-primary peer-placeholder-shown:top-4 peer-placeholder-shown:text-base">Mesaj pentru miri / Preferințe alimentare</label>
+                </div>
+
+                <button type="submit" class="w-full bg-primary text-surface py-4 font-bold uppercase tracking-widest hover:bg-white transition-all duration-300">Trimite Confirmarea</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-surface border-t border-white/10 pt-20 pb-10 text-center">
+        <h2 class="font-serif text-3xl italic text-white mb-6">Isabella & Marcus</h2>
+        <div class="flex justify-center space-x-8 mb-10">
+            <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-primary hover:border-primary hover:text-surface transition-all">
+                IG
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-primary hover:border-primary hover:text-surface transition-all">
+                FB
+            </a>
+        </div>
+        <p class="text-white/30 text-xs font-sans tracking-widest uppercase">© 2025 The Wedding. All rights reserved.</p>
+    </footer>
+
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 hidden flex items-center justify-center opacity-0 pointer-events-none">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white hover:text-primary z-50">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <button onclick="prevImage()" class="absolute left-6 text-white hover:text-primary z-50 hidden md:block">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        <img id="lightbox-img" src="" class="max-h-[90vh] max-w-[90vw] object-contain shadow-2xl border-4 border-white/10">
+        <button onclick="nextImage()" class="absolute right-6 text-white hover:text-primary z-50 hidden md:block">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+    </div>
+
+    <script>
+        // LOADER
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('loader-hidden');
+                document.body.style.overflow = 'auto';
+            }, 1000);
+        });
+
+        // NAVBAR SCROLL (Glass Effect with CSS Variable)
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                // Apply glass-nav class which uses variable + opacity
+                navbar.classList.add('glass-nav', 'py-4');
+                navbar.classList.remove('py-6');
+            } else {
+                navbar.classList.remove('glass-nav', 'py-4');
+                navbar.classList.add('py-6');
+            }
+        });
+
+        // MOBILE MENU
+        const mobileMenu = document.getElementById('mobile-menu');
+        function toggleMenu() {
+            mobileMenu.classList.toggle('translate-x-full');
+        }
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMenu);
+
+        // COUNTDOWN
+        const weddingDate = new Date("August 24, 2025 15:00:00").getTime();
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").innerHTML = "<div class='col-span-4 text-4xl font-serif text-primary'>Evenimentul a început!</div>";
+            }
+        }, 1000);
+
+        // SCROLL REVEAL
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+        document.querySelectorAll('.reveal-section').forEach(el => observer.observe(el));
+
+        // LIGHTBOX
+        const images = [
+            "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1600&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=1600&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1600&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1520854221256-17451cc330e7?q=80&w=1600&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1600&auto=format&fit=crop"
+        ];
+        let currentImageIndex = 0;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            lightboxImg.src = images[currentImageIndex];
+            lightbox.classList.remove('hidden');
+            setTimeout(() => lightbox.classList.remove('opacity-0', 'pointer-events-none'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => lightbox.classList.add('hidden'), 300);
+            document.body.style.overflow = 'auto';
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        }
+
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+        // FORM
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            btn.innerText = "Se trimite...";
+            btn.classList.add('opacity-75');
+            setTimeout(() => {
+                btn.innerText = "Mulțumim! Confirmare trimisă.";
+                btn.classList.remove('bg-primary', 'text-surface');
+                btn.classList.add('bg-green-600', 'text-white');
+                this.reset();
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

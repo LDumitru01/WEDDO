@@ -1,78 +1,70 @@
-/* template10.css */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Jost:wght@300;400;500&display=swap');
+/* template10.css - The Editorial Wedding */
+
+/* 1. IMPORT FONTURI (Playfair Display + Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-    /* --- CONFIGURARE CULORI (LUXURY MONOCHROME) --- */
+    /* --- PALETA DE CULORI (Minimalist Black & White) --- */
+    --bg-color: #ffffff;
+    --text-color: #111111;
+    --accent-color: #666666;
     
-    /* 1. Fundalul (Alb Cald / Crem) */
-    --bg-color: 245, 245, 240; 
-    
-    /* 2. Textul Principal (Negru Soft) */
-    --text-color: 20, 20, 20;
-    
-    /* 3. Accent (Auriu Șters / Bej) */
-    --accent-color: 180, 160, 120;
+    /* --- FONTURI --- */
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Inter', sans-serif;
 }
 
+/* 2. SETĂRI GENERALE */
 body {
-    background-color: rgb(var(--bg-color));
-    color: rgb(var(--text-color));
-    font-family: 'Jost', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-sans);
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Previne scroll orizontal nedorit */
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Titluri de lux */
-h1, h2, h3, .font-lux {
-    font-family: 'Cinzel', serif;
-    text-transform: uppercase;
-    font-weight: 400;
+h1, h2, h3, h4 {
+    font-family: var(--font-serif);
 }
 
-/* --- 1. HERO ANIMATION --- */
+/* 3. HERO SECTION */
 .hero-img-container {
-    width: 100%;
-    height: 100vh;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     overflow: hidden;
-    position: relative;
+    background-color: #000; /* Fallback */
 }
+
 .hero-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    animation: zoomOut 10s infinite alternate;
-}
-@keyframes zoomOut {
-    from { transform: scale(1.1); }
-    to { transform: scale(1); }
+    opacity: 0.8;
+    animation: zoomEffect 20s infinite alternate;
 }
 
-/* --- 2. MARQUEE (Text care curge) --- */
-.marquee-wrapper {
-    background: rgb(var(--text-color));
-    color: rgb(var(--bg-color));
-    padding: 15px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    position: relative;
-    z-index: 10;
-}
-.marquee-content {
-    display: inline-block;
-    animation: scrollText 20s linear infinite;
-    font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    letter-spacing: 5px;
-}
-@keyframes scrollText {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+@keyframes zoomEffect {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
 }
 
-/* --- 3. STICKY SCROLL SECTION (COMPLEX) --- */
-/* Aceasta este tehnica "WOW". Containerul este înalt (300vh), dar conținutul stă lipit. */
+/* 4. MARQUEE (Banda cu text derulant) */
+.animate-marquee {
+    animation: marquee 30s linear infinite;
+    display: inline-block; /* Asigură curgerea corectă */
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); } /* Ajustat pentru conținut duplicat */
+}
+
+/* 5. STICKY SCROLL STORY (Mire & Mireasă) */
 .sticky-wrapper {
-    height: 300vh; /* Lungimea scroll-ului pentru poveste */
+    /* Această înălțime permite scroll-ul "în loc" */
+    height: 300vh; 
     position: relative;
 }
 
@@ -82,80 +74,84 @@ h1, h2, h3, .font-lux {
     height: 100vh;
     width: 100%;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: var(--bg-color);
 }
 
-/* Cele două "Slide-uri" (El și Ea) sunt suprapuse */
 .story-slide {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    opacity: 0; /* Ascuns inițial */
-    transition: opacity 0.8s ease-in-out, transform 0.8s ease;
-    background-color: rgb(var(--bg-color));
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Ascuns implicit */
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-out;
+    transform: scale(0.95); /* Efect subtil de zoom-in la apariție */
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
+    background-color: var(--bg-color);
 }
 
+/* Clasa adăugată de JS pentru a afișa slide-ul curent */
 .story-slide.active {
-    opacity: 1; /* Vizibil */
-    z-index: 5;
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
 }
 
-.story-inner {
-    display: flex;
-    flex-direction: column;
-    md:flex-direction: row;
-    width: 90%;
-    max-width: 1200px;
-    height: 80%;
-    gap: 40px;
-    align-items: center;
-}
-
-/* --- 4. FORMULAR MINIMALIST --- */
+/* 6. FORMULAR & BUTOANE */
 .input-line {
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(var(--text-color), 0.3);
+    border-bottom: 1px solid #ccc;
     padding: 15px 0;
-    font-family: 'Cinzel', serif;
+    font-family: var(--font-serif);
     font-size: 1.1rem;
-    color: rgb(var(--text-color));
+    color: var(--text-color);
     outline: none;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    border-radius: 0; /* Elimină rotunjirea pe iOS */
 }
+
 .input-line:focus {
-    border-bottom: 1px solid rgb(var(--text-color));
-    padding-left: 10px;
+    border-bottom-color: var(--text-color);
 }
 
 .btn-outline {
-    border: 1px solid rgb(var(--text-color));
+    display: inline-block;
+    border: 1px solid var(--text-color);
     background: transparent;
-    color: rgb(var(--text-color));
+    color: var(--text-color);
     padding: 15px 40px;
-    font-family: 'Cinzel', serif;
-    font-size: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
+
 .btn-outline:hover {
-    background: rgb(var(--text-color));
-    color: rgb(var(--bg-color));
+    background: var(--text-color);
+    color: var(--bg-color);
 }
 
-/* Utilitar pentru imagini artistice */
-.art-img {
-    filter: grayscale(100%);
-    transition: filter 0.5s;
+/* 7. UTILITARE & ANIMATII */
+.mix-blend-overlay {
+    mix-blend-mode: overlay;
 }
-.art-img:hover {
-    filter: grayscale(0%);
+
+/* Smooth reveal pentru elementele care intră în ecran */
+.reveal-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease-out;
+}
+
+.reveal-scroll.active {
+    opacity: 1;
+    transform: translateY(0);
 }

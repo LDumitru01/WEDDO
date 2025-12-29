@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Golden Thread | Destiny</title>
+    <title class="data-seo-title">The Golden Thread | Destiny</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -49,7 +49,7 @@
         .checkpoint {
             width: 10px; height: 10px; background: var(--gold);
             border-radius: 50%; position: absolute;
-            transform: translate(-50%, -50%);
+            left: 50%; transform: translate(-50%, -50%);
             box-shadow: 0 0 20px var(--gold);
             z-index: 10;
         }
@@ -90,6 +90,17 @@
             outline: none; transition: 0.3s;
         }
         input:focus { border-color: var(--gold); }
+        option { background: #121212; color: #F2F2F2; }
+
+        /* NAV */
+        nav {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(18,18,18,0.8); backdrop-filter: blur(10px);
+            border: 1px solid var(--gold-dim); padding: 10px 30px; border-radius: 50px;
+            z-index: 100; display: flex; gap: 20px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;
+        }
+        nav a { color: var(--text); text-decoration: none; opacity: 0.7; transition: 0.3s; }
+        nav a:hover { opacity: 1; color: var(--gold); }
 
     </style>
 </head>
@@ -101,98 +112,191 @@
         </svg>
     </div>
 
+    <nav>
+        <a href="#sec-hero">Start</a>
+        <a href="#sec-couple">Miri</a>
+        <a href="#sec-timeline">Info</a>
+        <a href="#sec-rsvp">RSVP</a>
+    </nav>
+
     <main id="mainContent">
 
         <section class="full-h flex-col text-center relative" id="sec-hero">
-            <div class="checkpoint" style="top: 20%; left: 50%;"></div> <p class="text-[var(--gold)] tracking-[0.5em] uppercase text-xs mb-10">Începutul</p>
-            <h1 class="hero-title font-serif">MATEI</h1>
+            <div class="checkpoint" style="top: 20%;"></div> 
+            
+            <p class="text-[var(--gold)] tracking-[0.5em] uppercase text-xs mb-10">Începutul</p>
+            
+            <h1 class="hero-title font-serif data-groom-firstname">MATEI</h1>
             <div class="font-hand text-[8vw] text-[var(--gold)] my-[-2vw] relative z-10">&</div>
-            <h1 class="hero-title font-serif">ELENA</h1>
+            <h1 class="hero-title font-serif data-bride-firstname">ELENA</h1>
             
-            <div class="checkpoint" style="bottom: 10%; left: 50%;"></div> </section>
+            <div class="checkpoint" style="bottom: 10%;"></div> 
+        </section>
 
 
-        <section class="py-20 text-center relative" id="sec-date">
-            <div class="info-card max-w-2xl mx-auto relative">
-                <div class="checkpoint" style="top: 0; left: 50%;"></div> <h2 class="text-6xl font-serif mb-4">24 August</h2>
-                <p class="text-xl tracking-widest text-[var(--gold)]">2025</p>
-                <div class="h-20"></div> <p class="font-hand text-4xl opacity-70">"Ziua în care timpul s-a oprit"</p>
+        <section id="sec-date-banner" class="py-0 border-y border-[var(--gold-dim)] bg-[#0a0a0a] relative z-20">
+            <div class="overflow-hidden whitespace-nowrap py-4">
+                <div class="flex animate-marquee text-[var(--gold)] tracking-[0.5em] uppercase text-xs">
+                    <span class="mx-10 data-wedding-date">24 AUGUST 2025</span>
+                    <span class="mx-10">SAVE THE DATE</span>
+                    <span class="mx-10 data-wedding-date">24 AUGUST 2025</span>
+                    <span class="mx-10">SAVE THE DATE</span>
+                </div>
+            </div>
+        </section>
+
+
+        <div id="sec-couple">
+            
+            <section class="min-h-screen flex items-center relative">
+                <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+                    <div class="relative order-2 md:order-1">
+                        <div class="checkpoint" style="top: 50%; right: -10px; left: auto;"></div> 
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="life-img reveal-img data-img-groom">
+                    </div>
+                    <div class="text-left order-1 md:order-2">
+                        <span class="text-[var(--gold)] text-xs uppercase tracking-widest">El este</span>
+                        <h2 class="text-6xl font-serif mb-6 data-groom-fullname">MATEI POPESCU</h2>
+                        <p class="opacity-70 leading-relaxed max-w-md data-groom-desc">
+                            Un vizionar pragmatic. Cel care construiește fundația pe care dansăm.
+                        </p>
+                    </div>
+                </div>
+                <div class="checkpoint" style="bottom: 0;"></div>
+            </section>
+
+            <section class="min-h-screen flex items-center relative">
+                <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+                    <div class="text-right flex flex-col items-end">
+                        <span class="text-[var(--gold)] text-xs uppercase tracking-widest">Ea este</span>
+                        <h2 class="text-6xl font-serif mb-6 data-bride-fullname">ELENA IONESCU</h2>
+                        <p class="opacity-70 leading-relaxed max-w-md data-bride-desc">
+                            Sufletul culorilor. Cea care aduce lumină în cele mai întunecate încăperi.
+                        </p>
+                    </div>
+                    <div class="relative">
+                        <div class="checkpoint" style="top: 50%; left: -10px;"></div> 
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="life-img reveal-img data-img-bride">
+                    </div>
+                </div>
+                <div class="checkpoint" style="bottom: 0;"></div>
+            </section>
+
+        </div>
+
+
+        <section id="sec-timeline" class="py-20 relative">
+            <div class="checkpoint" style="top: 0;"></div>
+            
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-serif">Program</h2>
+            </div>
+
+            <div class="max-w-2xl mx-auto space-y-12 relative border-l border-[var(--gold-dim)] pl-10 ml-4 md:ml-auto md:mr-auto">
                 
-                <div class="checkpoint" style="bottom: 0; left: 50%;"></div> </div>
-        </section>
-
-
-        <section class="min-h-screen flex items-center relative" id="sec-he">
-            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-                <div class="relative order-2 md:order-1">
-                    <div class="checkpoint" style="top: 50%; right: -10px;"></div> <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="life-img reveal-img">
+                <div class="relative data-event-item">
+                    <div class="absolute -left-[45px] top-2 w-4 h-4 bg-[var(--gold)] rounded-full"></div>
+                    <span class="text-[var(--gold)] text-xl font-serif block mb-1 data-event-time">16:00</span>
+                    <h3 class="text-3xl font-serif mb-1 data-event-title">Cununia Religioasă</h3>
+                    <p class="opacity-60 text-sm uppercase tracking-widest data-event-location">Mănăstirea Curchi</p>
                 </div>
-                <div class="text-left order-1 md:order-2">
-                    <span class="text-[var(--gold)] text-xs uppercase tracking-widest">El este</span>
-                    <h2 class="text-6xl font-serif mb-6">MATEI</h2>
-                    <p class="opacity-70 leading-relaxed max-w-md">
-                        Un vizionar pragmatic. Cel care construiește fundația pe care dansăm.
-                    </p>
+
+                <div class="relative data-event-item">
+                    <div class="absolute -left-[45px] top-2 w-4 h-4 bg-[var(--gold)] rounded-full"></div>
+                    <span class="text-[var(--gold)] text-xl font-serif block mb-1 data-event-time">19:00</span>
+                    <h3 class="text-3xl font-serif mb-1 data-event-title">Recepția & Petrecerea</h3>
+                    <p class="opacity-60 text-sm uppercase tracking-widest data-event-location">Sala Oglinzilor</p>
                 </div>
-            </div>
-        </section>
 
-
-        <section class="min-h-screen flex items-center relative" id="sec-she">
-            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-                <div class="text-right flex flex-col items-end">
-                    <span class="text-[var(--gold)] text-xs uppercase tracking-widest">Ea este</span>
-                    <h2 class="text-6xl font-serif mb-6">ELENA</h2>
-                    <p class="opacity-70 leading-relaxed max-w-md">
-                        Sufletul culorilor. Cea care aduce lumină în cele mai întunecate încăperi.
-                    </p>
+                <div class="relative data-event-item">
+                    <div class="absolute -left-[45px] top-2 w-4 h-4 bg-[var(--gold)] rounded-full"></div>
+                    <span class="text-[var(--gold)] text-xl font-serif block mb-1 data-event-time">02:00</span>
+                    <h3 class="text-3xl font-serif mb-1 data-event-title">Tortul</h3>
+                    <p class="opacity-60 text-sm uppercase tracking-widest data-event-location">Terasa Principală</p>
                 </div>
-                <div class="relative">
-                    <div class="checkpoint" style="top: 50%; left: -10px;"></div> <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="life-img reveal-img">
-                </div>
-            </div>
-        </section>
 
-
-        <section class="min-h-screen flex items-center justify-center relative" id="sec-loc">
-            <div class="absolute inset-0 z-0 opacity-20">
-                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1600" class="w-full h-full object-cover">
             </div>
             
-            <div class="info-card relative z-10 text-center w-full max-w-4xl border-[var(--gold)]">
-                <div class="checkpoint" style="top: -20px; left: 50%;"></div>
+            <div class="checkpoint" style="bottom: 0;"></div>
+        </section>
+
+
+        <section class="min-h-screen flex items-center justify-center relative" id="sec-location">
+            <div class="absolute inset-0 z-0 opacity-30">
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1600" class="w-full h-full object-cover data-img-location-bg">
+            </div>
+            
+            <div class="info-card relative z-10 text-center w-full max-w-3xl border-[var(--gold)]">
+                <div class="checkpoint" style="top: -20px;"></div>
                 
-                <h2 class="text-5xl md:text-7xl font-serif mb-10">PALATUL<br>NOBLESSE</h2>
+                <p class="text-[var(--gold)] uppercase tracking-widest mb-4">Locația Evenimentului</p>
+                <h2 class="text-5xl md:text-7xl font-serif mb-10 data-location-name">PALATUL<br>NOBLESSE</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left border-t border-[var(--gold-dim)] pt-10">
                     <div>
-                        <h4 class="text-[var(--gold)] uppercase tracking-widest mb-2">Ceremonia</h4>
-                        <p class="text-xl">Ora 16:00</p>
-                        <p class="opacity-50 text-sm">Grădina de Vară</p>
+                        <h4 class="text-[var(--gold)] uppercase tracking-widest mb-2">Ora</h4>
+                        <p class="text-xl data-time-reception">19:00</p>
                     </div>
                     <div>
-                        <h4 class="text-[var(--gold)] uppercase tracking-widest mb-2">Recepția</h4>
-                        <p class="text-xl">Ora 19:00</p>
-                        <p class="opacity-50 text-sm">Sala Oglinzilor</p>
+                        <h4 class="text-[var(--gold)] uppercase tracking-widest mb-2">Navigare</h4>
+                        <a href="#" target="_blank" class="border-b border-[var(--text)] pb-1 hover:text-[var(--gold)] hover:border-[var(--gold)] transition data-map-link">Vezi Harta</a>
                     </div>
                 </div>
 
-                <div class="checkpoint" style="bottom: -20px; left: 50%;"></div>
+                <div class="checkpoint" style="bottom: -20px;"></div>
             </div>
         </section>
 
 
-        <section class="py-20 relative overflow-hidden" id="sec-gal">
-            <div class="mb-10 text-center">
-                <div class="checkpoint" style="position:relative; display:inline-block; margin-bottom:20px;"></div>
+        <section id="sec-details" class="py-20 relative">
+            <div class="checkpoint" style="top: 0;"></div>
+
+            <div class="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+                
+                <div class="info-card text-center" id="sec-godparents">
+                    <h3 class="text-3xl font-serif mb-6 text-[var(--gold)]">Nașii Noștri</h3>
+                    
+                    <div class="flex justify-center gap-6 mb-6">
+                        <img src="https://images.unsplash.com/photo-1551024601-562963525c2c?w=200" class="w-20 h-20 rounded-full border border-[var(--gold)] object-cover grayscale data-img-godfather">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200" class="w-20 h-20 rounded-full border border-[var(--gold)] object-cover grayscale data-img-godmother">
+                    </div>
+                    
+                    <h4 class="text-2xl font-serif mb-2">
+                        <span class="data-godfather-name">Radu</span> & <span class="data-godmother-name">Elena</span>
+                    </h4>
+                    <p class="opacity-50 text-sm tracking-widest uppercase">Familia Ionescu</p>
+                </div>
+
+                <div class="info-card text-center" id="sec-dresscode">
+                    <h3 class="text-3xl font-serif mb-6 text-[var(--gold)]">Dress Code</h3>
+                    <h4 class="text-4xl font-hand mb-4 data-dresscode-title">Black Tie</h4>
+                    <p class="opacity-70 leading-relaxed mb-6 data-dresscode-desc">
+                        Vă invităm să purtați ținute elegante. Rugăm doamnele să evite albul.
+                    </p>
+                    <div class="flex justify-center gap-4">
+                        <div class="w-8 h-8 rounded-full bg-[#121212] border border-[#333]"></div>
+                        <div class="w-8 h-8 rounded-full bg-[#D4AF37]"></div>
+                        <div class="w-8 h-8 rounded-full bg-[#F2F2F2]"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="checkpoint" style="bottom: 0;"></div>
+        </section>
+
+
+        <section class="py-20 relative overflow-hidden" id="sec-gallery">
+            <div class="mb-10 text-center relative">
+                <div class="checkpoint" style="position:relative; margin-bottom: 20px;"></div>
                 <h2 class="text-4xl font-serif">Firul Amintirilor</h2>
             </div>
             
             <div class="gallery-strip" id="galleryStrip">
-                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=600" class="gal-img">
-                <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="gal-img">
-                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="gal-img">
-                <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=600" class="gal-img">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=600" class="gal-img data-gallery-img-1">
+                <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="gal-img data-gallery-img-2">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="gal-img data-gallery-img-3">
+                <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=600" class="gal-img data-gallery-img-1">
             </div>
         </section>
 
@@ -202,30 +306,31 @@
                 <div class="checkpoint" style="margin: 0 auto 40px auto; position:relative;"></div>
                 
                 <h2 class="text-5xl font-serif mb-2">Leagă Nodul</h2>
-                <p class="text-[var(--gold)] font-hand text-3xl mb-12">Confirmă prezența</p>
+                <p class="text-[var(--gold)] font-hand text-3xl mb-12">Confirmă prezența până la <span class="data-rsvp-deadline">1 August</span></p>
 
-                <form class="text-left space-y-8">
+                <form onsubmit="handleRSVP(event)" class="text-left space-y-8">
                     <div>
                         <label class="text-xs uppercase tracking-widest text-gray-500">Nume</label>
-                        <input type="text" placeholder="ex: Popescu Ion">
+                        <input type="text" name="nume" placeholder="ex: Popescu Ion" required>
                     </div>
                     <div class="flex gap-8">
                         <div class="w-1/2">
                             <label class="text-xs uppercase tracking-widest text-gray-500">Persoane</label>
-                            <select>
-                                <option>1</option>
-                                <option>2</option>
+                            <select name="numar_persoane">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
                             </select>
                         </div>
                         <div class="w-1/2">
                             <label class="text-xs uppercase tracking-widest text-gray-500">Răspuns</label>
-                            <select>
-                                <option>Prezent</option>
-                                <option>Absent</option>
+                            <select name="confirmare">
+                                <option value="da">Prezent</option>
+                                <option value="nu">Absent</option>
                             </select>
                         </div>
                     </div>
-                    <button class="w-full py-4 mt-8 border border-[var(--gold)] text-[var(--gold)] hover:bg-[var(--gold)] hover:text-black transition uppercase tracking-widest">
+                    <button type="submit" class="w-full py-4 mt-8 border border-[var(--gold)] text-[var(--gold)] hover:bg-[var(--gold)] hover:text-black transition uppercase tracking-widest">
                         Trimite
                     </button>
                 </form>
@@ -238,116 +343,6 @@
 
     </main>
 
-    <script>
-        // === 1. SETUP ===
-        gsap.registerPlugin(ScrollTrigger);
-        const lenis = new Lenis({ duration: 1.2, smooth: true });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        // === 2. GENERARE DINAMICĂ A LINIEI (ALGORITMUL COMPLEX) ===
-        function drawTheLine() {
-            const svg = document.getElementById('svgContainer');
-            const path = document.getElementById('theLine');
-            const points = document.querySelectorAll('.checkpoint');
-            const main = document.getElementById('mainContent');
-            
-            // Resize SVG to fit content height
-            svg.style.height = main.scrollHeight + 'px';
-
-            let d = "";
-            let positions = [];
-
-            // 1. Colectăm coordonatele tuturor punctelor
-            points.forEach((pt, i) => {
-                const rect = pt.getBoundingClientRect();
-                const scrollY = window.scrollY;
-                const x = rect.left + rect.width / 2;
-                const y = rect.top + scrollY + rect.height / 2;
-                positions.push({x, y});
-            });
-
-            // 2. Construim Path-ul (Curbe Bezier)
-            if (positions.length > 0) {
-                d = `M ${positions[0].x} ${positions[0].y}`; // Move to start
-
-                for (let i = 0; i < positions.length - 1; i++) {
-                    const p1 = positions[i];
-                    const p2 = positions[i+1];
-                    
-                    // Calculăm puncte de control pentru curbe fine (Sigmoid)
-                    // Punctele de control sunt la jumătatea distanței pe Y
-                    const cp1y = p1.y + (p2.y - p1.y) / 2;
-                    const cp2y = p1.y + (p2.y - p1.y) / 2;
-
-                    // Curba Bezier Cubică: C cp1x cp1y, cp2x cp2y, x y
-                    d += ` C ${p1.x} ${cp1y}, ${p2.x} ${cp2y}, ${p2.x} ${p2.y}`;
-                }
-            }
-
-            path.setAttribute('d', d);
-
-            // 3. Animăm Desenarea Liniei
-            const length = path.getTotalLength();
-            
-            // Setăm linia ca fiind "nevăzută" inițial
-            path.style.strokeDasharray = length;
-            path.style.strokeDashoffset = length;
-
-            // GSAP ScrollTrigger pentru a "desena" linia pe măsură ce scrollezi
-            gsap.fromTo(path, 
-                { strokeDashoffset: length },
-                {
-                    strokeDashoffset: 0,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: "body",
-                        start: "top top",
-                        end: "bottom bottom",
-                        scrub: 1
-                    }
-                }
-            );
-        }
-
-        // Desenăm la load și la resize
-        window.addEventListener('load', drawTheLine);
-        window.addEventListener('resize', () => {
-            // Mic delay pentru a aștepta recalcularea layout-ului
-            setTimeout(drawTheLine, 100);
-        });
-
-
-        // === 3. TEXT REVEALS ===
-        gsap.to('.hero-title', {
-            y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power4.out"
-        });
-
-        // === 4. IMAGE BLOOM EFFECT ===
-        // Când linia ajunge în dreptul imaginii, aceasta se "aprinde"
-        const images = document.querySelectorAll('.reveal-img');
-        images.forEach(img => {
-            ScrollTrigger.create({
-                trigger: img,
-                start: "top 60%", // Când imaginea e la 60% din ecran
-                onEnter: () => img.classList.add('active'),
-                onLeaveBack: () => img.classList.remove('active')
-            });
-        });
-
-        // === 5. HORIZONTAL GALLERY SCROLL ===
-        const galStrip = document.getElementById('galleryStrip');
-        gsap.to(galStrip, {
-            x: () => -(galStrip.scrollWidth - window.innerWidth),
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#sec-gal",
-                pin: true,
-                scrub: 1,
-                end: () => "+=" + galStrip.scrollWidth
-            }
-        });
-
-    </script>
+    <script src="template2.js"></script>
 </body>
 </html>

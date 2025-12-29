@@ -1,0 +1,114 @@
+:root {
+  --bg-body: #0e0e0e;
+  --bg-card: #1a1a1a;
+  --text-main: #e0e0e0;
+  --accent: #c4a05e; /* Gold Muted */
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  overflow-x: hidden;
+  cursor: crosshair; /* Cursor neobișnuit */
+}
+
+/* TEXTURA DE FILM (NOISE) */
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.07;
+  background: url("https://grainy-gradients.vercel.app/noise.svg");
+}
+
+/* TIPOGRAFIE */
+.font-serif {
+  font-family: "Italiana", serif;
+}
+.font-sans {
+  font-family: "Archivo", sans-serif;
+}
+
+/* INTERACTIVITATE MIRII (EXPAND) */
+.couple-container {
+  display: flex;
+  height: 80vh;
+  width: 100%;
+  overflow: hidden;
+}
+.couple-panel {
+  position: relative;
+  flex: 1;
+  transition: flex 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow: hidden;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+/* Pe desktop, când faci hover, panoul crește */
+@media (min-width: 768px) {
+  .couple-panel:hover {
+    flex: 2.5;
+  }
+  .couple-panel img {
+    transition: transform 0.8s;
+  }
+  .couple-panel:hover img {
+    transform: scale(1.1);
+  }
+
+  /* Ascundem textul și îl arătăm la hover */
+  .couple-info {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+  }
+  .couple-panel:hover .couple-info {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* SCROLLING MARQUEE (TEXT CARE CURGE) */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.marquee-content {
+  display: flex;
+  animation: scroll 20s linear infinite;
+}
+.marquee-item {
+  font-size: 4rem;
+  text-transform: uppercase;
+  padding: 0 40px;
+  font-family: "Archivo", sans-serif;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-main);
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* REVEAL ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease;
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nunta Noastră - Design Costești</title>
+    <title class="data-seo-title">Nunta Noastră - Design Costești</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -16,11 +15,11 @@
             theme: {
                 extend: {
                     colors: {
-                        'sage': '#A8B688',       /* Verdele specific butoanelor/accentelor */
-                        'cream': '#F4F7F0',      /* Fundalul general foarte deschis */
-                        'pale-green': '#DBE6C9', /* Fundalul secțiunii Contacte/RSVP */
-                        'forest': '#2C3E28',     /* Text închis / Dark Green */
-                        'stone': '#5C5C5C',      /* Text secundar gri */
+                        'sage': '#A8B688',       /* Verde salvie */
+                        'cream': '#F4F7F0',      /* Fundal crem */
+                        'pale-green': '#DBE6C9', /* Fundal secundar */
+                        'forest': '#2C3E28',     /* Text închis */
+                        'stone': '#5C5C5C',      /* Text gri */
                     },
                     fontFamily: {
                         serif: ['Playfair Display', 'serif'],
@@ -40,7 +39,6 @@
         body { font-family: 'Lato', sans-serif; color: #2C3E28; background-color: #F4F7F0; }
         h1, h2, h3, h4, h5 { font-family: 'Playfair Display', serif; }
         
-        /* Smooth Scroll */
         html { scroll-behavior: smooth; }
 
         /* Custom Scrollbar */
@@ -52,7 +50,7 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Costești Button Style (Boxy, Uppercase) */
+        /* Button Style */
         .btn-costesti {
             border: 1px solid #2C3E28;
             color: #2C3E28;
@@ -63,6 +61,7 @@
             transition: all 0.3s ease;
             display: inline-block;
             background: transparent;
+            cursor: pointer;
         }
         .btn-costesti:hover {
             background-color: #A8B688;
@@ -70,7 +69,7 @@
             color: white;
         }
 
-        /* Input Style (Bottom Border Only) */
+        /* Input Style */
         .input-line {
             background: transparent;
             border: none;
@@ -80,10 +79,11 @@
             outline: none;
             font-family: 'Playfair Display', serif;
             color: #2C3E28;
+            font-size: 1.1rem;
         }
         .input-line:focus { border-bottom: 2px solid #2C3E28; }
 
-        /* Navigation Button */
+        /* Nav Toggle */
         .nav-toggle {
             position: fixed; top: 20px; right: 20px; z-index: 100;
             background: #A8B688; color: white;
@@ -98,59 +98,15 @@
 </head>
 <body>
 
-    <script>
-        const weddingData = {
-            couple: "Maria & Andrei",
-            date: "24 August 2025",
-            location: "Complexul Turistic Costești",
-            heroImage: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1920", // Lac/Natură
-            about: {
-                title: "Povestea Noastră",
-                text: "Într-un cadru de poveste, unde natura îmbrățișează lacul, am decis să ne unim destinele. Vă invităm să fiți parte din cel mai frumos capitol al vieții noastre.",
-                image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800"
-            },
-            locations: [ // Similar cu Cardurile "Cazare/Foișoare"
-                { title: "Cununia", img: "https://images.unsplash.com/photo-1544078751-58fee2d8a03b?q=80&w=600", desc: "Mănăstirea Curchi, Ora 16:00" },
-                { title: "Petrecerea", img: "https://images.unsplash.com/photo-1519225469958-305e68780cf9?q=80&w=600", desc: "Sala Grand, Ora 18:00" }
-            ],
-            menu: [
-                { category: "Gustare Rece", items: ["Tartine cu icre roșii", "Rulouri de somon", "Brânzeturi fine"] },
-                { category: "Fel Principal", items: ["File de șalău", "Mușchi de vită", "Legume la grătar"] },
-                { category: "Desert", items: ["Tort Festiv", "Candy Bar", "Fructe de sezon"] }
-            ],
-            facilities: [
-                { icon: "fa-parking", name: "Parcare Privată" },
-                { icon: "fa-bed", name: "Cazare Hotel" },
-                { icon: "fa-wifi", name: "Wi-Fi Gratuit" },
-                { icon: "fa-tree", name: "Zonă Parc" },
-                { icon: "fa-camera", name: "Locuri Foto" },
-                { icon: "fa-child", name: "Loc de Joacă" }
-            ],
-            timeline: [
-                { time: "16:00", event: "Cununia Religioasă" },
-                { time: "17:30", event: "Welcome Drink" },
-                { time: "18:30", event: "Masa Mare" },
-                { time: "22:00", event: "Dansul Mirilor" },
-                { time: "02:00", event: "Tortul" }
-            ],
-            faq: [
-                { q: "Există cod vestimentar?", a: "Da, Black Tie Optional." },
-                { q: "Pot veni cu copiii?", a: "Desigur, avem un loc de joacă special amenajat." },
-                { q: "Unde ne putem caza?", a: "Complexul oferă camere de hotel. Vă rugăm să specificați în RSVP." }
-            ]
-        };
-    </script>
-
     <div id="nav-overlay" class="fixed inset-0 bg-forest/95 z-50 transform translate-x-full transition-transform duration-500 flex flex-col items-center justify-center text-white">
         <button onclick="toggleNav()" class="absolute top-6 right-6 text-3xl hover:text-sage">&times;</button>
         <nav class="flex flex-col gap-6 text-center text-xl font-serif tracking-widest">
-            <a href="#home" onclick="toggleNav()" class="hover:text-sage transition">Acasă</a>
-            <a href="#poveste" onclick="toggleNav()" class="hover:text-sage transition">Despre Noi</a>
-            <a href="#locatii" onclick="toggleNav()" class="hover:text-sage transition">Locații</a>
-            <a href="#meniu" onclick="toggleNav()" class="hover:text-sage transition">Meniu & Facilități</a>
-            <a href="#program" onclick="toggleNav()" class="hover:text-sage transition">Program</a>
-            <a href="#galerie" onclick="toggleNav()" class="hover:text-sage transition">Galerie</a>
-            <a href="#rsvp" onclick="toggleNav()" class="hover:text-sage transition">RSVP</a>
+            <a href="#sec-hero" onclick="toggleNav()" class="hover:text-sage transition">Acasă</a>
+            <a href="#sec-about" onclick="toggleNav()" class="hover:text-sage transition">Povestea</a>
+            <a href="#sec-location" onclick="toggleNav()" class="hover:text-sage transition">Locația</a>
+            <a href="#sec-timeline" onclick="toggleNav()" class="hover:text-sage transition">Program</a>
+            <a href="#sec-details" onclick="toggleNav()" class="hover:text-sage transition">Detalii</a>
+            <a href="#sec-rsvp" onclick="toggleNav()" class="hover:text-sage transition">RSVP</a>
         </nav>
     </div>
 
@@ -158,143 +114,182 @@
         <i class="fas fa-bars text-xl"></i>
     </div>
 
-    <header id="home" class="relative h-screen min-h-[600px] flex items-center justify-center text-center text-white bg-fixed bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1920');">
+    <header id="sec-hero" class="relative h-screen min-h-[600px] flex items-center justify-center text-center text-white bg-fixed bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1920');">
         <div class="absolute inset-0 bg-black/30"></div>
         <div class="relative z-10 px-6 reveal active">
             <div class="mb-4 text-sage text-5xl"><i class="fas fa-leaf"></i></div>
-            <h1 class="text-4xl md:text-7xl font-serif tracking-widest mb-6 uppercase" id="hero-names"></h1>
+            <h1 class="text-4xl md:text-7xl font-serif tracking-widest mb-6 uppercase">
+                <span class="data-groom-firstname">Andrei</span> & <span class="data-bride-firstname">Maria</span>
+            </h1>
             <div class="w-24 h-0.5 bg-white/70 mx-auto my-6"></div>
-            <p class="text-lg md:text-xl tracking-mega uppercase font-light" id="hero-date"></p>
-            <p class="mt-2 font-serif italic text-cream/90" id="hero-loc"></p>
+            <p class="text-lg md:text-xl tracking-mega uppercase font-light data-wedding-date">24 August 2025</p>
+            <p class="mt-2 font-serif italic text-cream/90 data-location-name">Complexul Turistic Costești</p>
         </div>
         <div class="absolute bottom-10 animate-bounce text-white/70">
             <i class="fas fa-chevron-down text-2xl"></i>
         </div>
     </header>
 
-    <section id="poveste" class="py-24 px-6 bg-cream">
+    <section id="sec-about" class="py-24 px-6 bg-cream">
         <div class="container mx-auto max-w-5xl flex flex-col md:flex-row items-center gap-12 reveal">
             <div class="md:w-1/2">
-                <img id="about-img" src="" class="w-full shadow-lg rounded-sm" alt="Mirii">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800" class="w-full shadow-lg rounded-sm data-img-couple" alt="Mirii">
             </div>
             <div class="md:w-1/2 text-center md:text-left">
-                <h2 class="text-3xl md:text-4xl text-forest uppercase tracking-widest mb-6" id="about-title"></h2>
+                <h2 class="text-3xl md:text-4xl text-forest uppercase tracking-widest mb-6">Povestea Noastră</h2>
                 <div class="w-16 h-px bg-sage mx-auto md:mx-0 mb-8"></div>
-                <p class="text-stone leading-relaxed mb-8 text-lg font-light" id="about-text"></p>
-                <div class="text-sage text-4xl font-serif">M & A</div>
+                <p class="text-stone leading-relaxed mb-8 text-lg font-light">
+                    Într-un cadru de poveste, unde natura îmbrățișează lacul, am decis să ne unim destinele. Vă invităm să fiți parte din cel mai frumos capitol al vieții noastre.
+                </p>
+                <div class="text-sage text-4xl font-serif data-couple-initials">M & A</div>
             </div>
         </div>
     </section>
 
-    <section id="locatii" class="py-20 bg-white">
+    <section id="sec-location" class="py-20 bg-white">
         <div class="container mx-auto px-6 max-w-5xl">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl text-forest uppercase tracking-widest">Locațiile Noastre</h2>
+                <h2 class="text-3xl text-forest uppercase tracking-widest">Locațiile Evenimentului</h2>
                 <div class="w-16 h-px bg-sage mx-auto mt-4"></div>
             </div>
             
-            <div class="grid md:grid-cols-2 gap-10" id="locations-grid">
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="bg-cream p-6 text-center shadow-md reveal">
+                    <img src="https://images.unsplash.com/photo-1544078751-58fee2d8a03b?q=80&w=600" class="w-full h-48 object-cover mb-4">
+                    <h3 class="text-xl font-serif text-forest mb-2">Cununia Religioasă</h3>
+                    <p class="text-stone text-sm">Mănăstirea Curchi</p>
+                    <a href="#" target="_blank" class="block mt-4 text-sage text-xs uppercase tracking-widest hover:text-forest data-map-link">Vezi Harta</a>
                 </div>
-        </div>
-    </section>
-
-    <section id="meniu" class="py-24 bg-cream relative">
-        <div class="absolute top-0 right-0 opacity-10 pointer-events-none hidden md:block">
-            <img src="https://www.transparenttextures.com/patterns/leaf.png" class="w-64">
-        </div>
-
-        <div class="container mx-auto px-6 max-w-6xl">
-            <div class="grid md:grid-cols-2 gap-16 reveal">
-                <div>
-                    <h3 class="text-2xl text-forest uppercase tracking-widest mb-8 border-b border-sage/30 pb-4">Experiență Culinară</h3>
-                    <div class="space-y-8" id="menu-list">
-                        </div>
-                </div>
-
-                <div>
-                    <h3 class="text-2xl text-forest uppercase tracking-widest mb-8 border-b border-sage/30 pb-4">Facilități Invitați</h3>
-                    <div class="grid grid-cols-2 gap-6" id="facilities-grid">
-                        </div>
+                <div class="bg-cream p-6 text-center shadow-md reveal">
+                    <img src="https://images.unsplash.com/photo-1519225469958-305e68780cf9?q=80&w=600" class="w-full h-48 object-cover mb-4 data-img-location-bg">
+                    <h3 class="text-xl font-serif text-forest mb-2">Petrecerea</h3>
+                    <p class="text-stone text-sm data-location-name">Sala Grand, Costești</p>
+                    <a href="#" target="_blank" class="block mt-4 text-sage text-xs uppercase tracking-widest hover:text-forest data-map-link">Vezi Harta</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="program" class="py-20 bg-white">
+    <section id="sec-timeline" class="py-20 bg-white">
         <div class="container mx-auto px-6 max-w-3xl reveal">
             <h2 class="text-3xl text-center text-forest uppercase tracking-widest mb-16">Programul Zilei</h2>
             
-            <div class="relative border-l-2 border-sage/30 ml-4 md:ml-1/2 space-y-12 pl-8 md:pl-0" id="timeline-container">
+            <div class="relative border-l-2 border-sage/30 ml-4 md:ml-1/2 space-y-12 pl-8 md:pl-0">
+                <div class="relative md:ml-8 data-event-item">
+                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-sage border-2 border-white"></div>
+                    <span class="text-sage font-bold block mb-1 data-event-time">16:00</span>
+                    <h4 class="text-xl font-serif text-forest data-event-title">Cununia Religioasă</h4>
                 </div>
-        </div>
-    </section>
-
-    <section class="py-20 bg-forest text-white text-center relative overflow-hidden group">
-        <div class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition duration-1000" style="background-image: url('https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?q=80&w=1600');"></div>
-        <div class="relative z-10 px-6 reveal">
-            <div class="w-20 h-20 border-2 border-white rounded-full flex items-center justify-center mx-auto mb-6 hover:bg-white hover:text-forest transition cursor-pointer">
-                <i class="fas fa-play ml-1 text-2xl"></i>
-            </div>
-            <h2 class="text-3xl font-serif tracking-widest uppercase mb-2">Tur Virtual</h2>
-            <p class="text-sage uppercase tracking-widest text-sm">Explorează Locația</p>
-        </div>
-    </section>
-
-    <section id="galerie" class="py-20 bg-cream">
-        <div class="container mx-auto px-6 max-w-6xl reveal">
-            <h2 class="text-3xl text-center text-forest uppercase tracking-widest mb-12">Amintiri</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=400" class="w-full h-64 object-cover hover:opacity-80 transition cursor-pointer" onclick="alert('Zoom imagine')">
-                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=400" class="w-full h-64 object-cover hover:opacity-80 transition cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=400" class="w-full h-64 object-cover hover:opacity-80 transition cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=400" class="w-full h-64 object-cover hover:opacity-80 transition cursor-pointer">
+                <div class="relative md:ml-8 data-event-item">
+                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-sage border-2 border-white"></div>
+                    <span class="text-sage font-bold block mb-1 data-event-time">17:30</span>
+                    <h4 class="text-xl font-serif text-forest data-event-title">Welcome Drink</h4>
+                </div>
+                <div class="relative md:ml-8 data-event-item">
+                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-sage border-2 border-white"></div>
+                    <span class="text-sage font-bold block mb-1 data-event-time">18:30</span>
+                    <h4 class="text-xl font-serif text-forest data-event-title">Masa Mare</h4>
+                </div>
+                <div class="relative md:ml-8 data-event-item">
+                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-sage border-2 border-white"></div>
+                    <span class="text-sage font-bold block mb-1 data-event-time">22:00</span>
+                    <h4 class="text-xl font-serif text-forest data-event-title">Dansul Mirilor</h4>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-6 max-w-3xl reveal">
-            <h2 class="text-2xl text-forest uppercase tracking-widest mb-8 text-center">Întrebări Frecvente</h2>
-            <div class="space-y-4" id="faq-list">
+    <section id="sec-details" class="py-24 bg-cream relative">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="grid md:grid-cols-2 gap-16 reveal">
+                
+                <div id="sec-godparents">
+                    <h3 class="text-2xl text-forest uppercase tracking-widest mb-8 border-b border-sage/30 pb-4">Nașii Noștri</h3>
+                    <div class="flex items-center gap-6">
+                        <div class="w-16 h-16 bg-sage/20 rounded-full flex items-center justify-center text-2xl">🕊️</div>
+                        <div>
+                            <h4 class="text-xl font-serif text-forest"><span class="data-godfather-name">Ion</span> & <span class="data-godmother-name">Maria</span></h4>
+                            <p class="text-stone text-sm">Familia Popescu</p>
+                        </div>
+                    </div>
                 </div>
+
+                <div id="sec-dresscode">
+                    <h3 class="text-2xl text-forest uppercase tracking-widest mb-8 border-b border-sage/30 pb-4">Detalii Utile</h3>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-tshirt text-sage"></i>
+                            <div>
+                                <span class="block font-bold text-forest data-dresscode-title">Black Tie</span>
+                                <span class="text-xs text-stone">Dress Code</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-bed text-sage"></i>
+                            <div>
+                                <span class="block font-bold text-forest">Cazare</span>
+                                <span class="text-xs text-stone">La Complex</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-parking text-sage"></i>
+                            <div>
+                                <span class="block font-bold text-forest">Parcare</span>
+                                <span class="text-xs text-stone">Privată</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-wifi text-sage"></i>
+                            <div>
+                                <span class="block font-bold text-forest">Wi-Fi</span>
+                                <span class="text-xs text-stone">Gratuit</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 
-    <section id="rsvp" class="py-24 bg-pale-green text-center">
+    <section id="sec-rsvp" class="py-24 bg-pale-green text-center">
         <div class="container mx-auto px-6 max-w-2xl reveal">
             <h2 class="text-4xl md:text-5xl text-forest uppercase tracking-widest mb-6">RSVP</h2>
             <div class="w-20 h-px bg-stone mx-auto mb-10 opacity-50"></div>
             
             <p class="text-stone mb-12 text-lg font-light">
-                Vă rugăm să confirmați prezența completând formularul de mai jos.
+                Vă rugăm să confirmați prezența până la <span class="data-rsvp-deadline font-bold">1 August</span>.
             </p>
 
-            <form onsubmit="event.preventDefault(); alert('Mulțumim!');" class="text-left space-y-8 max-w-lg mx-auto bg-white/50 p-8 shadow-sm border border-white">
+            <form onsubmit="handleRSVP(event)" class="text-left space-y-8 max-w-lg mx-auto bg-white/50 p-8 shadow-sm border border-white">
                 <div>
                     <label class="text-xs uppercase tracking-widest text-stone">Nume Prenume</label>
-                    <input type="text" class="input-line">
+                    <input type="text" name="nume" class="input-line" required>
                 </div>
                 <div class="grid grid-cols-2 gap-6">
                     <div>
                         <label class="text-xs uppercase tracking-widest text-stone">Persoane</label>
-                        <select class="input-line bg-transparent">
-                            <option>1</option><option>2</option><option>3</option>
+                        <select name="numar_persoane" class="input-line bg-transparent">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
                         </select>
                     </div>
                     <div>
                         <label class="text-xs uppercase tracking-widest text-stone">Confirmare</label>
-                        <select class="input-line bg-transparent">
-                            <option>Prezent</option><option>Absent</option>
+                        <select name="confirmare" class="input-line bg-transparent">
+                            <option value="da">Prezent</option>
+                            <option value="nu">Absent</option>
                         </select>
                     </div>
                 </div>
                 <div>
                     <label class="text-xs uppercase tracking-widest text-stone">Mesaj (Cazare/Dietă)</label>
-                    <textarea class="input-line" rows="2"></textarea>
+                    <textarea name="mesaj" class="input-line bg-transparent border-b border-sage w-full py-2 outline-none resize-none" rows="2"></textarea>
                 </div>
                 
                 <div class="text-center pt-4">
-                    <button class="btn-costesti bg-white hover:bg-forest hover:border-forest w-full">Trimite Confirmarea</button>
+                    <button type="submit" class="btn-costesti bg-white hover:bg-forest hover:border-forest w-full">Trimite Confirmarea</button>
                 </div>
             </form>
         </div>
@@ -303,112 +298,10 @@
     <footer class="bg-pale-green pt-0 pb-16 text-center">
         <div class="container mx-auto px-6 reveal">
             <div class="text-forest text-2xl font-serif mb-4">+373 69 000 000</div>
-            <div class="text-forest text-xl font-serif mb-8">contact@nuntanoastra.md</div>
             <p class="text-stone text-sm uppercase tracking-widest">Complexul Turistic Costești, Ialoveni</p>
         </div>
     </footer>
 
-    <script>
-        // Render Function
-        function renderContent() {
-            // Hero
-            document.getElementById('hero-names').innerText = weddingData.couple;
-            document.getElementById('hero-date').innerText = weddingData.date;
-            document.getElementById('hero-loc').innerText = weddingData.location;
-
-            // About
-            document.getElementById('about-title').innerText = weddingData.about.title;
-            document.getElementById('about-text').innerText = weddingData.about.text;
-            document.getElementById('about-img').src = weddingData.about.image;
-
-            // Locations (Cards)
-            const locGrid = document.getElementById('locations-grid');
-            weddingData.locations.forEach(loc => {
-                locGrid.innerHTML += `
-                    <div class="bg-cream pb-8 group hover:shadow-xl transition duration-500">
-                        <div class="overflow-hidden h-64 mb-6 relative">
-                             <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition z-10"></div>
-                            <img src="${loc.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
-                        </div>
-                        <h3 class="text-2xl text-forest uppercase tracking-widest mb-2 px-4">${loc.title}</h3>
-                        <p class="text-stone italic font-serif mb-6 px-4">${loc.desc}</p>
-                        <button class="btn-costesti">Vezi Harta</button>
-                    </div>
-                `;
-            });
-
-            // Menu
-            const menuList = document.getElementById('menu-list');
-            weddingData.menu.forEach(cat => {
-                menuList.innerHTML += `
-                    <div class="flex gap-4">
-                        <div class="w-2 bg-sage/50"></div>
-                        <div>
-                            <h4 class="font-serif font-bold text-lg text-forest">${cat.category}</h4>
-                            <p class="text-stone text-sm font-light">${cat.items.join(' • ')}</p>
-                        </div>
-                    </div>
-                `;
-            });
-
-            // Facilities
-            const facGrid = document.getElementById('facilities-grid');
-            weddingData.facilities.forEach(fac => {
-                facGrid.innerHTML += `
-                    <div class="flex items-center gap-3 p-3 border border-sage/20 bg-white">
-                        <i class="fas ${fac.icon} text-sage text-xl"></i>
-                        <span class="text-sm uppercase tracking-wide text-forest">${fac.name}</span>
-                    </div>
-                `;
-            });
-
-            // Timeline
-            const tlContainer = document.getElementById('timeline-container');
-            weddingData.timeline.forEach((item, index) => {
-                tlContainer.innerHTML += `
-                    <div class="relative md:flex md:justify-between items-center group">
-                        <div class="absolute -left-[41px] md:left-auto md:right-1/2 md:mr-[-9px] w-5 h-5 bg-sage rounded-full border-4 border-white z-10"></div>
-                        <div class="md:w-1/2 md:pr-12 text-left md:text-right ${index % 2 !== 0 ? 'md:order-1 md:text-left md:pl-12 md:pr-0' : ''}">
-                            <span class="text-3xl text-sage font-serif font-bold block">${item.time}</span>
-                            <span class="text-forest uppercase tracking-widest text-sm font-bold">${item.event}</span>
-                        </div>
-                        <div class="md:w-1/2"></div> 
-                    </div>
-                `;
-            });
-
-            // FAQ
-            const faqList = document.getElementById('faq-list');
-            weddingData.faq.forEach(item => {
-                faqList.innerHTML += `
-                    <details class="bg-cream p-4 border-l-4 border-sage cursor-pointer group">
-                        <summary class="font-bold text-forest uppercase tracking-wide list-none flex justify-between">
-                            ${item.q}
-                            <span class="text-sage group-open:rotate-180 transition"><i class="fas fa-chevron-down"></i></span>
-                        </summary>
-                        <p class="mt-2 text-stone font-light pl-2">${item.a}</p>
-                    </details>
-                `;
-            });
-        }
-
-        // Navigation Toggle
-        function toggleNav() {
-            const nav = document.getElementById('nav-overlay');
-            nav.classList.toggle('translate-x-full');
-        }
-
-        // Scroll Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.1 });
-
-        window.onload = () => {
-            renderContent();
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        };
-    </script>
+    <script src="templateComplexTuristicCostesti.js"></script>
 </body>
 </html>

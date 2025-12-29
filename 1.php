@@ -78,7 +78,6 @@ require_once __DIR__ . "/utils/lang.php";
   <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="assets/css/apple-scroll.css">
   <link rel="stylesheet" href="assets/css/benefits.css">
-
 </head>
 
 <body class="bg-weddoLight text-gray-900">

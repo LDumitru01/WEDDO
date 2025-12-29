@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stacked Wedding | Mobile First</title>
+    <title class="data-seo-title">Stacked Wedding | Mobile First</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -12,11 +12,11 @@
     <style>
         /* === CONFIGURARE CULORI (VARIABILE) === */
         :root {
-            --bg-body: #e3e1db;      /* Gri-Bej cald (Stone) */
-            --bg-card: #ffffff;      /* Alb pentru cartonașe */
-            --text-main: #2c2c2c;    /* Text închis */
-            --accent: #a87b51;       /* Maro/Auriu stins */
-            --radius: 2rem;          /* Cât de rotunjite sunt colțurile */
+            --bg-body: #e3e1db;      /* Stone */
+            --bg-card: #ffffff;      /* Alb */
+            --text-main: #2c2c2c;    /* Carbune */
+            --accent: #a87b51;       /* Auriu stins */
+            --radius: 2rem;          /* Rotunjime colturi */
         }
 
         body {
@@ -28,7 +28,6 @@
         .font-serif { font-family: 'Cormorant Garamond', serif; }
 
         /* === MAGIA STICKY STACKING === */
-        /* Aceasta face ca secțiunile să se stivuiască una peste alta */
         .sticky-card {
             position: sticky;
             top: 0;
@@ -38,26 +37,27 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            /* Umbra face separarea vizibilă */
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.1); 
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
             transition: transform 0.5s ease;
         }
 
-        /* Pe mobil, marginile de sus ajută la vizibilitatea stivei */
+        /* Offset pentru vizibilitatea stivei */
         .card-1 { top: 0px; z-index: 10; }
         .card-2 { top: 20px; z-index: 20; }
         .card-3 { top: 40px; z-index: 30; }
         .card-4 { top: 60px; z-index: 40; }
         .card-5 { top: 80px; z-index: 50; }
         .card-6 { top: 100px; z-index: 60; }
+        .card-7 { top: 120px; z-index: 70; }
+        .card-8 { top: 140px; z-index: 80; }
 
-        /* Colțuri rotunjite doar sus pentru efectul de dosar */
+        /* Colțuri rotunjite doar sus */
         .rounded-top-card {
             border-top-left-radius: var(--radius);
             border-top-right-radius: var(--radius);
         }
 
-        /* Text Reveal Animation */
+        /* Reveal Animation */
         .reveal-text { opacity: 0; transform: translateY(30px); transition: all 1s ease; }
         .is-visible .reveal-text { opacity: 1; transform: translateY(0); }
 
@@ -66,38 +66,39 @@
 <body class="antialiased selection:bg-[#a87b51] selection:text-white">
 
     <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-[100] mix-blend-difference text-white pointer-events-none">
-        <span class="font-serif text-xl font-bold tracking-wider">A & V</span>
-        <a href="#rsvp" class="pointer-events-auto text-[10px] uppercase tracking-[0.2em] border border-white/50 px-4 py-2 rounded-full backdrop-blur-sm">
+        <span class="font-serif text-xl font-bold tracking-wider data-couple-initials">A & V</span>
+        <a href="#sec-rsvp" class="pointer-events-auto text-[10px] uppercase tracking-[0.2em] border border-white/50 px-4 py-2 rounded-full backdrop-blur-sm hover:bg-white hover:text-black transition">
             RSVP
         </a>
     </nav>
 
-
-    <section class="sticky-card card-1 bg-[#1a1a1a] text-[#e3e1db]">
+    <section id="sec-hero" class="sticky-card card-1 bg-[#1a1a1a] text-[#e3e1db]">
         <div class="absolute inset-0 opacity-40">
-            <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800&q=80" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800&q=80" 
+                 class="w-full h-full object-cover data-img-hero">
         </div>
         
         <div class="relative z-10 text-center px-6 reveal-group">
             <p class="reveal-text text-xs uppercase tracking-[0.4em] mb-6 text-[#a87b51]">The Wedding</p>
             <h1 class="reveal-text font-serif text-6xl md:text-8xl leading-none mb-4">
-                Andrei <br> <span class="italic text-[#a87b51] text-4xl md:text-6xl">&</span> <br> Victoria
+                <span class="data-groom-firstname">Andrei</span> <br> 
+                <span class="italic text-[#a87b51] text-4xl md:text-6xl">&</span> <br> 
+                <span class="data-bride-firstname">Victoria</span>
             </h1>
-            <div class="reveal-text mt-8 animate-bounce opacity-50">
+            <div class="reveal-text mt-8 animate-bounce opacity-50 text-xs uppercase tracking-widest">
                 ↓ Scroll to Open
             </div>
         </div>
     </section>
 
-
-    <section class="sticky-card card-2 rounded-top-card bg-[#f4f4f4] text-[#1a1a1a]">
+    <section id="sec-date-banner" class="sticky-card card-2 rounded-top-card bg-[#f4f4f4] text-[#1a1a1a]">
         <div class="container mx-auto px-6 text-center reveal-group">
             <div class="reveal-text border-b border-[#a87b51] pb-4 mb-8 inline-block">
                 <span class="font-serif text-2xl italic text-[#a87b51]">Save the Date</span>
             </div>
             
             <div class="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-10">
-                <span class="reveal-text font-serif text-[8rem] md:text-[12rem] leading-none font-bold text-[#1a1a1a]">24</span>
+                <span class="reveal-text font-serif text-[8rem] md:text-[12rem] leading-none font-bold text-[#1a1a1a] data-wedding-date">24</span>
                 <div class="text-left reveal-text">
                     <span class="block text-2xl md:text-4xl uppercase tracking-widest font-light">August</span>
                     <span class="block text-xl text-gray-500">2025 • Duminică</span>
@@ -106,111 +107,151 @@
 
             <div class="grid grid-cols-2 gap-4 mt-12 max-w-md mx-auto text-sm uppercase tracking-widest text-gray-600 reveal-text">
                 <div class="border border-gray-300 p-4 rounded-xl">
-                    16:00 <br> <span class="text-[10px] text-[#a87b51]">Ceremonia</span>
+                    <span class="data-time-ceremony">16:00</span> <br> <span class="text-[10px] text-[#a87b51]">Ceremonia</span>
                 </div>
                 <div class="border border-gray-300 p-4 rounded-xl">
-                    19:00 <br> <span class="text-[10px] text-[#a87b51]">Petrecerea</span>
+                    <span class="data-time-reception">19:00</span> <br> <span class="text-[10px] text-[#a87b51]">Petrecerea</span>
                 </div>
             </div>
         </div>
     </section>
 
-
-    <section class="sticky-card card-3 rounded-top-card bg-white text-[#1a1a1a] overflow-hidden">
+    <section id="sec-couple" class="sticky-card card-3 rounded-top-card bg-white text-[#1a1a1a] overflow-hidden">
         <div class="flex flex-col md:flex-row h-full">
-            
             <div class="relative h-1/2 md:h-full w-full md:w-1/2 overflow-hidden group border-b md:border-b-0 md:border-r border-gray-100">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition duration-700">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" 
+                     class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition duration-700 data-img-groom">
                 <div class="absolute bottom-6 left-6 bg-white/90 p-4 backdrop-blur-md rounded-lg shadow-lg max-w-[200px]">
-                    <h3 class="font-serif text-2xl">Andrei</h3>
+                    <h3 class="font-serif text-2xl data-groom-fullname">Andrei Popa</h3>
                     <p class="text-[10px] uppercase tracking-wider text-[#a87b51]">Mirele</p>
                 </div>
             </div>
-
             <div class="relative h-1/2 md:h-full w-full md:w-1/2 overflow-hidden group">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition duration-700">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" 
+                     class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition duration-700 data-img-bride">
                 <div class="absolute bottom-6 right-6 bg-white/90 p-4 backdrop-blur-md rounded-lg shadow-lg max-w-[200px] text-right">
-                    <h3 class="font-serif text-2xl">Victoria</h3>
+                    <h3 class="font-serif text-2xl data-bride-fullname">Victoria Radu</h3>
                     <p class="text-[10px] uppercase tracking-wider text-[#a87b51]">Mireasa</p>
                 </div>
             </div>
-
         </div>
     </section>
 
+    <section id="sec-timeline" class="sticky-card card-4 rounded-top-card bg-[#e3e1db] text-[#1a1a1a]">
+        <div class="container mx-auto px-6 text-center reveal-group max-w-lg">
+            <h2 class="font-serif text-4xl mb-12">Program</h2>
+            
+            <div class="space-y-8 text-left border-l-2 border-[#a87b51] pl-8 ml-4">
+                <div class="data-event-item">
+                    <span class="block font-bold text-[#a87b51] data-event-time">16:00</span>
+                    <h3 class="text-xl font-serif data-event-title">Cununia Religioasă</h3>
+                    <p class="text-sm opacity-60 data-event-location">Biserica Sf. Ioan</p>
+                </div>
+                <div class="data-event-item">
+                    <span class="block font-bold text-[#a87b51] data-event-time">19:00</span>
+                    <h3 class="text-xl font-serif data-event-title">Recepția & Petrecerea</h3>
+                    <p class="text-sm opacity-60 data-event-location">Sala de Bal</p>
+                </div>
+                <div class="data-event-item">
+                    <span class="block font-bold text-[#a87b51] data-event-time">00:00</span>
+                    <h3 class="text-xl font-serif data-event-title">Tortul</h3>
+                    <p class="text-sm opacity-60 data-event-location">Terasa Principală</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <section class="sticky-card card-4 rounded-top-card bg-[#e3e1db] text-[#1a1a1a]">
+    <section id="sec-details" class="sticky-card card-5 rounded-top-card bg-white text-[#1a1a1a]">
+        <div class="container mx-auto px-6 text-center reveal-group">
+            <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                
+                <div class="p-8 border border-gray-200 rounded-2xl" id="sec-godparents">
+                    <h3 class="font-serif text-2xl text-[#a87b51] mb-4">Nașii</h3>
+                    <div class="flex justify-center gap-4 mb-4">
+                        <img src="https://images.unsplash.com/photo-1551024601-562963525c2c?w=100" class="w-16 h-16 rounded-full object-cover border border-[#a87b51] data-img-godfather">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100" class="w-16 h-16 rounded-full object-cover border border-[#a87b51] data-img-godmother">
+                    </div>
+                    <p class="font-bold"><span class="data-godfather-name">Ion</span> & <span class="data-godmother-name">Maria</span></p>
+                    <p class="text-xs uppercase tracking-widest text-gray-400">Familia Popescu</p>
+                </div>
+
+                <div class="p-8 border border-gray-200 rounded-2xl flex flex-col justify-center" id="sec-dresscode">
+                    <h3 class="font-serif text-2xl text-[#a87b51] mb-2">Dress Code</h3>
+                    <h4 class="text-xl font-bold mb-2 data-dresscode-title">Black Tie</h4>
+                    <p class="text-sm text-gray-500 data-dresscode-desc">Ținută elegantă obligatorie.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="sec-location" class="sticky-card card-6 rounded-top-card bg-[#1a1a1a] text-white">
         <div class="relative h-full w-full flex flex-col justify-end pb-10 md:justify-center">
-            <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg'); background-size: cover;"></div>
+            <div class="absolute inset-0 opacity-40">
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1200" 
+                     class="w-full h-full object-cover data-img-location-bg">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
             
             <div class="container mx-auto px-6 relative z-10 text-center reveal-group">
-                <div class="bg-white p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg mx-auto">
-                    <span class="text-[#a87b51] text-xs uppercase tracking-[0.2em] block mb-4">Locația Evenimentului</span>
-                    <h2 class="font-serif text-4xl md:text-5xl mb-6">Conacul Polizu</h2>
-                    <p class="text-gray-500 mb-8 text-sm leading-relaxed">
-                        Un loc plin de istorie și natură. Vă așteptăm în grădina de vară pentru ceremonie și în sala mare pentru dans.
+                <div class="bg-white/10 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg mx-auto border border-white/10">
+                    <span class="text-[#a87b51] text-xs uppercase tracking-[0.2em] block mb-4">Locația</span>
+                    <h2 class="font-serif text-4xl md:text-5xl mb-6 data-location-name">Conacul Polizu</h2>
+                    <p class="text-gray-300 mb-8 text-sm leading-relaxed">
+                        Un loc plin de istorie și natură. Vă așteptăm în grădina de vară.
                     </p>
-                    <a href="https://maps.google.com" target="_blank" class="inline-block w-full py-4 bg-[#1a1a1a] text-white uppercase text-xs font-bold tracking-widest rounded-xl hover:bg-[#a87b51] transition">
-                        Deschide Navigația GPS
+                    <a href="#" target="_blank" class="inline-block w-full py-4 bg-white text-black uppercase text-xs font-bold tracking-widest rounded-xl hover:bg-[#a87b51] hover:text-white transition data-map-link">
+                        Deschide Harta
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-
-    <section class="sticky-card card-5 rounded-top-card bg-[#1a1a1a] text-white">
+    <section id="sec-gallery" class="sticky-card card-7 rounded-top-card bg-white text-black">
         <div class="h-full flex flex-col pt-10">
             <h2 class="text-center font-serif text-4xl mb-8">Amintiri</h2>
             
             <div class="flex-1 overflow-x-auto flex items-center gap-4 px-6 pb-10 scrollbar-hide snap-x">
-                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=600" class="h-[60vh] w-auto rounded-lg snap-center opacity-80 hover:opacity-100 transition">
-                <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="h-[60vh] w-auto rounded-lg snap-center opacity-80 hover:opacity-100 transition">
-                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="h-[60vh] w-auto rounded-lg snap-center opacity-80 hover:opacity-100 transition">
-                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="h-[60vh] w-auto rounded-lg snap-center opacity-80 hover:opacity-100 transition">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=600" class="h-[50vh] w-auto rounded-lg snap-center opacity-80 hover:opacity-100 transition data-gallery-img-1">
+                <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="h-[50vh] w-auto rounded-lg snap-center opacity-80 hover:opacity-100 transition data-gallery-img-2">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="h-[50vh] w-auto rounded-lg snap-center opacity-80 hover:opacity-100 transition data-gallery-img-3">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="h-[50vh] w-auto rounded-lg snap-center opacity-80 hover:opacity-100 transition data-gallery-img-1">
             </div>
             
-            <p class="text-center text-[10px] uppercase tracking-widest opacity-50 pb-6">← Swipe pentru mai multe →</p>
+            <p class="text-center text-[10px] uppercase tracking-widest opacity-50 pb-6">← Swipe →</p>
         </div>
     </section>
 
-
-    <section id="rsvp" class="sticky-card card-6 rounded-top-card bg-[#fcfaf8] text-[#1a1a1a]">
+    <section id="sec-rsvp" class="sticky-card card-8 rounded-top-card bg-[#fcfaf8] text-[#1a1a1a]">
         <div class="container mx-auto px-6 flex flex-col justify-center h-full max-w-md">
             <div class="text-center mb-10 reveal-group">
                 <h2 class="font-serif text-5xl mb-2">RSVP</h2>
-                <p class="text-gray-400 text-xs uppercase tracking-[0.2em]">Confirmare până la 1 Iulie</p>
+                <p class="text-gray-400 text-xs uppercase tracking-[0.2em]">Confirmare până la <span class="data-rsvp-deadline">1 Iulie</span></p>
             </div>
 
-            <form class="space-y-6 reveal-group">
+            <form onsubmit="handleRSVP(event)" class="space-y-6 reveal-group">
                 <div class="group">
-                    <input type="text" placeholder="Numele Tău" class="w-full bg-white border-none p-5 rounded-2xl shadow-sm text-lg outline-none focus:ring-2 focus:ring-[#a87b51] placeholder-gray-300">
+                    <input type="text" name="nume" placeholder="Numele Tău" required 
+                           class="w-full bg-white border-none p-5 rounded-2xl shadow-sm text-lg outline-none focus:ring-2 focus:ring-[#a87b51] placeholder-gray-300">
                 </div>
                 
                 <div class="flex gap-4">
-                    <select class="w-full bg-white border-none p-5 rounded-2xl shadow-sm text-lg outline-none appearance-none">
-                        <option>1 Persoană</option>
-                        <option>2 Persoane</option>
-                        <option>3 Persoane</option>
+                    <select name="numar_persoane" class="w-full bg-white border-none p-5 rounded-2xl shadow-sm text-lg outline-none appearance-none">
+                        <option value="1">1 Persoană</option>
+                        <option value="2">2 Persoane</option>
+                        <option value="3">3 Persoane</option>
                     </select>
                 </div>
 
                 <div class="flex gap-4">
-                    <label class="flex-1 cursor-pointer">
-                        <input type="radio" name="att" class="peer hidden" checked>
-                        <div class="w-full p-4 bg-white rounded-2xl text-center border-2 border-transparent peer-checked:border-[#a87b51] peer-checked:text-[#a87b51] shadow-sm transition">
-                            Da, vin
-                        </div>
-                    </label>
-                    <label class="flex-1 cursor-pointer">
-                        <input type="radio" name="att" class="peer hidden">
-                        <div class="w-full p-4 bg-white rounded-2xl text-center border-2 border-transparent peer-checked:border-gray-400 peer-checked:text-gray-500 shadow-sm transition">
-                            Nu pot
-                        </div>
-                    </label>
+                    <select name="confirmare" class="w-full bg-white border-none p-5 rounded-2xl shadow-sm text-lg outline-none appearance-none">
+                        <option value="da">Particip</option>
+                        <option value="nu">Nu particip</option>
+                    </select>
                 </div>
 
-                <button class="w-full py-5 bg-[#1a1a1a] text-white rounded-2xl font-bold uppercase tracking-[0.2em] shadow-lg hover:bg-[#a87b51] transition transform active:scale-95">
+                <button type="submit" class="w-full py-5 bg-[#1a1a1a] text-white rounded-2xl font-bold uppercase tracking-[0.2em] shadow-lg hover:bg-[#a87b51] transition transform active:scale-95">
                     Trimite
                 </button>
             </form>
@@ -222,7 +263,7 @@
     </section>
 
     <script>
-        // Simplu Intersection Observer pentru efecte de apariție text
+        // 1. Reveal Animations (Intersection Observer)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -232,6 +273,32 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal-group').forEach(el => observer.observe(el));
+
+        // 2. RSVP Form Handler
+        function handleRSVP(event) {
+            event.preventDefault();
+            const btn = event.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            
+            btn.disabled = true;
+            btn.innerText = "Se trimite...";
+            btn.classList.add('opacity-75');
+
+            setTimeout(() => {
+                btn.innerText = "Mesaj Trimis!";
+                btn.classList.remove('bg-[#1a1a1a]');
+                btn.classList.add('bg-[#a87b51]');
+                
+                event.target.reset();
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerText = originalText;
+                    btn.classList.remove('bg-[#a87b51]', 'opacity-75');
+                    btn.classList.add('bg-[#1a1a1a]');
+                }, 3000);
+            }, 1500);
+        }
     </script>
 
 </body>

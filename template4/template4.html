@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Midnight Wedding</title>
+    <title class="data-seo-title">The Midnight Wedding</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="template4.css">
     
     <script>
         tailwind.config = {
@@ -13,9 +12,9 @@
                 extend: {
                     colors: {
                         lux: {
-                            bg: 'rgb(var(--color-bg) / <alpha-value>)',
-                            gold: 'rgb(var(--color-gold) / <alpha-value>)',
-                            text: 'rgb(var(--color-text) / <alpha-value>)',
+                            bg: '#050505',
+                            gold: '#D4AF37',
+                            text: '#Eaeaea',
                         }
                     },
                     fontFamily: {
@@ -26,129 +25,261 @@
             }
         }
     </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Custom pentru efecte */
+        body { background-color: #050505; color: #Eaeaea; font-family: 'Raleway', sans-serif; overflow: hidden; }
+        
+        /* Snap Scroll Logic */
+        .snap-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        .snap-section {
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Nav Dots */
+        .nav-dots {
+            position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+            z-index: 50; display: flex; flex-direction: column; gap: 15px;
+        }
+        .dot {
+            width: 10px; height: 10px; border: 1px solid #D4AF37; border-radius: 50%;
+            cursor: pointer; transition: 0.3s;
+        }
+        .dot.active, .dot:hover { background-color: #D4AF37; }
+
+        /* Utilitare */
+        .noise-overlay {
+            position: fixed; inset: 0; pointer-events: none; opacity: 0.05; z-index: 40;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+        }
+        .text-reveal { animation: fadeInUp 1s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* Marquee */
+        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
+        .animate-marquee { animation: marquee 20s linear infinite; }
+        
+        /* Input Style */
+        .input-lux {
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(212, 175, 55, 0.3);
+            color: white; padding: 15px; font-family: 'Raleway', sans-serif;
+            transition: 0.3s; outline: none;
+        }
+        .input-lux:focus { border-color: #D4AF37; background: rgba(255,255,255,0.1); }
+        option { background: #000; }
+    </style>
 </head>
-<body class="antialiased selection:bg-lux-gold selection:text-lux-bg">
+<body class="antialiased selection:bg-lux-gold selection:text-black">
 
     <div class="noise-overlay"></div>
-    <div class="custom-cursor hidden lg:block" id="cursor"></div>
     
     <div class="nav-dots">
-        <div class="dot active" onclick="scrollToSection(0)"></div>
-        <div class="dot" onclick="scrollToSection(1)"></div>
-        <div class="dot" onclick="scrollToSection(2)"></div>
-        <div class="dot" onclick="scrollToSection(3)"></div>
-        <div class="dot" onclick="scrollToSection(4)"></div>
-        <div class="dot" onclick="scrollToSection(5)"></div>
+        <div class="dot active" onclick="document.getElementById('sec-hero').scrollIntoView()"></div>
+        <div class="dot" onclick="document.getElementById('sec-couple').scrollIntoView()"></div>
+        <div class="dot" onclick="document.getElementById('sec-timeline').scrollIntoView()"></div>
+        <div class="dot" onclick="document.getElementById('sec-location').scrollIntoView()"></div>
+        <div class="dot" onclick="document.getElementById('sec-details').scrollIntoView()"></div>
+        <div class="dot" onclick="document.getElementById('sec-gallery').scrollIntoView()"></div>
+        <div class="dot" onclick="document.getElementById('sec-rsvp').scrollIntoView()"></div>
     </div>
 
     <div class="snap-container" id="mainContainer">
 
-        <section class="snap-section relative bg-black">
+        <section id="sec-hero" class="snap-section relative bg-black">
             <div class="absolute inset-0 opacity-40">
-                <img src="https://images.unsplash.com/photo-1533261642875-524f2b1d7d0a?q=80&w=2070&auto=format&fit=crop" 
-                     class="w-full h-full object-cover">
+                <img src="https://images.unsplash.com/photo-1533261642875-524f2b1d7d0a?q=80&w=2070" 
+                     class="w-full h-full object-cover data-img-hero">
             </div>
             
             <div class="relative z-10 text-center px-4">
-                <p class="text-sm uppercase tracking-[0.5em] text-lux-text/60 mb-6 hover-trigger text-reveal">Invitație Nuntă</p>
-                <h1 class="text-5xl md:text-8xl font-cinzel text-lux-gold mb-4 hover-trigger text-reveal" style="transition-delay: 0.1s;">
-                    Maria & Ionut
+                <p class="text-sm uppercase tracking-[0.5em] text-lux-text/60 mb-6 text-reveal" style="animation-delay: 0.1s">Save the Date</p>
+                <h1 class="text-5xl md:text-8xl font-cinzel text-lux-gold mb-4 text-reveal" style="animation-delay: 0.3s">
+                    <span class="data-bride-firstname">Maria</span> & <span class="data-groom-firstname">Ionut</span>
                 </h1>
-                <div class="w-px h-16 bg-lux-gold mx-auto my-6 text-reveal" style="transition-delay: 0.2s;"></div>
-                <p class="text-2xl md:text-3xl font-light text-reveal" style="transition-delay: 0.3s;">15 Octombrie 2025</p>
+                <div class="w-px h-16 bg-lux-gold mx-auto my-6 text-reveal" style="animation-delay: 0.5s"></div>
+                <p class="text-2xl md:text-3xl font-light text-reveal data-wedding-date" style="animation-delay: 0.7s">15 Octombrie 2025</p>
             </div>
             
-            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-lux-gold/50 animate-pulse">
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-lux-gold/50 animate-bounce cursor-pointer" onclick="document.getElementById('sec-couple').scrollIntoView()">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
             </div>
         </section>
 
-        <section class="snap-section bg-lux-bg">
+        <div id="sec-date-banner" class="bg-lux-gold py-2 overflow-hidden relative z-20">
+            <div class="whitespace-nowrap flex animate-marquee text-black text-xs uppercase tracking-[0.4em] font-bold">
+                <span class="mx-12 data-wedding-date">15 OCTOMBRIE 2025</span> • 
+                <span class="mx-12">SAVE THE DATE</span> • 
+                <span class="mx-12 data-wedding-date">15 OCTOMBRIE 2025</span> • 
+                <span class="mx-12">SAVE THE DATE</span>
+            </div>
+        </div>
+
+        <section id="sec-couple" class="snap-section bg-lux-bg">
             <div class="flex flex-col md:flex-row w-full h-full">
                 <div class="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden group">
-                    <img src="https://images.unsplash.com/photo-1623949821873-1f1969a5944d?q=80&w=1887&auto=format&fit=crop" 
-                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-60 hover:opacity-100">
-                    <div class="absolute bottom-10 left-10">
-                        <h2 class="text-4xl font-cinzel text-lux-gold">El.</h2>
-                        <p class="max-w-xs mt-2 text-sm opacity-80">Arhitectul viselor noastre comune. Adevăratul gentleman care a furat o inimă.</p>
+                    <img src="https://images.unsplash.com/photo-1623949821873-1f1969a5944d?q=80&w=1887" 
+                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-60 hover:opacity-100 data-img-groom">
+                    <div class="absolute bottom-10 left-10 z-10">
+                        <h2 class="text-4xl font-cinzel text-lux-gold data-groom-fullname">Ionut Popa</h2>
+                        <p class="text-sm uppercase tracking-widest text-white/50 mb-2">Mirele</p>
+                        <p class="max-w-xs mt-2 text-sm opacity-80 data-groom-desc">"Ea este inima mea."</p>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden group border-l border-lux-gold/10">
-                    <img src="https://images.unsplash.com/photo-1545912453-db258ca9b7b7?q=80&w=1887&auto=format&fit=crop" 
-                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-60 hover:opacity-100">
-                     <div class="absolute top-10 right-10 text-right">
-                        <h2 class="text-4xl font-cinzel text-lux-gold">Ea.</h2>
-                        <p class="max-w-xs mt-2 text-sm opacity-80 ml-auto">Muza și energia pură. Cea care transformă orice zi obișnuită în sărbătoare.</p>
+                    <img src="https://images.unsplash.com/photo-1545912453-db258ca9b7b7?q=80&w=1887" 
+                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-60 hover:opacity-100 data-img-bride">
+                     <div class="absolute top-10 right-10 text-right z-10">
+                        <h2 class="text-4xl font-cinzel text-lux-gold data-bride-fullname">Maria Radu</h2>
+                        <p class="text-sm uppercase tracking-widest text-white/50 mb-2">Mireasa</p>
+                        <p class="max-w-xs mt-2 text-sm opacity-80 ml-auto data-bride-desc">"El este sufletul meu."</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="snap-section relative">
+        <section id="sec-timeline" class="snap-section bg-black text-center px-6">
+            <h2 class="text-3xl md:text-5xl font-cinzel text-lux-gold mb-12">Program</h2>
+            
+            <div class="max-w-4xl w-full grid md:grid-cols-3 gap-8">
+                <div class="border border-lux-gold/20 p-8 hover:border-lux-gold transition duration-500 data-event-item">
+                    <span class="text-2xl font-cinzel text-white block mb-2 data-event-time">16:00</span>
+                    <h3 class="text-lux-gold uppercase tracking-widest text-sm mb-4 data-event-title">Cununia</h3>
+                    <p class="text-white/50 text-sm data-event-location">Biserica Veche</p>
+                </div>
+                <div class="border border-lux-gold/20 p-8 hover:border-lux-gold transition duration-500 data-event-item">
+                    <span class="text-2xl font-cinzel text-white block mb-2 data-event-time">19:00</span>
+                    <h3 class="text-lux-gold uppercase tracking-widest text-sm mb-4 data-event-title">Recepția</h3>
+                    <p class="text-white/50 text-sm data-event-location">Lobby Principal</p>
+                </div>
+                <div class="border border-lux-gold/20 p-8 hover:border-lux-gold transition duration-500 data-event-item">
+                    <span class="text-2xl font-cinzel text-white block mb-2 data-event-time">20:00</span>
+                    <h3 class="text-lux-gold uppercase tracking-widest text-sm mb-4 data-event-title">Petrecerea</h3>
+                    <p class="text-white/50 text-sm data-event-location">Sala de Bal</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-location" class="snap-section relative">
              <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1569352123835-23c3b0eb6885?q=80&w=2070&auto=format&fit=crop" 
-                     class="w-full h-full object-cover opacity-20">
+                <img src="https://images.unsplash.com/photo-1569352123835-23c3b0eb6885?q=80&w=2070" 
+                     class="w-full h-full object-cover opacity-30 data-img-location-bg">
                 <div class="absolute inset-0 bg-gradient-to-t from-lux-bg via-transparent to-lux-bg"></div>
             </div>
 
             <div class="z-10 text-center max-w-3xl px-6">
-                <h2 class="text-5xl md:text-7xl font-cinzel text-lux-gold mb-8 text-reveal hover-trigger">Palatul Ghica</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-left border-t border-b border-lux-gold/20 py-10 text-reveal" style="transition-delay: 0.2s;">
+                <p class="text-lux-gold text-sm tracking-[0.3em] uppercase mb-4">Locația Evenimentului</p>
+                <h2 class="text-5xl md:text-7xl font-cinzel text-white mb-8 data-location-name">Palatul Ghica</h2>
+                
+                <div class="flex justify-center gap-12 text-sm text-white/70 mb-10">
                     <div>
-                        <h3 class="text-xl text-lux-gold mb-2 font-bold">Cununia Religioasă</h3>
-                        <p class="text-lg">Ora 16:00</p>
-                        <p class="opacity-60">Capela domeniului</p>
+                        <span class="block text-lux-gold font-bold">Ceremonia</span>
+                        <span class="data-time-ceremony">16:00</span>
                     </div>
-                    <div class="md:text-right">
-                        <h3 class="text-xl text-lux-gold mb-2 font-bold">Recepția & Gala</h3>
-                        <p class="text-lg">Ora 18:00</p>
-                        <p class="opacity-60">Sala de Bal</p>
+                    <div>
+                        <span class="block text-lux-gold font-bold">Recepția</span>
+                        <span class="data-time-reception">19:00</span>
                     </div>
                 </div>
-                <div class="mt-10 text-reveal" style="transition-delay: 0.4s;">
-                    <a href="#" class="border border-lux-gold text-lux-gold px-8 py-3 uppercase tracking-widest text-xs hover:bg-lux-gold hover:text-lux-bg transition-colors duration-300 hover-trigger">Vezi harta</a>
-                </div>
+
+                <a href="#" target="_blank" class="border border-lux-gold text-lux-gold px-8 py-3 uppercase tracking-widest text-xs hover:bg-lux-gold hover:text-black transition-colors duration-300 data-map-link">
+                    Vezi Harta
+                </a>
             </div>
         </section>
 
-        <section class="snap-section flex-col justify-center bg-lux-bg/95">
-            <h2 class="text-3xl font-cinzel text-center mb-10 text-lux-gold/50">Momente</h2>
-            <div class="flex overflow-x-auto w-full px-4 gap-4 hide-scrollbar pb-10 items-center">
-                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=800&auto=format&fit=crop" class="h-[40vh] md:h-[60vh] object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm hover-trigger">
-                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800&auto=format&fit=crop" class="h-[40vh] md:h-[60vh] object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm hover-trigger">
-                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop" class="h-[40vh] md:h-[60vh] object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm hover-trigger">
-                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop" class="h-[40vh] md:h-[60vh] object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm hover-trigger">
+        <section id="sec-details" class="snap-section bg-[#080808] px-6">
+            <div class="grid md:grid-cols-2 gap-12 max-w-5xl w-full">
+                
+                <div class="text-center p-10 border border-white/5 bg-white/5" id="sec-godparents">
+                    <h3 class="text-2xl font-cinzel text-lux-gold mb-6">Nașii</h3>
+                    <div class="flex justify-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-full overflow-hidden border border-lux-gold">
+                            <img src="https://images.unsplash.com/photo-1551024601-562963525c2c?w=200" class="w-full h-full object-cover data-img-godfather">
+                        </div>
+                        <div class="w-16 h-16 rounded-full overflow-hidden border border-lux-gold">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200" class="w-full h-full object-cover data-img-godmother">
+                        </div>
+                    </div>
+                    <p class="text-xl text-white mb-1"><span class="data-godfather-name">Radu</span> & <span class="data-godmother-name">Elena</span></p>
+                    <p class="text-xs uppercase tracking-widest text-white/40">Familia Ionescu</p>
+                </div>
+
+                <div class="text-center p-10 border border-white/5 bg-white/5" id="sec-dresscode">
+                    <h3 class="text-2xl font-cinzel text-lux-gold mb-6">Dress Code</h3>
+                    <h4 class="text-3xl text-white mb-4 font-serif data-dresscode-title">Black Tie</h4>
+                    <p class="text-white/60 text-sm mb-6 data-dresscode-desc">Vă rugăm să alegeți o ținută elegantă de seară.</p>
+                    <div class="flex justify-center gap-3">
+                        <div class="w-6 h-6 bg-black border border-white/20 rounded-full"></div>
+                        <div class="w-6 h-6 bg-[#D4AF37] border border-white/20 rounded-full"></div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <section class="snap-section bg-black relative">
-            <div class="absolute inset-0 border-[20px] border-lux-bg pointer-events-none z-20"></div>
+        <section id="sec-gallery" class="snap-section bg-lux-bg flex-col justify-center">
+            <h2 class="text-3xl font-cinzel text-center mb-10 text-lux-gold/80">Galerie</h2>
+            <div class="flex overflow-x-auto w-full px-4 gap-4 pb-10 items-center no-scrollbar">
+                <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=800" class="h-[50vh] object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm min-w-[300px] data-gallery-img-1">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800" class="h-[50vh] object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm min-w-[300px] data-gallery-img-2">
+                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800" class="h-[50vh] object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-sm min-w-[300px] data-gallery-img-3">
+            </div>
+        </section>
+
+        <section id="sec-rsvp" class="snap-section bg-black relative">
+            <div class="absolute inset-0 border-[20px] border-lux-bg pointer-events-none z-20 md:block hidden"></div>
             
             <div class="w-full max-w-xl px-6 relative z-10 text-center">
-                <h2 class="text-4xl md:text-5xl font-cinzel text-lux-gold mb-2 text-reveal">RSVP</h2>
-                <p class="mb-10 opacity-50 text-reveal">Vă rugăm să confirmați prezența</p>
+                <h2 class="text-4xl md:text-5xl font-cinzel text-lux-gold mb-2">RSVP</h2>
+                <p class="mb-10 opacity-50">Confirmare până la <span class="data-rsvp-deadline">15 Septembrie</span></p>
                 
-                <form class="space-y-6 text-left text-reveal" style="transition-delay: 0.2s;">
-                    <div class="group">
+                <form onsubmit="handleRSVP(event)" class="space-y-6 text-left">
+                    <div>
                         <label class="text-xs uppercase text-lux-gold ml-1">Nume</label>
-                        <input type="text" class="w-full bg-lux-bg/50 border-b border-white/20 p-3 text-white focus:outline-none focus:border-lux-gold transition-colors hover-trigger">
+                        <input type="text" name="nume" required class="input-lux" placeholder="Nume Prenume">
                     </div>
-                    <div class="group">
-                        <label class="text-xs uppercase text-lux-gold ml-1">Email</label>
-                        <input type="email" class="w-full bg-lux-bg/50 border-b border-white/20 p-3 text-white focus:outline-none focus:border-lux-gold transition-colors hover-trigger">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs uppercase text-lux-gold ml-1">Persoane</label>
+                            <select name="numar_persoane" class="input-lux">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs uppercase text-lux-gold ml-1">Confirmare</label>
+                            <select name="confirmare" class="input-lux">
+                                <option value="da">Prezent</option>
+                                <option value="nu">Absent</option>
+                            </select>
+                        </div>
                     </div>
                     
-                    <button type="button" class="w-full bg-lux-gold text-lux-bg py-4 mt-8 font-cinzel font-bold tracking-widest hover:bg-white transition-colors hover-trigger">
-                        Confirmă Participarea
+                    <button type="submit" class="w-full bg-lux-gold text-black py-4 mt-8 font-cinzel font-bold tracking-widest hover:bg-white transition-colors">
+                        Trimite
                     </button>
                 </form>
-            </div>
-        </section>
 
-        <section class="snap-section bg-lux-bg h-[50vh] flex flex-col justify-center items-center">
-            <h2 class="text-6xl font-cinzel text-lux-gold mb-4">M & I</h2>
-            <p class="text-sm opacity-30 tracking-widest">SFÂRȘIT</p>
-            <p class="mt-8 text-xs opacity-20">Design Concept: Midnight Gala</p>
+                <footer class="mt-12 text-xs opacity-30 tracking-widest">
+                    THE MIDNIGHT WEDDING © 2025
+                </footer>
+            </div>
         </section>
 
     </div>

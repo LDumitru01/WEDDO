@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Prism Wedding | Stable Version</title>
+    <title class="data-seo-title">The Prism Wedding | Stable Version</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Tenor+Sans&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
         /* --- 1. CONFIGURARE --- */
@@ -71,7 +72,7 @@
         }
         @keyframes breathe { from { transform: scale(1.1); } to { transform: scale(1.15); } }
 
-        /* --- 3. COUNTDOWN --- */
+        /* --- 3. COUNTDOWN & MARQUEE --- */
         .countdown-strip {
             display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;
             padding: 40px 0; background: #111; border-bottom: 1px solid #222;
@@ -80,10 +81,8 @@
         .cd-num { font-size: 2rem; font-family: var(--font-head); color: var(--gold); }
         .cd-label { font-size: 0.7rem; opacity: 0.6; letter-spacing: 2px; }
 
-        /* --- 4. ABOUT SECTION (REPARATĂ) --- */
-        .about-section {
-            display: flex; flex-direction: column;
-        }
+        /* --- 4. COUPLE SECTION (STICKY) --- */
+        .about-section { display: flex; flex-direction: column; }
         
         /* DESKTOP LAYOUT (Sticky) */
         @media (min-width: 900px) {
@@ -101,7 +100,7 @@
                 position: absolute; top: 0; left: 0; width: 100%; height: 100%;
                 object-fit: cover; transition: opacity 0.8s ease-in-out;
             }
-            .img-layer.hidden { opacity: 0; } /* Ascundem cu opacity, e mai safe */
+            .img-layer.hidden { opacity: 0; }
             
             .about-text-col {
                 display: flex; flex-direction: column; justify-content: center; padding: 60px;
@@ -112,37 +111,36 @@
                 opacity: 0; transform: translateY(30px); transition: all 0.8s ease-in-out;
             }
             .text-block.visible { opacity: 1; transform: translateY(0); position: relative; }
-            .text-block.hidden-block { display: none; } /* Ascundem complet blocul inactiv */
+            .text-block.hidden-block { display: none; }
         }
 
-        /* MOBILE LAYOUT (Stack - mult mai sigur) */
+        /* MOBILE LAYOUT (Stack) */
         @media (max-width: 899px) {
             .about-container { height: auto; }
-            .sticky-wrapper { display: block; height: auto; position: static; }
-            .about-images { height: 400px; overflow: hidden; }
-            .img-layer { width: 100%; height: 100%; object-fit: cover; }
-            .img-layer:last-child { display: none; } /* Pe mobil arătăm o poză statică sau le punem pe amândouă una sub alta */
+            .sticky-wrapper { display: none; } /* Ascundem desktop layout */
             
-            /* Modificare: Pe mobil punem El și Ea unul sub altul clasic */
-            .mobile-stack-item { padding: 40px 20px; border-bottom: 1px solid #333; }
-            .mobile-img { width: 100%; height: 300px; object-fit: cover; margin-bottom: 20px; }
-            
-            /* Ascundem layout-ul de desktop pe mobil */
-            .sticky-wrapper { display: none; }
+            .mobile-stack-item { padding: 40px 20px; border-bottom: 1px solid #333; text-align: center; }
+            .mobile-img { width: 100%; height: 300px; object-fit: cover; margin-bottom: 20px; border: 1px solid var(--gold); }
         }
 
         .vertical-line { width: 2px; height: 50px; background: var(--gold); margin-bottom: 20px; }
         
-        /* --- 5. NAȘII --- */
-        .nasi-section {
-            padding: 100px 20px; text-align: center; border-bottom: 1px solid #222;
+        /* --- 5. DETAILS (Nasi & Dresscode) --- */
+        .details-section {
+            padding: 80px 20px; border-bottom: 1px solid #222;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;
         }
-        .nasi-names {
-            font-size: clamp(2.5rem, 5vw, 5rem); color: var(--gold); margin: 20px 0;
-            border: 1px solid rgba(212, 175, 55, 0.3); padding: 40px; display: inline-block;
+        .detail-card {
+            background: #111; padding: 40px; text-align: center; border: 1px solid #333;
+        }
+        .detail-title {
+            letter-spacing: 3px; color: #888; font-size: 0.8rem; margin-bottom: 20px; display: block;
+        }
+        .detail-highlight {
+            font-size: 2rem; color: var(--gold); font-family: var(--font-head);
         }
 
-        /* --- 6. PROGRAM --- */
+        /* --- 6. TIMELINE --- */
         .program-section {
             padding: 100px 20px; overflow-x: auto; background: #0f0f0f;
         }
@@ -154,34 +152,31 @@
         }
         .p-time { font-size: 2rem; font-family: var(--font-head); color: #fff; }
 
-        /* --- 7. LOCATIE --- */
-        .loc-section { position: relative; height: 500px; }
-        /* Pointer events none pe iframe ca sa poti da scroll peste harta */
-        iframe.map-frame { 
-            width: 100%; height: 100%; border: 0; 
-            filter: grayscale(100%) invert(90%); 
-            pointer-events: none; /* FIX IMPORTANT: Scrollul paginii nu se blocheaza in harta */
-        }
+        /* --- 7. LOCATION --- */
+        .loc-section { position: relative; height: 500px; overflow: hidden; }
+        .loc-bg { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: grayscale(100%); }
         .loc-info {
-            position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8);
+            position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.9);
             padding: 30px; border: 1px solid var(--gold); max-width: 300px;
         }
 
-        /* --- 8. GALERIE --- */
+        /* --- 8. GALLERY --- */
         .gallery-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 10px; padding: 10px;
+            gap: 10px; padding: 10px; background: #111;
         }
-        .gallery-img { width: 100%; height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
+        .gallery-img { width: 100%; height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer; }
         .gallery-img:hover { filter: grayscale(0%); }
 
-        /* --- 9. FORMULAR --- */
+        /* --- 9. RSVP --- */
         .rsvp-section { padding: 100px 20px; max-width: 600px; margin: 0 auto; text-align: center; }
         .input-gold {
             width: 100%; background: transparent; border: none; border-bottom: 1px solid #555;
             padding: 15px 0; color: #fff; font-size: 1.1rem; margin-bottom: 30px; outline: none;
         }
         .input-gold:focus { border-bottom-color: var(--gold); }
+        select.input-gold { color: #aaa; } /* Fix pentru select pe dark bg */
+        option { background: #000; color: #fff; }
         .btn-gold {
             background: transparent; border: 1px solid var(--gold); color: var(--gold);
             padding: 15px 40px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
@@ -197,14 +192,25 @@
     <div class="noise-overlay"></div>
     <div class="cursor-follower" id="cursor"></div>
 
-    <header class="hero-section">
-        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80" class="hero-bg-img" alt="Background">
+    <header id="sec-hero" class="hero-section">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1920" class="hero-bg-img data-img-hero" alt="Background">
         <div class="hero-content">
             <div style="letter-spacing: 5px; margin-bottom: 20px; color: #ccc;">NUNTA ANULUI</div>
-            <h1 class="hero-names">Andrei<br>& Maria</h1>
-            <div class="hero-date">24.08.2025</div>
+            <h1 class="hero-names">
+                <span class="data-groom-firstname">Andrei</span><br>&<br><span class="data-bride-firstname">Maria</span>
+            </h1>
+            <div class="hero-date data-wedding-date">24 August 2025</div>
         </div>
     </header>
+
+    <section id="sec-date-banner" class="border-b border-[#222] bg-[#111] py-3 overflow-hidden">
+        <div class="whitespace-nowrap flex animate-marquee text-white/30 text-xs uppercase tracking-[0.5em]">
+            <span class="mx-10 data-wedding-date">24 AUGUST 2025</span> • 
+            <span class="mx-10">SAVE THE DATE</span> • 
+            <span class="mx-10 data-wedding-date">24 AUGUST 2025</span> • 
+            <span class="mx-10">SAVE THE DATE</span>
+        </div>
+    </section>
 
     <div class="countdown-strip">
         <div class="cd-item"><span class="cd-num" id="d">00</span><span class="cd-label">ZILE</span></div>
@@ -213,98 +219,134 @@
         <div class="cd-item"><span class="cd-num" id="s">00</span><span class="cd-label">SEC</span></div>
     </div>
 
-    <div class="mobile-stack-item d-block d-lg-none" style="display: none;"> <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="mobile-img" alt="El">
-         <h2>Mirele</h2>
-         <p style="color:#ccc;">Andrei este un arhitect vizionar. Găsește echilibru în structură și iubire.</p>
-    </div>
-    <div class="mobile-stack-item d-block d-lg-none" style="display: none;">
-         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="mobile-img" alt="Ea">
-         <h2>Mireasa</h2>
-         <p style="color:#ccc;">Maria este sufletul petrecerii. Artistă și visătoare, aduce culoare vieții.</p>
-    </div>
+    <section id="sec-couple">
+        <div class="mobile-stack-item block lg:hidden">
+             <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="mobile-img data-img-groom" alt="El">
+             <h2>Mirele</h2>
+             <h3 class="text-[var(--gold)] my-2 data-groom-fullname">Andrei Popescu</h3>
+             <p style="color:#ccc;" class="data-groom-desc">"Echilibrul meu în haos."</p>
+        </div>
+        <div class="mobile-stack-item block lg:hidden">
+             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="mobile-img data-img-bride" alt="Ea">
+             <h2>Mireasa</h2>
+             <h3 class="text-[var(--gold)] my-2 data-bride-fullname">Maria Ionescu</h3>
+             <p style="color:#ccc;" class="data-bride-desc">"Liniștea și bucuria mea."</p>
+        </div>
 
-    <div class="about-container">
-        <div class="sticky-wrapper">
-            <div class="about-images">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="img-layer" id="img-el" alt="El">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="img-layer hidden" id="img-ea" alt="Ea">
-            </div>
-            <div class="about-text-col">
-                <div class="text-block visible" id="txt-el">
-                    <div class="vertical-line"></div>
-                    <h2>Mirele</h2>
-                    <h3 style="color:var(--gold); margin-bottom:20px;">Andrei Popescu</h3>
-                    <p style="font-size:1.1rem; color:#bbb;">"Ea este liniștea din haosul meu."<br>Andrei aduce stabilitate și calm. Un gentleman modern.</p>
+        <div class="about-container hidden lg:block">
+            <div class="sticky-wrapper">
+                <div class="about-images">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="img-layer data-img-groom" id="img-el" alt="El">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" class="img-layer hidden data-img-bride" id="img-ea" alt="Ea">
                 </div>
-                <div class="text-block hidden-block" id="txt-ea"> <div class="vertical-line"></div>
-                    <h2>Mireasa</h2>
-                    <h3 style="color:var(--gold); margin-bottom:20px;">Maria Ionescu</h3>
-                    <p style="font-size:1.1rem; color:#bbb;">"El este ancora viselor mele."<br>Maria este energie pură, creativă și plină de viață.</p>
+                <div class="about-text-col">
+                    <div class="text-block visible" id="txt-el">
+                        <div class="vertical-line"></div>
+                        <h2>Mirele</h2>
+                        <h3 style="color:var(--gold); margin-bottom:20px;" class="data-groom-fullname">Andrei Popescu</h3>
+                        <p style="font-size:1.1rem; color:#bbb;" class="data-groom-desc">"Echilibrul meu în haos."</p>
+                    </div>
+                    <div class="text-block hidden-block" id="txt-ea">
+                        <div class="vertical-line"></div>
+                        <h2>Mireasa</h2>
+                        <h3 style="color:var(--gold); margin-bottom:20px;" class="data-bride-fullname">Maria Ionescu</h3>
+                        <p style="font-size:1.1rem; color:#bbb;" class="data-bride-desc">"Liniștea și bucuria mea."</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <section class="nasi-section">
-        <p style="letter-spacing: 3px; color: #888;">PĂRINȚI SPIRITUALI</p>
-        <div class="nasi-names">Radu & Elena</div>
-        <p>Fam. Ionescu</p>
     </section>
 
-    <section class="program-section">
+    <section id="sec-timeline" class="program-section">
+        <h2 style="text-align:center; margin-bottom:40px; color:var(--text-light);">Agenda</h2>
         <div class="program-track">
-            <div class="p-card">
-                <div class="p-time">16:00</div>
-                <div style="color:var(--gold);">Cununia Religioasă</div>
-                <div style="color:#666; font-size:0.9rem;">Biserica Sf. Ioan</div>
+            
+            <div class="p-card data-event-item">
+                <div class="p-time data-event-time">16:00</div>
+                <div style="color:var(--gold);" class="data-event-title">Cununia Religioasă</div>
+                <div style="color:#666; font-size:0.9rem;" class="data-event-location">Biserica Sf. Ioan</div>
             </div>
-            <div class="p-card">
-                <div class="p-time">19:00</div>
-                <div style="color:var(--gold);">Recepția</div>
-                <div style="color:#666; font-size:0.9rem;">Palatul Știrbey</div>
+            
+            <div class="p-card data-event-item">
+                <div class="p-time data-event-time">19:00</div>
+                <div style="color:var(--gold);" class="data-event-title">Recepția</div>
+                <div style="color:#666; font-size:0.9rem;" class="data-event-location">Palatul Știrbey</div>
             </div>
-            <div class="p-card">
-                <div class="p-time">23:00</div>
-                <div style="color:var(--gold);">Primul Dans</div>
-                <div style="color:#666; font-size:0.9rem;">Sala de Bal</div>
+            
+            <div class="p-card data-event-item">
+                <div class="p-time data-event-time">23:00</div>
+                <div style="color:var(--gold);" class="data-event-title">Primul Dans</div>
+                <div style="color:#666; font-size:0.9rem;" class="data-event-location">Sala de Bal</div>
             </div>
-            <div class="p-card">
-                <div class="p-time">02:00</div>
-                <div style="color:var(--gold);">Tortul</div>
-                <div style="color:#666; font-size:0.9rem;">Moment Dulce</div>
+            
+            <div class="p-card data-event-item">
+                <div class="p-time data-event-time">02:00</div>
+                <div style="color:var(--gold);" class="data-event-title">Tortul</div>
+                <div style="color:#666; font-size:0.9rem;" class="data-event-location">Moment Dulce</div>
             </div>
+
         </div>
     </section>
 
-    <section>
+    <section id="sec-details" class="details-section">
+        <div class="detail-card" id="sec-godparents">
+            <span class="detail-title">PĂRINȚI SPIRITUALI</span>
+            <div class="detail-highlight">
+                <span class="data-godfather-name">Radu</span> & <span class="data-godmother-name">Elena</span>
+            </div>
+            <p style="color:#666; margin-top:10px;">Familia Ionescu</p>
+        </div>
+
+        <div class="detail-card" id="sec-dresscode">
+            <span class="detail-title">DRESS CODE</span>
+            <div class="detail-highlight data-dresscode-title">
+                Black Tie
+            </div>
+            <p style="color:#666; margin-top:10px;" class="data-dresscode-desc">Eleganță în negru și auriu.</p>
+        </div>
+    </section>
+
+    <section id="sec-gallery">
         <div class="gallery-grid">
-            <img src="https://images.unsplash.com/photo-1511285560982-1356c11d4606?w=600" class="gallery-img">
-            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="gallery-img">
-            <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?w=600" class="gallery-img">
-            <img src="https://images.unsplash.com/photo-1623192023537-83c7482811a2?w=600" class="gallery-img">
+            <img src="https://images.unsplash.com/photo-1511285560982-1356c11d4606?w=600" class="gallery-img data-gallery-img-1">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="gallery-img data-gallery-img-2">
+            <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?w=600" class="gallery-img data-gallery-img-3">
+            <img src="https://images.unsplash.com/photo-1623192023537-83c7482811a2?w=600" class="gallery-img data-gallery-img-1">
         </div>
     </section>
 
-    <section class="loc-section">
-        <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8444388087937!2d26.10253831552336!3d44.43614137910199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff4770adb5b7%3A0x58147f39579fe6fa!2sBucharest!5e0!3m2!1sen!2sro!4v1620000000000!5m2!1sen!2sro" allowfullscreen="" loading="lazy"></iframe>
+    <section id="sec-location" class="loc-section">
+        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200" class="loc-bg data-img-location-bg">
+        
         <div class="loc-info">
-            <h3 style="color:var(--gold)">Palatul Știrbey</h3>
+            <h3 style="color:var(--gold)" class="data-location-name">Palatul Știrbey</h3>
             <p>Strada Știrbey Vodă, Buftea</p>
             <br>
-            <small style="color:#aaa;">*Harta este statică pentru a facilita scroll-ul.</small>
+            <a href="#" target="_blank" class="btn-gold data-map-link" style="padding: 10px 20px; font-size:0.8rem; display:inline-block; width:auto;">
+                Vezi pe Hartă
+            </a>
         </div>
     </section>
 
-    <section class="rsvp-section">
-        <h2 style="font-size:3rem; margin-bottom:30px;">RSVP</h2>
-        <form>
-            <input type="text" class="input-gold" placeholder="Nume Prenume">
-            <select class="input-gold">
-                <option style="color:#000;">Confirm Prezența</option>
-                <option style="color:#000;">Nu pot participa</option>
+    <section id="sec-rsvp" class="rsvp-section">
+        <h2 style="font-size:3rem; margin-bottom:10px;">RSVP</h2>
+        <p style="color:#666; margin-bottom:30px;">Confirmare până la <span class="data-rsvp-deadline">1 August 2025</span></p>
+        
+        <form onsubmit="handleRSVP(event)">
+            <input type="text" name="nume" class="input-gold" placeholder="Nume Prenume" required>
+            
+            <select name="numar_persoane" class="input-gold">
+                <option value="1">1 Persoană</option>
+                <option value="2">2 Persoane</option>
+                <option value="3">3 Persoane</option>
             </select>
-            <input type="number" class="input-gold" placeholder="Nr. Persoane">
-            <button type="button" class="btn-gold">Trimite</button>
+
+            <select name="confirmare" class="input-gold">
+                <option value="da">Confirm Prezența</option>
+                <option value="nu">Nu pot participa</option>
+            </select>
+            
+            <button type="submit" class="btn-gold">Trimite</button>
         </form>
     </section>
 
@@ -312,76 +354,6 @@
         © 2025 THE PRISM WEDDING
     </footer>
 
-    <script>
-        // 1. Cursor Follower (Simplu)
-        const cursor = document.getElementById('cursor');
-        if (window.matchMedia("(hover: hover)").matches) {
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-        }
-
-        // 2. Countdown Timer
-        const targetDate = new Date("Aug 24, 2025 16:00:00").getTime();
-        setInterval(() => {
-            const now = new Date().getTime();
-            const diff = targetDate - now;
-            document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('h').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById('m').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById('s').innerText = Math.floor((diff % (1000 * 60)) / 1000);
-        }, 1000);
-
-        // 3. SCROLL ANIMATION (Logica "El -> Ea")
-        // Folosim IntersectionObserver pentru stabilitate, nu pixeli
-        // Doar pe Desktop
-        if (window.innerWidth >= 900) {
-            const aboutContainer = document.querySelector('.about-container');
-            const imgEl = document.getElementById('img-el');
-            const imgEa = document.getElementById('img-ea');
-            const txtEl = document.getElementById('txt-el');
-            const txtEa = document.getElementById('txt-ea');
-
-            window.addEventListener('scroll', () => {
-                const rect = aboutContainer.getBoundingClientRect();
-                const viewHeight = window.innerHeight;
-
-                // Când containerul este la jumătatea scroll-ului său
-                // rect.top începe pozitiv și devine negativ pe măsură ce dăm scroll
-                // -rect.top înseamnă câți pixeli am scrollat în interiorul containerului
-                
-                const scrollProgress = -rect.top;
-                
-                // Punctul de schimbare (aprox 400px scroll in sectiune)
-                if (scrollProgress > viewHeight * 0.5) {
-                    // SWITCH TO EA
-                    imgEl.classList.add('hidden');
-                    imgEa.classList.remove('hidden');
-                    
-                    txtEl.classList.remove('visible');
-                    txtEl.classList.add('hidden-block'); // Ascundem complet
-                    
-                    txtEa.classList.remove('hidden-block');
-                    setTimeout(() => txtEa.classList.add('visible'), 50); // Mic delay pt animatie
-                    
-                } else {
-                    // SWITCH TO EL
-                    imgEl.classList.remove('hidden');
-                    imgEa.classList.add('hidden');
-                    
-                    txtEa.classList.remove('visible');
-                    txtEa.classList.add('hidden-block');
-                    
-                    txtEl.classList.remove('hidden-block');
-                    setTimeout(() => txtEl.classList.add('visible'), 50);
-                }
-            });
-        } else {
-            // MOBILE FIX: Afișăm elementele de mobil (prin CSS Media Queries)
-            // Clasa d-lg-none se ocupa de asta in stiluri
-            document.querySelectorAll('.mobile-stack-item').forEach(el => el.style.display = 'block');
-        }
-    </script>
+    <script src="invitatieNunta7.js"></script>
 </body>
 </html>

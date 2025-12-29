@@ -3,16 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Wedding Times</title>
+    <title class="data-seo-title">The Wedding Times</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="template6.css">
+    
+    <style>
+        :root {
+            --ink-color: 40, 40, 40; /* Gri foarte inchis, aproape negru */
+            --paper-color: #f4f1ea; /* Crem hartie */
+            --accent-color: #b91c1c; /* Rosu "Breaking News" */
+        }
+        body { background-color: var(--paper-color); color: rgb(var(--ink-color)); font-family: 'Times New Roman', Times, serif; }
+        
+        /* Fonturi Custom */
+        @import url('https://fonts.googleapis.com/css2?family=Chomsky&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        .newspaper-title { font-family: 'Chomsky', serif; } /* Font stil New York Times */
+        .font-headline { font-family: 'Playfair Display', serif; font-weight: 900; }
+        
+        /* Efecte Ziar */
+        .dropcap::first-letter {
+            float: left; font-size: 3.5rem; line-height: 0.8; font-weight: bold; margin-right: 0.5rem; margin-top: 0.2rem;
+        }
+        .separator-double { border-top: 3px double rgb(var(--ink-color)); margin: 1.5rem 0; }
+        .separator-single { border-top: 1px solid rgb(var(--ink-color)); margin: 1rem 0; }
+        
+        .newspaper-img { filter: grayscale(100%) contrast(1.2); transition: filter 0.5s; }
+        .newspaper-img:hover { filter: grayscale(0%); }
+
+        /* Cupon RSVP */
+        .rsvp-coupon {
+            border: 2px dashed rgb(var(--ink-color));
+            background-color: #fff;
+            position: relative;
+        }
+        .sticker {
+            position: absolute; top: -15px; right: -15px;
+            background: rgb(var(--accent-color)); color: white;
+            border-radius: 50%; width: 60px; height: 60px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.6rem; font-weight: bold; text-align: center;
+            transform: rotate(15deg); box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Inputuri */
+        .input-news {
+            width: 100%; border: none; border-bottom: 1px dotted rgb(var(--ink-color));
+            background: transparent; padding: 5px 0; font-family: 'Courier New', monospace;
+            outline: none;
+        }
+        .btn-news {
+            background: rgb(var(--ink-color)); color: white;
+            font-family: 'Courier New', monospace; font-weight: bold;
+            text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .btn-news:hover { background: rgb(var(--accent-color)); }
+    </style>
 </head>
 <body class="p-2 md:p-8 max-w-[1400px] mx-auto">
 
-    <header class="mb-8">
-        <div class="flex justify-between items-center text-xs md:text-sm font-bold border-b border-[rgb(var(--ink-color))] pb-2 mb-2 uppercase tracking-widest">
+    <header class="mb-8" id="sec-hero">
+        <div class="flex justify-between items-center text-xs md:text-sm font-bold border-b border-[rgb(var(--ink-color))] pb-2 mb-2 uppercase tracking-widest" id="sec-date-banner">
             <span>Vol. 1, Ediția Specială</span>
-            <span>București, România</span>
+            <span class="data-location-name">București, România</span>
             <span>Preț: Un Zâmbet</span>
         </div>
         
@@ -21,7 +75,7 @@
         </h1>
 
         <div class="flex justify-between items-center py-2 border-b border-[rgb(var(--ink-color))] text-sm font-serif italic">
-            <span>Duminică, 24 August 2025</span>
+            <span class="data-wedding-date">Duminică, 24 August 2025</span>
             <span class="flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 Meteo: Cer senin și multă iubire
@@ -32,111 +86,137 @@
 
     <main class="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        <article class="lg:col-span-8">
+        <article class="lg:col-span-8 border-r border-[rgb(var(--ink-color))] pr-0 lg:pr-8 border-r-0 lg:border-r">
             
-            <div class="text-center mb-6">
-                <h2 class="text-5xl md:text-7xl font-headline uppercase leading-none mb-4">
-                    E OFICIAL: AU SPUS "DA"!
-                </h2>
-                <h3 class="text-xl md:text-2xl font-serif italic opacity-80">
-                    Maria și Alexandru se căsătoresc după 5 ani de relație.
-                </h3>
-            </div>
+            <section id="sec-couple">
+                <div class="text-center mb-6">
+                    <h2 class="text-5xl md:text-7xl font-headline uppercase leading-none mb-4">
+                        E OFICIAL: AU SPUS "DA"!
+                    </h2>
+                    <h3 class="text-xl md:text-2xl font-serif italic opacity-80">
+                        <span class="data-bride-firstname">Maria</span> și <span class="data-groom-firstname">Alexandru</span> se căsătoresc!
+                    </h3>
+                </div>
 
-            <div class="relative w-full h-[500px] mb-6 border border-[rgb(var(--ink-color))] p-1">
-                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop" 
-                     class="w-full h-full object-cover newspaper-img" alt="Cuplul">
-                <p class="absolute bottom-2 right-2 text-xs bg-white px-2 py-1 font-sans">Foto: Arhiva Personală</p>
-            </div>
+                <div class="relative w-full h-[500px] mb-6 border border-[rgb(var(--ink-color))] p-1">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070" 
+                         class="w-full h-full object-cover newspaper-img data-img-hero" alt="Cuplul">
+                    <p class="absolute bottom-2 right-2 text-xs bg-white px-2 py-1 font-sans">Foto: Arhiva Personală</p>
+                </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-justify">
-                <p class="dropcap">
-                    Totul a început într-o seară ploioasă de toamnă, când două destine s-au intersectat într-o cafenea mică din centrul orașului. Ceea ce părea a fi o simplă coincidență s-a transformat în povestea deceniului.
-                </p>
-                <p>
-                    "Nu mi-a venit să cred când m-a cerut", a declarat Maria, vizibil emoționată, reporterilor noștri. Evenimentul va avea loc la Palatul Știrbei, o locație aleasă special pentru a reflecta eleganța și simplitatea care îi caracterizează pe cei doi. Sursele spun că petrecerea va dura până în zori.
-                </p>
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-justify mb-8">
+                    <p class="dropcap data-bride-desc">
+                        Totul a început într-o seară ploioasă de toamnă, când două destine s-au intersectat într-o cafenea mică din centrul orașului. Ceea ce părea a fi o simplă coincidență s-a transformat în povestea deceniului.
+                    </p>
+                    <p class="data-groom-desc">
+                        "Nu mi-a venit să cred când m-a cerut", a declarat mireasa, vizibil emoționată, reporterilor noștri. Evenimentul va fi unul de neuitat, ales special pentru a reflecta eleganța și simplitatea care îi caracterizează pe cei doi.
+                    </p>
+                </div>
+            </section>
 
             <div class="separator-double"></div>
 
-            <h4 class="text-3xl font-headline uppercase text-center mb-6">Itinerariul Zilei</h4>
-            <div class="grid grid-cols-3 text-center divide-x divide-[rgb(var(--ink-color))]">
-                <div class="p-4">
-                    <p class="font-bold text-xl mb-1">Cununia</p>
-                    <p class="font-serif italic text-[rgb(var(--accent-color))]">16:00</p>
-                    <p class="text-sm mt-2">Biserica Albă</p>
+            <section id="sec-timeline">
+                <h4 class="text-3xl font-headline uppercase text-center mb-6">Itinerariul Zilei</h4>
+                <div class="grid grid-cols-3 text-center divide-x divide-[rgb(var(--ink-color))]">
+                    
+                    <div class="p-4 data-event-item">
+                        <p class="font-bold text-xl mb-1 data-event-title">Cununia</p>
+                        <p class="font-serif italic text-[rgb(var(--accent-color))] data-event-time">16:00</p>
+                        <p class="text-sm mt-2 data-event-location">Biserica Albă</p>
+                    </div>
+                    
+                    <div class="p-4 data-event-item">
+                        <p class="font-bold text-xl mb-1 data-event-title">Recepția</p>
+                        <p class="font-serif italic text-[rgb(var(--accent-color))] data-event-time">18:00</p>
+                        <p class="text-sm mt-2 data-event-location">Grădina Palatului</p>
+                    </div>
+                    
+                    <div class="p-4 data-event-item">
+                        <p class="font-bold text-xl mb-1 data-event-title">Gala</p>
+                        <p class="font-serif italic text-[rgb(var(--accent-color))] data-event-time">20:00</p>
+                        <p class="text-sm mt-2 data-event-location">Sala de Bal</p>
+                    </div>
+
                 </div>
-                <div class="p-4">
-                    <p class="font-bold text-xl mb-1">Recepția</p>
-                    <p class="font-serif italic text-[rgb(var(--accent-color))]">18:00</p>
-                    <p class="text-sm mt-2">Grădina Palatului</p>
-                </div>
-                <div class="p-4">
-                    <p class="font-bold text-xl mb-1">Gala</p>
-                    <p class="font-serif italic text-[rgb(var(--accent-color))]">20:00</p>
-                    <p class="text-sm mt-2">Sala de Bal</p>
-                </div>
-            </div>
+            </section>
 
         </article>
 
 
-        <aside class="lg:col-span-4 flex flex-col gap-8 border-l border-[rgb(var(--ink-color))] pl-0 lg:pl-8">
+        <aside class="lg:col-span-4 flex flex-col gap-8">
             
-            <div class="border-2 border-[rgb(var(--ink-color))] p-4 text-center">
-                <h5 class="uppercase font-bold tracking-widest border-b border-[rgb(var(--ink-color))] pb-2 mb-2 text-xs">Editorial Team (Nașii)</h5>
-                <img src="https://images.unsplash.com/photo-1551590192-807e80d7b101?q=80&w=800&auto=format&fit=crop" class="w-20 h-20 rounded-full mx-auto mb-2 grayscale object-cover">
-                <p class="font-headline text-lg">Fam. Ionescu</p>
-                <p class="text-sm italic opacity-80">"Suntem onorați să ghidăm acești tineri minunați."</p>
-            </div>
+            <section id="sec-details" class="flex flex-col gap-8">
+                
+                <div class="border-2 border-[rgb(var(--ink-color))] p-4 text-center" id="sec-godparents">
+                    <h5 class="uppercase font-bold tracking-widest border-b border-[rgb(var(--ink-color))] pb-2 mb-2 text-xs">Editorial Team (Nașii)</h5>
+                    <div class="flex justify-center gap-2 mb-2">
+                         <img src="https://images.unsplash.com/photo-1551590192-807e80d7b101?w=200" class="w-16 h-16 rounded-full grayscale object-cover data-img-godfather">
+                         <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200" class="w-16 h-16 rounded-full grayscale object-cover data-img-godmother">
+                    </div>
+                    <p class="font-headline text-lg">
+                        <span class="data-godfather-name">Ion</span> & <span class="data-godmother-name">Maria</span>
+                    </p>
+                    <p class="text-sm italic opacity-80">"Suntem onorați să ghidăm acești tineri minunați."</p>
+                </div>
 
-            <div class="relative">
+                <div class="bg-gray-100 p-4 border-l-4 border-[rgb(var(--ink-color))]" id="sec-dresscode">
+                    <h5 class="font-bold uppercase text-xs mb-1">Notă Editor: Dress Code</h5>
+                    <p class="font-headline text-xl mb-1 data-dresscode-title">Black Tie</p>
+                    <p class="text-xs data-dresscode-desc">Eleganță clasică. Rugăm domnii la costum și doamnele în rochii de seară.</p>
+                </div>
+
+            </section>
+
+            <section id="sec-location" class="relative">
                 <h5 class="text-4xl font-headline mb-2 leading-none">Vizitați<br>Domeniul</h5>
+                <div class="mb-4">
+                    <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=400" class="w-full h-32 object-cover grayscale mb-2 data-img-location-bg">
+                    <p class="font-bold text-lg data-location-name">Palatul Știrbei</p>
+                </div>
                 <p class="text-sm mb-4 text-justify">
                     O bijuterie arhitecturală situată la doar 20km de oraș. Vă rugăm să folosiți transportul organizat.
                 </p>
-                <a href="#" class="inline-block border border-[rgb(var(--ink-color))] px-4 py-1 uppercase text-xs hover:bg-[rgb(var(--ink-color))] hover:text-white transition-colors">Vezi Harta</a>
-            </div>
+                <a href="#" target="_blank" class="inline-block border border-[rgb(var(--ink-color))] px-4 py-1 uppercase text-xs hover:bg-[rgb(var(--ink-color))] hover:text-white transition-colors data-map-link">Vezi Harta</a>
+            </section>
 
             <div class="separator-single"></div>
 
-            <div class="rsvp-coupon p-6 mt-auto">
+            <section id="sec-rsvp" class="rsvp-coupon p-6 mt-auto">
                 <div class="sticker">CONFIRMĂ<br>ACUM</div>
                 <h3 class="text-2xl font-headline uppercase text-center mb-4">Cupon R.S.V.P.</h3>
-                <p class="text-xs text-center mb-4 italic">Decupați și trimiteți (sau completați mai jos) până la 1 Iulie.</p>
+                <p class="text-xs text-center mb-4 italic">Decupați și trimiteți (sau completați mai jos) până la <span class="data-rsvp-deadline font-bold">1 Iulie</span>.</p>
                 
-                <form id="rsvpForm" class="space-y-4">
+                <form onsubmit="handleRSVP(event)" class="space-y-4">
                     <div>
                         <label class="text-xs uppercase font-bold">Numele Dvs:</label>
-                        <input type="text" class="input-news" placeholder="Scrieți aici...">
+                        <input type="text" name="nume" class="input-news" placeholder="Scrieți aici..." required>
                     </div>
                     <div>
                         <label class="text-xs uppercase font-bold">Participanți:</label>
-                        <select class="input-news bg-transparent">
-                            <option>1 Persoană</option>
-                            <option>2 Persoane</option>
+                        <select name="numar_persoane" class="input-news bg-transparent">
+                            <option value="1">1 Persoană</option>
+                            <option value="2">2 Persoane</option>
+                            <option value="3">3 Persoane</option>
                         </select>
                     </div>
                     <div>
-                        <label class="flex items-center gap-2 mt-2">
-                            <input type="checkbox" class="accent-[rgb(var(--accent-color))]">
-                            <span class="text-sm">Da, particip cu bucurie!</span>
-                        </label>
+                        <label class="text-xs uppercase font-bold">Răspuns:</label>
+                        <select name="confirmare" class="input-news bg-transparent">
+                            <option value="da">Da, particip cu bucurie!</option>
+                            <option value="nu">Nu pot ajunge.</option>
+                        </select>
                     </div>
-                    <button type="button" onclick="submitRSVP()" class="btn-news w-full py-3 mt-4">Trimite Confirmarea</button>
+                    <button type="submit" class="btn-news w-full py-3 mt-4">Trimite Confirmarea</button>
                 </form>
-                <div id="successMessage" class="hidden text-center mt-4 text-[rgb(var(--accent-color))] font-bold border border-[rgb(var(--accent-color))] p-2">
-                    Vă mulțumim! Știrea a fost recepționată.
-                </div>
-            </div>
+            </section>
 
         </aside>
 
     </main>
 
     <footer class="mt-12 border-t-4 border-[rgb(var(--ink-color))] pt-4 text-center">
-        <p class="font-headline text-2xl mb-2">M & A</p>
+        <p class="font-headline text-2xl mb-2 data-couple-initials">M & A</p>
         <div class="text-xs uppercase tracking-widest flex justify-center gap-4 opacity-60">
             <span>© 2025 The Wedding Times</span>
             <span>•</span>

@@ -3,126 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeline Love Story</title>
+    <title class="data-seo-title">Timeline Love Story | Ana & Vlad</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="template12.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Configurare Culori */
+            --bg-color: 250, 248, 245;
+            --accent-color: 168, 123, 80; /* Maro/Auriu stins */
+            --text-color: 50, 50, 50;
+        }
+
+        body {
+            background-color: rgb(var(--bg-color));
+            color: rgb(var(--text-color));
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .serif { font-family: 'Cormorant Garamond', serif; }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero-img-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: -1;
+            filter: brightness(0.7) sepia(0.2);
+        }
+
+        /* --- TIMELINE CORE --- */
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Linia verticala */
+        .timeline-track {
+            position: absolute;
+            left: 50%; top: 0; bottom: 0;
+            width: 2px;
+            background: rgba(var(--accent-color), 0.2);
+            transform: translateX(-50%);
+        }
+        
+        /* Linia de progres (animata de JS) */
+        .timeline-progress {
+            position: absolute;
+            left: 50%; top: 0;
+            width: 2px;
+            height: 0%; /* JS va modifica asta */
+            background: rgb(var(--accent-color));
+            transform: translateX(-50%);
+            transition: height 0.1s linear;
+            z-index: 1;
+        }
+        .timeline-head {
+            width: 10px; height: 10px; background: rgb(var(--accent-color));
+            border-radius: 50%; position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgb(var(--accent-color));
+        }
+
+        /* Item Individual */
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Punctul de pe linie */
+        .timeline-dot {
+            width: 16px; height: 16px;
+            background: rgb(var(--bg-color));
+            border: 2px solid rgb(var(--accent-color));
+            border-radius: 50%;
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        /* Cardul de continut */
+        .content-card {
+            background: white;
+            padding: 30px;
+            border-radius: 2px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            width: 45%; /* Desktop: latime sub 50% */
+            position: relative;
+            z-index: 5;
+            border-top: 3px solid rgb(var(--accent-color));
+        }
+
+        /* Alternanta Stanga/Dreapta */
+        .timeline-item:nth-child(odd) .content-card { margin-right: auto; text-align: right; }
+        .timeline-item:nth-child(even) .content-card { margin-left: auto; text-align: left; }
+
+        .card-img {
+            width: 100%; height: 250px; object-fit: cover; margin-bottom: 15px;
+            filter: grayscale(100%); transition: filter 0.5s;
+        }
+        .content-card:hover .card-img { filter: grayscale(0%); }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .timeline-track, .timeline-progress { left: 20px; }
+            .timeline-item { flex-direction: column; align-items: flex-start; margin-left: 20px; }
+            .timeline-dot { left: 0; top: 20px; }
+            .content-card { width: 100%; margin: 0 !important; text-align: left !important; margin-left: 20px !important; }
+        }
+
+        /* Inputs */
+        .input-elegant {
+            width: 100%; border: none; border-bottom: 1px solid #ccc;
+            padding: 10px 0; outline: none; font-family: 'Montserrat', sans-serif;
+            background: transparent;
+        }
+        .input-elegant:focus { border-bottom-color: rgb(var(--accent-color)); }
+
+        /* Marquee */
+        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
+        .animate-marquee { animation: marquee 20s linear infinite; }
+    </style>
 </head>
 <body>
 
-    <header class="hero">
-        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop" class="hero-img-bg">
+    <header id="sec-hero" class="hero">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070" class="hero-img-bg data-img-hero">
         
-        <div class="z-10 bg-[rgb(var(--bg-color))]/80 p-8 md:p-12 backdrop-blur-sm border border-[rgb(var(--accent-color))]">
-            <p class="uppercase tracking-[0.4em] text-xs mb-4">Noi doi</p>
-            <h1 class="text-6xl md:text-8xl mb-2 text-[rgb(var(--accent-color))]">Ana & Vlad</h1>
-            <p class="serif text-2xl italic">24 August 2025</p>
+        <div class="z-10 bg-[rgb(var(--bg-color))]/90 p-8 md:p-12 backdrop-blur-sm border border-[rgb(var(--accent-color))]">
+            <p class="uppercase tracking-[0.4em] text-xs mb-4">Save the Date</p>
+            <h1 class="text-5xl md:text-7xl mb-2 text-[rgb(var(--accent-color))] serif">
+                <span class="data-bride-firstname">Ana</span> & <span class="data-groom-firstname">Vlad</span>
+            </h1>
+            <p class="serif text-2xl italic data-wedding-date">24 August 2025</p>
         </div>
         
-        <div class="absolute bottom-10 animate-bounce text-[rgb(var(--accent-color))]">
-            Start Journey ↓
+        <div class="absolute bottom-10 animate-bounce text-white/80 text-xs uppercase tracking-widest">
+            Derulează Povestea ↓
         </div>
     </header>
+
+    <section id="sec-date-banner" class="bg-[rgb(var(--accent-color))] py-3 overflow-hidden border-t border-white/20">
+        <div class="whitespace-nowrap flex animate-marquee text-white text-xs uppercase tracking-[0.4em]">
+            <span class="mx-12 data-wedding-date">24 AUGUST 2025</span> • 
+            <span class="mx-12">SAVE THE DATE</span> • 
+            <span class="mx-12 data-wedding-date">24 AUGUST 2025</span> • 
+            <span class="mx-12">SAVE THE DATE</span>
+        </div>
+    </section>
 
     <div class="timeline-container">
         
         <div class="timeline-track"></div>
         <div class="timeline-progress" id="progressLine">
-            <div class="timeline-head"></div> </div>
-
-        <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="content-card">
-                <h2 class="text-3xl mb-4 text-[rgb(var(--accent-color))]">Începutul</h2>
-                <p class="leading-relaxed opacity-80">
-                    Totul a început cu o cafea. Nu știam atunci că acea conversație va dura o viață întreagă. Suntem bucuroși să vă avem alături la celebrarea iubirii noastre.
-                </p>
-            </div>
+            <div class="timeline-head"></div> 
         </div>
 
-        <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="content-card">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop" class="card-img">
-                <h3 class="text-2xl font-bold">Mirele</h3>
-                <p class="italic text-[rgb(var(--accent-color))] mb-2">Vlad Ionescu</p>
-                <p class="text-sm opacity-70">
-                    Pasionat de munte și tehnologie. Vlad a găsit în Ana liniștea de care avea nevoie după fiecare aventură.
-                </p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="content-card">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop" class="card-img">
-                <h3 class="text-2xl font-bold">Mireasa</h3>
-                <p class="italic text-[rgb(var(--accent-color))] mb-2">Ana Popa</p>
-                <p class="text-sm opacity-70">
-                    Artistă și visătoare. Ana a găsit în Vlad sprijinul și curajul de a transforma orice vis în realitate.
-                </p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="content-card">
-                <h2 class="text-3xl mb-6 text-[rgb(var(--accent-color))]">Destinația</h2>
-                
-                <div class="mb-6">
-                    <h4 class="font-bold uppercase tracking-widest text-sm">Cununia • 16:00</h4>
-                    <p class="serif text-xl">Biserica Stavropoleos</p>
+        <div id="sec-couple">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="content-card">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887" class="card-img data-img-bride">
+                    <h3 class="text-2xl font-bold serif mb-1 data-bride-fullname">Ana Popa</h3>
+                    <p class="italic text-[rgb(var(--accent-color))] text-sm mb-3 uppercase tracking-widest">Mireasa</p>
+                    <p class="text-sm opacity-70 data-bride-desc">
+                        Artistă și visătoare. Ana a găsit în Vlad sprijinul și curajul de a transforma orice vis în realitate.
+                    </p>
                 </div>
-                
-                <div class="mb-6">
-                    <h4 class="font-bold uppercase tracking-widest text-sm">Petrecerea • 19:00</h4>
-                    <p class="serif text-xl">Palatul Mogoșoaia</p>
-                    <p class="text-sm opacity-60">Sala Tronului</p>
-                </div>
+            </div>
 
-                <a href="#" class="inline-block border-b border-[rgb(var(--accent-color))] text-[rgb(var(--accent-color))] pb-1">Vezi Harta</a>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="content-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887" class="card-img data-img-groom">
+                    <h3 class="text-2xl font-bold serif mb-1 data-groom-fullname">Vlad Ionescu</h3>
+                    <p class="italic text-[rgb(var(--accent-color))] text-sm mb-3 uppercase tracking-widest">Mirele</p>
+                    <p class="text-sm opacity-70 data-groom-desc">
+                        Pasionat de munte și tehnologie. Vlad a găsit în Ana liniștea de care avea nevoie după fiecare aventură.
+                    </p>
+                </div>
             </div>
         </div>
 
-        <div class="timeline-item">
+        <div id="sec-timeline">
+            <div class="timeline-item data-event-item">
+                <div class="timeline-dot"></div>
+                <div class="content-card">
+                    <span class="text-[rgb(var(--accent-color))] font-bold text-xl block mb-2 data-event-time">16:00</span>
+                    <h3 class="text-2xl font-bold serif mb-1 data-event-title">Cununia Religioasă</h3>
+                    <p class="text-sm opacity-70 data-event-location">Biserica Stavropoleos</p>
+                </div>
+            </div>
+
+            <div class="timeline-item data-event-item">
+                <div class="timeline-dot"></div>
+                <div class="content-card">
+                    <span class="text-[rgb(var(--accent-color))] font-bold text-xl block mb-2 data-event-time">19:00</span>
+                    <h3 class="text-2xl font-bold serif mb-1 data-event-title">Petrecerea</h3>
+                    <p class="text-sm opacity-70 data-event-location">Palatul Mogoșoaia, Sala Tronului</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="sec-details">
+            <div class="timeline-item" id="sec-godparents">
+                <div class="timeline-dot"></div>
+                <div class="content-card text-center">
+                    <h3 class="text-xl font-bold serif mb-4 text-[rgb(var(--accent-color))]">Nașii Noștri</h3>
+                    <div class="flex justify-center gap-4 mb-4">
+                        <img src="https://images.unsplash.com/photo-1551024601-562963525c2c?w=150" class="w-16 h-16 rounded-full object-cover border border-[rgb(var(--accent-color))] data-img-godfather">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150" class="w-16 h-16 rounded-full object-cover border border-[rgb(var(--accent-color))] data-img-godmother">
+                    </div>
+                    <p class="font-bold text-lg"><span class="data-godfather-name">Ion</span> & <span class="data-godmother-name">Maria</span></p>
+                    <p class="text-xs uppercase tracking-widest opacity-60">Familia Popescu</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" id="sec-dresscode">
+                <div class="timeline-dot"></div>
+                <div class="content-card text-center">
+                    <h3 class="text-xl font-bold serif mb-2 text-[rgb(var(--accent-color))]">Dress Code</h3>
+                    <h4 class="text-2xl font-serif mb-2 data-dresscode-title">Black Tie</h4>
+                    <p class="text-sm opacity-70 data-dresscode-desc">Eleganță formală. Culori pământii.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="sec-location" class="timeline-item">
             <div class="timeline-dot"></div>
-            <div class="content-card p-2">
-                <h3 class="text-center py-4 text-xl uppercase tracking-widest">Amintiri</h3>
+            <div class="content-card">
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800" class="card-img data-img-location-bg">
+                <h2 class="text-2xl font-bold serif mb-2 data-location-name">Palatul Mogoșoaia</h2>
+                <p class="text-sm opacity-70 mb-4">
+                    Un loc încărcat de istorie și natură, perfect pentru a celebra povestea noastră.
+                </p>
+                <a href="#" target="_blank" class="inline-block border-b border-[rgb(var(--accent-color))] text-[rgb(var(--accent-color))] pb-1 text-sm uppercase tracking-widest data-map-link">Vezi Harta</a>
+            </div>
+        </div>
+
+        <div id="sec-gallery" class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="content-card">
+                <h3 class="text-center py-2 text-xl uppercase tracking-widest mb-4">Amintiri</h3>
                 <div class="grid grid-cols-2 gap-2">
-                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=400" class="w-full h-32 object-cover">
-                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?q=80&w=400" class="w-full h-32 object-cover">
-                    <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=400" class="w-full h-32 object-cover">
-                    <img src="https://images.unsplash.com/photo-1520854221256-17451cc330e7?q=80&w=400" class="w-full h-32 object-cover">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=400" class="w-full h-32 object-cover data-gallery-img-1">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?q=80&w=400" class="w-full h-32 object-cover data-gallery-img-2">
+                    <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=400" class="w-full h-32 object-cover data-gallery-img-3">
+                    <img src="https://images.unsplash.com/photo-1520854221256-17451cc330e7?q=80&w=400" class="w-full h-32 object-cover data-gallery-img-1">
                 </div>
             </div>
         </div>
 
-        <div class="timeline-item">
+        <div id="sec-rsvp" class="timeline-item">
             <div class="timeline-dot bg-[rgb(var(--accent-color))]"></div>
-            <div class="content-card bg-white border-2 border-[rgb(var(--accent-color))]">
-                <h2 class="text-3xl mb-2 text-center serif">RSVP</h2>
-                <p class="text-center text-sm opacity-60 mb-6">Te așteptăm cu drag!</p>
+            <div class="content-card border-2 border-[rgb(var(--accent-color))] bg-[#fffbf5]">
+                <h2 class="text-3xl mb-2 text-center serif text-[rgb(var(--accent-color))]">RSVP</h2>
+                <p class="text-center text-sm opacity-60 mb-6">Confirmă până la <span class="data-rsvp-deadline font-bold">1 Iulie</span></p>
                 
-                <form>
-                    <input type="text" placeholder="Nume Familiei" class="input-elegant">
+                <form onsubmit="handleRSVP(event)" class="space-y-6">
+                    <div>
+                        <input type="text" name="nume" placeholder="Numele Familiei" class="input-elegant w-full" required>
+                    </div>
                     <div class="flex gap-4">
-                        <select class="input-elegant w-1/2">
-                            <option>1 Persoană</option>
-                            <option>2 Persoane</option>
+                        <select name="numar_persoane" class="input-elegant w-1/2 bg-transparent">
+                            <option value="1">1 Persoană</option>
+                            <option value="2">2 Persoane</option>
+                            <option value="3">3 Persoane</option>
                         </select>
-                        <select class="input-elegant w-1/2">
-                            <option>Meniu Clasic</option>
-                            <option>Vegetarian</option>
+                        <select name="confirmare" class="input-elegant w-1/2 bg-transparent">
+                            <option value="da">Particip</option>
+                            <option value="nu">Nu particip</option>
                         </select>
                     </div>
-                    <button type="button" class="btn-gold w-full mt-4">Confirm</button>
+                    <button type="submit" class="w-full py-3 bg-[rgb(var(--accent-color))] text-white font-bold uppercase tracking-widest text-xs hover:opacity-90 transition">
+                        Trimite Confirmarea
+                    </button>
                 </form>
             </div>
         </div>
 
     </div>
 
-    <footer class="text-center py-12 opacity-50 text-sm">
-        <p>Ana & Vlad • 2025</p>
+    <footer class="text-center py-12 opacity-50 text-sm border-t border-[rgb(var(--accent-color))]/20 mt-10">
+        <p class="data-couple-initials text-2xl serif mb-2">A & V</p>
+        <p>© 2025 Timeline Wedding</p>
     </footer>
 
     <script src="template12.js"></script>

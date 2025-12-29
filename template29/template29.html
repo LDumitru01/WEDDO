@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emerald Cinema | The Wedding</title>
+    <title class="data-seo-title">Emerald Cinema | The Wedding</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -41,6 +41,7 @@
             position: fixed; top: 0; width: 100%; height: 50vh;
             background: var(--c-gold); z-index: 10000;
             transition: transform 1.2s cubic-bezier(0.87, 0, 0.13, 1);
+            will-change: transform;
         }
         .shutter-top { top: 0; transform-origin: top; }
         .shutter-bottom { bottom: 0; height: 50vh; background: var(--c-gold); position: fixed; width: 100%; z-index: 10000; transform-origin: bottom; transition: transform 1.2s cubic-bezier(0.87, 0, 0.13, 1); }
@@ -48,12 +49,12 @@
         .loader-content {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             z-index: 10001; color: var(--c-bg); font-family: var(--font-head);
-            font-size: 4rem; overflow: hidden;
+            font-size: 4rem; overflow: hidden; transition: opacity 0.5s;
         }
         
         body.loaded .shutter-top { transform: scaleY(0); }
         body.loaded .shutter-bottom { transform: scaleY(0); }
-        body.loaded .loader-content { opacity: 0; pointer-events: none; transition: opacity 0.5s; }
+        body.loaded .loader-content { opacity: 0; pointer-events: none; }
 
         /* === 2. CANVAS TRAIL EFFECT === */
         #trailCanvas {
@@ -66,17 +67,19 @@
             position: fixed; top: 0; left: 0; width: 12px; height: 12px;
             background: var(--c-gold); border-radius: 50%;
             pointer-events: none; z-index: 11000; mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
         }
         .cursor-outline {
             position: fixed; top: 0; left: 0; width: 50px; height: 50px;
             border: 1px solid var(--c-gold); border-radius: 50%;
-            pointer-events: none; z-index: 11000; transition: all 0.2s ease-out;
+            pointer-events: none; z-index: 11000; transition: transform 0.2s ease-out, background-color 0.2s;
+            transform: translate(-50%, -50%);
         }
-        body.hover-active .cursor-outline { transform: scale(1.5); background: rgba(214, 188, 133, 0.1); }
+        body.hover-active .cursor-outline { transform: translate(-50%, -50%) scale(1.5); background: rgba(214, 188, 133, 0.1); }
 
         /* === 4. ANIMATION UTILS === */
-        .img-reveal-wrap { overflow: hidden; position: relative; }
-        .img-reveal { width: 100%; height: 100%; object-fit: cover; transform: scale(1.4); transition: transform 1.5s ease; }
+        .img-reveal-wrap { overflow: hidden; position: relative; width: 100%; height: 100%; }
+        .img-reveal { width: 100%; height: 100%; object-fit: cover; transform: scale(1.4); transition: transform 1.5s ease; will-change: transform; }
         .is-visible .img-reveal { transform: scale(1); }
 
         .text-split-wrap { overflow: hidden; display: block; }
@@ -84,9 +87,7 @@
         .is-visible .text-split { transform: translateY(0); }
 
         /* === 5. UNIQUE CLIP PATHS === */
-        /* Face pozele să arate ca niște arcade sau ferestre */
         .clip-arch { clip-path: inset(0 0 0 0 round 150px 150px 0 0); }
-        .clip-diamond { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
         
         /* === 6. UI COMPONENTS === */
         .btn-gold {
@@ -102,9 +103,6 @@
         .btn-gold:hover { color: var(--c-bg); }
         .btn-gold:hover::before { transform: translateX(0); }
 
-        /* Text Stroke Effect */
-        .text-stroke { -webkit-text-stroke: 1px var(--c-gold); color: transparent; }
-
         /* Form Inputs */
         .input-emerald {
             width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--c-dim);
@@ -113,7 +111,6 @@
         }
         .input-emerald:focus { border-bottom-color: var(--c-gold); }
         .input-emerald::placeholder { color: rgba(232, 227, 217, 0.2); font-family: var(--font-body); font-size: 1rem; }
-
     </style>
 </head>
 <body class="loading">
@@ -127,35 +124,37 @@
     <div class="loader-content">
         <div class="text-center">
             <span class="block text-sm uppercase tracking-[0.5em] mb-4">The Wedding</span>
-            <span class="block text-6xl md:text-8xl italic font-serif">M & D</span>
+            <span class="block text-6xl md:text-8xl italic font-serif data-couple-initials">M & D</span>
         </div>
     </div>
     <div class="loader-shutter shutter-bottom"></div>
 
     <nav class="fixed left-0 top-0 h-full w-20 hidden md:flex flex-col justify-between items-center py-10 z-50 border-r border-[rgba(255,255,255,0.05)] bg-[#032219]/80 backdrop-blur-md">
-        <div class="text-xl font-bold text-[var(--c-gold)]">M</div>
+        <div class="text-xl font-bold text-[var(--c-gold)] data-groom-initials">M</div>
         
         <div class="flex flex-col gap-12 writing-vertical-rl text-xs uppercase tracking-[0.3em] text-[var(--c-dim)]">
-            <a href="#intro" class="hover:text-[var(--c-gold)] transition hover-trigger -rotate-180" style="writing-mode: vertical-rl;">Intro</a>
-            <a href="#couple" class="hover:text-[var(--c-gold)] transition hover-trigger -rotate-180" style="writing-mode: vertical-rl;">Couple</a>
-            <a href="#events" class="hover:text-[var(--c-gold)] transition hover-trigger -rotate-180" style="writing-mode: vertical-rl;">Events</a>
+            <a href="#sec-hero" class="hover:text-[var(--c-gold)] transition hover-trigger -rotate-180" style="writing-mode: vertical-rl;">Home</a>
+            <a href="#sec-couple" class="hover:text-[var(--c-gold)] transition hover-trigger -rotate-180" style="writing-mode: vertical-rl;">Couple</a>
+            <a href="#sec-timeline" class="hover:text-[var(--c-gold)] transition hover-trigger -rotate-180" style="writing-mode: vertical-rl;">Events</a>
+            <a href="#sec-rsvp" class="hover:text-[var(--c-gold)] transition hover-trigger -rotate-180" style="writing-mode: vertical-rl;">RSVP</a>
         </div>
 
-        <div class="text-xl font-bold text-[var(--c-gold)]">D</div>
+        <div class="text-xl font-bold text-[var(--c-gold)] data-bride-initials">D</div>
     </nav>
 
-    <nav class="fixed top-0 w-full p-6 flex justify-between md:hidden z-50 mix-blend-difference">
-        <span class="font-serif text-xl text-[var(--c-gold)]">M & D</span>
-        <span class="text-xs uppercase tracking-widest text-[var(--c-gold)]">Menu</span>
+    <nav class="fixed top-0 w-full p-6 flex justify-between md:hidden z-50 mix-blend-difference pointer-events-none">
+        <span class="font-serif text-xl text-[var(--c-gold)] pointer-events-auto data-couple-initials">M & D</span>
+        <a href="#sec-rsvp" class="text-xs uppercase tracking-widest text-[var(--c-gold)] pointer-events-auto">RSVP</a>
     </nav>
 
 
     <main class="md:pl-20">
 
-        <section class="h-screen relative flex items-center justify-center overflow-hidden">
+        <section id="sec-hero" class="h-screen relative flex items-center justify-center overflow-hidden">
             <div class="absolute inset-0 z-0">
                 <div class="img-reveal-wrap w-full h-full">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1600" class="w-full h-full object-cover opacity-30 scale-110" id="hero-bg">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1600" 
+                         class="w-full h-full object-cover opacity-30 scale-110 data-img-hero" id="hero-bg">
                 </div>
                 <div class="absolute inset-0 bg-gradient-to-b from-[#032219] via-transparent to-[#032219]"></div>
             </div>
@@ -166,15 +165,15 @@
                 </div>
                 
                 <h1 class="text-[12vw] leading-[0.85] font-serif text-[var(--c-text)] mix-blend-overlay">
-                    <div class="text-split-wrap"><span class="text-split">MATEI</span></div>
-                    <div class="text-split-wrap py-2"><span class="text-split font-art text-[8vw] text-[var(--c-gold)] opacity-80">& Diana</span></div>
-                    <div class="text-split-wrap"><span class="text-split">IONESCU</span></div>
+                    <div class="text-split-wrap"><span class="text-split data-groom-firstname">MATEI</span></div>
+                    <div class="text-split-wrap py-2"><span class="text-split font-art text-[8vw] text-[var(--c-gold)] opacity-80">& <span class="data-bride-firstname">Diana</span></span></div>
+                    <div class="text-split-wrap"><span class="text-split data-bride-lastname">IONESCU</span></div>
                 </h1>
 
                 <div class="mt-12">
                     <div class="text-split-wrap">
                         <span class="text-split text-sm uppercase tracking-widest text-[var(--c-dim)] border border-[var(--c-gold)] px-6 py-3 rounded-full">
-                            24 . 08 . 2025 • Palatul Snagov
+                            <span class="data-wedding-date">24 . 08 . 2025</span> • <span class="data-location-name">Palatul Snagov</span>
                         </span>
                     </div>
                 </div>
@@ -182,18 +181,18 @@
         </section>
 
 
-        <section id="intro" class="py-32 px-6 md:px-24 relative">
+        <section id="sec-intro" class="py-32 px-6 md:px-24 relative">
             <div class="absolute left-6 md:left-24 top-0 w-[1px] h-32 bg-[var(--c-gold)] opacity-30"></div>
 
             <div class="max-w-4xl mx-auto text-center md:text-left">
                 <p class="text-2xl md:text-4xl leading-[1.6] font-serif text-[var(--c-text)] opacity-80 reveal-text-scroll">
-                    "Iubirea este singurul aur care nu își pierde strălucirea. După 7 ani de călătorii, vise și cafele împărtășite, suntem gata să scriem cel mai frumos capitol: <span class="text-[var(--c-gold)] italic font-art text-5xl">Eternitatea</span>."
+                    "Iubirea este singurul aur care nu își pierde strălucirea. După ani de călătorii și vise împărtășite, suntem gata să scriem cel mai frumos capitol: <span class="text-[var(--c-gold)] italic font-art text-5xl">Eternitatea</span>."
                 </p>
             </div>
         </section>
 
 
-        <section id="couple" class="py-20 relative">
+        <section id="sec-couple" class="py-20 relative">
             <div class="container mx-auto px-6">
                 
                 <div class="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20">
@@ -201,23 +200,23 @@
                     <div class="relative w-full md:w-[400px] group hover-trigger">
                         <div class="img-reveal-wrap aspect-[3/4] clip-arch border border-[var(--c-gold)] p-2">
                             <div class="w-full h-full overflow-hidden rounded-[140px_140px_0_0] relative">
-                                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" class="img-reveal grayscale group-hover:grayscale-0 transition duration-1000">
+                                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800" 
+                                     class="img-reveal grayscale group-hover:grayscale-0 transition duration-1000 data-img-groom">
                                 <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#032219] to-transparent opacity-80"></div>
-                                <h3 class="absolute bottom-6 left-0 w-full text-center font-serif text-4xl text-[var(--c-gold)]">Matei</h3>
+                                <h3 class="absolute bottom-6 left-0 w-full text-center font-serif text-4xl text-[var(--c-gold)] data-groom-firstname">Matei</h3>
                             </div>
                         </div>
                     </div>
 
-                    <div class="text-[var(--c-gold)] text-6xl font-serif opacity-50">
-                        ✦
-                    </div>
+                    <div class="text-[var(--c-gold)] text-6xl font-serif opacity-50">✦</div>
 
                     <div class="relative w-full md:w-[400px] group hover-trigger">
                         <div class="img-reveal-wrap aspect-[3/4] clip-arch border border-[var(--c-gold)] p-2">
                             <div class="w-full h-full overflow-hidden rounded-[140px_140px_0_0] relative">
-                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800" class="img-reveal grayscale group-hover:grayscale-0 transition duration-1000">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800" 
+                                     class="img-reveal grayscale group-hover:grayscale-0 transition duration-1000 data-img-bride">
                                 <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#032219] to-transparent opacity-80"></div>
-                                <h3 class="absolute bottom-6 left-0 w-full text-center font-serif text-4xl text-[var(--c-gold)]">Diana</h3>
+                                <h3 class="absolute bottom-6 left-0 w-full text-center font-serif text-4xl text-[var(--c-gold)] data-bride-firstname">Diana</h3>
                             </div>
                         </div>
                     </div>
@@ -227,104 +226,137 @@
         </section>
 
 
-        <section id="events" class="py-32 px-6 md:px-24 bg-[#063d2d] relative">
+        <section id="sec-timeline" class="py-32 px-6 md:px-24 bg-[#063d2d] relative">
             <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#D6BC85 1px, transparent 1px); background-size: 30px 30px;"></div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
-                
-                <div class="group border border-[var(--c-gold)]/20 p-10 hover:bg-[#032219] transition duration-500 hover-trigger">
+                <div class="group border border-[var(--c-gold)]/20 p-10 hover:bg-[#032219] transition duration-500 hover-trigger data-event-item">
                     <span class="text-[var(--c-gold)] font-serif text-5xl block mb-6">01</span>
-                    <h3 class="text-2xl font-serif mb-4 text-white">Cununia</h3>
-                    <p class="text-[var(--c-dim)] text-sm leading-relaxed mb-8">
-                        Un moment intim și sacru, desfășurat în capela istorică a palatului.
-                    </p>
+                    <h3 class="text-2xl font-serif mb-4 text-white data-event-title">Cununia</h3>
                     <div class="flex justify-between items-center text-xs uppercase tracking-widest text-[var(--c-gold)] border-t border-white/10 pt-4">
-                        <span>16:00</span>
-                        <span>Capela</span>
+                        <span class="data-event-time">16:00</span>
+                        <span class="data-event-location">Capela</span>
                     </div>
                 </div>
 
-                <div class="group border border-[var(--c-gold)]/20 p-10 hover:bg-[#032219] transition duration-500 hover-trigger scale-105 bg-[#032219] shadow-2xl border-[var(--c-gold)]/50">
+                <div class="group border border-[var(--c-gold)]/20 p-10 hover:bg-[#032219] transition duration-500 hover-trigger scale-105 bg-[#032219] shadow-2xl border-[var(--c-gold)]/50 data-event-item">
                     <span class="text-[var(--c-gold)] font-serif text-5xl block mb-6">02</span>
-                    <h3 class="text-2xl font-serif mb-4 text-white">Dineul</h3>
-                    <p class="text-[var(--c-dim)] text-sm leading-relaxed mb-8">
-                        O experiență culinară rafinată sub candelabrele de cristal.
-                    </p>
+                    <h3 class="text-2xl font-serif mb-4 text-white data-event-title">Dineul</h3>
                     <div class="flex justify-between items-center text-xs uppercase tracking-widest text-[var(--c-gold)] border-t border-white/10 pt-4">
-                        <span>19:00</span>
-                        <span>Sala Mare</span>
+                        <span class="data-event-time">19:00</span>
+                        <span class="data-event-location">Sala Mare</span>
                     </div>
                 </div>
 
-                <div class="group border border-[var(--c-gold)]/20 p-10 hover:bg-[#032219] transition duration-500 hover-trigger">
+                <div class="group border border-[var(--c-gold)]/20 p-10 hover:bg-[#032219] transition duration-500 hover-trigger data-event-item">
                     <span class="text-[var(--c-gold)] font-serif text-5xl block mb-6">03</span>
-                    <h3 class="text-2xl font-serif mb-4 text-white">Party</h3>
-                    <p class="text-[var(--c-dim)] text-sm leading-relaxed mb-8">
-                        Muzică live, dans și cocktailuri semnătură până în zori.
-                    </p>
+                    <h3 class="text-2xl font-serif mb-4 text-white data-event-title">Party</h3>
                     <div class="flex justify-between items-center text-xs uppercase tracking-widest text-[var(--c-gold)] border-t border-white/10 pt-4">
-                        <span>22:00</span>
-                        <span>Terasă</span>
+                        <span class="data-event-time">22:00</span>
+                        <span class="data-event-location">Terasă</span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="sec-location" class="py-32 px-6 md:px-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1">
+                    <span class="text-[var(--c-gold)] text-xs uppercase tracking-[0.4em] mb-4 block">Destinația</span>
+                    <h2 class="text-5xl font-serif text-[var(--c-text)] mb-6 data-location-name">Palatul Snagov</h2>
+                    <p class="text-[var(--c-text)] opacity-70 mb-8 leading-relaxed">
+                        Un loc de poveste, înconjurat de natură și istorie, perfect pentru a celebra dragostea noastră.
+                    </p>
+                    <a href="#" target="_blank" class="btn-gold data-map-link">Vezi Harta</a>
+                </div>
+                <div class="order-1 md:order-2 h-[500px] w-full relative overflow-hidden rounded-t-[200px] border border-[var(--c-gold)] p-2">
+                    <div class="w-full h-full rounded-t-[190px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800" 
+                             class="w-full h-full object-cover opacity-80 data-img-location-bg">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="sec-details" class="py-20 border-t border-white/5">
+            <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 text-center">
+                
+                <div class="p-8 border border-[var(--c-gold)]/20 rounded-lg hover:border-[var(--c-gold)] transition duration-500" id="sec-godparents">
+                    <h3 class="text-2xl font-serif text-[var(--c-gold)] mb-6">Părinții Spirituali</h3>
+                    <div class="flex justify-center gap-4 mb-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-20 h-20 rounded-full object-cover border border-[var(--c-gold)] data-img-godfather">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-20 h-20 rounded-full object-cover border border-[var(--c-gold)] data-img-godmother">
+                    </div>
+                    <p class="text-xl text-[var(--c-text)] mb-2"><span class="data-godfather-name">Radu</span> & <span class="data-godmother-name">Elena</span></p>
+                    <p class="text-xs uppercase tracking-widest text-[var(--c-dim)]">Familia Ionescu</p>
+                </div>
+
+                <div class="p-8 border border-[var(--c-gold)]/20 rounded-lg hover:border-[var(--c-gold)] transition duration-500 flex flex-col justify-center" id="sec-dresscode">
+                    <h3 class="text-2xl font-serif text-[var(--c-gold)] mb-4">Dress Code</h3>
+                    <h4 class="text-3xl font-art text-[var(--c-text)] mb-4 data-dresscode-title">Black Tie</h4>
+                    <p class="text-sm text-[var(--c-dim)] data-dresscode-desc">Eleganță formală. Culori închise.</p>
                 </div>
 
             </div>
         </section>
 
 
-        <section class="py-32 overflow-hidden">
+        <section id="sec-gallery" class="py-32 overflow-hidden">
             <div class="mb-16 px-6 md:px-24">
                 <span class="text-xs uppercase tracking-[0.4em] text-[var(--c-gold)]">Momente</span>
-                <h2 class="text-5xl font-serif mt-2">Galeria Foto</h2>
+                <h2 class="text-5xl font-serif mt-2 text-[var(--c-text)]">Galeria Foto</h2>
             </div>
 
             <div class="flex gap-10 px-6 md:px-24 w-max" id="galleryTrack">
                 <div class="w-[300px] md:w-[450px] aspect-[4/5] img-reveal-wrap hover-trigger">
-                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800" class="img-reveal grayscale hover:grayscale-0">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800" class="img-reveal grayscale hover:grayscale-0 data-gallery-img-1">
                 </div>
                 <div class="w-[300px] md:w-[450px] aspect-[4/5] img-reveal-wrap hover-trigger mt-20">
-                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=800" class="img-reveal grayscale hover:grayscale-0">
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=800" class="img-reveal grayscale hover:grayscale-0 data-gallery-img-2">
                 </div>
                 <div class="w-[300px] md:w-[450px] aspect-[4/5] img-reveal-wrap hover-trigger">
-                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800" class="img-reveal grayscale hover:grayscale-0">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800" class="img-reveal grayscale hover:grayscale-0 data-gallery-img-3">
                 </div>
                 <div class="w-[300px] md:w-[450px] aspect-[4/5] img-reveal-wrap hover-trigger mt-20">
-                    <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=800" class="img-reveal grayscale hover:grayscale-0">
+                    <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=800" class="img-reveal grayscale hover:grayscale-0 data-gallery-img-1">
                 </div>
             </div>
         </section>
 
 
-        <section class="py-32 flex justify-center px-6 border-t border-white/5">
+        <section id="sec-rsvp" class="py-32 flex justify-center px-6 border-t border-white/5">
             <div class="w-full max-w-2xl text-center">
                 <span class="text-[var(--c-gold)] text-6xl mb-6 block">❦</span>
-                <h2 class="text-6xl font-serif mb-16">Confirmare</h2>
+                <h2 class="text-6xl font-serif mb-16 text-[var(--c-text)]">Confirmare</h2>
 
-                <form class="text-left space-y-12">
+                <form onsubmit="handleRSVP(event)" class="text-left space-y-12">
                     <div class="group">
                         <label class="text-[var(--c-gold)] text-xs uppercase tracking-widest mb-2 block">Nume Complet</label>
-                        <input type="text" class="input-emerald hover-trigger" placeholder="Introduceți numele..." required>
+                        <input type="text" name="nume" class="input-emerald hover-trigger" placeholder="Introduceți numele..." required>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                         <div class="group">
                             <label class="text-[var(--c-gold)] text-xs uppercase tracking-widest mb-2 block">Oaspeți</label>
-                            <select class="input-emerald hover-trigger cursor-pointer">
-                                <option class="bg-[#032219]">1 Persoană</option>
-                                <option class="bg-[#032219]">2 Persoane</option>
+                            <select name="numar_persoane" class="input-emerald hover-trigger cursor-pointer">
+                                <option class="bg-[#032219]" value="1">1 Persoană</option>
+                                <option class="bg-[#032219]" value="2">2 Persoane</option>
+                                <option class="bg-[#032219]" value="3">3 Persoane</option>
                             </select>
                         </div>
                         <div class="group">
                             <label class="text-[var(--c-gold)] text-xs uppercase tracking-widest mb-2 block">Răspuns</label>
-                            <select class="input-emerald hover-trigger cursor-pointer">
-                                <option class="bg-[#032219]">Voi fi prezent</option>
-                                <option class="bg-[#032219]">Nu pot ajunge</option>
+                            <select name="confirmare" class="input-emerald hover-trigger cursor-pointer">
+                                <option class="bg-[#032219]" value="da">Voi fi prezent</option>
+                                <option class="bg-[#032219]" value="nu">Nu pot ajunge</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="text-center pt-10">
-                        <button class="btn-gold hover-trigger">Trimite Răspunsul</button>
+                        <button type="submit" class="btn-gold hover-trigger">Trimite Răspunsul</button>
                     </div>
                 </form>
             </div>
@@ -336,148 +368,6 @@
 
     </main>
 
-
-    <script>
-        // A. LOAD ANIMATION
-        window.addEventListener('load', () => {
-            const shutterTop = document.querySelector('.shutter-top');
-            const shutterBottom = document.querySelector('.shutter-bottom');
-            const content = document.querySelector('.loader-content');
-
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-                initAnimations();
-            }, 1000);
-        });
-
-        // B. SMOOTH SCROLL
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smooth: true
-        });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-
-        // C. CANVAS GOLD DUST (TRAIL)
-        const canvas = document.getElementById('trailCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height, particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor(x, y) {
-                this.x = x; this.y = y;
-                this.size = Math.random() * 2;
-                this.life = 1; this.decay = 0.02;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.vy = (Math.random() - 0.5) * 2;
-            }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                this.life -= this.decay;
-                this.size -= 0.05;
-            }
-            draw() {
-                ctx.fillStyle = `rgba(214, 188, 133, ${this.life})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function animateCanvas() {
-            ctx.clearRect(0, 0, width, height);
-            for(let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-                if(particles[i].life <= 0 || particles[i].size <= 0) {
-                    particles.splice(i, 1); i--;
-                }
-            }
-            requestAnimationFrame(animateCanvas);
-        }
-        animateCanvas();
-
-        window.addEventListener('mousemove', (e) => {
-            // Add particles on move
-            for(let i=0; i<3; i++) particles.push(new Particle(e.clientX, e.clientY));
-        });
-
-
-        // D. GSAP ANIMATIONS
-        gsap.registerPlugin(ScrollTrigger);
-
-        function initAnimations() {
-            
-            // 1. Hero Text Split Reveal
-            const splits = document.querySelectorAll('.text-split');
-            gsap.to(splits, {
-                y: 0,
-                duration: 1.5,
-                stagger: 0.1,
-                ease: 'power4.out',
-                delay: 0.5
-            });
-
-            // 2. Parallax Hero Bg
-            gsap.to('#hero-bg', {
-                yPercent: 20,
-                scale: 1,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: 'body',
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: true
-                }
-            });
-
-            // 3. Image Reveal on Scroll
-            const imgReveals = document.querySelectorAll('.img-reveal');
-            imgReveals.forEach(img => {
-                ScrollTrigger.create({
-                    trigger: img,
-                    start: 'top 80%',
-                    onEnter: () => img.parentElement.classList.add('is-visible')
-                });
-            });
-
-            // 4. Horizontal Scroll Gallery
-            const gallery = document.getElementById('galleryTrack');
-            gsap.to(gallery, {
-                x: () => -(gallery.scrollWidth - window.innerWidth + 100),
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: gallery.parentElement,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: 1
-                }
-            });
-        }
-
-        // E. CUSTOM CURSOR
-        const cursor = document.querySelector('.cursor-outline');
-        const dot = document.querySelector('.cursor-main');
-        
-        window.addEventListener('mousemove', (e) => {
-            gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1 });
-            gsap.to(cursor, { x: e.clientX - 25, y: e.clientY - 25, duration: 0.2 });
-        });
-
-        document.querySelectorAll('.hover-trigger').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hover-active'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hover-active'));
-        });
-
-    </script>
+    <script src="template29.js"></script>
 </body>
 </html>

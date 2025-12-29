@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nostalgia Ultra | Responsive Experience</title>
+    <title class="data-seo-title">Nostalgia Ultra | Responsive Experience</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -16,6 +16,7 @@
 
     <style>
         :root {
+            /* === PALETA NOSTALGIA === */
             --c-paper: #E8E4D9;
             --c-ink: #2C2420;
             --c-sienna: #A6523F;
@@ -45,10 +46,11 @@
         .loader-screen {
             position: fixed; inset: 0; background: var(--c-ink); z-index: 10000;
             display: flex; justify-content: center; align-items: center; color: var(--c-paper);
+            transition: transform 0.8s ease-in-out;
         }
         .loader-text {
             font-family: var(--font-mono); font-size: 1.5rem; border-right: 2px solid var(--c-sienna);
-            padding-right: 5px; animation: blink 0.7s infinite;
+            padding-right: 5px; animation: blink 0.7s infinite; min-height: 1.5em;
         }
         @keyframes blink { 50% { border-color: transparent; } }
 
@@ -58,32 +60,33 @@
         }
         
         .polaroid {
-            background: #fff; padding: 10px 10px 40px 10px;
-            box-shadow: 2px 5px 15px rgba(0,0,0,0.1);
+            background: #fff; padding: 12px 12px 50px 12px;
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.15);
             transition: transform 0.3s;
+            cursor: grab;
         }
+        .polaroid:active { cursor: grabbing; }
 
-        /* LOGICA PENTRU GALERIE (Mobile vs Desktop) */
+        /* LOGICA PENTRU GALERIE (Playground) */
         .playground-container {
             position: relative; width: 100%; 
         }
         
-        /* Pe Desktop: Zona mare, liberă */
+        /* Desktop: Zona liberă Draggable */
         @media (min-width: 768px) {
-            .playground-container { height: 120vh; overflow: hidden; cursor: grab; }
-            .drag-item { position: absolute; width: 250px; }
-            .polaroid { transform: rotate(var(--rot)); }
-            .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 50; }
+            .playground-container { height: 120vh; overflow: hidden; }
+            .drag-item { position: absolute; width: 280px; will-change: transform; }
+            .polaroid:hover { z-index: 50; transform: scale(1.05); }
         }
 
-        /* Pe Mobile: Scroll Orizontal, Elemente Statice */
+        /* Mobile: Scroll Orizontal */
         @media (max-width: 767px) {
             .playground-container { 
                 display: flex; gap: 20px; overflow-x: auto; padding: 40px 20px; 
                 scroll-snap-type: x mandatory; height: auto;
             }
             .drag-item { 
-                position: relative !important; flex-shrink: 0; width: 80vw !important; 
+                position: relative !important; flex-shrink: 0; width: 75vw !important; 
                 top: auto !important; left: auto !important; 
                 scroll-snap-align: center;
                 transform: rotate(var(--rot-mob, 0deg));
@@ -102,10 +105,9 @@
         .stamp-btn:hover { background: var(--c-sienna); color: var(--c-paper); border-style: solid; }
         @keyframes rotateStamp { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Hide Scrollbar for mobile gallery */
-        .playground-container::-webkit-scrollbar { display: none; }
-        .playground-container { -ms-overflow-style: none; scrollbar-width: none; }
-
+        /* Hide Scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="loading">
@@ -116,15 +118,15 @@
         <div class="loader-text" id="typewriter"></div>
     </div>
 
-    <nav class="fixed top-0 w-full p-6 md:p-8 flex justify-between items-center z-40 mix-blend-multiply bg-white/50 backdrop-blur-sm md:bg-transparent">
-        <div class="font-mono text-xs uppercase tracking-widest border border-black px-4 py-1 rounded-full">Est. 2025</div>
-        <a href="#rsvp" class="font-mono text-xs uppercase tracking-widest border-b border-black hover:text-[var(--c-sienna)] transition">R.S.V.P.</a>
+    <nav class="fixed top-0 w-full p-6 md:p-8 flex justify-between items-center z-40 mix-blend-multiply bg-white/50 backdrop-blur-sm md:bg-transparent pointer-events-none">
+        <div class="font-mono text-xs uppercase tracking-widest border border-black px-4 py-1 rounded-full pointer-events-auto">Est. 2025</div>
+        <a href="#sec-rsvp" class="font-mono text-xs uppercase tracking-widest border-b border-black hover:text-[var(--c-sienna)] transition pointer-events-auto">R.S.V.P.</a>
     </nav>
 
 
     <main>
 
-        <section class="min-h-screen relative flex flex-col justify-center items-center pt-20 px-4 overflow-hidden">
+        <section id="sec-hero" class="min-h-screen relative flex flex-col justify-center items-center pt-20 px-4 overflow-hidden">
             
             <div class="absolute top-24 left-4 md:left-10 w-24 md:w-32 h-8 md:h-10 bg-[#e0dcd0] opacity-80 rotate-[-15deg] shadow-sm z-20"></div>
             <div class="absolute bottom-24 right-4 md:right-10 w-24 md:w-32 h-8 md:h-10 bg-[#e0dcd0] opacity-80 rotate-[10deg] shadow-sm z-20"></div>
@@ -133,12 +135,11 @@
                 <span class="font-mono text-[10px] md:text-xs uppercase tracking-[0.4em] mb-4 block">The Union Of</span>
                 
                 <h1 class="big-title text-[18vw] md:text-[15vw] text-[var(--c-ink)] mix-blend-darken relative leading-none">
-                    <span class="block" id="heroName1">MIHAI</span>
-                    <span class="block relative z-20" id="heroName2">ELENA</span>
+                    <span class="block data-groom-firstname" id="heroName1">MIHAI</span>
+                    <span class="block relative z-20 data-bride-firstname" id="heroName2">ELENA</span>
                     
                     <span class="handwritten text-[6vw] md:text-[4vw] absolute top-[45%] right-[5%] md:right-[-10%] z-30">forever</span>
                 </h1>
-
             </div>
 
             <div class="absolute bottom-8 w-full text-center">
@@ -147,7 +148,7 @@
         </section>
 
 
-        <section class="py-20 md:py-32 px-6 md:px-24 bg-[var(--c-paper)] relative">
+        <section id="sec-story" class="py-20 md:py-32 px-6 md:px-24 bg-[var(--c-paper)] relative">
             <div class="absolute left-6 md:left-1/2 top-0 h-full w-[1px] bg-[var(--c-ink)] opacity-20"></div>
 
             <div class="max-w-6xl mx-auto space-y-24 md:space-y-32">
@@ -157,12 +158,12 @@
                         <span class="handwritten text-2xl md:text-3xl mb-2 block">Cap. 01</span>
                         <h2 class="text-4xl md:text-5xl font-display mb-4">Începutul</h2>
                         <p class="font-serif text-base md:text-lg leading-relaxed opacity-80">
-                            O cafenea mică și o conversație de 5 ore. Așa a început totul.
+                            O cafenea mică și o conversație de 5 ore. Așa a început totul. Ne-am descoperit în povești și priviri furate.
                         </p>
                     </div>
                     <div class="w-full md:w-1/2 order-1 md:order-2 md:pl-10">
-                        <div class="w-full aspect-[4/3] overflow-hidden rounded-lg shadow-xl">
-                            <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800" class="w-full h-full object-cover">
+                        <div class="w-full aspect-[4/3] overflow-hidden rounded-lg shadow-xl rotate-2 hover:rotate-0 transition duration-500">
+                            <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500 data-img-groom">
                         </div>
                     </div>
                     <div class="absolute left-[-5px] md:left-1/2 top-0 md:top-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 w-4 h-4 md:w-16 md:h-16 bg-[var(--c-sienna)] rounded-full flex items-center justify-center text-[var(--c-paper)] font-mono text-xs font-bold z-10 border-2 md:border-4 border-[var(--c-paper)]">
@@ -173,18 +174,18 @@
                 <div class="flex flex-col md:flex-row items-center gap-8 md:gap-10 relative pl-8 md:pl-0">
                     <div class="w-full md:w-1/2 text-left md:text-right order-2 md:order-2 pl-0 md:pl-10">
                         <span class="handwritten text-2xl md:text-3xl mb-2 block">Cap. 02</span>
-                        <h2 class="text-4xl md:text-5xl font-display mb-4">Călătoria</h2>
+                        <h2 class="text-4xl md:text-5xl font-display mb-4">Prezentul</h2>
                         <p class="font-serif text-base md:text-lg leading-relaxed opacity-80">
-                            Lumea e mare, dar acasă e acolo unde suntem noi.
+                            Lumea e mare, dar acasă e acolo unde suntem noi. Construim visuri împreună, zi de zi.
                         </p>
                     </div>
                     <div class="w-full md:w-1/2 order-1 md:order-1 pr-0 md:pr-10">
-                        <div class="w-full aspect-[4/3] overflow-hidden rounded-lg shadow-xl">
-                            <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=800" class="w-full h-full object-cover">
+                        <div class="w-full aspect-[4/3] overflow-hidden rounded-lg shadow-xl -rotate-2 hover:rotate-0 transition duration-500">
+                            <img src="https://images.unsplash.com/photo-1522673607200-1645062cd495?w=800" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500 data-img-bride">
                         </div>
                     </div>
                     <div class="absolute left-[-5px] md:left-1/2 top-0 md:top-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 w-4 h-4 md:w-16 md:h-16 bg-[var(--c-olive)] rounded-full flex items-center justify-center text-[var(--c-paper)] font-mono text-xs font-bold z-10 border-2 md:border-4 border-[var(--c-paper)]">
-                        <span class="hidden md:block">2024</span>
+                        <span class="hidden md:block">2025</span>
                     </div>
                 </div>
 
@@ -192,91 +193,182 @@
         </section>
 
 
-        <section class="py-20 bg-[#E0DCD0] torn-paper-top relative">
+        <section id="sec-gallery" class="py-20 bg-[#E0DCD0] torn-paper-top relative overflow-hidden">
             <div class="text-center mb-6 pt-10 px-4">
-                <h2 class="text-4xl md:text-6xl font-display text-[var(--c-sienna)]">Aruncă o privire</h2>
-                <p class="font-mono text-[10px] md:text-xs mt-4 opacity-60 hidden md:block">( Drag photos with mouse )</p>
-                <p class="font-mono text-[10px] md:text-xs mt-4 opacity-60 md:hidden">( Swipe left to view )</p>
+                <h2 class="text-4xl md:text-6xl font-display text-[var(--c-sienna)]">Playground</h2>
+                <p class="font-mono text-[10px] md:text-xs mt-4 opacity-60 hidden md:block">( Drag photos to explore )</p>
+                <p class="font-mono text-[10px] md:text-xs mt-4 opacity-60 md:hidden">( Swipe to explore )</p>
             </div>
 
             <div class="playground-container" id="playground">
                 
                 <div class="drag-item polaroid" style="top: 10%; left: 20%; --rot: -5deg; --rot-mob: -2deg;">
-                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="w-full aspect-square object-cover grayscale">
-                    <div class="text-center font-hand mt-2">Zâmbete</div>
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="w-full aspect-square object-cover grayscale data-gallery-img-1">
+                    <div class="text-center font-hand mt-4 text-xl">Zâmbete</div>
                 </div>
 
                 <div class="drag-item polaroid" style="top: 30%; left: 50%; --rot: 8deg; --rot-mob: 2deg;">
-                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="w-full aspect-[3/4] object-cover grayscale">
-                    <div class="text-center font-hand mt-2">Noi</div>
+                    <img src="https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=600" class="w-full aspect-[3/4] object-cover grayscale data-gallery-img-2">
+                    <div class="text-center font-hand mt-4 text-xl">Noi</div>
                 </div>
 
                 <div class="drag-item polaroid" style="top: 15%; left: 60%; --rot: -10deg; --rot-mob: -1deg;">
-                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600" class="w-full aspect-[4/5] object-cover grayscale">
-                    <div class="text-center font-hand mt-2">Vara</div>
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600" class="w-full aspect-[4/5] object-cover grayscale data-gallery-img-3">
+                    <div class="text-center font-hand mt-4 text-xl">Vara</div>
                 </div>
 
                 <div class="drag-item polaroid" style="top: 50%; left: 10%; --rot: 12deg; --rot-mob: 3deg;">
-                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600" class="w-full aspect-square object-cover grayscale">
-                    <div class="text-center font-hand mt-2">El</div>
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600" class="w-full aspect-square object-cover grayscale data-gallery-img-1">
+                    <div class="text-center font-hand mt-4 text-xl">El</div>
                 </div>
 
                 <div class="drag-item polaroid" style="top: 45%; left: 70%; --rot: -3deg; --rot-mob: -2deg;">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600" class="w-full aspect-[3/4] object-cover grayscale">
-                    <div class="text-center font-hand mt-2">Ea</div>
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600" class="w-full aspect-[3/4] object-cover grayscale data-gallery-img-2">
+                    <div class="text-center font-hand mt-4 text-xl">Ea</div>
                 </div>
 
             </div>
         </section>
 
 
-        <section id="rsvp" class="py-20 md:py-32 px-4 flex justify-center bg-[var(--c-paper)]">
-            
+        <section class="py-20 px-6 md:px-24 bg-[#E8E4D9]">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                
+                <div id="sec-details" class="bg-[#F4F1EA] p-8 md:p-12 shadow-lg rotate-1 relative border border-gray-300">
+                    <div class="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-[var(--c-sienna)] opacity-80"></div>
+                    <span class="font-mono text-xs uppercase tracking-widest opacity-50 mb-4 block">Important Info</span>
+                    
+                    <div class="mb-10" id="sec-godparents">
+                        <h3 class="font-display text-2xl mb-2 text-[var(--c-ink)]">Nașii Noștri</h3>
+                        <p class="font-serif text-lg leading-relaxed">
+                            <span class="data-godfather-name">Ion</span> & <span class="data-godmother-name">Maria</span><br>
+                            <span class="text-sm opacity-60">Familia Popescu</span>
+                        </p>
+                    </div>
+
+                    <div id="sec-dresscode">
+                        <h3 class="font-display text-2xl mb-2 text-[var(--c-ink)]">Dress Code</h3>
+                        <p class="font-serif text-lg font-bold data-dresscode-title">Vintage Formal</p>
+                        <p class="text-sm opacity-60 mt-1 data-dresscode-desc">Culori pământii, retro chic.</p>
+                        <div class="flex gap-2 mt-4">
+                            <div class="w-6 h-6 rounded-full bg-[#A6523F]"></div>
+                            <div class="w-6 h-6 rounded-full bg-[#5F634F]"></div>
+                            <div class="w-6 h-6 rounded-full bg-[#2C2420]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sec-location" class="bg-white p-4 pb-12 shadow-lg -rotate-1 relative">
+                    <div class="w-full h-64 overflow-hidden mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800" class="w-full h-full object-cover grayscale opacity-80 data-img-location-bg">
+                        <div class="absolute bottom-2 right-2 bg-white px-2 py-1 font-mono text-xs">POSTCARD</div>
+                    </div>
+                    <div class="text-center px-4">
+                        <h3 class="font-hand text-4xl text-[var(--c-sienna)] mb-2">Destinația</h3>
+                        <h2 class="font-display text-3xl mb-4 data-location-name">Conacul Manasia</h2>
+                        <p class="text-sm opacity-60 mb-6">Un loc uitat de timp, perfect pentru noi.</p>
+                        <a href="#" target="_blank" class="font-mono text-xs uppercase border-b border-black hover:text-[var(--c-sienna)] transition data-map-link">Vezi pe Hartă →</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="sec-timeline" class="py-20 px-4 flex justify-center bg-[#E8E4D9]">
+            <div class="relative w-full max-w-md bg-white shadow-2xl transform rotate-1 transition hover:rotate-0 duration-500">
+                <div class="absolute top-0 left-0 w-full h-4 bg-[#E8E4D9]" 
+                     style="mask-image: linear-gradient(45deg, transparent 50%, black 50%), linear-gradient(-45deg, transparent 50%, black 50%); 
+                            mask-size: 20px 20px; mask-repeat: repeat-x; -webkit-mask-image: linear-gradient(45deg, transparent 50%, black 50%), linear-gradient(-45deg, transparent 50%, black 50%); -webkit-mask-size: 20px 20px;">
+                </div>
+
+                <div class="p-8 md:p-12 pt-16 pb-16 font-mono text-sm md:text-base text-[var(--c-ink)]">
+                    
+                    <div class="text-center border-b-2 border-dashed border-[var(--c-ink)] pb-8 mb-8">
+                        <h2 class="font-display text-4xl mb-2">MANIFESTUL</h2>
+                        <p class="uppercase tracking-widest opacity-60 data-wedding-date">24 . 08 . 2025</p>
+                        <div class="mt-4 text-xs">* Păstrați acest bon *</div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-baseline group data-event-item">
+                            <span class="font-bold text-[var(--c-sienna)] data-event-time">16:00</span>
+                            <div class="flex-1 mx-4 border-b border-dotted border-gray-400 relative top-[-4px]"></div>
+                            <span class="uppercase group-hover:bg-[var(--c-sienna)] group-hover:text-white transition px-1 data-event-title">Ceremonia</span>
+                        </div>
+
+                        <div class="flex justify-between items-baseline group data-event-item">
+                            <span class="font-bold text-[var(--c-sienna)] data-event-time">17:30</span>
+                            <div class="flex-1 mx-4 border-b border-dotted border-gray-400 relative top-[-4px]"></div>
+                            <span class="uppercase group-hover:bg-[var(--c-sienna)] group-hover:text-white transition px-1 data-event-title">Social Hour</span>
+                        </div>
+
+                        <div class="flex justify-between items-baseline group data-event-item">
+                            <span class="font-bold text-[var(--c-sienna)] data-event-time">19:00</span>
+                            <div class="flex-1 mx-4 border-b border-dotted border-gray-400 relative top-[-4px]"></div>
+                            <span class="uppercase group-hover:bg-[var(--c-sienna)] group-hover:text-white transition px-1 data-event-title">Cina Festivă</span>
+                        </div>
+
+                        <div class="flex justify-between items-baseline group data-event-item">
+                            <span class="font-bold text-[var(--c-sienna)] data-event-time">21:00</span>
+                            <div class="flex-1 mx-4 border-b border-dotted border-gray-400 relative top-[-4px]"></div>
+                            <span class="uppercase group-hover:bg-[var(--c-sienna)] group-hover:text-white transition px-1 data-event-title">Dans & Vin</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center border-t-2 border-dashed border-[var(--c-ink)] pt-8 mt-8">
+                        <p class="font-hand text-2xl text-[var(--c-sienna)] transform -rotate-3">Mulțumim!</p>
+                        <div class="h-8 w-3/4 mx-auto mt-4 bg-repeat-x bg-contain opacity-80" 
+                             style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAABCAYAAAD5PA/NAAAAAXNSR0IArs4c6QAAABNJREFUGFdjZmBgYGBgYGBgAAIAAA8AAwCopVwAAAAASUVORK5CYII=');">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="absolute bottom-0 left-0 w-full h-4 bg-[#E8E4D9]" 
+                     style="mask-image: linear-gradient(45deg, transparent 50%, black 50%), linear-gradient(-45deg, transparent 50%, black 50%); 
+                            mask-size: 20px 20px; mask-repeat: repeat-x; -webkit-mask-image: linear-gradient(45deg, transparent 50%, black 50%), linear-gradient(-45deg, transparent 50%, black 50%); -webkit-mask-size: 20px 20px; transform: rotate(180deg)">
+                </div>
+            </div>
+        </section>
+
+
+        <section id="sec-rsvp" class="py-20 md:py-32 px-4 flex justify-center bg-[var(--c-paper)] border-t border-[var(--c-ink)]/10">
             <div class="w-full max-w-4xl bg-[#F4F1EA] border border-gray-300 p-6 md:p-10 shadow-2xl relative">
-                <div class="absolute top-4 right-4 md:top-10 md:right-10 w-16 h-20 md:w-24 md:h-32 border-2 md:border-4 border-dashed border-gray-300 flex items-center justify-center opacity-50 rotate-6">
+                <div class="absolute top-4 right-4 md:top-10 md:right-10 w-16 h-20 md:w-24 md:h-32 border-2 md:border-4 border-dashed border-gray-300 flex items-center justify-center opacity-50 rotate-6 pointer-events-none">
                     <span class="font-mono text-[8px] md:text-xs uppercase text-center">Postage<br>Paid</span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
-                    
                     <div class="border-b md:border-b-0 md:border-r border-gray-300 pb-10 md:pb-0 md:pr-10 border-dashed">
-                        <h2 class="text-3xl md:text-4xl font-display mb-6">Detalii</h2>
-                        <div class="space-y-6 font-serif">
-                            <div>
-                                <span class="block font-mono text-xs uppercase text-[var(--c-sienna)]">Când</span>
-                                <p class="text-lg md:text-xl">24 August 2025, 16:00</p>
-                            </div>
-                            <div>
-                                <span class="block font-mono text-xs uppercase text-[var(--c-sienna)]">Unde</span>
-                                <p class="text-lg md:text-xl">Conacul Manasia</p>
-                            </div>
-                        </div>
+                        <h2 class="text-3xl md:text-4xl font-display mb-6">Confirmați</h2>
+                        <p class="font-serif text-lg opacity-70">
+                            Vă rugăm să trimiteți acest răspuns până la <span class="data-rsvp-deadline font-bold">1 Iulie</span>.
+                        </p>
                     </div>
 
                     <div class="flex flex-col justify-center">
-                        <h3 class="font-hand text-3xl md:text-4xl mb-8 text-[var(--c-sienna)]">Dragă Mihai & Elena,</h3>
+                        <h3 class="font-hand text-3xl md:text-4xl mb-8 text-[var(--c-sienna)]">Dragă <span class="data-groom-firstname">Mihai</span> & <span class="data-bride-firstname">Elena</span>,</h3>
                         
-                        <form class="space-y-6">
-                            <input type="text" class="w-full bg-transparent border-b-2 border-gray-300 py-2 font-mono text-base md:text-lg focus:border-[var(--c-sienna)] outline-none" placeholder="Numele meu este...">
+                        <form onsubmit="handleRSVP(event)" class="space-y-6">
+                            <input type="text" name="nume" class="w-full bg-transparent border-b-2 border-gray-300 py-2 font-mono text-base md:text-lg focus:border-[var(--c-sienna)] outline-none transition" placeholder="Numele meu este..." required>
                             
                             <div class="flex gap-4 font-mono text-xs md:text-sm">
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="att" class="accent-[var(--c-sienna)]"> Voi veni
+                                <label class="flex items-center gap-2 cursor-pointer hover:text-[var(--c-sienna)]">
+                                    <input type="radio" name="confirmare" value="da" class="accent-[var(--c-sienna)]"> Voi veni
                                 </label>
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="att" class="accent-[var(--c-sienna)]"> Nu pot veni
+                                <label class="flex items-center gap-2 cursor-pointer hover:text-[var(--c-sienna)]">
+                                    <input type="radio" name="confirmare" value="nu" class="accent-[var(--c-sienna)]"> Nu pot veni
                                 </label>
                             </div>
 
-                            <button class="stamp-btn mx-auto mt-10 hover:scale-110 text-xs md:text-sm">
+                            <button type="submit" class="stamp-btn mx-auto mt-10 hover:scale-110 text-xs md:text-sm cursor-pointer">
                                 Trimite<br>Răspuns
                             </button>
                         </form>
                     </div>
-
                 </div>
             </div>
-
         </section>
 
         <footer class="py-10 text-center font-mono text-xs text-[var(--c-ink)] opacity-50">
@@ -285,90 +377,6 @@
 
     </main>
 
-
-    <script>
-        gsap.registerPlugin(ScrollTrigger, Draggable);
-
-        // 1. LOADER
-        const text = "LOADING MEMORIES...";
-        const loaderText = document.getElementById('typewriter');
-        let i = 0;
-
-        function typeWriter() {
-            if (i < text.length) {
-                loaderText.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 80);
-            } else {
-                setTimeout(hideLoader, 500);
-            }
-        }
-
-        function hideLoader() {
-            const loaderScreen = document.getElementById('loader');
-            gsap.to(loaderScreen, {
-                yPercent: -100,
-                duration: 1.2,
-                ease: "power4.inOut",
-                onComplete: initApp
-            });
-        }
-        typeWriter();
-
-
-        // 2. APP LOGIC
-        function initApp() {
-            
-            // Smooth Scroll (Always good)
-            const lenis = new Lenis({
-                duration: 1.5,
-                smooth: true
-            });
-            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-            requestAnimationFrame(raf);
-
-            // GSAP MATCH MEDIA (The Key for Mobile)
-            let mm = gsap.matchMedia();
-
-            // A. DESKTOP LOGIC (> 768px)
-            mm.add("(min-width: 768px)", () => {
-                // Enable Draggable only on desktop
-                Draggable.create(".drag-item", {
-                    type: "x,y",
-                    edgeResistance: 0.65,
-                    bounds: "#playground",
-                    inertia: true,
-                    onDragStart: function() {
-                        gsap.to(this.target, { scale: 1.1, zIndex: 100, duration: 0.2 });
-                    },
-                    onDragEnd: function() {
-                        gsap.to(this.target, { scale: 1, duration: 0.2 });
-                    }
-                });
-
-                // Parallax Hero
-                gsap.to("#heroName1", { xPercent: -20, scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: 1 } });
-                gsap.to("#heroName2", { xPercent: 20, scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: 1 } });
-            });
-
-            // B. MOBILE LOGIC (< 768px)
-            mm.add("(max-width: 767px)", () => {
-                // No draggable here. 
-                // The CSS handles the horizontal scroll layout.
-                // We can add simple fade-ins
-                gsap.utils.toArray(".drag-item").forEach(item => {
-                    gsap.from(item, {
-                        opacity: 0,
-                        y: 50,
-                        scrollTrigger: {
-                            trigger: "#playground",
-                            start: "top 70%"
-                        }
-                    })
-                });
-            });
-        }
-
-    </script>
+    <script src="template32.js"></script>
 </body>
 </html>
